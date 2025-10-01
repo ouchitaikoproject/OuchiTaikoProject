@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OuchiTaiko Project - Document</title>
+    <title>OuchiTaiko Project</title>
     <style>
         * {
             margin: 0;
@@ -14,6 +13,7 @@
         body {
             font-family: Arial, sans-serif;
             background: #2d2d2d;
+            overflow: hidden;
         }
         .pdf-viewer {
             width: 100vw;
@@ -31,34 +31,11 @@
             font-size: 20px;
             font-weight: 500;
         }
-        .pdf-container {
+        .pdf-frame {
             flex: 1;
             width: 100%;
-            position: relative;
+            border: none;
             background: white;
-        }
-        object {
-            width: 100%;
-            height: 100%;
-        }
-        .fallback {
-            display: none;
-            padding: 40px 20px;
-            text-align: center;
-            background: white;
-        }
-        .fallback a {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 15px 30px;
-            background: #0366d6;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 18px;
-        }
-        .fallback a:hover {
-            background: #0256c7;
         }
     </style>
 </head>
@@ -67,15 +44,7 @@
         <div class="header">
             <h1>OuchiTaiko Project Document</h1>
         </div>
-        <div class="pdf-container">
-            <object data="MediumOTNew.pdf" type="application/pdf" width="100%" height="100%">
-                <div class="fallback" style="display: block;">
-                    <h2>View Document</h2>
-                    <p>Click below to open the PDF:</p>
-                    <a href="New OT.pdf" target="_blank">Open PDF Document</a>
-                </div>
-            </object>
-        </div>
+        <iframe class="pdf-frame" src="New OT.pdf" type="application/pdf"></iframe>
     </div>
 </body>
 </html>
