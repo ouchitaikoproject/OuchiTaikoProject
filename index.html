@@ -78,22 +78,11 @@
     <div class="container">
         <h1>Welcome to<br>KillerQ's OuchiTaiko Project</h1>
         <p>Bring the Taiko Arcade Experience Home!</p>
-        <p>Choose below for the best viewing experience:</p>
+        <p>Click below to view or download:</p>
         <div class="buttons">
-            <a href="New OT.pdf" target="_blank">View PDF</a>
-            <a href="New OT.pdf" download class="download">Download PDF</a>
+            <a href="New OT.pdf" target="_blank">View (Mobile/PC)</a>
+            <a href="New OT.pdf" download class="download">Download (PC)</a>
         </div>
-        <p class="device-info" id="deviceInfo"></p>
     </div>
-    
-    <script>
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        const deviceInfo = document.getElementById('deviceInfo');
-        if (isMobile) {
-            deviceInfo.textContent = 'Mobile device detected - PDFs work best when downloaded or opened in your browser';
-        } else {
-            deviceInfo.textContent = 'Desktop detected - Click "View PDF" to open in browser';
-        }
-    </script>
 </body>
 </html>
