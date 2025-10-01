@@ -13,38 +13,87 @@
         body {
             font-family: Arial, sans-serif;
             background: #2d2d2d;
-            overflow: hidden;
-        }
-        .pdf-viewer {
-            width: 100vw;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .header {
-            background: #1a1a1a;
-            color: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        .container {
+            max-width: 600px;
+            padding: 40px 20px;
+            text-align: center;
         }
         h1 {
-            font-size: 20px;
-            font-weight: 500;
+            color: white;
+            font-size: 32px;
+            margin-bottom: 20px;
         }
-        .pdf-frame {
-            flex: 1;
+        p {
+            color: #ccc;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        a {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #0366d6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background 0.3s;
             width: 100%;
-            border: none;
-            background: white;
+            max-width: 300px;
+        }
+        a:hover {
+            background: #0256c7;
+        }
+        .download {
+            background: #28a745;
+        }
+        .download:hover {
+            background: #218838;
+        }
+        .device-info {
+            color: #888;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        @media (min-width: 768px) {
+            .buttons {
+                flex-direction: row;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="pdf-viewer">
-        <div class="header">
-            <h1>OuchiTaiko Project Document</h1>
+    <div class="container">
+        <h1>Welcome to<br>KillerQ's OuchiTaiko Project</h1>
+        <p>You're about to embark on an Amazing Journey...</p>
+        <p>Choose from the below viewing options to ensure the best viewing experience</p>
+        <div class="buttons">
+            <a href="New OT.pdf" target="_blank">View PDF</a>
+            <a href="New OT.pdf" download class="download">Download PDF</a>
         </div>
-        <iframe class="pdf-frame" src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://ouchitaikoproject.github.io/OuchiTaikoProject/New%20OT.pdf"></iframe>
+        <p class="device-info" id="deviceInfo"></p>
     </div>
+    
+    <script>
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const deviceInfo = document.getElementById('deviceInfo');
+        if (isMobile) {
+            deviceInfo.textContent = 'Mobile device detected - PDFs work best when downloaded or opened in your browser';
+        } else {
+            deviceInfo.textContent = 'Desktop detected - Click "View PDF" to open in browser';
+        }
+    </script>
 </body>
 </html>
