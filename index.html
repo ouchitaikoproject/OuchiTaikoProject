@@ -1,78 +1,113 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OuchiTaiko Project</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: #2d2d2d;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        h1 {
-            color: white;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #ccc;
-            font-size: 18px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Righteous&display=swap');
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle at 50% 50%, 
+            #ff6b9d 0%, 
+            #c44569 10%, 
+            #ffa502 20%, 
+            #ff6348 30%, 
+            #5f27cd 40%, 
+            #00d2d3 50%, 
+            #1e90ff 60%, 
+            #ff6b9d 70%, 
+            #c44569 80%, 
+            #ffa502 90%, 
+            #ff6348 100%);
+        background-size: 200% 200%;
+        animation: tiedye 12s ease infinite;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    @keyframes tiedye {
+        0% { background-size: 200% 200%; }
+        50% { background-size: 300% 300%; }
+        100% { background-size: 200% 200%; }
+    }
+    
+    .container {
+        max-width: 600px;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    h1 {
+        color: white;
+        font-size: 36px;
+        margin-bottom: 20px;
+        font-family: 'Bangers', 'Righteous', Arial, sans-serif;
+        text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.9);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+    p {
+        color: #1a1a1a;
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        margin-top: 30px;
+    }
+    a {
+        display: inline-block;
+        padding: 15px 40px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        text-decoration: none;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    a:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+    .download {
+        background: rgba(255, 255, 255, 0.15);
+    }
+    .download:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+    @media (min-width: 768px) {
         .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
+            flex-direction: row;
         }
-        a {
-            display: inline-block;
-            padding: 15px 40px;
-            background: #0366d6;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 500;
-            transition: background 0.3s;
-            width: 100%;
-            max-width: 300px;
-        }
-        a:hover {
-            background: #0256c7;
-        }
-        .download {
-            background: #28a745;
-        }
-        .download:hover {
-            background: #218838;
-        }
-        .device-info {
-            color: #888;
-            font-size: 14px;
-            margin-top: 30px;
-        }
-        @media (min-width: 768px) {
-            .buttons {
-                flex-direction: row;
-            }
-        }
-    </style>
+    }
+</style>
+```
+
 </head>
 <body>
     <div class="container">
