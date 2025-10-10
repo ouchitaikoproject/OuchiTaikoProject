@@ -1,10 +1,3 @@
-That's a great question\! To make the logo larger, you'll need to adjust the **`max-width`** value in the `.logo` CSS rule.
-
-You are correct: changing the `200px` to **`400px`** will make the logo much larger on desktop screens. We'll also slightly increase the size limit on the mobile screens so it remains the focal point there as well.
-
-Here is the updated and complete HTML code with the logo size increased for both desktop and mobile views:
-
-```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -77,11 +70,10 @@ Here is the updated and complete HTML code with the logo size increased for both
         margin: 0 auto; 
     }
 
-    /* --- LOGO STYLE --- */
+    /* --- LOGO STYLE (Desktop Size) --- */
     .logo {
         width: 100%;
-        /* INCREASED LOGO SIZE HERE */
-        max-width: 400px; 
+        max-width: 400px; /* PC: Logo max size */
         height: auto;
         margin-bottom: 25px; 
     }
@@ -143,12 +135,13 @@ Here is the updated and complete HTML code with the logo size increased for both
     /* --- MOBILE OPTIMIZATION: Smallest Screens --- */
     @media (max-width: 450px) {
         .card-box {
-            padding: 30px 20px; 
+            /* Reduced padding to 15px horizontal to give the logo more room */
+            padding: 30px 15px; 
             border-radius: 20px;
         }
-        /* INCREASED LOGO SIZE ON MOBILE HERE */
         .logo {
-            max-width: 250px; 
+            /* Increased max-width significantly to make it noticeably larger on mobile */
+            max-width: 300px; 
         }
         .p-main, .p-cta {
             font-size: 13px; 
@@ -177,4 +170,3 @@ Here is the updated and complete HTML code with the logo size increased for both
     </div>
 </body>
 </html>
-```
