@@ -45,6 +45,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative; 
     }
     
     @keyframes tiedye {
@@ -54,7 +55,6 @@
     }
     
     .container {
-        /* This container centers the card */
         max-width: 600px;
         padding: 20px;
         text-align: center;
@@ -76,7 +76,7 @@
         width: 100%;
         max-width: 200px; 
         height: auto;
-        margin-bottom: 25px; /* Added margin to separate logo from instructions */
+        margin-bottom: 25px; 
     }
 
     .p-main { 
@@ -125,6 +125,22 @@
         border: 2px solid #c44569;
     }
     
+    /* --- BACK TO GITHUB BUTTON --- */
+    .back-to-github {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: color 0.3s;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    }
+    .back-to-github:hover {
+        color: white;
+    }
+
     @media (min-width: 768px) {
         .buttons {
             flex-direction: row; 
@@ -140,10 +156,10 @@
             border-radius: 20px;
         }
         .logo {
-            max-width: 180px; /* Smallest size for max tightness */
+            max-width: 180px; 
         }
         .p-main, .p-cta {
-            font-size: 14px; /* Smallest supporting text to prevent wrapping */
+            font-size: 14px; 
             margin-bottom: 10px;
         }
         .buttons {
@@ -156,7 +172,7 @@
 <body>
     <div class="container">
         <div class="card-box">
-            <img src="otlogo_full.png" alt="OuchiTaiko Project Logo" class="logo">
+            <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
             
             <p class="p-main">Bring the authentic Taiko Arcade experience home with this complete DIY guide.</p>
             <p class="p-cta">View or download the guide:</p>
@@ -167,5 +183,9 @@
             </div>
         </div>
     </div>
+    
+    <a href="https://github.com/KillerQ-profile/OuchiTaiko" class="back-to-github" target="_blank">
+        &larr; Back to the Main Project Repository
+    </a>
 </body>
 </html>
