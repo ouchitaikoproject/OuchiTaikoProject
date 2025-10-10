@@ -27,7 +27,6 @@
     }
     body {
         font-family: Arial, sans-serif;
-        /* Keep the awesome animated background! */
         background: radial-gradient(circle at 50% 50%, 
             #ff6b9d 0%, 
             #c44569 10%, 
@@ -55,88 +54,98 @@
     }
     
     .container {
-        max-width: 100%;
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 20px;
-    }
-
-    /* THE CLEAN WHITE CARD */
-    .white-card {
-        max-width: 400px;
-        padding: 40px 30px;
+        max-width: 600px;
+        padding: 40px 20px;
         text-align: center;
-        
-        /* OPAQUE WHITE BACKGROUND */
-        background: rgba(255, 255, 255, 1); 
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
     }
 
-    /* LOGO STYLE */
+    /* --- LOGO STYLE --- */
     .logo {
         width: 100%;
-        max-width: 200px; 
+        max-width: 250px; 
         height: auto;
-        margin-bottom: 15px;
-        background-color: transparent; 
-        padding: 0;
-        border-radius: 0;
-        box-shadow: none; 
+        margin-bottom: 10px; 
+        background-color: white; 
+        padding: 10px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
+    /* --- END LOGO STYLE --- */
 
-    /* TEXT STYLES (DARK) */
-    h1 {
-        color: #1a1a1a; /* Dark text for readability on white card */
-        font-size: 28px; 
-        margin-bottom: 10px;
+    h2 { /* Custom style for the main title beneath the logo */
+        color: white;
+        font-size: 28px;
+        margin-bottom: 5px; 
         font-family: 'Rammetto One', Arial, sans-serif;
-        text-shadow: none; 
-    }
-
-    p {
-        color: #1a1a1a; 
-        font-size: 16px;
-        margin-bottom: 20px;
-        line-height: 1.5;
-        font-weight: 400; 
-        text-shadow: none; 
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+        letter-spacing: 1px;
     }
     
-    /* BUTTON STYLES (REVERTED TO FIT CARD) */
+    .p-main { /* Custom style for subtitles and body text */
+        color: white;
+        font-size: 18px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
     .buttons {
-        margin-top: 20px;
+        display: flex;
+        flex-direction: column; /* FORCES VERTICAL STACKING ON MOBILE */
+        gap: 15px;
+        align-items: center;
+        margin-top: 30px;
     }
     a {
-        background: #c44569; 
-        border: 2px solid #ff6b9d;
+        display: inline-block;
+        padding: 15px 40px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.4);
         color: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     a:hover {
-        background: #ff6b9d;
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.6);
     }
-    </style>
+    .download {
+        background: rgba(255, 255, 255, 0.15);
+    }
+    .download:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+    @media (min-width: 768px) {
+        .buttons {
+            flex-direction: row; /* ONLY switch to side-by-side on larger screens */
+        }
+    }
+</style>
 
 </head>
 <body>
     <div class="container">
-        <div class="white-card">
-            <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
-            
-            <h1>KillerQ's OuchiTaiko Project</h1>
-            
-            <p>Bring the authentic Taiko Arcade experience home with this complete DIY guide.</p>
-            <p>Click below to view or download:</p>
-            
-            <div class="buttons">
-                <a href="New OT.pdf" target="_blank">View Guide (Mobile/PC)</a>
-                <a href="New OT.pdf" download class="download">Download Guide (PC)</a>
-            </div>
+        <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
+        
+        <h2>KillerQ's OuchiTaiko Project</h2>
+        <p class="p-main">Bring the Taiko Arcade Experience Home!</p>
+        <p class="p-main">View or download the complete guide:</p>
+        
+        <div class="buttons">
+            <a href="New OT.pdf" target="_blank">View Guide (Mobile/PC)</a>
+            <a href="New OT.pdf" download class="download">Download Guide (PC)</a>
         </div>
-        </div>
+    </div>
 </body>
 </html>
