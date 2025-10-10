@@ -62,7 +62,7 @@
     /* --- LOGO STYLE --- */
     .logo {
         width: 100%;
-        max-width: 250px; /* Adjust this value to change the logo size */
+        max-width: 250px; /* Adjust this value to control the logo size */
         height: auto;
         margin-bottom: 25px;
         /* Ensures the logo stands out on the complex background */
@@ -73,14 +73,7 @@
     }
     /* --- END LOGO STYLE --- */
 
-    h1 {
-        color: white;
-        font-size: 36px;
-        margin-bottom: 20px;
-        font-family: 'Rammetto One', Arial, sans-serif;
-        text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.9);
-        letter-spacing: 1px;
-    }
+    /* The main title text is now styled via the inline 'style' on the <p> tag */
     p {
         color: #1a1a1a;
         font-size: 18px;
@@ -137,9 +130,10 @@
     <div class="container">
         <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
         
-        <h1>KillerQ's OuchiTaiko Project</h1>
+        <p style="font-size: 20px; font-weight: bold;">KillerQ's OuchiTaiko Project</p>
         <p>Bring the Taiko Arcade Experience Home!</p>
-        <p>Click below to view or download:</p>
+        <p>Click below to view or download the complete guide:</p>
+        
         <div class="buttons">
             <a href="New OT.pdf" target="_blank">View Guide (Mobile/PC)</a>
             <a href="New OT.pdf" download class="download">Download Guide (PC)</a>
