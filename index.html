@@ -66,7 +66,7 @@
         padding: 40px 30px; 
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
         width: 100%;
-        max-width: 480px; /* Slightly wider for text fit */
+        max-width: 480px; 
         margin: 0 auto; 
     }
 
@@ -80,7 +80,7 @@
 
     .p-main { 
         color: #444;
-        font-size: 16px; /* REDUCED FONT SIZE for "Bring the authentic..." */
+        font-size: 16px; 
         margin-bottom: 20px;
         line-height: 1.6; 
         font-weight: 600;
@@ -110,7 +110,7 @@
         color: white;
         text-decoration: none;
         border-radius: 15px;
-        font-size: 15px; /* Slightly smaller button text */
+        font-size: 15px; 
         font-weight: 600;
         transition: all 0.3s;
         width: 100%;
@@ -142,6 +142,29 @@
             max-width: 180px; 
         }
         .p-main, .p-cta {
-            font-size: 13px; /* Smaller text for tight mobile screens */
+            font-size: 13px; 
             margin-bottom: 10px;
         }
+        .buttons {
+             gap: 8px;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="card-box">
+            <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
+            
+            <p class="p-main">Bring the authentic Taiko Arcade experience Home!</p>
+            <p class="p-cta">View or download the guide:</p>
+            
+            <div class="buttons">
+                <a href="New OT.pdf" target="_blank">View Guide (Mobile/PC)</a>
+                <a href="New OT.pdf" download>Download Guide (PC)</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
