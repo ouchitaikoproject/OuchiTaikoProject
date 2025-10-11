@@ -12,6 +12,4 @@ Head there for the full guide and all the treasure.
 
 <br>
 
-🥁
-
 <br>
