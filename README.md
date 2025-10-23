@@ -2,7 +2,9 @@
 
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px;">
 
+<div align="center">
 > *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
+</div>
 
 **Smarter. Simpler. Better.**
 
@@ -10,25 +12,22 @@
 
 ## Table of Contents
 
-- [1: Project Overview](#1-project-overview)
-- [2: Parts List for Electronics](#2-parts-list-for-electronics)
-- [3: Parts List for Hardware](#3-parts-list-for-hardware)
-- [4: Build the Circuit](#4-build-the-circuit)
-- [5: Build the Drum](#5-build-the-drum)
-- [6: Control Box](#6-control-box)
-- [7: Flash The Firmware](#7-flash-the-firmware)
-- [8: Calibration & Setup](#8-calibration--setup)
-- [9: Files & Downloads](#9-files--downloads)
-- [10: Basic Troubleshooting](#10-basic-troubleshooting)
-- [11: About](#11-about)
-- [12: Copyright Information](#12-copyright-information)
+- [✨ 1: PROJECT OVERVIEW & FEATURES](#1-project-overview)
+- [⚡ 2: REQUIRED PARTS: ELECTRONICS LIST](#2-parts-list-for-electronics)
+- [🛠️ 3: REQUIRED PARTS: HARDWARE LIST](#3-parts-list-for-hardware)
+- [🔌 4: ASSEMBLY: BUILDING THE CIRCUIT](#4-build-the-circuit)
+- [🔨 5: CONSTRUCTION: BUILDING THE DRUM](#5-build-the-drum)
+- [🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING](#6-control-box)
+- [💾 7: SOFTWARE: FLASHING THE FIRMWARE](#7-flash-the-firmware)
+- [✅ 8: SETUP: CALIBRATION & TESTING](#8-calibration--setup)
+- [⬇️ 9: FILES & DOWNLOADS](#9-files--downloads)
+- [🔧 10: SUPPORT: TROUBLESHOOTING GUIDE](#10-basic-troubleshooting)
+- [i 11: ABOUT THE OUCHITAIKO PROJECT](#11-about)
+- [©️ 12: COPYRIGHT & LICENSES](#12-copyright-information)
 
 ---
 
-## 1: Project Overview
-
-<details>
-<summary>Click to expand project overview & features 🔽</summary>
+## ✨ 1: PROJECT OVERVIEW & FEATURES
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -38,11 +37,11 @@
 
 **Congratulations!** Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
-The OuchiTaiko Project features a pioneering **adaptive drum design**—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
+The OuchiTaiko Project features a pioneering adaptive drum design—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
 
 **Smarter. Simpler. Better.**
 
-Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses **adaptive software intelligence** to achieve superior performance through elegant simplicity.
+Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses adaptive software intelligence to achieve superior performance through elegant simplicity.
 
 All you need is enthusiasm and basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
 
@@ -50,8 +49,9 @@ All you need is enthusiasm and basic soldering and woodworking skills. The compo
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
+---
 <details>
-<summary><b>📋 Unprecedented Performance & Design</b></summary>
+<summary><b>✨ FEATURE: UNPRECEDENTED PERFORMANCE & DESIGN</b></summary>
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
@@ -60,8 +60,9 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
+---
 <details>
-<summary><b>🔧 Advanced Hardware & Connectivity</b></summary>
+<summary><b>✨ FEATURE: ADVANCED HARDWARE & CONNECTIVITY</b></summary>
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
@@ -86,8 +87,9 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
+---
 <details>
-<summary><b>🎮 14 Input Modes for Maximum Compatibility</b></summary>
+<summary><b>✨ FEATURE: 14 INPUT MODES FOR MAXIMUM COMPATIBILITY</b></summary>
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -110,18 +112,16 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 - [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
 - [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
-- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
+- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-r)
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 2: Parts List for Electronics
-
-<details>
-<summary>Click to expand electronics parts list 🔽</summary>
+## ⚡ 2: REQUIRED PARTS: ELECTRONICS LIST
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -129,8 +129,9 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
 
+---
 <details>
-<summary><b>📦 Click to expand Electronics Parts List</b></summary>
+<summary><b>⚡ CLICK TO EXPAND ELECTRONICS PARTS LIST</b></summary>
 
 <div style="overflow-x: auto;">
 
@@ -163,14 +164,14 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 </div>
 
 </details>
-</details>
 
 ---
 
-## 3: Parts List for Hardware
+*[↑ Return to Table of Contents](#table-of-contents)*
 
-<details>
-<summary>Click to expand hardware parts list & tools 🔽</summary>
+---
+
+## 🛠️ 3: REQUIRED PARTS: HARDWARE LIST
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -180,8 +181,9 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ### Required Tools and Supplies
 
+---
 <details>
-<summary><b>🛠️ Click to view required tools</b></summary>
+<summary><b>🛠️ CLICK TO VIEW REQUIRED TOOLS & SUPPLIES</b></summary>
 
 This guide assumes you have access to the following:
 
@@ -201,8 +203,9 @@ This guide assumes you have access to the following:
 
 ### Hardware Parts List
 
+---
 <details>
-<summary><b>📦 Click to expand Hardware Parts List</b></summary>
+<summary><b>📦 CLICK TO EXPAND HARDWARE PARTS LIST</b></summary>
 
 <div style="overflow-x: auto;">
 
@@ -227,14 +230,14 @@ This guide assumes you have access to the following:
 </div>
 
 </details>
-</details>
 
 ---
 
-## 4: Build the Circuit
+*[↑ Return to Table of Contents](#table-of-contents)*
 
-<details>
-<summary>Click to expand circuit build steps 🔽</summary>
+---
+
+## 🔌 4: ASSEMBLY: BUILDING THE CIRCUIT
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -259,13 +262,13 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 
 ### Circuit Diagram
 
-<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%" style="max-width: 1000px;">
+<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%" style="max-width: 800px;">
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
 
 💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
-<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="100%" style="max-width: 1000px;">
+<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="100%" style="max-width: 800px;">
 
 *(Enlarged Pin-outs of the main boards for easy reference)*
 
@@ -308,9 +311,9 @@ Be sure that the VCC rails on both sides of the board are connected to each othe
 5. Connect a yellow signal wire from pin A0/P26 to the *TIP* terminal of TRS Jack 1 (Left Ka)
 6. Connect a black GND wire between the common ground rail and the SLEEVE terminal of TRS Jack 1
 
-<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="100%" style="max-width: 800px;">
 
-<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="100%" style="max-width: 800px;">
 
 The photos below show several variants of connecting the capacitors and diodes.
 
@@ -323,11 +326,11 @@ This example has the diodes on top of the board and the capacitors on the unders
 
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
-<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="100%" style="max-width: 800px;">
 
 This is an example of a removable TRS input jack using a JST connection:
 
-<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="100%" style="max-width: 400px;">
+<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -414,7 +417,7 @@ Reminder: this board will house the display and buttons for the gamepad navigati
 
 Connect a wire between the SDA soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SDA pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -422,7 +425,7 @@ Connect a wire between the SDA soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the SCL soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SCL pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D00000220D210F258.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000046D00000220D210F258.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -430,7 +433,7 @@ Connect a wire between the SCL soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the VCC soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the VCC pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D0000022040573B96.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000046D0000022040573B96.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -438,7 +441,7 @@ Connect a wire between the VCC soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the GND soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the GND pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D000002207116B219.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000046D000002207116B219.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -450,7 +453,7 @@ Connect a wire between the GND soldering point on the MCP23017 board (opposite e
 
 Solder your 14 navigation buttons to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
 
-<img src="images/Pictures/1000000100000566000003318F39E808.png" width="100%" style="max-width: 700px;">
+<img src="images/Pictures/1000000100000566000003318F39E808.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -503,14 +506,12 @@ Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins
 That's it for that step; the hard part is over!
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 5: Build the Drum
-
-<details>
-<summary>Click to expand drum build steps 🔽</summary>
+## 🔨 5: CONSTRUCTION: BUILDING THE DRUM
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -576,7 +577,7 @@ Using an 8mm diameter drill bit (or the specialized drill bit that came with you
 
 Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
 
-<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="100%" style="max-width: 800px;">
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -586,8 +587,8 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 
 Screw in the 14 individual M6 threaded wood inserts into the appropriate holes until flush (add Superglue to the *outside* of threads to help secure them to wood).
 
-<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="100%" style="max-width: 600px;">
-<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -597,7 +598,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 
 *Note: Your orientation will be different, this is just an example from an earlier version.*
 
-<img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -609,7 +610,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 
 Cut the head off of a 20mm M6 nylon bolt.
 
-<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="100%" style="max-width: 700px;">
+<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -623,8 +624,8 @@ Apply one drop or less of Loctite to threads on the inside of the rubber isolato
 
 Screw the headless bolt into isolator until it stops.
 
-<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="100%" style="max-width: 600px;">
-<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -642,7 +643,7 @@ Repeat C1-C5 for the remaining 13 similar holes.
 
 This metal bolt will go through the matching holes in the drum baseplate in a later step.
 
-<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="100%" style="max-width: 800px;">
 
 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
 
@@ -759,7 +760,7 @@ Place your speaker bracket against the backside of your rear base plates so that
 
 Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
-<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -785,7 +786,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
 Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -793,7 +794,7 @@ Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bo
 
 Route sensor wires through nearest openings.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -801,7 +802,7 @@ Route sensor wires through nearest openings.
 
 Secure the drum faces with the M6 knobs on exposed bolts.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -811,7 +812,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 *Note: You will not have connected the barrel connectors yet, photo for placement reference.*
 
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -819,18 +820,15 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 800px;">
 
 ---
 
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 6: Control Box
-
-<details>
-<summary>Click to expand control box build steps 🔽</summary>
+## 🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -869,7 +867,7 @@ The next step will incorporate a few last steps to make the connections more use
 
 Mount the 4 Female TRS jacks that are part of your circuit to the wall of your control box so that they face the outside.
 
-<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="100%" style="max-width: 800px;">
 
 <img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px;">
 
@@ -881,7 +879,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 
 <img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px;">
 
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -919,7 +917,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 
 <img src="images/Pictures/1000000000000600000008008135383A.jpg" width="100%" style="max-width: 800px;">
 
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -952,7 +950,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 Mount bracket to the speaker stand.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
 
 ---
 
@@ -975,13 +973,10 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 ---
 
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 7: Flash The Firmware
-
-<details>
-<summary>Click to expand firmware flashing instructions 🔽</summary>
+## 💾 7: SOFTWARE: FLASHING THE FIRMWARE
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -991,7 +986,7 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 
 ### Step 1: Enter Boot Mode
 
-Hold down the small **"B" button** on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
+Hold down the small "B" button on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
 
 ### Step 2: Wipe the Board
 
@@ -1004,35 +999,33 @@ Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few second
 You're ready for calibration and testing!
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 8: Calibration & Setup
-
-<details>
-<summary>Click to expand calibration & setup guide 🔽</summary>
+## ✅ 8: SETUP: CALIBRATION & TESTING
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### Complete this initial calibration before proceeding further
 
-Long-press **SELECT** to enter setup mode. Set controller emulation to **SWITCH TATACON mode** (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
+Long-press SELECT to enter setup mode. Set controller emulation to SWITCH TATACON mode (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
 
 ### Basic Drum Hit Calibration
 
 #### Step 1: Enter the Drum Settings
 
 - Hold SELECT for 1 second to open the Main Menu
-- Scroll to **Drum Settings** → press B / Circle to open
+- Scroll to Drum Settings → press B / Circle to open
 
 #### Step 2: Adjust Drum Thresholds
 
 Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value — how hard you must hit before it registers.
 
-- If light hits don't register, **lower the threshold**
-- If false hits happen too easily, **raise the threshold**
-- If you find that hitting one drum causes ANOTHER drum to trigger, **raise the threshold value of the drum that accidentally triggered** by a one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
+- If light hits don't register, lower the threshold
+- If false hits happen too easily, raise the threshold
+- If you find that hitting one drum causes ANOTHER drum to trigger, raise the threshold value of the drum that accidentally triggered by a one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
 
 ---
 
@@ -1044,25 +1037,25 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 This controls how the drum reacts to very strong strikes. By default, home versions of the Taiko games give full points for Big Notes by simply hitting both Don or Ka at the same time. My Big Hit Arcade Mode allows for that "Arcade Hit" where you have to hit the Don or Ka *harder* to get credit for the Big Notes — just like the Official Taiko Arcade Machines operate.
 
-- Set **Detection: ON**
-- Adjust **Threshold Level:** Start around 850
-- **Increase** the value to lower the threshold of what counts as a Big Hit
-- **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
+- Set Detection: ON
+- Adjust Threshold Level: Start around 850
+- Increase the value to lower the threshold of what counts as a Big Hit
+- Decrease the value to make it so that you have to hit much harder for the Big Note to register
 
 #### SimulTap Mode
 
 By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay — this simply helps ensure clean hits).
 
-- Turn **SimulTap ON** if you want combined left + right hits to register as a single action
-- Leave it **OFF** for standard play or if you notice misreads
+- Turn SimulTap ON if you want combined left + right hits to register as a single action
+- Leave it OFF for standard play or if you notice misreads
 
 #### Hold Time
 
 This defines how long a hit is "held" before the drum accepts another.
 
-- **Recommended range:** 25—35ms
-- **Increase** if double hits register too fast
-- **Decrease** if hits feel laggy or delayed
+- Recommended range: 25—35ms
+- Increase if double hits register too fast
+- Decrease if hits feel laggy or delayed
 - In most cases, this is not needed — some say it helps when playing on the Nintendo Switch
 
 ---
@@ -1080,21 +1073,19 @@ This defines how long a hit is "held" before the drum accepts another.
 
 - Different drum covers may need threshold adjustment
 - Big Hit threshold is typically 2-3x normal threshold
-- Use **Debug mode** to see raw ADC values (should be 200-400 baseline)
+- Use Debug mode to see raw ADC values (should be 200-400 baseline)
 
-You've just built a professional controller circuit with **adaptive baseline technology** that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
+You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
 
 **You're Ready to Play!**
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 9: Files & Downloads
-
-<details>
-<summary>Click to expand file links 🔽</summary>
+## ⬇️ 9: FILES & DOWNLOADS
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1108,19 +1099,18 @@ You've just built a professional controller circuit with **adaptive baseline tec
 - To Download a copy of this guide, use the download link on the landing page at [www.OuchiTaiko.com](http://www.OuchiTaiko.com) or simply save the PDF using your Web Browser's preferred method
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 10: Basic Troubleshooting
-
-<details>
-<summary>Click to expand troubleshooting guide 🔽</summary>
+## 🔧 10: SUPPORT: TROUBLESHOOTING GUIDE
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+---
 <details>
-<summary><b>🖥️ DISPLAY Issues</b></summary>
+<summary><b>🔧 FIX: DISPLAY ISSUES (BLANK, FROZEN, ETC.)</b></summary>
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
@@ -1129,8 +1119,9 @@ You've just built a professional controller circuit with **adaptive baseline tec
 
 </details>
 
+---
 <details>
-<summary><b>🥁 SENSOR Issues</b></summary>
+<summary><b>🔧 FIX: SENSOR ISSUES (NO RESPONSE, CROSSTALK)</b></summary>
 
 - **No response:** Check diode polarity, TRS wiring
 - **False triggers:** Increase thresholds
@@ -1139,16 +1130,18 @@ You've just built a professional controller circuit with **adaptive baseline tec
 
 </details>
 
+---
 <details>
-<summary><b>🎮 MODE SWITCHING Issues</b></summary>
+<summary><b>🔧 FIX: MODE SWITCHING ISSUES</b></summary>
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
 </details>
 
+---
 <details>
-<summary><b>🔊 AUDIO Issues</b></summary>
+<summary><b>🔧 FIX: AUDIO ISSUES (NO SOUND, CRACKLING, LATENCY)</b></summary>
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
@@ -1159,14 +1152,12 @@ You've just built a professional controller circuit with **adaptive baseline tec
 If you have trouble with a particular game version, note your current emulation mode and research what others have done to get that controller series working with your game version.
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 11: About
-
-<details>
-<summary>Click to expand about & credits 🔽</summary>
+## i 11: ABOUT THE OUCHITAIKO PROJECT
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1188,7 +1179,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
-- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.gg/openstickcommunity-1049366310389289001)
+- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
@@ -1199,14 +1190,12 @@ Please share your results and excitement as well as this guide with your favorit
 Enjoy, Have Fun, and Peace Out!
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
-</details>
 
-## 12: Copyright Information
-
-<details>
-<summary>Click to expand copyright & license transparency 🔽</summary>
+## ©️ 12: COPYRIGHT & LICENSES
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1243,9 +1232,9 @@ Thank you,
 **KillerQ**
 
 ---
+
 *[↑ Return to Table of Contents](#table-of-contents)*
+
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
-</details>
-```
