@@ -1,10 +1,10 @@
-# KillerQ's OuchiTaiko Project
+<div align="center"># KillerQ's OuchiTaiko Project</div>
 
 <div align="center">
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
 
-> *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
+> <div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 **Smarter. Simpler. Better.**
 
@@ -41,7 +41,9 @@
 <img src="images/Pictures/1000000000000753000009C464647684.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
 </div>
 
-**Congratulations!** Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
+**Congratulations!** 
+
+Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
 The OuchiTaiko Project features a pioneering adaptive drum design—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
 
