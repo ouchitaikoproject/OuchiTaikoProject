@@ -12,18 +12,18 @@
 
 ## Table of Contents
 
-- [✨ 1: PROJECT OVERVIEW & FEATURES](#1-project-overview)
-- [⚡ 2: REQUIRED PARTS: ELECTRONICS LIST](#2-parts-list-for-electronics)
-- [🛠️ 3: REQUIRED PARTS: HARDWARE LIST](#3-parts-list-for-hardware)
-- [🔌 4: ASSEMBLY: BUILDING THE CIRCUIT](#4-build-the-circuit)
-- [🔨 5: CONSTRUCTION: BUILDING THE DRUM](#5-build-the-drum)
-- [🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING](#6-control-box)
-- [💾 7: SOFTWARE: FLASHING THE FIRMWARE](#7-flash-the-firmware)
-- [✅ 8: SETUP: CALIBRATION & TESTING](#8-calibration--setup)
-- [⬇️ 9: FILES & DOWNLOADS](#9-files--downloads)
-- [🔧 10: SUPPORT: TROUBLESHOOTING GUIDE](#10-basic-troubleshooting)
-- [i 11: ABOUT THE OUCHITAIKO PROJECT](#11-about)
-- [©️ 12: COPYRIGHT & LICENSES](#12-copyright-information)
+- [✨ 1: PROJECT OVERVIEW & FEATURES](#✨-1-project-overview--features)
+- [⚡ 2: REQUIRED PARTS: ELECTRONICS LIST](#⚡-2-required-parts-electronics-list)
+- [🛠️ 3: REQUIRED PARTS: HARDWARE LIST](#🛠️-3-required-parts-hardware-list)
+- [🔌 4: ASSEMBLY: BUILDING THE CIRCUIT](#🔌-4-assembly-building-the-circuit)
+- [🔨 5: CONSTRUCTION: BUILDING THE DRUM](#🔨-5-construction-building-the-drum)
+- [🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING](#🕹️-6-assembly-control-box-housing)
+- [💾 7: SOFTWARE: FLASHING THE FIRMWARE](#💾-7-software-flashing-the-firmware)
+- [✅ 8: SETUP: CALIBRATION & TESTING](#✅-8-setup-calibration--testing)
+- [⬇️ 9: FILES & DOWNLOADS](#⬇️-9-files--downloads)
+- [🔧 10: SUPPORT: TROUBLESHOOTING GUIDE](#🔧-10-support-troubleshooting-guide)
+- [i 11: ABOUT THE OUCHITAIKO PROJECT](#i-11-about-the-ouchitaiko-project)
+- [©️ 12: COPYRIGHT & LICENSES](#️-12-copyright--licenses)
 
 ---
 
@@ -49,9 +49,9 @@ All you need is enthusiasm and basic soldering and woodworking skills. The compo
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
----
+>
 <details>
-<summary><b>✨ FEATURE: UNPRECEDENTED PERFORMANCE & DESIGN</b></summary>
+<summary>✨ Unprecedented Performance & Design</summary>
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
@@ -60,9 +60,9 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
----
+>
 <details>
-<summary><b>✨ FEATURE: ADVANCED HARDWARE & CONNECTIVITY</b></summary>
+<summary>✨ Advanced Hardware & Connectivity</summary>
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
@@ -87,9 +87,9 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
----
+>
 <details>
-<summary><b>✨ FEATURE: 14 INPUT MODES FOR MAXIMUM COMPATIBILITY</b></summary>
+<summary>✨ 14 Input Modes for Maximum Compatibility</summary>
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -129,9 +129,9 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
 
----
+>
 <details>
-<summary><b>⚡ CLICK TO EXPAND ELECTRONICS PARTS LIST</b></summary>
+<summary>⚡ View Electronics Parts List</summary>
 
 <div style="overflow-x: auto;">
 
@@ -181,9 +181,9 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ### Required Tools and Supplies
 
----
+>
 <details>
-<summary><b>🛠️ CLICK TO VIEW REQUIRED TOOLS & SUPPLIES</b></summary>
+<summary>🛠️ View Required Tools & Supplies</summary>
 
 This guide assumes you have access to the following:
 
@@ -203,9 +203,9 @@ This guide assumes you have access to the following:
 
 ### Hardware Parts List
 
----
+>
 <details>
-<summary><b>📦 CLICK TO EXPAND HARDWARE PARTS LIST</b></summary>
+<summary>📦 View Hardware Parts List</summary>
 
 <div style="overflow-x: auto;">
 
@@ -307,7 +307,7 @@ Be sure that the VCC rails on both sides of the board are connected to each othe
 1. Solder the anode end (the side *without* the stripe) of a 1N4148 diode to pin A0/P26
 2. Solder the opposite, *striped* end (cathode) of the diode to the common ground rail as close to the pin as possible
 3. Solder one end of a 100nF capacitor to pin A0/P26 (no polarity here, either end is fine)
-4. Solder the other end of the 100nF capacitor to the common ground rail as close to the pin as possible
+4. Solder the other end of a 100nF capacitor to the common ground rail as close to the pin as possible
 5. Connect a yellow signal wire from pin A0/P26 to the *TIP* terminal of TRS Jack 1 (Left Ka)
 6. Connect a black GND wire between the common ground rail and the SLEEVE terminal of TRS Jack 1
 
@@ -596,7 +596,7 @@ Screw in the 14 individual M6 threaded wood inserts into the appropriate holes u
 
 Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to the wood with a mallet (add Superglue to *outside* of threads to help secure to wood) - this is where the sensor housings will mount later on.
 
-*Note: Your orientation will be different, this is just an example from an earlier version.*
+*Note: Your orientation will be different, this is just an example from an -arlier version.*
 
 <img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 800px;">
 
@@ -1108,9 +1108,9 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
----
+>
 <details>
-<summary><b>🔧 FIX: DISPLAY ISSUES (BLANK, FROZEN, ETC.)</b></summary>
+<summary>🔧 Fix: Display Issues (Blank, Frozen, Etc.)</summary>
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
@@ -1119,9 +1119,9 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
----
+>
 <details>
-<summary><b>🔧 FIX: SENSOR ISSUES (NO RESPONSE, CROSSTALK)</b></summary>
+<summary>🔧 Fix: Sensor Issues (No Response, Crosstalk)</summary>
 
 - **No response:** Check diode polarity, TRS wiring
 - **False triggers:** Increase thresholds
@@ -1130,18 +1130,18 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
----
+>
 <details>
-<summary><b>🔧 FIX: MODE SWITCHING ISSUES</b></summary>
+<summary>🔧 Fix: Mode Switching Issues</summary>
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
 </details>
 
----
+>
 <details>
-<summary><b>🔧 FIX: AUDIO ISSUES (NO SOUND, CRACKLING, LATENCY)</b></summary>
+<summary>🔧 Fix: Audio Issues (No Sound, Crackling, Latency)</summary>
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
@@ -1238,3 +1238,4 @@ Thank you,
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+```
