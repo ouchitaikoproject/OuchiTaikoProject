@@ -27,6 +27,9 @@
 
 ## 1: Project Overview
 
+<details>
+<summary>Click to expand project overview & features 🔽</summary>
+
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 <img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="100%" style="max-width: 800px;">
@@ -35,11 +38,11 @@
 
 **Congratulations!** Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
-The OuchiTaiko Project features a pioneering adaptive drum design—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
+The OuchiTaiko Project features a pioneering **adaptive drum design**—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
 
 **Smarter. Simpler. Better.**
 
-Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses adaptive software intelligence to achieve superior performance through elegant simplicity.
+Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses **adaptive software intelligence** to achieve superior performance through elegant simplicity.
 
 All you need is enthusiasm and basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
 
@@ -111,12 +114,14 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 2: Parts List for Electronics
+
+<details>
+<summary>Click to expand electronics parts list 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -158,14 +163,14 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 </div>
 
 </details>
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
+</details>
 
 ---
 
 ## 3: Parts List for Hardware
+
+<details>
+<summary>Click to expand hardware parts list & tools 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -222,14 +227,14 @@ This guide assumes you have access to the following:
 </div>
 
 </details>
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
+</details>
 
 ---
 
 ## 4: Build the Circuit
+
+<details>
+<summary>Click to expand circuit build steps 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -498,12 +503,14 @@ Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins
 That's it for that step; the hard part is over!
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 5: Build the Drum
+
+<details>
+<summary>Click to expand drum build steps 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -817,10 +824,13 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 ---
 
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 6: Control Box
+
+<details>
+<summary>Click to expand control box build steps 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -965,10 +975,13 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 ---
 
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 7: Flash The Firmware
+
+<details>
+<summary>Click to expand firmware flashing instructions 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -978,7 +991,7 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 
 ### Step 1: Enter Boot Mode
 
-Hold down the small "B" button on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
+Hold down the small **"B" button** on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
 
 ### Step 2: Wipe the Board
 
@@ -991,33 +1004,35 @@ Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few second
 You're ready for calibration and testing!
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 8: Calibration & Setup
+
+<details>
+<summary>Click to expand calibration & setup guide 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### Complete this initial calibration before proceeding further
 
-Long-press SELECT to enter setup mode. Set controller emulation to SWITCH TATACON mode (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
+Long-press **SELECT** to enter setup mode. Set controller emulation to **SWITCH TATACON mode** (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
 
 ### Basic Drum Hit Calibration
 
 #### Step 1: Enter the Drum Settings
 
 - Hold SELECT for 1 second to open the Main Menu
-- Scroll to Drum Settings → press B / Circle to open
+- Scroll to **Drum Settings** → press B / Circle to open
 
 #### Step 2: Adjust Drum Thresholds
 
 Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value — how hard you must hit before it registers.
 
-- If light hits don't register, lower the threshold
-- If false hits happen too easily, raise the threshold
-- If you find that hitting one drum causes ANOTHER drum to trigger, raise the threshold value of the drum that accidentally triggered by a one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
+- If light hits don't register, **lower the threshold**
+- If false hits happen too easily, **raise the threshold**
+- If you find that hitting one drum causes ANOTHER drum to trigger, **raise the threshold value of the drum that accidentally triggered** by a one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
 
 ---
 
@@ -1029,25 +1044,25 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 This controls how the drum reacts to very strong strikes. By default, home versions of the Taiko games give full points for Big Notes by simply hitting both Don or Ka at the same time. My Big Hit Arcade Mode allows for that "Arcade Hit" where you have to hit the Don or Ka *harder* to get credit for the Big Notes — just like the Official Taiko Arcade Machines operate.
 
-- Set Detection: ON
-- Adjust Threshold Level: Start around 850
-- Increase the value to lower the threshold of what counts as a Big Hit
-- Decrease the value to make it so that you have to hit much harder for the Big Note to register
+- Set **Detection: ON**
+- Adjust **Threshold Level:** Start around 850
+- **Increase** the value to lower the threshold of what counts as a Big Hit
+- **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
 
 #### SimulTap Mode
 
 By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay — this simply helps ensure clean hits).
 
-- Turn SimulTap ON if you want combined left + right hits to register as a single action
-- Leave it OFF for standard play or if you notice misreads
+- Turn **SimulTap ON** if you want combined left + right hits to register as a single action
+- Leave it **OFF** for standard play or if you notice misreads
 
 #### Hold Time
 
 This defines how long a hit is "held" before the drum accepts another.
 
-- Recommended range: 25—35ms
-- Increase if double hits register too fast
-- Decrease if hits feel laggy or delayed
+- **Recommended range:** 25—35ms
+- **Increase** if double hits register too fast
+- **Decrease** if hits feel laggy or delayed
 - In most cases, this is not needed — some say it helps when playing on the Nintendo Switch
 
 ---
@@ -1065,19 +1080,21 @@ This defines how long a hit is "held" before the drum accepts another.
 
 - Different drum covers may need threshold adjustment
 - Big Hit threshold is typically 2-3x normal threshold
-- Use Debug mode to see raw ADC values (should be 200-400 baseline)
+- Use **Debug mode** to see raw ADC values (should be 200-400 baseline)
 
-You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
+You've just built a professional controller circuit with **adaptive baseline technology** that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
 
 **You're Ready to Play!**
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 9: Files & Downloads
+
+<details>
+<summary>Click to expand file links 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1091,12 +1108,14 @@ You've just built a professional controller circuit with adaptive baseline techn
 - To Download a copy of this guide, use the download link on the landing page at [www.OuchiTaiko.com](http://www.OuchiTaiko.com) or simply save the PDF using your Web Browser's preferred method
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 10: Basic Troubleshooting
+
+<details>
+<summary>Click to expand troubleshooting guide 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1140,12 +1159,14 @@ You've just built a professional controller circuit with adaptive baseline techn
 If you have trouble with a particular game version, note your current emulation mode and research what others have done to get that controller series working with your game version.
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 11: About
+
+<details>
+<summary>Click to expand about & credits 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1178,12 +1199,14 @@ Please share your results and excitement as well as this guide with your favorit
 Enjoy, Have Fun, and Peace Out!
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
+</details>
 
 ## 12: Copyright Information
+
+<details>
+<summary>Click to expand copyright & license transparency 🔽</summary>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1220,9 +1243,9 @@ Thank you,
 **KillerQ**
 
 ---
-
 *[↑ Return to Table of Contents](#table-of-contents)*
-
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+</details>
+```
