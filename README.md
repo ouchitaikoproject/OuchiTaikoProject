@@ -1,5 +1,3 @@
-I’ll add light gray horizontal separators between the steps in your README. Here’s the updated markdown with separators strategically placed to improve readability:
-
 # KillerQ’s OuchiTaiko Project
 
 ![Project Banner](images/Pictures/10000001000009F600000CE4BA065654.png)
