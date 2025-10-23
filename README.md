@@ -1,8 +1,8 @@
-<p style="text-align: center;"># KillerQ's OuchiTaiko Project</p>
+# KillerQ's OuchiTaiko Project
 
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%">
 
-<p style="text-align: center;">> *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</p>
+> *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
 
 **Smarter. Simpler. Better.**
 
