@@ -1,8 +1,8 @@
-# KillerQ's OuchiTaiko Project
+<p style="text-align: center;"># KillerQ's OuchiTaiko Project</p>
 
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%">
 
-> *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
+<p style="text-align: center;">> *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</p>
 
 **Smarter. Simpler. Better.**
 
@@ -10,22 +10,22 @@
 
 ## Table of Contents
 
-- [1: Project Overview](#1-project-overview)
-- [2: Parts List for Electronics](#2-parts-list-for-electronics)
-- [3: Parts List for Hardware](#3-parts-list-for-hardware)
-- [4: Build the Circuit](#4-build-the-circuit)
-- [5: Build the Drum](#5-build-the-drum)
-- [6: Control Box](#6-control-box)
-- [7: Flash The Firmware](#7-flash-the-firmware)
-- [8: Calibration & Setup](#8-calibration--setup)
-- [9: Files & Downloads](#9-files--downloads)
-- [10: Basic Troubleshooting](#10-basic-troubleshooting)
-- [11: About](#11-about)
-- [12: Copyright Information](#12-copyright-information)
+- [**1: Project Overview**](#1-project-overview)
+- [**2: Parts List for Electronics**](#2-parts-list-for-electronics)
+- [**3: Parts List for Hardware**](#3-parts-list-for-hardware)
+- [**4: Build the Circuit**](#4-build-the-circuit)
+- [**5: Build the Drum**](#5-build-the-drum)
+- [**6: Control Box**](#6-control-box)
+- [**7: Flash The Firmware**](#7-flash-the-firmware)
+- [**8: Calibration & Setup**](#8-calibration--setup)
+- [**9: Files & Downloads**](#9-files--downloads)
+- [**10: Basic Troubleshooting**](#10-basic-troubleshooting)
+- [**11: About**](#11-about)
+- [**12: Copyright Information**](#12-copyright-information)
 
 ---
 
-## 1: Project Overview
+## **1: Project Overview**
 
 <img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="100%">
 <img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" width="100%">
@@ -41,7 +41,7 @@ Instead of complex analog circuits with operational amplifiers and custom PCBs, 
 
 All you need is enthusiasm and basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
 
-### What You'll Build: Next-Generation Features
+### **What You'll Build: Next-Generation Features**
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
@@ -89,7 +89,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 -   MIDI Controller
 -   Debug Mode
 
-### 🎥 Demo Videos
+### **🎥 Demo Videos**
 
 -   [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
 -   [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
@@ -100,7 +100,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 ---
 
-## 2: Parts List for Electronics
+## **2: Parts List for Electronics**
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
@@ -138,13 +138,13 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ---
 
-## 3: Parts List for Hardware
+## **3: Parts List for Hardware**
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link.
 
-### Required Tools and Supplies
+### **Required Tools and Supplies**
 
 **🛠️ Required Tools**
 
@@ -162,7 +162,7 @@ This guide assumes you have access to the following:
 10. Utility knife
 11. Rubber mallet
 
-### Hardware Parts List
+### **Hardware Parts List**
 
 **📦 Hardware Parts List**
 
@@ -188,7 +188,7 @@ This guide assumes you have access to the following:
 
 ---
 
-## 4: Build the Circuit
+## **4: Build the Circuit**
 
 🎥 [Video overview of circuit building process](https://youtu.be/Zif1cv-oa6k)
 
@@ -198,18 +198,18 @@ This guide states the core objective of each step and provides example approache
 
 Review all steps, videos, and images before beginning to allow for optimal planning. This guide provides a 100% working system when followed as-is. However, as long as you adhere to the electrical theory and circuit structure, you can adjust and use creative freedom according to your comfort level.
 
-### Circuit Overview
+### **Circuit Overview**
 
 The **Seeed Studio XIAO RP2040 board** is the brain, power source, and host for the drum panel sensors. The external **MCP23017 board** handles the OLED display and navigation buttons.
 
-### Tips for Success
+### **Tips for Success**
 
 -   Use **color-coded wires** for easy identification
 -   **Test each phase** with a multimeter for continuity before proceeding
 -   **Label everything** during assembly
 -   Take time with **soldering connections**
 
-### Circuit Diagram
+### **Circuit Diagram**
 
 <img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%">
 
@@ -223,7 +223,7 @@ The **Seeed Studio XIAO RP2040 board** is the brain, power source, and host for 
 
 ---
 
-### A: XIAO Board Trigger Circuit
+### **A: XIAO Board Trigger Circuit**
 
 💾 [The full-resolution circuit schematic can be downloaded here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
@@ -298,7 +298,7 @@ This is an example of a removable TRS input jack using a JST connection:
 
 ---
 
-### I2C Control Board Circuit Mounting and Power
+### **I2C Control Board Circuit Mounting and Power**
 
 **A8. Mount the MCP23017 GPIO Expander on a blank board**
 
@@ -322,7 +322,7 @@ This 2-wire connection will be powering the MCP23017 board and will also provide
 
 ---
 
-### MCP23017 Data Connections
+### **MCP23017 Data Connections**
 
 **Note:** Pins A7 and B7 will *not* be used for this project.
 
@@ -342,7 +342,7 @@ This is the other of the two wires that sends the display and navigation buttons
 
 ---
 
-### I2C OLED Display Circuit
+### **I2C OLED Display Circuit**
 
 **A12. Mount the OLED display**
 
@@ -384,7 +384,7 @@ Connect a wire between the **GND soldering point** on the MCP23017 board (opposi
 
 ---
 
-### Navigation/Gamepad Buttons
+### **Navigation/Gamepad Buttons**
 
 **A17. Solder navigation buttons**
 
@@ -440,7 +440,7 @@ That's it for that step; the hard part is over!
 
 ---
 
-## 5: Build the Drum
+## **5: Build the Drum**
 
 **Important:** The SVG files are provided at the correct scale and should NOT be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.
 
@@ -448,7 +448,7 @@ To verify the SVG files are at the correct scale before cutting, check that the 
 
 **No CNC access?** Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand.
 
-### B: Prepare the Wood
+### **B: Prepare the Wood**
 
 **B1. Cut all MDF wood pieces per SVG templates**
 
@@ -462,7 +462,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 ---
 
-### Assemble the Drum Structure
+### **Assemble the Drum Structure**
 
 **B3. Glue rear base plates**
 
@@ -525,7 +525,7 @@ Tap in the **8 individual M3 threaded inserts** (2 in each bottom panel) flush t
 
 ---
 
-### C: Install Rubber Isolators
+### **C: Install Rubber Isolators**
 
 **C1. Cut nylon bolt head**
 
@@ -572,7 +572,7 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 ---
 
-### D: Print Housings
+### **D: Print Housings**
 
 **D1. Print 4 sets of complete sensor housings**
 
@@ -584,7 +584,7 @@ Settings: **0.2mm layer height, 40% Gyroid infill, no supports needed.**
 
 ---
 
-### E: Assemble Sensors
+### **E: Assemble Sensors**
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
@@ -661,7 +661,7 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 ---
 
-### F: Mounting Hardware Assembly
+### **F: Mounting Hardware Assembly**
 
 **F1. Mark mounting holes**
 
@@ -739,7 +739,7 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
 ---
 
-## 6: Control Box
+## **6: Control Box**
 
 You're almost there!
 
@@ -747,7 +747,7 @@ The USB hub and USB DAC steps below are required for the build, but the structur
 
 That said, some type of control box enclosure is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
 
-### Enclosure Options
+### **Enclosure Options**
 
 -   **Custom wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
 -   **Simple alternatives:** Cardboard box or small plastic storage container work fine
@@ -756,7 +756,7 @@ I chose to not provide specific plans for the control box since everyone's layou
 
 ---
 
-### G: Connect Sensors To The Circuit
+### **G: Connect Sensors To The Circuit**
 
 **G1. Connect sensor cables to circuit**
 
@@ -768,7 +768,7 @@ The next step will incorporate a few last steps to make the connections more use
 
 ---
 
-### Final Connections and Housing
+### **Final Connections and Housing**
 
 **G2. Mount TRS jacks to control box**
 
@@ -847,7 +847,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 ---
 
-### H: Floor Stand
+### **H: Floor Stand**
 
 **H1. Mount bracket to speaker stand**
 
@@ -877,21 +877,21 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 
 ---
 
-## 7: Flash The Firmware
+## **7: Flash The Firmware**
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
 💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
-### Step 1: Enter Boot Mode
+### **Step 1: Enter Boot Mode**
 
 Hold down the small "**B**" button on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
 
-### Step 2: Wipe the Board
+### **Step 2: Wipe the Board**
 
 Drag `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear, ready for the next step. Repeat this step one more time for good measure.
 
-### Step 3: Flash the Firmware
+### **Step 3: Flash the Firmware**
 
 Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.
 
@@ -901,13 +901,13 @@ You're ready for calibration and testing!
 
 ---
 
-## 8: Calibration & Setup
+## **8: Calibration & Setup**
 
-### Complete this initial calibration before proceeding further
+### **Complete this initial calibration before proceeding further**
 
 Long-press **SELECT** to enter setup mode. Set controller emulation to **SWITCH TATACON mode** (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
 
-### Basic Drum Hit Calibration
+### **Basic Drum Hit Calibration**
 
 #### Step 1: Enter the Drum Settings
 
@@ -924,7 +924,7 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 ---
 
-### Extended Drum Setting Features
+### **Extended Drum Setting Features**
 
 #### Big Hit Arcade Mode
 
@@ -953,14 +953,14 @@ This defines how long a hit is "held" before the drum accepts another.
 
 ---
 
-### Display Tips While Playing
+### **Display Tips While Playing**
 
 -   Streak counter resets after 1 second of inactivity
 -   Main Screen Character animations confirm every registered hit
 -   Each character represents its drum position (left to right)
 -   Consistent missed hits on one pad? Check that pad's threshold
 
-### Pro Tips
+### **Pro Tips**
 
 -   Different drum covers may need threshold adjustment
 -   Big Hit threshold is typically 2-3x normal threshold
@@ -974,7 +974,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## 9: Files & Downloads
+## **9: Files & Downloads**
 
 <img src="images/Pictures/100000010000053B000003083BE429C9.png" width="100%">
 
@@ -989,7 +989,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## 10: Basic Troubleshooting
+## **10: Basic Troubleshooting**
 
 **🖥️ DISPLAY Issues**
 
@@ -1022,7 +1022,7 @@ If you have trouble with a particular game version, note your current emulation 
 
 ---
 
-## 11: About
+## **11: About**
 
 This project is a one-of-a-kind Hybrid product that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
 
@@ -1046,7 +1046,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
-### Spread The Word
+### **Spread The Word**
 
 Please share your results and excitement as well as this guide with your favorite DIY gaming communities. Tag me (KillerQ97) when you do!
 
@@ -1056,9 +1056,9 @@ Enjoy, Have Fun, and Peace Out!
 
 ---
 
-## 12: Copyright Information
+## **12: Copyright Information**
 
-### Copyright & License Transparency
+### **Copyright & License Transparency**
 
 As mentioned above, this project builds upon the outstanding work of the open-source community and strictly adheres to all licensing requirements. **OuchiTaiko** is primarily based on [ravinrabbid's DonCon2040](https://github.com/ravinrabbid/DonCon2040), which is licensed under the **MIT License**, and also incorporates elements from [kasasiki3's HIDtaiko](https://github.com/kasasiki3/HIDtaiko), licensed under the **Apache License, Version 2.0**.
 
@@ -1069,13 +1069,13 @@ The most critical requirement of both licenses is to **include a copy of their r
 
 All custom features, modifications, and improvements documented in this project (including KillerQ's creation of Big Notes detection, SimulTap mode, PS4 always-on, adaptive baseline tracking, critical mode-switching fixes, animated display system, enhanced menu navigation, and any other custom creations or modifications to include code, physical circuitry, Drum, or Drum-related design features and components) are transparently documented and shared under the same open-source spirit. I believe in giving credit where credit is due and maintaining the collaborative nature of the maker community. If you build upon this work, please honor these licenses by including proper attribution and license notices in your derivative projects as well as mentioning and/or tagging me, 'KillerQ.'
 
-### Attribution Chain
+### **Attribution Chain**
 
 -   Original DonCon2040 firmware: © ravinrabbid (MIT License)
 -   HIDtaiko components: © kasasiki3 (Apache License 2.0)
 -   Custom modifications and features: Created by, and documented in this repository by KillerQ
 
-### For Complete Legal Compliance
+### **For Complete Legal Compliance**
 
 Any distribution of this firmware (binary or source) must include:
 
