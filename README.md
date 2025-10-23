@@ -1,6 +1,6 @@
 # KillerQ's OuchiTaiko Project
 
-<img src="images/Pictures/10000001000009F600000CE4BA065654.png" alt="Project Banner" width="300px" />
+<img src="images/Pictures/10000001000009F600000CE4BA065654.png" alt="Project Banner" width="300px" style="display: block; margin: 0 auto;" />
 
 > *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
 
@@ -27,9 +27,11 @@
 
 ## 1: Project Overview
 
-<img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" alt="Drum Photos" width="300px" />
-<img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" alt="Drum Photos" width="300px" />
-<img src="images/Pictures/1000000000000753000009C464647684.jpg" alt="Drum Photos" width="300px" />
+**[Placeholder: Upload the missing project photo here and use a standard GitHub file path]**
+
+<img src="images/Pictures/1000000000000753000009C4E8EB3F27.png" alt="Drum Photos" width="300px" />
+<img src="images/Pictures/10000000000009C4000009A1F933F88D.png" alt="Drum Photos" width="300px" />
+<img src="images/Pictures/1000000000000753000009C464647684.png" alt="Drum Photos" width="300px" />
 
 **Congratulations!** Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
@@ -221,7 +223,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 
 You will be soldering multiple components to the same pins, leaving ample space and utilization of the shared rows will help.
 
-<img src="images/Pictures/100000000000080000000600006BD9A8.jpg" alt="XIAO mounted" width="300px" />
+<img src="images/Pictures/100000000000080000000600006BD9A8.png" alt="XIAO mounted" width="300px" />
 
 ---
 #### A2. Connect the GND pin on the XIAO RP2040 to the common ground rail of the protoboard
@@ -251,8 +253,8 @@ The photos below show several variants of connecting the capacitors and diodes.
 
 This example has the diodes on top of the board and the capacitors on the underside to allow more room to work:
 
-<img src="images/Pictures/100000000000060D000004FD52D8B4F8.jpg" alt="Top view" width="300px" />
-<img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" alt="Bottom view" width="300px" />
+<img src="images/Pictures/100000000000060D000004FD52D8B4F8.png" alt="Top view" width="300px" />
+<img src="images/Pictures/100000000000051B00000364BB6B5E07.png" alt="Bottom view" width="300px" />
 
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
@@ -291,7 +293,7 @@ Connect the wiring harness that came with the MCP23017 board. You can clip wires
 
 This board will house the display and buttons for the navigation. Plan enough space accordingly. In this photo, the MCP23017 is mounted on the rear of the board:
 
-<img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" alt="MCP23017 mounted" width="300px" />
+<img src="images/Pictures/10000000000009AE00000C346364AD26.png" alt="MCP23017 mounted" width="300px" />
 
 ---
 #### A9. Connect Power
@@ -375,12 +377,12 @@ You can also daisy-chain the ground wire between all buttons and then to a groun
 
 The first and second photos have all the grounds terminating at JST connectors that plug into a connector on the ground rail:
 
-<img src="images/Pictures/100000000000080000000600206460C4.jpg" alt="Ground example 1" width="300px" />
-<img src="images/Pictures/1000000000000800000006007E8007EB.jpg" alt="Ground example 2" width="300px" />
+<img src="images/Pictures/100000000000080000000600206460C4.png" alt="Ground example 1" width="300px" />
+<img src="images/Pictures/1000000000000800000006007E8007EB.png" alt="Ground example 2" width="300px" />
 
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
-<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" alt="Ground example 3" width="300px" />
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.png" alt="Ground example 3" width="300px" />
 
 ---
 #### A19. Connect button signals
@@ -404,7 +406,7 @@ Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins
 | Button Select | B5 |
 | Button Share | B6 |
 
-<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" alt="Button wiring example" width="300px" />
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.png" alt="Button wiring example" width="300px" />
 
 That's it for that step; the hard part is over!
 
@@ -437,7 +439,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 Use Wood Glue to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
 
-<img src="images/Pictures/100000000000060000000800A4CE90BA.jpg" alt="Base plates" width="300px" />
+<img src="images/Pictures/100000000000060000000800A4CE90BA.png" alt="Base plates" width="300px" />
 
 ---
 #### B4. Glue drum panels
@@ -446,21 +448,21 @@ Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece 
 
 *Note: Ignore the 4 smaller holes in the center, your version will be different and only have 2 holes - this is an example from an earlier version.*
 
-<img src="images/Pictures/100000000000080000000600B828828F.jpg" alt="Panel gluing" width="300px" />
+<img src="images/Pictures/100000000000080000000600B828828F.png" alt="Panel gluing" width="300px" />
 
 ---
 #### B5. Router/sand Ka rim edges
 
 Use a router or at least sand down the sharp outer, curved edge of the Ka rim faces. This helps prevent stick damage. Do not smooth/route the inside edges at all, just the outside curve.
 
-<img src="images/Pictures/100000000000050A000005E069D763B9.jpg" alt="Routing edges" width="300px" />
+<img src="images/Pictures/100000000000050A000005E069D763B9.png" alt="Routing edges" width="300px" />
 
 ---
 #### B6. Drill holes for threaded inserts
 
 Using an 8mm diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut 6mm holes where the rubber grommets will go, and use those holes as guides to drill - you'll drill into those 6mm holes and turn them into new 8mm wide x 11mm deep holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
-<img src="images/Pictures/1000000000000600000008002B78DEAA.jpg" alt="Drilling" width="300px" />
+<img src="images/Pictures/1000000000000600000008002B78DEAA.png" alt="Drilling" width="300px" />
 
 ---
 #### B7. Chamfer holes
@@ -555,7 +557,7 @@ Cut four 12mm neoprene discs per SVG template.
 
 Superglue neoprene disc into the printed housing's bottom center, aligned with the raised ring guide. Press for 30 seconds.
 
-<img src="images/Pictures/10000000000005E8000007E0FE99EF21.jpg" alt="Neoprene in housing" width="300px" />
+<img src="images/Pictures/10000000000005E8000007E0FE99EF21.png" alt="Neoprene in housing" width="300px" />
 
 ---
 #### E3. Strip Siamese wire
@@ -569,14 +571,14 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 - Red connects to the TIP
 - Black connects to the SLEEVE
 
-<img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" alt="TRS soldering" width="300px" />
+<img src="images/Pictures/1000000000000A84000006586122FF5A.png" alt="TRS soldering" width="300px" />
 
 ---
 #### E5. Solder to piezo
 
 Take the *other* end of the stripped wire, solder red wire to piezo center disc (**near outer edge of center**), and solder black wire to outer brass ring.
 
-<img src="images/Pictures/10000000000005E8000007E09B34A737.jpg" alt="Piezo soldering" width="300px" />
+<img src="images/Pictures/10000000000005E8000007E09B34A737.png" alt="Piezo soldering" width="300px" />
 
 ---
 #### E6. Glue piezo to neoprene
@@ -585,14 +587,14 @@ Add several drops of Superglue on the surface of neoprene (created in step E2). 
 
 *Note: Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.*
 
-<img src="images/Pictures/10000000000005E8000007E09D348BCE.jpg" alt="Piezo assembly" width="300px" />
+<img src="images/Pictures/10000000000005E8000007E09D348BCE.png" alt="Piezo assembly" width="300px" />
 
 ---
 #### E7. Assemble housing
 
 Add a drop of Superglue to the strain relief channel (below wire as well as on topside) and add a few drops to the upper housing around the rim sides, then attach the top and bottom housing pieces, press and hold for 30 seconds.
 
-<img src="images/Pictures/10000000000005E8000007E05241CC8B.jpg" alt="Housing assembly" width="300px" />
+<img src="images/Pictures/10000000000005E8000007E05241CC8B.png" alt="Housing assembly" width="300px" />
 
 ---
 #### E8. Mount housings to drum
@@ -603,7 +605,7 @@ Tighten snug for even, firm contact with the wood - but don't over-tighten.
 
 Here's a photo of one housing right before it's screwed into the threaded insert:
 
-<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" alt="Housing mounting" width="300px" />
+<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.png" alt="Housing mounting" width="300px" />
 
 ### F: Mounting Hardware Assembly
 
@@ -612,28 +614,28 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 Place your speaker bracket against the backside of your rear base plates so that it is centered and not blocking any other holes. Mark the 4 holes that you will use to mount it with.
 
-<img src="images/Pictures/100000000000060000000800F0D97183.jpg" alt="Marking holes" width="300px" />
+<img src="images/Pictures/100000000000060000000800F0D97183.png" alt="Marking holes" width="300px" />
 
 ---
 #### F2. Drill mounting holes
 
 Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
-<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" alt="Drilling mount holes" width="300px" />
+<img src="images/Pictures/100000000000024B00000304BDC895E9.png" alt="Drilling mount holes" width="300px" />
 
 ---
 #### F3. Install mounting bolts
 
 Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
-<img src="images/Pictures/100000000000060000000800B528FD8E.jpg" alt="Mounting bolts" width="300px" />
+<img src="images/Pictures/100000000000060000000800B528FD8E.png" alt="Mounting bolts" width="300px" />
 
 ---
 #### F4. Attach speaker mount
 
 Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
-<img src="images/Pictures/1000000000000600000008000289516B.jpg" alt="Speaker mount" width="300px" />
+<img src="images/Pictures/1000000000000600000008000289516B.png" alt="Speaker mount" width="300px" />
 
 ---
 #### F5. Assemble drum structure
@@ -709,14 +711,14 @@ Mount the 4 Female TRS jacks that are part of your circuit to the wall of your c
 
 <img src="images/Pictures/1000000100000224000002DF48CE7655.png" alt="TRS jacks mounted" width="300px" />
 
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" alt="TRS external view" width="300px" />
+<img src="images/Pictures/1000000000000600000008005AA2E536.png" alt="TRS external view" width="300px" />
 
 ---
 #### G3. Mount USB-C to USB-A adapter
 
 Connect the USB C to USB A adapter in the wall of your box so that the USB C portion is facing the outside of the box. Use hot glue to affix in place.
 
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" alt="USB adapter closeup" width="300px" />
+<img src="images/Pictures/1000000000000600000008005AA2E536.png" alt="USB adapter closeup" width="300px" />
 
 <img src="images/Pictures/1000000100000221000002E17277E344.png" alt="USB adapter external" width="300px" />
 
@@ -725,7 +727,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 
 Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" alt="USB hub" width="300px" />
+<img src="images/Pictures/1000000000000600000008008135383A.png" alt="USB hub" width="300px" />
 
 ---
 #### G5. Connect XIAO to USB hub
@@ -747,7 +749,7 @@ Connect the 3.5mm audio out jack on your USB DAC to the short 3.5mm TRS extensio
 
 Connect the 3.5mm Female end of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use hot glue to affix in place.
 
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" alt="Audio jack mounted" width="300px" />
+<img src="images/Pictures/1000000000000600000008008135383A.png" alt="Audio jack mounted" width="300px" />
 
 <img src="images/Pictures/1000000100000221000002E17277E344.png" alt="Audio jack external" width="300px" />
 
@@ -756,7 +758,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 
 Mount the board with your OLED screen and gamepad buttons so that the screen is visible and the buttons are accessible during gameplay.
 
-<img src="images/Pictures/100000000000082900000EA3CFEA28D2.jpg" alt="OLED mounted" width="300px" />
+<img src="images/Pictures/100000000000082900000EA3CFEA28D2.png" alt="OLED mounted" width="300px" />
 
 ---
 #### G10. Wire management
@@ -768,7 +770,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 - All connections are secure, and nothing will be bent or stressed or pulled loose when the box is closed
 - As much as possible, route your VCC power lines and ground lines away from signal wires and button wires
 
-<img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" alt="Control box interior" width="300px" />
+<img src="images/Pictures/1000000000000CF300000B20F5026C3E.png" alt="Control box interior" width="300px" />
 
 ### H: Floor Stand
 
@@ -793,7 +795,7 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 
 The beauty of my Project is that you can adjust the Drum and make it perform just how you want regardless of Drum cover.
 
-<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" alt="Finished drum" width="300px" />
+<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.png" alt="Finished drum" width="300px" />
 
 ---
 
@@ -950,7 +952,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
-- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
+- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/OpenStickCommunity-1049366310389289001)
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
