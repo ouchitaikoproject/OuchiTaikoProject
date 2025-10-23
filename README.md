@@ -21,7 +21,7 @@
 - [7: Flash The Firmware](#7-flash-the-firmware)
 - [8: Calibration & Setup](#8-calibration--setup)
 - [9: Files & Downloads](#9-files--downloads)
-- [10: Basic Troubleshooting](#10-basic-troubleshooting)
+- [10: Basic Troubleshooting](#10: Basic Troubleshooting)
 - [11: About](#11-about)
 - [12: Copyright Information](#12-copyright-information)
 
@@ -120,10 +120,6 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 ---
 
-*[↑ Return to Table of Contents](#table-of-contents)*
-
----
-
 ## 2: Parts List for Electronics
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -166,10 +162,6 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 </div>
 
 </details>
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -230,10 +222,6 @@ This guide assumes you have access to the following:
 </div>
 
 </details>
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -542,10 +530,6 @@ Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins
 </div>
 
 That's it for that step; the hard part is over!
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -916,10 +900,6 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
 ---
 
-*[↑ Return to Table of Contents](#table-of-contents)*
-
----
-
 ## 6: Control Box
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -1086,10 +1066,6 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 
 ---
 
-*[↑ Return to Table of Contents](#table-of-contents)*
-
----
-
 ## 7: Flash The Firmware
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -1111,10 +1087,6 @@ Drag `universal_flash_nuke.uf2` to the root of the removable drive. This wipes t
 Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.
 
 You're ready for calibration and testing!
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -1195,10 +1167,6 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-*[↑ Return to Table of Contents](#table-of-contents)*
-
----
-
 ## 9: Files & Downloads
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -1213,10 +1181,6 @@ You've just built a professional controller circuit with adaptive baseline techn
 - [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 - [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 - To Download a copy of this guide, use the download link on the landing page at [www.OuchiTaiko.com](http://www.OuchiTaiko.com) or simply save the PDF using your Web Browser's preferred method
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -1265,10 +1229,6 @@ If you have trouble with a particular game version, note your current emulation 
 
 ---
 
-*[↑ Return to Table of Contents](#table-of-contents)*
-
----
-
 ## 11: About
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -1291,7 +1251,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
-- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.gg/openstickcommunity-1049366310389289001)
+- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
@@ -1300,10 +1260,6 @@ I also want to take a moment to mention a few resources that were invaluable for
 Please share your results and excitement as well as this guide with your favorite DIY gaming communities. Tag me (KillerQ97) when you do!
 
 Enjoy, Have Fun, and Peace Out!
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
@@ -1342,10 +1298,6 @@ Any distribution of this firmware (binary or source) must include:
 Thank you,
 
 **KillerQ**
-
----
-
-*[↑ Return to Table of Contents](#table-of-contents)*
 
 ---
 
