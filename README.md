@@ -21,7 +21,7 @@
 - [7: Flash The Firmware](#7-flash-the-firmware)
 - [8: Calibration & Setup](#8-calibration--setup)
 - [9: Files & Downloads](#9-files--downloads)
-- [10: Basic Troubleshooting](#10: Basic Troubleshooting)
+- [10: Basic Troubleshooting](#10-basic-troubleshooting)
 - [11: About](#11-about)
 - [12: Copyright Information](#12-copyright-information)
 
