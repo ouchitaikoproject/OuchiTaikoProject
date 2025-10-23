@@ -1276,7 +1276,7 @@ As mentioned above, this project builds upon the outstanding work of the open-so
 The most critical requirement of both licenses is to **include a copy of their respective license terms and copyright notices** in all distributions. You can find the complete license documentation here:
 
 - **MIT License (DonCon2040):** <https://github.com/ravinrabbid/DonCon2040/blob/main/LICENSE>
-- **Apache License 2.0 (HIDtaiko):** <https://github.com/kasasiki3/HIDtaiko/blob/main/LICENSE>
+- **Apache License 2.0 (HIDtaiko):** <https://github.com/kasasiki3/HIDtaiko/blob/master/LICENSE>
 
 All custom features, modifications, and improvements documented in this project (including KillerQ's creation of Big Notes detection, SimulTap mode, PS4 always-on, adaptive baseline tracking, critical mode-switching fixes, animated display system, enhanced menu navigation, and any other custom creations or modifications to include code, physical circuitry, Drum, or Drum-related design features and components) are transparently documented and shared under the same open-source spirit. I believe in giving credit where credit is due and maintaining the collaborative nature of the maker community. If you build upon this work, please honor these licenses by including proper attribution and license notices in your derivative projects as well as mentioning and/or tagging me, 'KillerQ.'
 
