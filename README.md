@@ -2,9 +2,7 @@
 
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px;">
 
-<div align="center">
 > *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
-</div>
 
 **Smarter. Simpler. Better.**
 
@@ -12,22 +10,22 @@
 
 ## Table of Contents
 
-- [✨ 1: PROJECT OVERVIEW & FEATURES](#✨-1-project-overview--features)
-- [⚡ 2: REQUIRED PARTS: ELECTRONICS LIST](#⚡-2-required-parts-electronics-list)
-- [🛠️ 3: REQUIRED PARTS: HARDWARE LIST](#🛠️-3-required-parts-hardware-list)
-- [🔌 4: ASSEMBLY: BUILDING THE CIRCUIT](#🔌-4-assembly-building-the-circuit)
-- [🔨 5: CONSTRUCTION: BUILDING THE DRUM](#🔨-5-construction-building-the-drum)
-- [🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING](#🕹️-6-assembly-control-box-housing)
-- [💾 7: SOFTWARE: FLASHING THE FIRMWARE](#💾-7-software-flashing-the-firmware)
-- [✅ 8: SETUP: CALIBRATION & TESTING](#✅-8-setup-calibration--testing)
-- [⬇️ 9: FILES & DOWNLOADS](#⬇️-9-files--downloads)
-- [🔧 10: SUPPORT: TROUBLESHOOTING GUIDE](#🔧-10-support-troubleshooting-guide)
-- [i 11: ABOUT THE OUCHITAIKO PROJECT](#i-11-about-the-ouchitaiko-project)
-- [©️ 12: COPYRIGHT & LICENSES](#️-12-copyright--licenses)
+- [1: Project Overview](#1-project-overview)
+- [2: Parts List for Electronics](#2-parts-list-for-electronics)
+- [3: Parts List for Hardware](#3-parts-list-for-hardware)
+- [4: Build the Circuit](#4-build-the-circuit)
+- [5: Build the Drum](#5-build-the-drum)
+- [6: Control Box](#6-control-box)
+- [7: Flash The Firmware](#7-flash-the-firmware)
+- [8: Calibration & Setup](#8-calibration--setup)
+- [9: Files & Downloads](#9-files--downloads)
+- [10: Basic Troubleshooting](#10-basic-troubleshooting)
+- [11: About](#11-about)
+- [12: Copyright Information](#12-copyright-information)
 
 ---
 
-## ✨ 1: PROJECT OVERVIEW & FEATURES
+## 1: Project Overview
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -49,9 +47,8 @@ All you need is enthusiasm and basic soldering and woodworking skills. The compo
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
->
 <details>
-<summary>✨ Unprecedented Performance & Design</summary>
+<summary><b>📋 Unprecedented Performance & Design</b></summary>
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
@@ -60,9 +57,8 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
->
 <details>
-<summary>✨ Advanced Hardware & Connectivity</summary>
+<summary><b>🔧 Advanced Hardware & Connectivity</b></summary>
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
@@ -87,9 +83,8 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 </details>
 
->
 <details>
-<summary>✨ 14 Input Modes for Maximum Compatibility</summary>
+<summary><b>🎮 14 Input Modes for Maximum Compatibility</b></summary>
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -112,7 +107,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 - [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
 - [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
-- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-r)
+- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
 ---
@@ -121,7 +116,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 ---
 
-## ⚡ 2: REQUIRED PARTS: ELECTRONICS LIST
+## 2: Parts List for Electronics
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -129,9 +124,8 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
 
->
 <details>
-<summary>⚡ View Electronics Parts List</summary>
+<summary><b>📦 Click to expand Electronics Parts List</b></summary>
 
 <div style="overflow-x: auto;">
 
@@ -171,7 +165,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ---
 
-## 🛠️ 3: REQUIRED PARTS: HARDWARE LIST
+## 3: Parts List for Hardware
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -181,9 +175,8 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ### Required Tools and Supplies
 
->
 <details>
-<summary>🛠️ View Required Tools & Supplies</summary>
+<summary><b>🛠️ Click to view required tools</b></summary>
 
 This guide assumes you have access to the following:
 
@@ -203,9 +196,8 @@ This guide assumes you have access to the following:
 
 ### Hardware Parts List
 
->
 <details>
-<summary>📦 View Hardware Parts List</summary>
+<summary><b>📦 Click to expand Hardware Parts List</b></summary>
 
 <div style="overflow-x: auto;">
 
@@ -237,7 +229,7 @@ This guide assumes you have access to the following:
 
 ---
 
-## 🔌 4: ASSEMBLY: BUILDING THE CIRCUIT
+## 4: Build the Circuit
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -262,13 +254,13 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 
 ### Circuit Diagram
 
-<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%" style="max-width: 1000px;">
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
 
 💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
-<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="100%" style="max-width: 1000px;">
 
 *(Enlarged Pin-outs of the main boards for easy reference)*
 
@@ -307,13 +299,13 @@ Be sure that the VCC rails on both sides of the board are connected to each othe
 1. Solder the anode end (the side *without* the stripe) of a 1N4148 diode to pin A0/P26
 2. Solder the opposite, *striped* end (cathode) of the diode to the common ground rail as close to the pin as possible
 3. Solder one end of a 100nF capacitor to pin A0/P26 (no polarity here, either end is fine)
-4. Solder the other end of a 100nF capacitor to the common ground rail as close to the pin as possible
+4. Solder the other end of the 100nF capacitor to the common ground rail as close to the pin as possible
 5. Connect a yellow signal wire from pin A0/P26 to the *TIP* terminal of TRS Jack 1 (Left Ka)
 6. Connect a black GND wire between the common ground rail and the SLEEVE terminal of TRS Jack 1
 
-<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="100%" style="max-width: 600px;">
 
-<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="100%" style="max-width: 600px;">
 
 The photos below show several variants of connecting the capacitors and diodes.
 
@@ -326,11 +318,11 @@ This example has the diodes on top of the board and the capacitors on the unders
 
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
-<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="100%" style="max-width: 600px;">
 
 This is an example of a removable TRS input jack using a JST connection:
 
-<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="100%" style="max-width: 400px;">
 
 ---
 
@@ -417,7 +409,7 @@ Reminder: this board will house the display and buttons for the gamepad navigati
 
 Connect a wire between the SDA soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SDA pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -425,7 +417,7 @@ Connect a wire between the SDA soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the SCL soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SCL pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D00000220D210F258.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000046D00000220D210F258.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -433,7 +425,7 @@ Connect a wire between the SCL soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the VCC soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the VCC pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D0000022040573B96.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000046D0000022040573B96.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -441,7 +433,7 @@ Connect a wire between the VCC soldering point on the MCP23017 board (opposite e
 
 Connect a wire between the GND soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the GND pin on the OLED Display.
 
-<img src="images/Pictures/100000010000046D000002207116B219.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000046D000002207116B219.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -453,7 +445,7 @@ Connect a wire between the GND soldering point on the MCP23017 board (opposite e
 
 Solder your 14 navigation buttons to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
 
-<img src="images/Pictures/1000000100000566000003318F39E808.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000566000003318F39E808.png" width="100%" style="max-width: 700px;">
 
 ---
 
@@ -511,7 +503,7 @@ That's it for that step; the hard part is over!
 
 ---
 
-## 🔨 5: CONSTRUCTION: BUILDING THE DRUM
+## 5: Build the Drum
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -577,7 +569,7 @@ Using an 8mm diameter drill bit (or the specialized drill bit that came with you
 
 Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
 
-<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="100%" style="max-width: 600px;">
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -587,8 +579,8 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 
 Screw in the 14 individual M6 threaded wood inserts into the appropriate holes until flush (add Superglue to the *outside* of threads to help secure them to wood).
 
-<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="100%" style="max-width: 800px;">
-<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -596,9 +588,9 @@ Screw in the 14 individual M6 threaded wood inserts into the appropriate holes u
 
 Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to the wood with a mallet (add Superglue to *outside* of threads to help secure to wood) - this is where the sensor housings will mount later on.
 
-*Note: Your orientation will be different, this is just an example from an -arlier version.*
+*Note: Your orientation will be different, this is just an example from an earlier version.*
 
-<img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -610,7 +602,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 
 Cut the head off of a 20mm M6 nylon bolt.
 
-<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="100%" style="max-width: 700px;">
 
 ---
 
@@ -624,8 +616,8 @@ Apply one drop or less of Loctite to threads on the inside of the rubber isolato
 
 Screw the headless bolt into isolator until it stops.
 
-<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="100%" style="max-width: 800px;">
-<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="100%" style="max-width: 600px;">
+<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -643,7 +635,7 @@ Repeat C1-C5 for the remaining 13 similar holes.
 
 This metal bolt will go through the matching holes in the drum baseplate in a later step.
 
-<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="100%" style="max-width: 600px;">
 
 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
 
@@ -760,7 +752,7 @@ Place your speaker bracket against the backside of your rear base plates so that
 
 Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
-<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -786,7 +778,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
 Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -794,7 +786,7 @@ Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bo
 
 Route sensor wires through nearest openings.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -802,7 +794,7 @@ Route sensor wires through nearest openings.
 
 Secure the drum faces with the M6 knobs on exposed bolts.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -812,7 +804,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 *Note: You will not have connected the barrel connectors yet, photo for placement reference.*
 
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -820,7 +812,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -828,7 +820,7 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
 ---
 
-## 🕹️ 6: ASSEMBLY: CONTROL BOX HOUSING
+## 6: Control Box
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -867,7 +859,7 @@ The next step will incorporate a few last steps to make the connections more use
 
 Mount the 4 Female TRS jacks that are part of your circuit to the wall of your control box so that they face the outside.
 
-<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="100%" style="max-width: 600px;">
 
 <img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px;">
 
@@ -879,7 +871,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 
 <img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px;">
 
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -917,7 +909,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 
 <img src="images/Pictures/1000000000000600000008008135383A.jpg" width="100%" style="max-width: 800px;">
 
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -950,7 +942,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 Mount bracket to the speaker stand.
 
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 800px;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px;">
 
 ---
 
@@ -976,7 +968,7 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 
 ---
 
-## 💾 7: SOFTWARE: FLASHING THE FIRMWARE
+## 7: Flash The Firmware
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1004,7 +996,7 @@ You're ready for calibration and testing!
 
 ---
 
-## ✅ 8: SETUP: CALIBRATION & TESTING
+## 8: Calibration & Setup
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1085,7 +1077,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## ⬇️ 9: FILES & DOWNLOADS
+## 9: Files & Downloads
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1104,13 +1096,12 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## 🔧 10: SUPPORT: TROUBLESHOOTING GUIDE
+## 10: Basic Troubleshooting
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
->
 <details>
-<summary>🔧 Fix: Display Issues (Blank, Frozen, Etc.)</summary>
+<summary><b>🖥️ DISPLAY Issues</b></summary>
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
@@ -1119,9 +1110,8 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
->
 <details>
-<summary>🔧 Fix: Sensor Issues (No Response, Crosstalk)</summary>
+<summary><b>🥁 SENSOR Issues</b></summary>
 
 - **No response:** Check diode polarity, TRS wiring
 - **False triggers:** Increase thresholds
@@ -1130,18 +1120,16 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
->
 <details>
-<summary>🔧 Fix: Mode Switching Issues</summary>
+<summary><b>🎮 MODE SWITCHING Issues</b></summary>
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
 </details>
 
->
 <details>
-<summary>🔧 Fix: Audio Issues (No Sound, Crackling, Latency)</summary>
+<summary><b>🔊 AUDIO Issues</b></summary>
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
@@ -1157,7 +1145,7 @@ If you have trouble with a particular game version, note your current emulation 
 
 ---
 
-## i 11: ABOUT THE OUCHITAIKO PROJECT
+## 11: About
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1179,7 +1167,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
-- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
+- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.gg/openstickcommunity-1049366310389289001)
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
@@ -1195,7 +1183,7 @@ Enjoy, Have Fun, and Peace Out!
 
 ---
 
-## ©️ 12: COPYRIGHT & LICENSES
+## 12: Copyright Information
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1238,4 +1226,3 @@ Thank you,
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
-```
