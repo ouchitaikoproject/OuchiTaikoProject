@@ -1,4 +1,584 @@
-eoprene discs**
+I’ll add light gray horizontal separators between the steps in your README. Here’s the updated markdown with separators strategically placed to improve readability:
+
+# KillerQ’s OuchiTaiko Project
+
+![Project Banner](images/Pictures/10000001000009F600000CE4BA065654.png)
+
+> *In Japanese, ‘ouchi’ (おうち) means ‘home’ and ‘taiko’ (太鼓) means ‘drum.’ Together, ‘OuchiTaiko’ represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
+
+**Smarter. Simpler. Better.**
+
+-----
+
+## Table of Contents
+
+- [1: Project Overview](#1-project-overview)
+- [2: Parts List for Electronics](#2-parts-list-for-electronics)
+- [3: Parts List for Hardware](#3-parts-list-for-hardware)
+- [4: Build the Circuit](#4-build-the-circuit)
+- [5: Build the Drum](#5-build-the-drum)
+- [6: Control Box](#6-control-box)
+- [7: Flash The Firmware](#7-flash-the-firmware)
+- [8: Calibration & Setup](#8-calibration--setup)
+- [9: Files & Downloads](#9-files--downloads)
+- [10: Basic Troubleshooting](#10-basic-troubleshooting)
+- [11: About](#11-about)
+- [12: Copyright Information](#12-copyright-information)
+
+-----
+
+## 1: Project Overview
+
+![Drum Photos](images/Pictures/1000000000000753000009C4E8EB3F27.jpg)
+![Drum Photos](images/Pictures/10000000000009C4000009A1F933F88D.jpg)
+![Drum Photos](images/Pictures/1000000000000753000009C464647684.jpg)
+
+**Congratulations!** Welcome to “KillerQ’s OuchiTaiko Project: Arcade Controller Build Guide.” You’re about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
+
+The OuchiTaiko Project features a pioneering adaptive drum design—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
+
+**Smarter. Simpler. Better.**
+
+Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses adaptive software intelligence to achieve superior performance through elegant simplicity.
+
+All you need is enthusiasm and basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
+
+### What You’ll Build: Next-Generation Features
+
+You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
+
+#### Unprecedented Performance & Design
+
+- **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
+- **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
+- **Adaptive Baseline Technology:** Custom-designed velocity-sensing for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by hitting big Notes *harder*
+- **Zero Coding Required:** Drag-and-drop firmware for simple setup
+
+#### Advanced Hardware & Connectivity
+
+- **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
+
+**IDLE SCREEN SHOWS:**
+
+- Controller mode (top)
+- Streak counter (live roll count)
+- 4 animated characters (react to hits)
+- Player LEDs (PS4 mode, top-right)
+- Menu hint (bottom)
+
+**VISUAL FEEDBACK:**
+
+- Each character = one drum pad (left to right: Ka L, Don L, Don R, Ka R)
+- Characters squish when hit
+- 60fps smooth animation
+- Instant hit confirmation
+
+**HARDWARE:**
+
+- **14 Navigation Buttons:** Full in-game navigation regardless of game version
+- **Built-in 3.5mm Headphone Jack:** Lag-free audio right at the drum
+- **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
+- **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
+
+#### 14 Input Modes for Maximum Compatibility
+
+- Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
+- Nintendo Switch Pro Controller
+- Sony PS3 Dualshock3
+- Sony PS4 Tatacon Drum (HORI PS4-095 Taiko Drum)
+- Sony PS4 Dualshock4 (PC/Steam only)
+- Keyboard Player 1
+- Keyboard Player 2
+- Microsoft Xbox Xbox360 (XInput)(Compatible with TaikoArcadeLoader)
+- Android (XInput)
+- iOS (XInput)
+- Analog Player 1 (XInput)(Compatible with TaikoArcadeLoader)
+- Analog Player 2 (XInput)(Compatible with TaikoArcadeLoader)
+- MIDI Controller
+- Debug Mode
+
+### 🎥 Demo Videos
+
+- [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
+- [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
+- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
+- [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
+
+-----
+
+## 2: Parts List for Electronics
+
+The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
+
+**Important:** “Quantity” refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
+
+|# |Item                                                         |Qty|Product Link                  |
+|--|-------------------------------------------------------------|---|------------------------------|
+|1 |XIAO RP2040 board (Seeed Studio)                             |1  |[Link](https://a.co/d/g9dFG88)|
+|2 |MCP23017 I2C expander Board                                  |1  |[Link](https://a.co/d/er7ux8r)|
+|3 |1N4148 diodes                                                |4  |[Link](https://a.co/d/jlNKdaJ)|
+|4 |100nF capacitor (same as 0.1 µf)                             |4  |[Link](https://a.co/d/fP04dyW)|
+|5 |3.5mm TRS FEMALE jacks w/ screw terminals                    |4  |[Link](https://a.co/d/2umR9us)|
+|6 |3.5mm TRS male w/ standard ends                              |4  |[Link](https://a.co/d/414YG9z)|
+|7 |27mm Piezo sensors                                           |4  |[Link](https://a.co/d/hbacbaF)|
+|8 |128x64 Mono OLED display (I2C)                               |1  |[Link](https://a.co/d/bHAtiY2)|
+|9 |Tactile buttons (6mm or your choice)                         |14 |[Link](https://a.co/d/2j6JNsp)|
+|10|22 AWG Siamese wire                                          |1  |[Link](https://a.co/d/0pGa2wH)|
+|11|Small USB-A hub (2+ ports)                                   |1  |[Link](https://a.co/d/4vWTHAC)|
+|12|USB Audio DAC with 3.5mm output (32-bit, 48kHz)              |1  |[Link](https://a.co/d/au4BLDH)|
+|13|6 inch 3.5mm TRS audio extension cable (Male to Female)      |1  |[Link](https://a.co/d/cesBnrm)|
+|14|USB-A to USB-C converter                                     |1  |[Link](https://a.co/d/bG4QJUF)|
+|15|Short USB-C to USB-A extension cable                         |1  |[Link](https://a.co/d/d61CuLt)|
+|16|6 inch, coiled 3.5mm TRS audio extension cable (Male to Male)|4  |[Link](https://a.co/d/cSKAJ7D)|
+|17|3.5mm TRS barrel coupler                                     |4  |[Link](https://a.co/d/fOiYb5s)|
+|18|JST-XH 2.54mm Pitch connector kit                            |1  |[Link](https://a.co/d/11FXUlI)|
+|19|22 AWG Connection Ribbon Wire                                |1  |[Link](https://a.co/d/1D5mJ8Z)|
+|20|2.54mm pitch Header Pins                                     |1  |[Link](https://a.co/d/6D4ftKM)|
+|21|Female DuPont connector wires                                |1  |[Link](https://a.co/d/a7tXZma)|
+|22|Blank Protoboard Circuit Boards                              |3  |[Link](https://a.co/d/2yOqCkd)|
+|23|10ft USB-C to USB-C Cable                                    |1  |[Link](https://a.co/d/6F0Ic5R)|
+
+-----
+
+## 3: Parts List for Hardware
+
+The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
+
+**Important:** “Quantity” refers to the number of individual items you need, NOT the package size sold at the link.
+
+### Required Tools and Supplies
+
+This guide assumes you have access to the following:
+
+1. Laser cutter or CNC machine (or other means to cut wood)
+1. Soldering iron and solder
+1. Wire strippers/cutters
+1. Screwdrivers
+1. Hot glue gun
+1. Strong clamps
+1. Drill
+1. Router
+1. Sandpaper
+1. Utility knife
+1. Rubber mallet
+
+### Hardware Parts List
+
+|# |Item                                                                                                                                       |Qty|Product Link                                                                                                                       |
+|--|-------------------------------------------------------------------------------------------------------------------------------------------|---|-----------------------------------------------------------------------------------------------------------------------------------|
+|1 |6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files                                             |1  |[Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) or call local lumberyard|
+|2 |Strong Wood Glue                                                                                                                           |1  |[Link](https://a.co/d/1uKv6cR)                                                                                                     |
+|3 |M3x8mm bolts                                                                                                                               |8  |[Link](https://a.co/d/52Q8UtD)                                                                                                     |
+|4 |M3x5mm threaded inserts                                                                                                                    |8  |[Link](https://a.co/d/bKB6OpW)                                                                                                     |
+|5 |M6x10mm wood threaded inserts                                                                                                              |14 |[Link](https://a.co/d/jhY5rYA)                                                                                                     |
+|6 |M6x20mm nylon bolts                                                                                                                        |14 |[Link](https://a.co/d/bPitQiX)                                                                                                     |
+|7 |M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt)                                                  |14 |[Link](https://a.co/d/9dWHezk)                                                                                                     |
+|8 |3D printer filament (PLA)                                                                                                                  |1  |[Link](https://a.co/d/7cCSDtJ)                                                                                                     |
+|9 |Gel Superglue                                                                                                                              |1  |[Link](https://a.co/d/dxU7lfw)                                                                                                     |
+|10|Loctite thread adhesive - Medium                                                                                                           |1  |[Link](https://a.co/d/2W890aJ)                                                                                                     |
+|11|2.2mm thick Scuba Knit Neoprene fabric (only 4”x4” total needed)                                                                           |1  |[Link](https://a.co/d/dfMhZ4k)                                                                                                     |
+|12|Finger Knobs with pass-through M6 threads                                                                                                  |18 |[Link](https://a.co/d/hjL3QQP)                                                                                                     |
+|13|Mini PA speaker stand (or a stand with a compliant interface that matches your mount below)                                                |1  |[Link](https://a.co/d/2YkmhPj)                                                                                                     |
+|14|Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above)                                                  |1  |[Link](https://a.co/d/gQioU8i)                                                                                                     |
+|15|Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.)|1  |[Link](https://taiko.ac/products/rubber-drum-pad)                                                                                  |
+
+-----
+
+## 4: Build the Circuit
+
+🎥 [Video overview of circuit building process](https://youtu.be/Zif1cv-oa6k)
+
+This guide states the core objective of each step and provides example approaches through photos. Multiple layouts and methods can work.
+
+**Critical:** Use a multimeter to test continuity as you go. A two-second check can save hours of troubleshooting caused by a poor solder joint or loose wire.
+
+Review all steps, videos, and images before beginning to allow for optimal planning. This guide provides a 100% working system when followed as-is. However, as long as you adhere to the electrical theory and circuit structure, you can adjust and use creative freedom according to your comfort level.
+
+### Circuit Overview
+
+The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the drum panel sensors. The external MCP23017 board handles the OLED display and navigation buttons.
+
+### Tips for Success
+
+- Use color-coded wires for easy identification
+- Test each phase with a multimeter for continuity before proceeding
+- Label everything during assembly
+- Take time with soldering connections
+
+### Circuit Diagram
+
+![Circuit Diagram](images/Pictures/1017A8F200011F380000DE6AE0BF0922.png)
+
+**Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons – that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
+
+💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+
+![Enlarged Pin-outs](images/Pictures/10000001000009F600000D02F3BF30D0.png)
+
+*(Enlarged Pin-outs of the main boards for easy reference)*
+
+### A: XIAO Board Trigger Circuit
+
+💾 [The full-resolution circuit schematic can be downloaded here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+
+-----
+
+**A1. Mount the XIAO RP2040 to a blank circuit board**
+
+You will be soldering multiple components to the same pins, leaving ample space and utilization of the shared rows will help.
+
+![XIAO mounted](images/Pictures/100000000000080000000600006BD9A8.jpg)
+
+-----
+
+**A2. Connect the GND pin on the XIAO RP2040 to the common ground rail of the protoboard**
+
+Be sure that the GND rails on both sides of the board are connected to each other. Some boards require a solder bridge to achieve this.
+
+-----
+
+**A3. Connect the VCC 3.3V pin on the XIAO RP2040 to the common VCC power rail of the protoboard**
+
+Be sure that the VCC rails on both sides of the board are connected to each other. Some boards require a solder bridge to achieve this.
+
+-----
+
+**A4. Pin “P26” (Left Ka):**
+
+1. Solder the anode end (the side *without* the stripe) of a 1N4148 diode to pin A0/P26
+1. Solder the opposite, *striped* end (cathode) of the diode to the common ground rail as close to the pin as possible
+1. Solder one end of a 100nF capacitor to pin A0/P26 (no polarity here, either end is fine)
+1. Solder the other end of the 100nF capacitor to the common ground rail as close to the pin as possible
+1. Connect a yellow signal wire from pin A0/P26 to the *TIP* terminal of TRS Jack 1 (Left Ka)
+1. Connect a black GND wire between the common ground rail and the SLEEVE terminal of TRS Jack 1
+
+![Diode and capacitor diagram](images/Pictures/10000001000003FF0000038627712BCD.png)
+
+![Diode closeup](images/Pictures/100000010000023F000000D8085F9677.png)
+
+The photos below show several variants of connecting the capacitors and diodes.
+
+This example has the diodes on top of the board and the capacitors on the underside to allow more room to work:
+
+![Top view](images/Pictures/100000000000060D000004FD52D8B4F8.jpg)
+![Bottom view](images/Pictures/100000000000051B00000364BB6B5E07.jpg)
+
+This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
+
+![JST connectors](images/Pictures/10000001000001FC0000029AE2FB34AC.png)
+
+This is an example of a removable TRS input jack using a JST connection:
+
+![TRS jack](images/Pictures/100000010000013F000001DF59A6E42F.png)
+
+-----
+
+**Repeat the exact same 6-step process from A4 above for each of the three remaining analog pins. Use the following pin assignments and wire colors:**
+
+|Step|Pin   |Drum Zone|Signal Wire Color|TRS Jack #|
+|----|------|---------|-----------------|----------|
+|A5  |A1/P27|Left Don |Orange           |Jack 2    |
+|A6  |A2/P28|Right Don|Green            |Jack 3    |
+|A7  |A3/P29|Right Ka |Blue             |Jack 4    |
+
+**Summary: For each pin, complete these steps:**
+
+1. Solder 1N4148 diode (anode to pin, cathode to ground)
+1. Solder 100nF capacitor (one end to pin, other end to ground)
+1. Connect colored signal wire from pin to TRS Jack TIP terminal
+1. Connect black wire from ground rail to TRS Jack SLEEVE terminal
+
+-----
+
+### I2C Control Board Circuit Mounting and Power
+
+**A8. Mount the MCP23017 GPIO Expander on a blank board**
+
+Mount the MCP23017 GPIO Expander on a blank board that is large enough to also house the OLED display and navigation buttons (buttons added later in this guide).
+
+Connect the wiring harness that came with the MCP23017 board. You can clip wires number 5 and 6 off. You will only be using the first 4 wires on this harness (red, black, blue, and yellow).
+
+This board will house the display and buttons for the navigation. Plan enough space accordingly. In this photo, the MCP23017 is mounted on the rear of the board:
+
+![MCP23017 mounted](images/Pictures/10000000000009AE00000C346364AD26.jpg)
+
+-----
+
+**A9. Connect Power**
+
+Using the wires from the harness you just plugged in, connect the VCC (red) wire to the VCC power rail on your main board that you built where the XIAO 2040 Board is mounted.
+
+Now, connect the GND (black) wire from the harness to the GND rail on your main board that you built where the XIAO 2040 Board is mounted.
+
+This 2-wire connection will be powering the MCP23017 board and will also provide pass-through power for the OLED display.
+
+-----
+
+### MCP23017 Data Connections
+
+**Note:** Pins A7 and B7 will *not* be used for this project.
+
+**A10. Connect SDA**
+
+Connect the SDA (blue) wire on the MCP23017 harness to Pin 6 (SDA) on the XIAO 2040 board.
+
+This is one of the two wires that sends the display and navigation buttons data back and forth during use.
+
+-----
+
+**A11. Connect SCL**
+
+Connect the SCL (yellow) wire on the MCP23017 harness to Pin 7 (SCL) on the XIAO 2040 board.
+
+This is the other of the two wires that sends the display and navigation buttons data back and forth during use.
+
+-----
+
+### I2C OLED Display Circuit
+
+**A12. Mount the OLED display**
+
+Mount the OLED display on the same board as the MCP23017 (and navigation buttons).
+
+Reminder: this board will house the display and buttons for the gamepad navigation. Plan accordingly.
+
+-----
+
+**A13. Connect SDA to display**
+
+Connect a wire between the SDA soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SDA pin on the OLED Display.
+
+![SDA connection](images/Pictures/100000010000046D00000220ECE6EDA1.png)
+
+-----
+
+**A14. Connect SCL to display**
+
+Connect a wire between the SCL soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SCL pin on the OLED Display.
+
+![SCL connection](images/Pictures/100000010000046D00000220D210F258.png)
+
+-----
+
+**A15. Connect VCC to display**
+
+Connect a wire between the VCC soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the VCC pin on the OLED Display.
+
+![VCC connection](images/Pictures/100000010000046D0000022040573B96.png)
+
+-----
+
+**A16. Connect GND to display**
+
+Connect a wire between the GND soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the GND pin on the OLED Display.
+
+![GND connection](images/Pictures/100000010000046D000002207116B219.png)
+
+-----
+
+### Navigation/Gamepad Buttons
+
+**A17. Solder navigation buttons**
+
+Solder your 14 navigation buttons to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
+
+![Button layout](images/Pictures/1000000100000566000003318F39E808.png)
+
+-----
+
+**A18. Connect button grounds**
+
+Connect one leg of each of the 14 buttons to the common ground rail.
+
+You can also daisy-chain the ground wire between all buttons and then to a ground rail. Here are a few different example scenarios.
+
+The first and second photos have all the grounds terminating at JST connectors that plug into a connector on the ground rail:
+
+![Ground example 1](images/Pictures/100000000000080000000600206460C4.jpg)
+![Ground example 2](images/Pictures/1000000000000800000006007E8007EB.jpg)
+
+In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
+
+![Ground example 3](images/Pictures/10000000000006FC00000794DEC0E2F7.jpg)
+
+-----
+
+**A19. Connect button signals**
+
+Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins according to this guide (referencing the full circuit schematic may help here):
+
+|Button       |Connect to|
+|-------------|----------|
+|Button North |A0        |
+|Button South |A1        |
+|Button West  |A2        |
+|Button East  |A3        |
+|Button R     |A4        |
+|Button Start |A5        |
+|Button Home  |A6        |
+|Button UP    |B0        |
+|Button Down  |B1        |
+|Button Left  |B2        |
+|Button Right |B3        |
+|Button L     |B4        |
+|Button Select|B5        |
+|Button Share |B6        |
+
+![Button wiring example](images/Pictures/10000000000006FC00000794DEC0E2F7.jpg)
+
+That’s it for that step; the hard part is over!
+
+-----
+
+## 5: Build the Drum
+
+**Important:** The SVG files are provided at the correct scale and should NOT be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.
+
+To verify the SVG files are at the correct scale before cutting, check that the 14 mounting holes in the drum base measure exactly 6mm in diameter.
+
+**No CNC access?** Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / “Actual Size”), overlay the paper on your wood as a template, and cut and drill by hand.
+
+### B: Prepare the Wood
+
+**B1. Cut all MDF wood pieces per SVG templates**
+
+💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+
+You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machine or Laser cutter isn’t available. You can check with your local Makerspace for assistance as well.
+
+-----
+
+**B2. Sand smooth as needed**
+
+-----
+
+### Assemble the Drum Structure
+
+**B3. Glue rear base plates**
+
+Use Wood Glue to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
+
+![Base plates](images/Pictures/100000000000060000000800A4CE90BA.jpg)
+
+-----
+
+**B4. Glue drum panels**
+
+Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece on top + piece with pre-cut holes on bottom). Clamp securely or weigh down and let dry for several hours. Repeat this for the remaining three drum panels.
+
+*Note: Ignore the 4 smaller holes in the center, your version will be different and only have 2 holes - this is an example from an earlier version.*
+
+![Panel gluing](images/Pictures/100000000000080000000600B828828F.jpg)
+
+-----
+
+**B5. Router/sand Ka rim edges**
+
+Use a router or at least sand down the sharp outer, curved edge of the Ka rim faces. This helps prevent stick damage. Do not smooth/route the inside edges at all, just the outside curve.
+
+![Routing edges](images/Pictures/100000000000050A000005E069D763B9.jpg)
+
+-----
+
+**B6. Drill holes for threaded inserts**
+
+Using an 8mm diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut 6mm holes where the rubber grommets will go, and use those holes as guides to drill - you’ll drill into those 6mm holes and turn them into new 8mm wide x 11mm deep holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
+
+![Drilling](images/Pictures/1000000000000600000008002B78DEAA.jpg)
+
+-----
+
+**B7. Chamfer holes**
+
+Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
+
+![Chamfering](images/Pictures/10000001000003A80000036583CFC771.png)
+
+-----
+
+**B8. Install M6 threaded inserts**
+
+Screw in the 14 individual M6 threaded wood inserts into the appropriate holes until flush (add Superglue to the *outside* of threads to help secure them to wood).
+
+![M6 inserts](images/Pictures/10000001000002B4000002693C216CE2.png)
+![M6 inserts installed](images/Pictures/10000001000002CE000002D668B30CE1.png)
+
+-----
+
+**B9. Install M3 threaded inserts**
+
+Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to the wood with a mallet (add Superglue to *outside* of threads to help secure to wood) - this is where the sensor housings will mount later on.
+
+*Note: Your orientation will be different, this is just an example from an earlier version.*
+
+![M3 inserts](images/Pictures/100000010000024600000189C50C572B.png)
+
+-----
+
+### C: Install Rubber Isolators
+
+**C1. Cut nylon bolt head**
+
+Cut the head off of a 20mm M6 nylon bolt.
+
+![Cutting bolt](images/Pictures/10000001000004DD000002D79118BD45.png)
+
+-----
+
+**C2. Apply Loctite to isolator**
+
+Apply one drop or less of Loctite to threads on the inside of the rubber isolator threaded hole.
+
+-----
+
+**C3. Install bolt in isolator**
+
+Screw the headless bolt into isolator until it stops.
+
+![Bolt in isolator](images/Pictures/10000001000003B1000002DC0BD8FB16.png)
+![Bolt installed](images/Pictures/10000001000003EC000002E263D51B16.png)
+
+-----
+
+**C4. Apply Loctite to drum plate inserts**
+
+Add one drop or less of Loctite to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
+
+-----
+
+**C5. Install isolator assemblies**
+
+Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
+
+Repeat C1-C5 for the remaining 13 similar holes.
+
+This metal bolt will go through the matching holes in the drum baseplate in a later step.
+
+![Isolator installed](images/Pictures/1000000100000358000002DC0D4ED171.png)
+
+**Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
+
+-----
+
+### D: Print Housings
+
+**D1. Print 4 sets of complete sensor housings**
+
+💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+
+Use PLA filament.
+
+Settings: 0.2mm layer height, 40% Gyroid infill, no supports needed.
+
+-----
+
+### E: Assemble Sensors
+
+🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
+
+**Note:** The below steps will need to be repeated 4 times - you will have a total of 4 complete sensor dongles.
+
+**E1. Cut n​​​​​​​​​​​​​​​​eoprene discs**
 
 Cut four 12mm neoprene discs per SVG template.
 
