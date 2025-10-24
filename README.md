@@ -57,18 +57,16 @@ All you need is enthusiasm and basic soldering and woodworking skills. The compo
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
-<details>
-<summary><b>📋 Unprecedented Performance & Design</b></summary>
+
+<b>📋 Unprecedented Performance & Design</b>
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
 - **Adaptive Baseline Technology:** Custom-designed velocity-sensing for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by hitting big Notes *harder*
 - **Zero Coding Required:** Drag-and-drop firmware for simple setup
 
-</details>
 
-<details>
-<summary><b>🔧 Advanced Hardware & Connectivity</b></summary>
+<b>🔧 Advanced Hardware & Connectivity</b>
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
@@ -91,10 +89,9 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
 - **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
 
-</details>
 
-<details>
-<summary><b>🎮 14 Input Modes for Maximum Compatibility</b></summary>
+
+<b>🎮 14 Input Modes for Maximum Compatibility</b>
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -111,7 +108,6 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - MIDI Controller
 - Debug Mode
 
-</details>
 
 ### 🎥 Demo Videos
 
@@ -131,8 +127,8 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
 
-<details>
-<summary><b>📦 Click to expand Electronics Parts List</b></summary>
+
+
 
 <div style="overflow-x: auto;">
 
@@ -164,7 +160,6 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 </div>
 
-</details>
 
 ---
 
@@ -179,8 +174,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ### Required Tools and Supplies
 
-<details>
-<summary><b>🛠️ Click to view required tools</b></summary>
+
 
 This guide assumes you have access to the following:
 
@@ -196,12 +190,11 @@ This guide assumes you have access to the following:
 10. Utility knife
 11. Rubber mallet
 
-</details>
+
 
 ### Hardware Parts List
 
-<details>
-<summary><b>📦 Click to expand Hardware Parts List</b></summary>
+
 
 <div style="overflow-x: auto;">
 
@@ -225,7 +218,6 @@ This guide assumes you have access to the following:
 
 </div>
 
-</details>
 
 ---
 
@@ -1199,7 +1191,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 
-<details>
+
 <summary><b>🖥️ DISPLAY Issues</b></summary>
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
@@ -1209,7 +1201,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
-<details>
+
 <summary><b>🥁 SENSOR Issues</b></summary>
 
 - **No response:** Check diode polarity, TRS wiring
@@ -1219,7 +1211,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
-<details>
+
 <summary><b>🎮 MODE SWITCHING Issues</b></summary>
 
 - **Freezes:** Unplug/reconnect USB-C
@@ -1227,7 +1219,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 </details>
 
-<details>
+
 <summary><b>🔊 AUDIO Issues</b></summary>
 
 - **No sound:** Check USB DAC, verify audio output device
