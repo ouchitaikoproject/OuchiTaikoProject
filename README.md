@@ -469,6 +469,10 @@ Solder your 14 navigation buttons to your OLED circuit board in the same layout 
 <div align="center">
 <img src="images/Pictures/1000000100000566000003318F39E808.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
+<div align="center">
+<img src="images/Pictures/buttonscropped.jpg" width="550px" style="display: block; margin: 0 auto;">
+</div>
+
 
 ---
 
@@ -492,7 +496,7 @@ The first and second photos have all the grounds terminating at JST connectors t
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
 <div align="center">
-<img src="images/Pictures/buttonscropped.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
