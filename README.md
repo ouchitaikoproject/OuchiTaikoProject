@@ -1,5 +1,3 @@
-<div align="center"># KillerQ's OuchiTaiko Project</div>
-
 <div align="center">
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
