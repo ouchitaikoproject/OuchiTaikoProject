@@ -32,13 +32,13 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 
 
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C464647684.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C464647684.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 **Congratulations!** 
@@ -256,7 +256,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 ### Circuit Diagram
 
 <div align="center">
-<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="100%" style="max-width: 1000px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
@@ -264,7 +264,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
 <div align="center">
-<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="100%" style="max-width: 1000px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 *(Enlarged Pin-outs of the main boards for easy reference)*
@@ -284,7 +284,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 You will be soldering multiple components to the same pins, leaving ample space and utilization of the shared rows will help.
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600006BD9A8.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600006BD9A8.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -311,11 +311,11 @@ Be sure that the VCC rails on both sides of the board are connected to each othe
 6. Connect a black GND wire between the common ground rail and the SLEEVE terminal of TRS Jack 1
 
 <div align="center">
-<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 The photos below show several variants of connecting the capacitors and diodes.
@@ -323,10 +323,10 @@ The photos below show several variants of connecting the capacitors and diodes.
 This example has the diodes on top of the board and the capacitors on the underside to allow more room to work:
 
 <div align="center">
-<img src="images/Pictures/100000000000060D000004FD52D8B4F8.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060D000004FD52D8B4F8.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -334,13 +334,13 @@ This example has the diodes on top of the board and the capacitors on the unders
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
 <div align="center">
-<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 This is an example of a removable TRS input jack using a JST connection:
 
 <div align="center">
-<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="100%" style="max-width: 400px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -379,7 +379,7 @@ Connect the wiring harness that came with the MCP23017 board. You can clip wires
 This board will house the display and buttons for the navigation. Plan enough space accordingly. In this photo, the MCP23017 is mounted on the rear of the board:
 
 <div align="center">
-<img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -431,7 +431,7 @@ Reminder: this board will house the display and buttons for the gamepad navigati
 Connect a wire between the SDA soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SDA pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -441,7 +441,7 @@ Connect a wire between the SDA soldering point on the MCP23017 board (opposite e
 Connect a wire between the SCL soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SCL pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D00000220D210F258.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D00000220D210F258.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -451,7 +451,7 @@ Connect a wire between the SCL soldering point on the MCP23017 board (opposite e
 Connect a wire between the VCC soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the VCC pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D0000022040573B96.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D0000022040573B96.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -461,7 +461,7 @@ Connect a wire between the VCC soldering point on the MCP23017 board (opposite e
 Connect a wire between the GND soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the GND pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D000002207116B219.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D000002207116B219.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -475,7 +475,7 @@ Connect a wire between the GND soldering point on the MCP23017 board (opposite e
 Solder your 14 navigation buttons to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
 
 <div align="center">
-<img src="images/Pictures/1000000100000566000003318F39E808.png" width="100%" style="max-width: 700px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000566000003318F39E808.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -489,10 +489,10 @@ You can also daisy-chain the ground wire between all buttons and then to a groun
 The first and second photos have all the grounds terminating at JST connectors that plug into a connector on the ground rail:
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600206460C4.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600206460C4.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -500,7 +500,7 @@ The first and second photos have all the grounds terminating at JST connectors t
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
 <div align="center">
-<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -572,7 +572,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 Use Wood Glue to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800A4CE90BA.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800A4CE90BA.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -584,7 +584,7 @@ Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece 
 *Note: Ignore the 4 smaller holes in the center, your version will be different and only have 2 holes - this is an example from an earlier version.*
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600B828828F.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600B828828F.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -594,7 +594,7 @@ Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece 
 Use a router or at least sand down the sharp outer, curved edge of the Ka rim faces. This helps prevent stick damage. Do not smooth/route the inside edges at all, just the outside curve.
 
 <div align="center">
-<img src="images/Pictures/100000000000050A000005E069D763B9.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000050A000005E069D763B9.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -604,7 +604,7 @@ Use a router or at least sand down the sharp outer, curved edge of the Ka rim fa
 Using an 8mm diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut 6mm holes where the rubber grommets will go, and use those holes as guides to drill - you'll drill into those 6mm holes and turn them into new 8mm wide x 11mm deep holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008002B78DEAA.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008002B78DEAA.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -614,7 +614,7 @@ Using an 8mm diameter drill bit (or the specialized drill bit that came with you
 Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
 
 <div align="center">
-<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -626,10 +626,10 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 Screw in the 14 individual M6 threaded wood inserts into the appropriate holes until flush (add Superglue to the *outside* of threads to help secure them to wood).
 
 <div align="center">
-<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -641,7 +641,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 *Note: Your orientation will be different, this is just an example from an earlier version.*
 
 <div align="center">
-<img src="images/Pictures/100000010000024600000189C50C572B.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000024600000189C50C572B.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -655,7 +655,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 Cut the head off of a 20mm M6 nylon bolt.
 
 <div align="center">
-<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="100%" style="max-width: 700px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -671,10 +671,10 @@ Apply one drop or less of Loctite to threads on the inside of the rubber isolato
 Screw the headless bolt into isolator until it stops.
 
 <div align="center">
-<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -694,7 +694,7 @@ Repeat C1-C5 for the remaining 13 similar holes.
 This metal bolt will go through the matching holes in the drum baseplate in a later step.
 
 <div align="center">
-<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
@@ -736,7 +736,7 @@ Cut four 12mm neoprene discs per SVG template.
 Superglue neoprene disc into the printed housing's bottom center, aligned with the raised ring guide. Press for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E0FE99EF21.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E0FE99EF21.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -755,7 +755,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 - Black connects to the SLEEVE
 
 <div align="center">
-<img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -767,7 +767,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 Take the *other* end of the stripped wire, solder red wire to piezo center disc (**near outer edge of center**), and solder black wire to outer brass ring.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E09B34A737.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E09B34A737.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -779,7 +779,7 @@ Add several drops of Superglue on the surface of neoprene (created in step E2). 
 *Note: Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.*
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E09D348BCE.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E09D348BCE.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -789,7 +789,7 @@ Add several drops of Superglue on the surface of neoprene (created in step E2). 
 Add a drop of Superglue to the strain relief channel (below wire as well as on topside) and add a few drops to the upper housing around the rim sides, then attach the top and bottom housing pieces, press and hold for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E05241CC8B.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E05241CC8B.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -803,7 +803,7 @@ Tighten snug for even, firm contact with the wood - but don't over-tighten.
 Here's a photo of one housing right before it's screwed into the threaded insert:
 
 <div align="center">
-<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -817,7 +817,7 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 Place your speaker bracket against the backside of your rear base plates so that it is centered and not blocking any other holes. Mark the 4 holes that you will use to mount it with.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800F0D97183.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800F0D97183.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -827,7 +827,7 @@ Place your speaker bracket against the backside of your rear base plates so that
 Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
 <div align="center">
-<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -837,7 +837,7 @@ Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800B528FD8E.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800B528FD8E.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -847,7 +847,7 @@ Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so th
 Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008000289516B.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008000289516B.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -859,7 +859,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
 <div align="center">
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -891,7 +891,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 *Note: You will not have connected the barrel connectors yet, photo for placement reference.*
 
 <div align="center">
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -947,11 +947,11 @@ The next step will incorporate a few last steps to make the connections more use
 Mount the 4 Female TRS jacks that are part of your circuit to the wall of your control box so that they face the outside.
 
 <div align="center">
-<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -965,7 +965,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -975,7 +975,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1019,7 +1019,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 Mount the board with your OLED screen and gamepad buttons so that the screen is visible and the buttons are accessible during gameplay.
 
 <div align="center">
-<img src="images/Pictures/100000000000082900000EA3CFEA28D2.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000082900000EA3CFEA28D2.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1034,7 +1034,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 - As much as possible, route your VCC power lines and ground lines away from signal wires and button wires
 
 <div align="center">
-<img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1068,7 +1068,7 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 The beauty of my Project is that you can adjust the Drum and make it perform just how you want regardless of Drum cover.
 
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1182,7 +1182,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 
 <div align="center">
-<img src="images/Pictures/100000010000053B000003083BE429C9.png" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000053B000003083BE429C9.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 💾 Here are the files referenced throughout the guide for quick reference:
