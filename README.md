@@ -8,8 +8,9 @@
 the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
+<a id="table-of-contents"></a>
 <br>
-**Table of Contents**
+## **Table of Contents**
 
 - [1: Project Overview](#1-project-overview)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
@@ -251,8 +252,6 @@ The Seeed Studio **XIAO RP2040 board** is the brain, power source, and host for 
 
 ### **A: XIAO Board Trigger Circuit**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 💾 [The full-resolution circuit schematic can be downloaded here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
 ---
@@ -307,8 +306,6 @@ This example has the diodes on top of the board and the capacitors on the unders
 <img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
 <div align="center">
@@ -341,8 +338,6 @@ This is an example of a removable TRS input jack using a JST connection:
 ---
 
 ### **I2C Control Board Circuit Mounting and Power**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>A8. Mount the MCP23017 GPIO Expander on a blank board</u>**
 
@@ -391,8 +386,6 @@ This is the other of the two wires that sends the display and navigation buttons
 ---
 
 ### **I2C OLED Display Circuit**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>A12. Mount the OLED display</u>**
 
@@ -444,8 +437,6 @@ Connect a wire between the **GND** soldering point on the MCP23017 board (opposi
 
 ### **Navigation/Gamepad Buttons**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ### **<u>A17. Solder navigation buttons</u>**
 
 Solder your **14 navigation buttons** to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
@@ -474,8 +465,6 @@ The first and second photos have all the grounds terminating at JST connectors t
 <div align="center">
 <img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
@@ -540,8 +529,6 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 ### **Assemble the Drum Structure**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ### **<u>B3. Glue rear base plates</u>**
 
 Use **Wood Glue** to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
@@ -592,8 +579,6 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 <img src="images/Pictures/10000001000003A80000036583CFC771.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ---
 
 ### **<u>B8. Install M6 threaded inserts</u>**
@@ -622,8 +607,6 @@ Tap in the **8 individual M3 threaded inserts** (2 in each bottom panel) flush t
 ---
 
 ### **C: Install Rubber Isolators**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>C1. Cut nylon bolt head</u>**
 
@@ -678,8 +661,6 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 ### **D: Print Housings**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ### **<u>D1. Print 4 sets of complete sensor housings</u>**
 
 💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
@@ -691,8 +672,6 @@ Settings: **0.2mm layer height, 40% Gyroid infill, no supports needed.**
 ---
 
 ### **E: Assemble Sensors**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
@@ -732,8 +711,6 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 <div align="center">
 <img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
@@ -785,8 +762,6 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 ### **F: Mounting Hardware Assembly**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ### **<u>F1. Mark mounting holes</u>**
 
 Place your **speaker bracket** against the backside of your rear base plates so that it is centered and not blocking any other holes. Mark the 4 holes that you will use to mount it with.
@@ -824,8 +799,6 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 <div align="center">
 <img src="images/Pictures/1000000000000600000008000289516B.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
@@ -914,8 +887,6 @@ The next step will incorporate a few last steps to make the connections more use
 
 ### **Final Connections and Housing**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ### **<u>G2. Mount TRS jacks to control box</u>**
 
 Mount the **4 Female TRS jacks** that are part of your circuit to the wall of your control box so that they face the outside.
@@ -970,8 +941,6 @@ Connect your **USB DAC** to the USB Hub.
 
 Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS extension cable**.
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ---
 
 ### **<u>G8. Mount audio jack to control box</u>**
@@ -1014,8 +983,6 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 ---
 
 ### **H: Floor Stand**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>H1. Mount bracket to speaker stand</u>**
 
@@ -1098,8 +1065,6 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 ### **Extended Drum Setting Features**
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 #### **Big Hit Arcade Mode**
 
 This controls how the drum reacts to very strong strikes. By default, home versions of the Taiko games give full points for Big Notes by simply hitting both Don or Ka at the same time. My Big Hit Arcade Mode allows for that "Arcade Hit" where you have to hit the Don or Ka *harder* to get credit for the Big Notes — just like the Official Taiko Arcade Machines operate.
@@ -1128,8 +1093,6 @@ This defines how long a hit is "held" before the drum accepts another.
 ---
 
 ### **Display Tips While Playing**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 - Streak counter resets after 1 second of inactivity
 - Main Screen Character animations confirm every registered hit
@@ -1299,4 +1262,3 @@ The modifications and original code contributed to this repository by **KillerQ*
 **Copyright (c) 2021 ravinrabbid**
 
 #### **Full Text: MIT License**
-```
