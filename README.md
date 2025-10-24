@@ -8,7 +8,7 @@
 the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
-
+<br>
 ## Table of Contents
 
 - [1: Project Overview](#1-project-overview)
