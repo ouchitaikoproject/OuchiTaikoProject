@@ -1213,7 +1213,8 @@ Enjoy, Have Fun, and Peace Out!
 ## **12: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-Copyright & License Transparency
+
+### Copyright & License Transparency
 
 As mentioned above, this project builds upon the outstanding work of the open-source community and strictly adheres to all licensing requirements. **OuchiTaiko** is primarily based on [ravinrabbid's DonCon2040](https://github.com/ravinrabbid/DonCon2040), which is licensed under the **MIT License**, and also incorporates elements from [kasasiki3's HIDtaiko](https://github.com/kasasiki3/HIDtaiko), licensed under the **Apache License, Version 2.0**.
 
