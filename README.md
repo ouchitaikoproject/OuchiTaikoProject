@@ -364,16 +364,18 @@ This is an example of a removable TRS input jack using a JST connection:
 
 ### **A8.** Mount the MCP23017 GPIO Expander on a blank board
 
-Mount the MCP23017 GPIO Expander on a blank board that is large enough to also house the OLED display and navigation buttons (buttons added later in this guide).
+Mount the MCP23017 GPIO Expander on a blank board that is large enough to also house the OLED display and navigation buttons (buttons added later in this guide). In the below photo, the MCP23017 is mounted on the rear of the board.
 
-Connect the wiring harness that came with the MCP23017 board. You can clip wires number 5 and 6 off. You will only be using the first 4 wires on this harness (red, black, blue, and yellow).
+This board will house the display and buttons for the navigation. Plan enough space accordingly. 
 
-This board will house the display and buttons for the navigation. Plan enough space accordingly. In this photo, the MCP23017 is mounted on the rear of the board:
+Connect the wiring harness that came with with the MCP23017 board, and clip wires number 5 and 6 off. You will only be using the first 4 wires on this harness (red, black, blue, and yellow).
 
 <div align="center">
 <img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
-
+<div align="center">
+<img src="images/Pictures/harness.png" width="550px" style="display: block; margin: 0 auto;">
+</div>
 ---
 
 ### **A9.** Connect Power
@@ -469,6 +471,10 @@ Solder your 14 navigation buttons to your OLED circuit board in the same layout 
 <div align="center">
 <img src="images/Pictures/1000000100000566000003318F39E808.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
+<div align="center">
+<img src="images/Pictures/buttonscropped.jpg" width="550px" style="display: block; margin: 0 auto;">
+</div>
+
 
 ---
 
@@ -492,7 +498,7 @@ The first and second photos have all the grounds terminating at JST connectors t
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
 <div align="center">
-<img src="images/Pictures/buttonscropped.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
