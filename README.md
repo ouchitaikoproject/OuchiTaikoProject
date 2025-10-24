@@ -9,7 +9,7 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 
 ---
 <br>
-## Table of Contents
+Table of Contents
 
 - [1: Project Overview](#1-project-overview)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
