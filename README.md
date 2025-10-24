@@ -4,7 +4,7 @@
 
 ---
 
-<div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents<br> 
+<div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents<br>
 the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
@@ -28,8 +28,6 @@ Table of Contents
 
 ## 1: Project Overview
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 <div align="center">
 <img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
@@ -40,7 +38,7 @@ Table of Contents
 <img src="images/Pictures/1000000000000753000009C464647684.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
-**Congratulations!** 
+**Congratulations!**
 
 Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
@@ -115,11 +113,11 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 2: Parts List for Electronics
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
@@ -158,12 +156,11 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
 ## 3: Parts List for Hardware
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
@@ -215,13 +212,11 @@ This guide assumes you have access to the following:
 
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
 ## 4: Build the Circuit
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 🎥 [Video overview of circuit building process](https://youtu.be/Zif1cv-oa6k)
 
@@ -261,8 +256,6 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 ---
 
 ### A: XIAO Board Trigger Circuit
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 💾 [The full-resolution circuit schematic can be downloaded here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
@@ -318,8 +311,6 @@ This example has the diodes on top of the board and the capacitors on the unders
 <img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
 <div align="center">
@@ -353,17 +344,17 @@ This is an example of a removable TRS input jack using a JST connection:
 3. Connect colored signal wire from pin to TRS Jack TIP terminal
 4. Connect black wire from ground rail to TRS Jack SLEEVE terminal
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### I2C Control Board Circuit Mounting and Power
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>A8. Mount the MCP23017 GPIO Expander on a blank board</u>**
 
 Mount the MCP23017 GPIO Expander on a blank board that is large enough to also house the OLED display and navigation buttons (buttons added later in this guide). In the below photo, the MCP23017 is mounted on the rear of the board.
 
-This board will house the display and buttons for the navigation. Plan enough space accordingly. 
+This board will house the display and buttons for the navigation. Plan enough space accordingly.
 
 Connect the wiring harness that came with with the MCP23017 board, and clip wires number 5 and 6 off. You will only be using the first 4 wires on this harness (red, black, blue, and yellow).
 
@@ -403,11 +394,11 @@ Connect the SCL (yellow) wire on the MCP23017 harness to Pin 7 (SCL) on the XIAO
 
 This is the other of the two wires that sends the display and navigation buttons data back and forth during use.
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### I2C OLED Display Circuit
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>A12. Mount the OLED display</u>**
 
@@ -455,11 +446,11 @@ Connect a wire between the GND soldering point on the MCP23017 board (opposite e
 <img src="images/Pictures/100000010000046D000002207116B219.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### Navigation/Gamepad Buttons
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>A17. Solder navigation buttons</u>**
 
@@ -489,8 +480,6 @@ The first and second photos have all the grounds terminating at JST connectors t
 <div align="center">
 <img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
@@ -531,12 +520,11 @@ Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins
 
 That's it for that step; the hard part is over!
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 5: Build the Drum
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 **Important:** The SVG files are provided at the correct scale and should NOT be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.
 
@@ -559,8 +547,6 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 ---
 
 ### Assemble the Drum Structure
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>B3. Glue rear base plates</u>**
 
@@ -612,8 +598,6 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 <img src="images/Pictures/10000001000003A80000036583CFC771.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ---
 
 ### **<u>B8. Install M6 threaded inserts</u>**
@@ -639,11 +623,11 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 <img src="images/Pictures/100000010000024600000189C50C572B.png" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### C: Install Rubber Isolators
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>C1. Cut nylon bolt head</u>**
 
@@ -694,11 +678,11 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### D: Print Housings
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>D1. Print 4 sets of complete sensor housings</u>**
 
@@ -708,11 +692,11 @@ Use PLA filament.
 
 Settings: 0.2mm layer height, 40% Gyroid infill, no supports needed.
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### E: Assemble Sensors
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
@@ -752,8 +736,6 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 <div align="center">
 <img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
@@ -801,11 +783,11 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 <img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### F: Mounting Hardware Assembly
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **<u>F1. Mark mounting holes</u>**
 
@@ -837,7 +819,7 @@ Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so th
 
 ---
 
-### **F4.** Attach speaker mount
+### **<u>F4. Attach speaker mount</u>**
 
 Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
@@ -845,11 +827,9 @@ Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 <img src="images/Pictures/1000000000000600000008000289516B.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ---
 
-### **F5.** Assemble drum structure
+### **<u>F5. Assemble drum structure</u>**
 
 Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
@@ -859,7 +839,7 @@ Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bo
 
 ---
 
-### **F6.** Route sensor wires
+### **<u>F6. Route sensor wires</u>**
 
 Route sensor wires through nearest openings.
 
@@ -869,7 +849,7 @@ Route sensor wires through nearest openings.
 
 ---
 
-### **F7.** Secure drum faces
+### **<u>F7. Secure drum faces</u>**
 
 Secure the drum faces with the M6 knobs on exposed bolts.
 
@@ -879,7 +859,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 ---
 
-### **F8.** Attach TRS barrel mounts
+### **<u>F8. Attach TRS barrel mounts</u>**
 
 3D Print and Attach TRS barrel mounts with adhesive tape as seen in pictures.
 
@@ -891,7 +871,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 ---
 
-### **F9.** Connect sensor cables
+### **<u>F9. Connect sensor cables</u>**
 
 Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
@@ -899,12 +879,11 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 <img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 6: Control Box
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 You're almost there!
 
@@ -923,7 +902,7 @@ I chose to not provide specific plans for the control box since everyone's layou
 
 ### G: Connect Sensors To The Circuit
 
-### **G1.** Connect sensor cables to circuit
+### **<u>G1. Connect sensor cables to circuit</u>**
 
 Using short male-to-male 3.5mm TRS cables, connect the bottom of the 4 couplers from the last step to the input of the Female TRS jacks on your completed circuit.
 
@@ -935,9 +914,7 @@ The next step will incorporate a few last steps to make the connections more use
 
 ### Final Connections and Housing
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
-### **G2.** Mount TRS jacks to control box
+### **<u>G2. Mount TRS jacks to control box</u>**
 
 Mount the 4 Female TRS jacks that are part of your circuit to the wall of your control box so that they face the outside.
 
@@ -951,7 +928,7 @@ Mount the 4 Female TRS jacks that are part of your circuit to the wall of your c
 
 ---
 
-### **G3.** Mount USB-C to USB-A adapter
+### **<u>G3. Mount USB-C to USB-A adapter</u>**
 
 Connect the USB C to USB A adapter in the wall of your box so that the USB C portion is facing the outside of the box. Use hot glue to affix in place.
 
@@ -965,7 +942,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 
 ---
 
-### **G4.** Connect USB hub
+### **<u>G4. Connect USB hub</u>**
 
 Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
@@ -975,27 +952,25 @@ Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
 ---
 
-### **G5.** Connect XIAO to USB hub
+### **<u>G5. Connect XIAO to USB hub</u>**
 
 Connect the XIAO main controller board to the USB Hub using a short USB C to USB A cable.
 
 ---
 
-### **G6.** Connect USB DAC
+### **<u>G6. Connect USB DAC</u>**
 
 Connect your USB DAC to the USB Hub.
 
 ---
 
-### **G7.** Connect DAC to extension cable
+### **<u>G7. Connect DAC to extension cable</u>**
 
 Connect the 3.5mm audio out jack on your USB DAC to the short 3.5mm TRS extension cable.
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 ---
 
-### **G8.** Mount audio jack to control box
+### **<u>G8. Mount audio jack to control box</u>**
 
 Connect the 3.5mm Female end of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use hot glue to affix in place.
 
@@ -1009,7 +984,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 
 ---
 
-### **G9.** Mount OLED/button board
+### **<u>G9. Mount OLED/button board</u>**
 
 Mount the board with your OLED screen and gamepad buttons so that the screen is visible and the buttons are accessible during gameplay.
 
@@ -1019,7 +994,7 @@ Mount the board with your OLED screen and gamepad buttons so that the screen is 
 
 ---
 
-### **G10.** Wire management
+### **<u>G10. Wire management</u>**
 
 Here's an example of how the inside of your control box may look.
 
@@ -1032,13 +1007,13 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 <img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ### H: Floor Stand
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
-### **H1.** Mount bracket to speaker stand
+### **<u>H1. Mount bracket to speaker stand</u>**
 
 Mount bracket to the speaker stand.
 
@@ -1048,13 +1023,13 @@ Mount bracket to the speaker stand.
 
 ---
 
-### **H2.** Adjust height/angle
+### **<u>H2. Adjust height/angle</u>**
 
 Adjust height/angle for playing comfort.
 
 ---
 
-### **H3.** Add drum cover
+### **<u>H3. Add drum cover</u>**
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
@@ -1066,12 +1041,11 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 <img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="550px" style="display: block; margin: 0 auto;">
 </div>
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 7: Flash The Firmware
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
@@ -1091,12 +1065,11 @@ Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few second
 
 You're ready for calibration and testing!
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 8: Calibration & Setup
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 ### Complete this initial calibration before proceeding further
 
@@ -1120,8 +1093,6 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 ---
 
 ### Extended Drum Setting Features
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 #### Big Hit Arcade Mode
 
@@ -1152,8 +1123,6 @@ This defines how long a hit is "held" before the drum accepts another.
 
 ### Display Tips While Playing
 
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 - Streak counter resets after 1 second of inactivity
 - Main Screen Character animations confirm every registered hit
 - Each character represents its drum position (left to right)
@@ -1169,12 +1138,11 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 **You're Ready to Play!**
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 9: Files & Downloads
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 <div align="center">
 <img src="images/Pictures/100000010000053B000003083BE429C9.png" width="550px" style="display: block; margin: 0 auto;">
@@ -1187,13 +1155,11 @@ You've just built a professional controller circuit with adaptive baseline techn
 - [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 - To Download a copy of this guide, use the download link on the landing page at [www.OuchiTaiko.com](http://www.OuchiTaiko.com) or simply save the PDF using your Web Browser's preferred method
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 10: Basic Troubleshooting
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
-
 
 <summary><b>🖥️ DISPLAY Issues</b></summary>
 
@@ -1233,12 +1199,11 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 If you have trouble with a particular game version, note your current emulation mode and research what others have done to get that controller series working with your game version.
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 11: About
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 This project is a one-of-a-kind Hybrid product that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
 
@@ -1268,12 +1233,11 @@ Please share your results and excitement as well as this guide with your favorit
 
 Enjoy, Have Fun, and Peace Out!
 
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 ---
 
 ## 12: Copyright Information
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 ### Copyright & License Transparency
 
@@ -1323,253 +1287,3 @@ The modifications and original code contributed to this repository by **KillerQ*
 **Copyright (c) 2021 ravinrabbid**
 
 #### Full Text: MIT License
-
-```
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
-
-### 3. External Component: HIDtaiko Components
-
-**Applies to HID components and related code derived from HIDtaiko.**
-
-**Original Author:** kasasiki3  
-**License:** Apache License, Version 2.0  
-**Copyright 2022 kasasiki3**
-
-#### Full Text: Apache License, Version 2.0
-
-```
-Apache License
-Version 2.0, January 2004
-http://www.apache.org/licenses/
-
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
-
-1. Definitions.
-
-   "License" shall mean the terms and conditions for use, reproduction,
-   and distribution as defined by Sections 1 through 9 of this document.
-
-   "Licensor" shall mean the copyright owner or entity authorized by
-   the copyright owner that is granting the License.
-
-   "Legal Entity" shall mean the union of the acting entity and all
-   other entities that control, are controlled by, or are under common
-   control with that entity. For the purposes of this definition,
-   "control" means (i) the power, direct or indirect, to cause the
-   direction or management of such entity, whether by contract or
-   otherwise, or (ii) ownership of fifty percent (50%) or more of the
-   outstanding shares, or (iii) beneficial ownership of such entity.
-
-   "You" (or "Your") shall mean an individual or Legal Entity
-   exercising permissions granted by this License.
-
-   "Source" form shall mean the preferred form for making modifications,
-   including but not limited to software source code, documentation
-   source, and configuration files.
-
-   "Object" form shall mean any form resulting from mechanical
-   transformation or translation of a Source form, including but
-   not limited to compiled object code, generated documentation,
-   and conversions to other media types.
-
-   "Work" shall mean the work of authorship, whether in Source or
-   Object form, made available under the License, as indicated by a
-   copyright notice that is attached to or included in the work (an
-   example is provided in the Appendix below).
-
-   "Derivative Works" shall mean any work, whether in Source or Object
-   form, that is based on (or derived from) the Work and for which the
-   editorial revisions, annotations, elaborations, or other modifications
-   represent, as a whole, an original work of authorship. For the purposes
-   of this License, Derivative Works shall not include works that remain
-   separable from, or merely link (or bind by name) to the interfaces of,
-   the Work and Derivative Works thereof.
-
-   "Contribution" shall mean any work of authorship, including
-   the original version of the Work and any modifications or additions
-   to that Work or Derivative Works thereof, that is intentionally
-   submitted to Licensor for inclusion in the Work by the copyright owner
-   or by an individual or Legal Entity authorized to submit on behalf of
-   the copyright owner. For the purposes of this definition, "submitted"
-   means any form of electronic, verbal, or written communication sent
-   to the Licensor or its representatives, including but not limited to
-   communication on electronic mailing lists, source code control systems,
-   and issue tracking systems that are managed by, or on behalf of, the
-   Licensor for the purpose of discussing and improving the Work, but
-   excluding communication that is conspicuously marked or otherwise
-   designated in writing by the copyright owner as "Not a Contribution."
-
-   "Contributor" shall mean Licensor and any individual or Legal Entity
-   on behalf of whom a Contribution has been received by Licensor and
-   subsequently incorporated within the Work.
-
-2. Grant of Copyright License. Subject to the terms and conditions of
-   this License, each Contributor hereby grants to You a perpetual,
-   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-   copyright license to reproduce, prepare Derivative Works of,
-   publicly display, publicly perform, sublicense, and distribute the
-   Work and such Derivative Works in Source or Object form.
-
-3. Grant of Patent License. Subject to the terms and conditions of
-   this License, each Contributor hereby grants to You a perpetual,
-   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-   (except as stated in this section) patent license to make, have made,
-   use, offer to sell, sell, import, and otherwise transfer the Work,
-   where such license applies only to those patent claims licensable
-   by such Contributor that are necessarily infringed by their
-   Contribution(s) alone or by combination of their Contribution(s)
-   with the Work to which such Contribution(s) was submitted. If You
-   institute patent litigation against any entity (including a
-   cross-claim or counterclaim in a lawsuit) alleging that the Work
-   or a Contribution incorporated within the Work constitutes direct
-   or contributory patent infringement, then any patent licenses
-   granted to You under this License for that Work shall terminate
-   as of the date such litigation is filed.
-
-4. Redistribution. You may reproduce and distribute copies of the
-   Work or Derivative Works thereof in any medium, with or without
-   modifications, and in Source or Object form, provided that You
-   meet the following conditions:
-
-   (a) You must give any other recipients of the Work or
-       Derivative Works a copy of this License; and
-
-   (b) You must cause any modified files to carry prominent notices
-       stating that You changed the files; and
-
-   (c) You must retain, in the Source form of any Derivative Works
-       that You distribute, all copyright, patent, trademark, and
-       attribution notices from the Source form of the Work,
-       excluding those notices that do not pertain to any part of
-       the Derivative Works; and
-
-   (d) If the Work includes a "NOTICE" text file as part of its
-       distribution, then any Derivative Works that You distribute must
-       include a readable copy of the attribution notices contained
-       within such NOTICE file, excluding those notices that do not
-       pertain to any part of the Derivative Works, in at least one
-       of the following places: within a NOTICE text file distributed
-       as part of the Derivative Works; within the Source form or
-       documentation, if provided along with the Derivative Works; or,
-       within a display generated by the Derivative Works, if and
-       wherever such third-party notices normally appear. The contents
-       of the NOTICE file are for informational purposes only and
-       do not modify the License. You may add Your own attribution
-       notices within Derivative Works that You distribute, alongside
-       or as an addendum to the NOTICE text from the Work, provided
-       that such additional attribution notices cannot be construed
-       as modifying the License.
-
-   You may add Your own copyright statement to Your modifications and
-   may provide additional or different license terms and conditions
-   for use, reproduction, or distribution of Your modifications, or
-   for any such Derivative Works as a whole, provided Your use,
-   reproduction, and distribution of the Work otherwise complies with
-   the conditions stated in this License.
-
-5. Submission of Contributions. Unless You explicitly state otherwise,
-   any Contribution intentionally submitted for inclusion in the Work
-   by You to the Licensor shall be under the terms and conditions of
-   this License, without any additional terms or conditions.
-   Notwithstanding the above, nothing herein shall supersede or modify
-   the terms of any separate license agreement you may have executed
-   with Licensor regarding such Contributions.
-
-6. Trademarks. This License does not grant permission to use the trade
-   names, trademarks, service marks, or product names of the Licensor,
-   except as required for reasonable and customary use in describing the
-   origin of the Work and reproducing the content of the NOTICE file.
-
-7. Disclaimer of Warranty. Unless required by applicable law or
-   agreed to in writing, Licensor provides the Work (and each
-   Contributor provides its Contributions) on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-   implied, including, without limitation, any warranties or conditions
-   of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-   PARTICULAR PURPOSE. You are solely responsible for determining the
-   appropriateness of using or redistributing the Work and assume any
-   risks associated with Your exercise of permissions under this License.
-
-8. Limitation of Liability. In no event and under no legal theory,
-   whether in tort (including negligence), contract, or otherwise,
-   unless required by applicable law (such as deliberate and grossly
-   negligent acts) or agreed to in writing, shall any Contributor be
-   liable to You for damages, including any direct, indirect, special,
-   incidental, or consequential damages of any character arising as a
-   result of this License or out of the use or inability to use the
-   Work (including but not limited to damages for loss of goodwill,
-   work stoppage, computer failure or malfunction, or any and all
-   other commercial damages or losses), even if such Contributor
-   has been advised of the possibility of such damages.
-
-9. Accepting Warranty or Additional Liability. While redistributing
-   the Work or Derivative Works thereof, You may choose to offer,
-   and charge a fee for, acceptance of support, warranty, indemnity,
-   or other liability obligations and/or rights consistent with this
-   License. However, in accepting such obligations, You may act only
-   on Your own behalf and on Your sole responsibility, not on behalf
-   of any other Contributor, and only if You agree to indemnify,
-   defend, and hold each Contributor harmless for any liability
-   incurred by, or claims asserted against, such Contributor by reason
-   of your accepting any such warranty or additional liability.
-
-END OF TERMS AND CONDITIONS
-
-APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!) The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
-
-   Copyright [2022] [kasasiki3]
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-```
-
----
-
-### Summary
-
-This project is fully transparent about its licensing and gives proper credit to all contributors. By including the complete license texts above, this README serves as the authoritative legal documentation for the OuchiTaiko Project.
-
-Thank you to ravinrabbid and kasasiki3 for their incredible open-source contributions that made this project possible.
-
-**KillerQ**
-
----
-
-*OuchiTaiko Project | Smarter. Simpler. Better.*
