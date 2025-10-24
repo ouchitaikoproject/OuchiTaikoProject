@@ -31,6 +31,7 @@
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 <div align="center">
 <img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
 </div>
@@ -126,6 +127,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link. For example, this project requires 4 individual 27mm piezo sensors, but the Amazon link sells a 20-pack.
@@ -170,6 +172,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 ## 3: Parts List for Hardware
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
@@ -231,6 +234,7 @@ This guide assumes you have access to the following:
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 🎥 [Video overview of circuit building process](https://youtu.be/Zif1cv-oa6k)
 
 This guide states the core objective of each step and provides example approaches through photos. Multiple layouts and methods can work.
@@ -276,7 +280,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 
 ---
 
-**A1. Mount the XIAO RP2040 to a blank circuit board**
+### **A1.** Mount the XIAO RP2040 to a blank circuit board
 
 You will be soldering multiple components to the same pins, leaving ample space and utilization of the shared rows will help.
 
@@ -286,19 +290,19 @@ You will be soldering multiple components to the same pins, leaving ample space 
 
 ---
 
-**A2. Connect the GND pin on the XIAO RP2040 to the common ground rail of the protoboard**
+### **A2.** Connect the GND pin on the XIAO RP2040 to the common ground rail of the protoboard
 
 Be sure that the GND rails on both sides of the board are connected to each other. Some boards require a solder bridge to achieve this.
 
 ---
 
-**A3. Connect the VCC 3.3V pin on the XIAO RP2040 to the common VCC power rail of the protoboard**
+### **A3.** Connect the VCC 3.3V pin on the XIAO RP2040 to the common VCC power rail of the protoboard
 
 Be sure that the VCC rails on both sides of the board are connected to each other. Some boards require a solder bridge to achieve this.
 
 ---
 
-**A4. Pin "P26" (Left Ka):**
+### **A4.** Pin "P26" (Left Ka):
 
 1. Solder the anode end (the side *without* the stripe) of a 1N4148 diode to pin A0/P26
 2. Solder the opposite, *striped* end (cathode) of the diode to the common ground rail as close to the pin as possible
@@ -367,7 +371,7 @@ This is an example of a removable TRS input jack using a JST connection:
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**A8. Mount the MCP23017 GPIO Expander on a blank board**
+### **A8.** Mount the MCP23017 GPIO Expander on a blank board
 
 Mount the MCP23017 GPIO Expander on a blank board that is large enough to also house the OLED display and navigation buttons (buttons added later in this guide).
 
@@ -381,7 +385,7 @@ This board will house the display and buttons for the navigation. Plan enough sp
 
 ---
 
-**A9. Connect Power**
+### **A9.** Connect Power
 
 Using the wires from the harness you just plugged in, connect the VCC (red) wire to the VCC power rail on your main board that you built where the XIAO 2040 Board is mounted.
 
@@ -395,7 +399,7 @@ This 2-wire connection will be powering the MCP23017 board and will also provide
 
 **Note:** Pins A7 and B7 will *not* be used for this project.
 
-**A10. Connect SDA**
+### **A10.** Connect SDA
 
 Connect the SDA (blue) wire on the MCP23017 harness to Pin 6 (SDA) on the XIAO 2040 board.
 
@@ -403,7 +407,7 @@ This is one of the two wires that sends the display and navigation buttons data 
 
 ---
 
-**A11. Connect SCL**
+### **A11.** Connect SCL
 
 Connect the SCL (yellow) wire on the MCP23017 harness to Pin 7 (SCL) on the XIAO 2040 board.
 
@@ -415,7 +419,7 @@ This is the other of the two wires that sends the display and navigation buttons
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**A12. Mount the OLED display**
+### **A12.** Mount the OLED display
 
 Mount the OLED display on the same board as the MCP23017 (and navigation buttons).
 
@@ -423,7 +427,7 @@ Reminder: this board will house the display and buttons for the gamepad navigati
 
 ---
 
-**A13. Connect SDA to display**
+### **A13.** Connect SDA to display
 
 Connect a wire between the SDA soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SDA pin on the OLED Display.
 
@@ -433,7 +437,7 @@ Connect a wire between the SDA soldering point on the MCP23017 board (opposite e
 
 ---
 
-**A14. Connect SCL to display**
+### **A14.** Connect SCL to display
 
 Connect a wire between the SCL soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the SCL pin on the OLED Display.
 
@@ -443,7 +447,7 @@ Connect a wire between the SCL soldering point on the MCP23017 board (opposite e
 
 ---
 
-**A15. Connect VCC to display**
+### **A15.** Connect VCC to display
 
 Connect a wire between the VCC soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the VCC pin on the OLED Display.
 
@@ -453,7 +457,7 @@ Connect a wire between the VCC soldering point on the MCP23017 board (opposite e
 
 ---
 
-**A16. Connect GND to display**
+### **A16.** Connect GND to display
 
 Connect a wire between the GND soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the GND pin on the OLED Display.
 
@@ -467,7 +471,7 @@ Connect a wire between the GND soldering point on the MCP23017 board (opposite e
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**A17. Solder navigation buttons**
+### **A17.** Solder navigation buttons
 
 Solder your 14 navigation buttons to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
 
@@ -477,7 +481,7 @@ Solder your 14 navigation buttons to your OLED circuit board in the same layout 
 
 ---
 
-**A18. Connect button grounds**
+### **A18.** Connect button grounds
 
 Connect one leg of each of the 14 buttons to the common ground rail.
 
@@ -502,7 +506,7 @@ In the third photo, all of the button legs are oriented vertically. I chose to u
 
 ---
 
-**A19. Connect button signals**
+### **A19.** Connect button signals
 
 Next, connect the other leg of each button to the appropriate MCP23017 GPIO pins according to this guide (referencing the full circuit schematic may help here):
 
@@ -539,6 +543,7 @@ That's it for that step; the hard part is over!
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 **Important:** The SVG files are provided at the correct scale and should NOT be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.
 
 To verify the SVG files are at the correct scale before cutting, check that the 14 mounting holes in the drum base measure exactly 6mm in diameter.
@@ -547,7 +552,7 @@ To verify the SVG files are at the correct scale before cutting, check that the 
 
 ### B: Prepare the Wood
 
-**B1. Cut all MDF wood pieces per SVG templates**
+### **B1.** Cut all MDF wood pieces per SVG templates
 
 💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
@@ -555,7 +560,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 ---
 
-**B2. Sand smooth as needed**
+### **B2.** Sand smooth as needed
 
 ---
 
@@ -563,7 +568,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**B3. Glue rear base plates**
+### **B3.** Glue rear base plates
 
 Use Wood Glue to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
 
@@ -573,7 +578,7 @@ Use Wood Glue to glue the two identical rear base plates together (they are 100%
 
 ---
 
-**B4. Glue drum panels**
+### **B4.** Glue drum panels
 
 Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece on top + piece with pre-cut holes on bottom). Clamp securely or weigh down and let dry for several hours. Repeat this for the remaining three drum panels.
 
@@ -585,7 +590,7 @@ Use Wood Glue to glue a Don/Ka top/bottom panel pair together (solid face piece 
 
 ---
 
-**B5. Router/sand Ka rim edges**
+### **B5.** Router/sand Ka rim edges
 
 Use a router or at least sand down the sharp outer, curved edge of the Ka rim faces. This helps prevent stick damage. Do not smooth/route the inside edges at all, just the outside curve.
 
@@ -595,7 +600,7 @@ Use a router or at least sand down the sharp outer, curved edge of the Ka rim fa
 
 ---
 
-**B6. Drill holes for threaded inserts**
+### **B6.** Drill holes for threaded inserts
 
 Using an 8mm diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut 6mm holes where the rubber grommets will go, and use those holes as guides to drill - you'll drill into those 6mm holes and turn them into new 8mm wide x 11mm deep holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
@@ -605,7 +610,7 @@ Using an 8mm diameter drill bit (or the specialized drill bit that came with you
 
 ---
 
-**B7. Chamfer holes**
+### **B7.** Chamfer holes
 
 Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
 
@@ -617,7 +622,7 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 
 ---
 
-**B8. Install M6 threaded inserts**
+### **B8.** Install M6 threaded inserts
 
 Screw in the 14 individual M6 threaded wood inserts into the appropriate holes until flush (add Superglue to the *outside* of threads to help secure them to wood).
 
@@ -630,7 +635,7 @@ Screw in the 14 individual M6 threaded wood inserts into the appropriate holes u
 
 ---
 
-**B9. Install M3 threaded inserts**
+### **B9.** Install M3 threaded inserts
 
 Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to the wood with a mallet (add Superglue to *outside* of threads to help secure to wood) - this is where the sensor housings will mount later on.
 
@@ -646,7 +651,7 @@ Tap in the 8 individual M3 threaded inserts (2 in each bottom panel) flush to th
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**C1. Cut nylon bolt head**
+### **C1.** Cut nylon bolt head
 
 Cut the head off of a 20mm M6 nylon bolt.
 
@@ -656,13 +661,13 @@ Cut the head off of a 20mm M6 nylon bolt.
 
 ---
 
-**C2. Apply Loctite to isolator**
+### **C2.** Apply Loctite to isolator
 
 Apply one drop or less of Loctite to threads on the inside of the rubber isolator threaded hole.
 
 ---
 
-**C3. Install bolt in isolator**
+### **C3.** Install bolt in isolator
 
 Screw the headless bolt into isolator until it stops.
 
@@ -675,13 +680,13 @@ Screw the headless bolt into isolator until it stops.
 
 ---
 
-**C4. Apply Loctite to drum plate inserts**
+### **C4.** Apply Loctite to drum plate inserts
 
 Add one drop or less of Loctite to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
 
 ---
 
-**C5. Install isolator assemblies**
+### **C5.** Install isolator assemblies
 
 Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
 
@@ -701,7 +706,7 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**D1. Print 4 sets of complete sensor housings**
+### **D1.** Print 4 sets of complete sensor housings
 
 💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
@@ -719,7 +724,7 @@ Settings: 0.2mm layer height, 40% Gyroid infill, no supports needed.
 
 **Note:** The below steps will need to be repeated 4 times - you will have a total of 4 complete sensor dongles.
 
-**E1. Cut neoprene discs**
+### **E1.** Cut neoprene discs
 
 Cut four 12mm neoprene discs per SVG template.
 
@@ -727,7 +732,7 @@ Cut four 12mm neoprene discs per SVG template.
 
 ---
 
-**E2. Glue neoprene to housing**
+### **E2.** Glue neoprene to housing
 
 Superglue neoprene disc into the printed housing's bottom center, aligned with the raised ring guide. Press for 30 seconds.
 
@@ -737,13 +742,13 @@ Superglue neoprene disc into the printed housing's bottom center, aligned with t
 
 ---
 
-**E3. Strip Siamese wire**
+### **E3.** Strip Siamese wire
 
 Take 10" length of Siamese wire, strip both ends exposing the two wires within.
 
 ---
 
-**E4. Solder to TRS jack**
+### **E4.** Solder to TRS jack
 
 Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
@@ -758,7 +763,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
 ---
 
-**E5. Solder to piezo**
+### **E5.** Solder to piezo
 
 Take the *other* end of the stripped wire, solder red wire to piezo center disc (**near outer edge of center**), and solder black wire to outer brass ring.
 
@@ -768,7 +773,7 @@ Take the *other* end of the stripped wire, solder red wire to piezo center disc 
 
 ---
 
-**E6. Glue piezo to neoprene**
+### **E6.** Glue piezo to neoprene
 
 Add several drops of Superglue on the surface of neoprene (created in step E2). Center the piezo sensor face up (all-brass side faces *down*) on the neoprene and press together. Hold for 30 seconds. Be sure that wire is laying across the strain relief channel and in the hole cutout.
 
@@ -780,7 +785,7 @@ Add several drops of Superglue on the surface of neoprene (created in step E2). 
 
 ---
 
-**E7. Assemble housing**
+### **E7.** Assemble housing
 
 Add a drop of Superglue to the strain relief channel (below wire as well as on topside) and add a few drops to the upper housing around the rim sides, then attach the top and bottom housing pieces, press and hold for 30 seconds.
 
@@ -790,7 +795,7 @@ Add a drop of Superglue to the strain relief channel (below wire as well as on t
 
 ---
 
-**E8. Mount housings to drum**
+### **E8.** Mount housings to drum
 
 Mount completed housings to the underside of drum faces using 2 M3x8mm screws for each housing and screw them into the threaded inserts that you added in the earlier step. (Be sure that the bottom (side with the neoprene disc inside) of the housing is against the wood).
 
@@ -808,7 +813,7 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**F1. Mark mounting holes**
+### **F1.** Mark mounting holes
 
 Place your speaker bracket against the backside of your rear base plates so that it is centered and not blocking any other holes. Mark the 4 holes that you will use to mount it with.
 
@@ -818,7 +823,7 @@ Place your speaker bracket against the backside of your rear base plates so that
 
 ---
 
-**F2. Drill mounting holes**
+### **F2.** Drill mounting holes
 
 Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
@@ -828,7 +833,7 @@ Remove the speaker plate and drill your 4 marked holes using a 6mm drill bit.
 
 ---
 
-**F3. Install mounting bolts**
+### **F3.** Install mounting bolts
 
 Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
@@ -838,7 +843,7 @@ Feed 4x M6x16 bolts with washers through these mounting holes on baseplate so th
 
 ---
 
-**F4. Attach speaker mount**
+### **F4.** Attach speaker mount
 
 Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
@@ -850,7 +855,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with M6 knobs.
 
 ---
 
-**F5. Assemble drum structure**
+### **F5.** Assemble drum structure
 
 Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
@@ -860,7 +865,7 @@ Now assemble the rest of the drum structure by feeding the M6x18 bolts on the bo
 
 ---
 
-**F6. Route sensor wires**
+### **F6.** Route sensor wires
 
 Route sensor wires through nearest openings.
 
@@ -870,7 +875,7 @@ Route sensor wires through nearest openings.
 
 ---
 
-**F7. Secure drum faces**
+### **F7.** Secure drum faces
 
 Secure the drum faces with the M6 knobs on exposed bolts.
 
@@ -880,7 +885,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 ---
 
-**F8. Attach TRS barrel mounts**
+### **F8.** Attach TRS barrel mounts
 
 3D Print and Attach TRS barrel mounts with adhesive tape as seen in pictures.
 
@@ -892,7 +897,7 @@ Secure the drum faces with the M6 knobs on exposed bolts.
 
 ---
 
-**F9. Connect sensor cables**
+### **F9.** Connect sensor cables
 
 Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 
@@ -905,6 +910,7 @@ Connect 3.5mm TRS male drum sensor ends to top of barrel couplers.
 ## 6: Control Box
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 You're almost there!
 
@@ -923,7 +929,7 @@ I chose to not provide specific plans for the control box since everyone's layou
 
 ### G: Connect Sensors To The Circuit
 
-**G1. Connect sensor cables to circuit**
+### **G1.** Connect sensor cables to circuit
 
 Using short male-to-male 3.5mm TRS cables, connect the bottom of the 4 couplers from the last step to the input of the Female TRS jacks on your completed circuit.
 
@@ -937,7 +943,7 @@ The next step will incorporate a few last steps to make the connections more use
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**G2. Mount TRS jacks to control box**
+### **G2.** Mount TRS jacks to control box
 
 Mount the 4 Female TRS jacks that are part of your circuit to the wall of your control box so that they face the outside.
 
@@ -951,7 +957,7 @@ Mount the 4 Female TRS jacks that are part of your circuit to the wall of your c
 
 ---
 
-**G3. Mount USB-C to USB-A adapter**
+### **G3.** Mount USB-C to USB-A adapter
 
 Connect the USB C to USB A adapter in the wall of your box so that the USB C portion is facing the outside of the box. Use hot glue to affix in place.
 
@@ -965,7 +971,7 @@ Connect the USB C to USB A adapter in the wall of your box so that the USB C por
 
 ---
 
-**G4. Connect USB hub**
+### **G4.** Connect USB hub
 
 Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
@@ -975,19 +981,19 @@ Connect the USB HUB to the USB A side of the adapter you just glued into place.
 
 ---
 
-**G5. Connect XIAO to USB hub**
+### **G5.** Connect XIAO to USB hub
 
 Connect the XIAO main controller board to the USB Hub using a short USB C to USB A cable.
 
 ---
 
-**G6. Connect USB DAC**
+### **G6.** Connect USB DAC
 
 Connect your USB DAC to the USB Hub.
 
 ---
 
-**G7. Connect DAC to extension cable**
+### **G7.** Connect DAC to extension cable
 
 Connect the 3.5mm audio out jack on your USB DAC to the short 3.5mm TRS extension cable.
 
@@ -995,7 +1001,7 @@ Connect the 3.5mm audio out jack on your USB DAC to the short 3.5mm TRS extensio
 
 ---
 
-**G8. Mount audio jack to control box**
+### **G8.** Mount audio jack to control box
 
 Connect the 3.5mm Female end of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use hot glue to affix in place.
 
@@ -1009,7 +1015,7 @@ Connect the 3.5mm Female end of the short audio extension cable you just connect
 
 ---
 
-**G9. Mount OLED/button board**
+### **G9.** Mount OLED/button board
 
 Mount the board with your OLED screen and gamepad buttons so that the screen is visible and the buttons are accessible during gameplay.
 
@@ -1019,7 +1025,7 @@ Mount the board with your OLED screen and gamepad buttons so that the screen is 
 
 ---
 
-**G10. Wire management**
+### **G10.** Wire management
 
 Here's an example of how the inside of your control box may look.
 
@@ -1038,7 +1044,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**H1. Mount bracket to speaker stand**
+### **H1.** Mount bracket to speaker stand
 
 Mount bracket to the speaker stand.
 
@@ -1048,13 +1054,13 @@ Mount bracket to the speaker stand.
 
 ---
 
-**H2. Adjust height/angle**
+### **H2.** Adjust height/angle
 
 Adjust height/angle for playing comfort.
 
 ---
 
-**H3. Add drum cover**
+### **H3.** Add drum cover
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
@@ -1071,6 +1077,7 @@ The beauty of my Project is that you can adjust the Drum and make it perform jus
 ## 7: Flash The Firmware
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
@@ -1095,6 +1102,7 @@ You're ready for calibration and testing!
 ## 8: Calibration & Setup
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 ### Complete this initial calibration before proceeding further
 
@@ -1173,6 +1181,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 <div align="center">
 <img src="images/Pictures/100000010000053B000003083BE429C9.png" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
 </div>
@@ -1189,6 +1198,7 @@ You've just built a professional controller circuit with adaptive baseline techn
 ## 10: Basic Troubleshooting
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 <details>
 <summary><b>🖥️ DISPLAY Issues</b></summary>
@@ -1235,6 +1245,7 @@ If you have trouble with a particular game version, note your current emulation 
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+
 This project is a one-of-a-kind Hybrid product that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
 
 The core firmware as well the navigation and OSD hardware portion of the Circuit was adapted from the amazing work by 'ravinrabbid' who created the **[DonCon 2040](https://github.com/ravinrabbid/DonCon2040)** Project. You can visit there for more of the nitty-gritty details of the software.
@@ -1268,6 +1279,7 @@ Enjoy, Have Fun, and Peace Out!
 ## 12: Copyright Information
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
 
 ### Copyright & License Transparency
 
