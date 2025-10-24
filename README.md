@@ -1,21 +1,32 @@
+This is a large request\! I'll apply the requested formatting changes to the `README.md` content:
+
+1.  Ensure all horizontal lines are created with `---` as they are rendered as gray lines in standard Markdown viewers.
+2.  Fix the Table of Contents link for "5: Build the Drum."
+3.  Make category headings more bold and stand out (I will use a consistent level of heading and bolding, such as `## **Heading Name**`).
+4.  Standardize the "↑ Back to Top" link placement to be consistently right-aligned and separated by a blank line above.
+5.  Scale all images, *except the first one*, to a width of **350 pixels**.
+
+Here is the full, edited `README.md` content in Markdown format:
+
+```markdown
 <div align="center">
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
 
 ---
 
-<div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents<br> 
+<div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents<br>
 the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
 <br>
-Table of Contents
+## **Table of Contents**
 
 - [1: Project Overview](#1-project-overview)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
 - [4: Build the Circuit](#4-build-the-circuit)
-- [5: Build the Drum](#5: Build the Drum)
+- [5: Build the Drum](#5-build-the-drum)
 - [6: Control Box](#6-control-box)
 - [7: Flash The Firmware](#7-flash-the-firmware)
 - [8: Calibration & Setup](#8-calibration--setup)
@@ -26,31 +37,31 @@ Table of Contents
 
 ---
 
-## 1: Project Overview
+## **1: Project Overview**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C4E8EB3F27.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000009C4000009A1F933F88D.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C464647684.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C464647684.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Congratulations!** Welcome to "KillerQ's OuchiTaiko Project: Arcade Controller Build Guide." You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
+**Congratulations!** Welcome to **"KillerQ's OuchiTaiko Project: Arcade Controller Build Guide."** You're about to build the most functional and comprehensive arcade-scale home Taiko drum controller ever designed. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home without the high cost.
 
 The OuchiTaiko Project features a pioneering adaptive drum design—the first of its kind for any home arcade controller—addressing the limited availability and high cost of commercial units.
 
 **Smarter. Simpler. Better.**
 
-Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses adaptive software intelligence to achieve superior performance through elegant simplicity.
+Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses **adaptive software intelligence** to achieve superior performance through elegant simplicity.
 
 All you need is enthusiasm and basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
 
-### What You'll Build: Next-Generation Features
+### **What You'll Build: Next-Generation Features**
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
@@ -115,7 +126,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 ---
 
-## 2: Parts List for Electronics
+## **2: Parts List for Electronics**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -156,7 +167,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 ---
 
-## 3: Parts List for Hardware
+## **3: Parts List for Hardware**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -164,7 +175,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the package size sold at the link.
 
-### Required Tools and Supplies
+### **Required Tools and Supplies**
 
 This guide assumes you have access to the following:
 
@@ -182,7 +193,7 @@ This guide assumes you have access to the following:
 
 
 
-### Hardware Parts List
+### **Hardware Parts List**
 
 <div style="overflow-x: auto;">
 
@@ -208,10 +219,9 @@ This guide assumes you have access to the following:
 
 ---
 
-## 4: Build the Circuit
+## **4: Build the Circuit**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 🎥 [Video overview of circuit building process](https://youtu.be/Zif1cv-oa6k)
 
@@ -221,21 +231,21 @@ This guide states the core objective of each step and provides example approache
 
 Review all steps, videos, and images before beginning to allow for optimal planning. This guide provides a 100% working system when followed as-is. However, as long as you adhere to the electrical theory and circuit structure, you can adjust and use creative freedom according to your comfort level.
 
-### Circuit Overview
+### **Circuit Overview**
 
-The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the drum panel sensors. The external MCP23017 board handles the OLED display and navigation buttons.
+The Seeed Studio **XIAO RP2040 board** is the brain, power source, and host for the drum panel sensors. The external **MCP23017 board** handles the OLED display and navigation buttons.
 
-### Tips for Success
+### **Tips for Success**
 
 - Use color-coded wires for easy identification
 - Test each phase with a multimeter for continuity before proceeding
 - Label everything during assembly
 - Take time with soldering connections
 
-### Circuit Diagram
+### **Circuit Diagram**
 
 <div align="center">
-<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
@@ -243,14 +253,14 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
 <div align="center">
-<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 *(Enlarged Pin-outs of the main boards for easy reference)*
 
 ---
 
-### A: XIAO Board Trigger Circuit
+### **A: XIAO Board Trigger Circuit**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -263,7 +273,7 @@ The Seeed Studio XIAO RP2040 board is the brain, power source, and host for the 
 You will be soldering multiple components to the same pins, leaving ample space and utilization of the shared rows will help.
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600006BD9A8.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600006BD9A8.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -290,11 +300,11 @@ Be sure that the **VCC** rails on both sides of the board are connected to each 
 6. Connect a **black GND wire** between the **common ground rail** and the **SLEEVE** terminal of TRS Jack 1
 
 <div align="center">
-<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003FF0000038627712BCD.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000023F000000D8085F9677.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 The photos below show several variants of connecting the capacitors and diodes.
@@ -302,10 +312,10 @@ The photos below show several variants of connecting the capacitors and diodes.
 This example has the diodes on top of the board and the capacitors on the underside to allow more room to work:
 
 <div align="center">
-<img src="images/Pictures/100000000000060D000004FD52D8B4F8.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060D000004FD52D8B4F8.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000051B00000364BB6B5E07.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -313,13 +323,13 @@ This example has the diodes on top of the board and the capacitors on the unders
 This example puts both the capacitor and diode on the top side of the board. Side note: this example also uses JST connectors to allow for modular connections of the TRS input jacks, so they are easily removable from the board (optional):
 
 <div align="center">
-<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000001FC0000029AE2FB34AC.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 This is an example of a removable TRS input jack using a JST connection:
 
 <div align="center">
-<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000013F000001DF59A6E42F.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -341,7 +351,7 @@ This is an example of a removable TRS input jack using a JST connection:
 
 ---
 
-### I2C Control Board Circuit Mounting and Power
+### **I2C Control Board Circuit Mounting and Power**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -354,10 +364,10 @@ This board will house the display and buttons for the navigation. Plan enough sp
 Connect the wiring harness that came with with the MCP23017 board, and clip wires number 5 and 6 off. You will only be using the first 4 wires on this harness (red, black, blue, and yellow).
 
 <div align="center">
-<img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000009AE00000C346364AD26.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/harness.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/harness.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 ---
 
@@ -371,7 +381,7 @@ This 2-wire connection will be powering the MCP23017 board and will also provide
 
 ---
 
-### MCP23017 Data Connections
+### **MCP23017 Data Connections**
 
 **Note:** Pins A7 and B7 will *not* be used for this project.
 
@@ -391,7 +401,7 @@ This is the other of the two wires that sends the display and navigation buttons
 
 ---
 
-### I2C OLED Display Circuit
+### **I2C OLED Display Circuit**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -408,7 +418,7 @@ Reminder: this board will house the display and buttons for the gamepad navigati
 Connect a wire between the **SDA** soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the **SDA** pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D00000220ECE6EDA1.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -418,7 +428,7 @@ Connect a wire between the **SDA** soldering point on the MCP23017 board (opposi
 Connect a wire between the **SCL** soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the **SCL** pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D00000220D210F258.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D00000220D210F258.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -428,7 +438,7 @@ Connect a wire between the **SCL** soldering point on the MCP23017 board (opposi
 Connect a wire between the **VCC** soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the **VCC** pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D0000022040573B96.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D0000022040573B96.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -438,12 +448,12 @@ Connect a wire between the **VCC** soldering point on the MCP23017 board (opposi
 Connect a wire between the **GND** soldering point on the MCP23017 board (opposite end of where you plugged the harness in) and the **GND** pin on the OLED Display.
 
 <div align="center">
-<img src="images/Pictures/100000010000046D000002207116B219.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000046D000002207116B219.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### Navigation/Gamepad Buttons
+### **Navigation/Gamepad Buttons**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -452,10 +462,10 @@ Connect a wire between the **GND** soldering point on the MCP23017 board (opposi
 Solder your **14 navigation buttons** to your OLED circuit board in the same layout as the image to the right. This layout is similar to the traditional SWITCH Gamepad button and works best for this project.
 
 <div align="center">
-<img src="images/Pictures/1000000100000566000003318F39E808.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000566000003318F39E808.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/buttonscropped.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/buttonscropped.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -470,10 +480,10 @@ You can also daisy-chain the ground wire between all buttons and then to a groun
 The first and second photos have all the grounds terminating at JST connectors that plug into a connector on the ground rail:
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600206460C4.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600206460C4.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000800000006007E8007EB.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -481,7 +491,7 @@ The first and second photos have all the grounds terminating at JST connectors t
 In the third photo, all of the button legs are oriented vertically. I chose to use the top leg as the ground connection. These top legs are all connected to a common ground rail at the top of the board. Some ground wires go straight to the ground rail; others connect to other wires first that eventually connect to the ground rail. All of these methods are sufficient:
 
 <div align="center">
-<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -508,17 +518,16 @@ Next, connect the other leg of each button to the appropriate **MCP23017 GPIO pi
 |Button Share |B6 |
 
 <div align="center">
-<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000006FC00000794DEC0E2F7.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 That's it for that step; the hard part is over!
 
 ---
 
-## 5: Build the Drum
+## **5: Build the Drum**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 **Important:** The SVG files are provided at the correct scale and should NOT be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.
 
@@ -526,7 +535,7 @@ To verify the SVG files are at the correct scale before cutting, check that the 
 
 **No CNC access?** Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand.
 
-### B: Prepare the Wood
+### **B: Prepare the Wood**
 
 ### **<u>B1. Cut all MDF wood pieces per SVG templates</u>**
 
@@ -540,7 +549,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 
 ---
 
-### Assemble the Drum Structure
+### **Assemble the Drum Structure**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -549,7 +558,7 @@ You can also cut all of the pieces using a handsaw, jigsaw, etc. if a CNC machin
 Use **Wood Glue** to glue the two identical rear base plates together (they are 100% identical, just align the holes). Clamp securely or weigh down and let dry for several hours.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800A4CE90BA.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800A4CE90BA.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -561,7 +570,7 @@ Use **Wood Glue** to glue a Don/Ka top/bottom panel pair together (solid face pi
 *Note: Ignore the 4 smaller holes in the center, your version will be different and only have 2 holes - this is an example from an earlier version.*
 
 <div align="center">
-<img src="images/Pictures/100000000000080000000600B828828F.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000080000000600B828828F.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -571,7 +580,7 @@ Use **Wood Glue** to glue a Don/Ka top/bottom panel pair together (solid face pi
 Use a router or at least sand down the sharp outer, curved edge of the **Ka rim faces**. This helps prevent stick damage. Do not smooth/route the inside edges at all, just the outside curve.
 
 <div align="center">
-<img src="images/Pictures/100000000000050A000005E069D763B9.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000050A000005E069D763B9.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -581,7 +590,7 @@ Use a router or at least sand down the sharp outer, curved edge of the **Ka rim 
 Using an **8mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut **6mm** holes where the rubber grommets will go, and use those holes as guides to drill - you'll drill into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008002B78DEAA.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008002B78DEAA.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -591,7 +600,7 @@ Using an **8mm** diameter drill bit (or the specialized drill bit that came with
 Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This can be done with a sharp screwdriver, knife, etc.
 
 <div align="center">
-<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003A80000036583CFC771.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -603,10 +612,10 @@ Chamfer the rim of the 8mm hole slightly so that the threaded inserts will tight
 Screw in the **14 individual M6 threaded wood inserts** into the appropriate holes until flush (add **Superglue** to the *outside* of threads to help secure them to wood).
 
 <div align="center">
-<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002B4000002693C216CE2.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002CE000002D668B30CE1.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -618,12 +627,12 @@ Tap in the **8 individual M3 threaded inserts** (2 in each bottom panel) flush t
 *Note: Your orientation will be different, this is just an example from an earlier version.*
 
 <div align="center">
-<img src="images/Pictures/100000010000024600000189C50C572B.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000024600000189C50C572B.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### C: Install Rubber Isolators
+### **C: Install Rubber Isolators**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -632,7 +641,7 @@ Tap in the **8 individual M3 threaded inserts** (2 in each bottom panel) flush t
 Cut the head off of a **20mm M6 nylon bolt**.
 
 <div align="center">
-<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000004DD000002D79118BD45.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -648,10 +657,10 @@ Apply one drop or less of **Loctite** to threads on the inside of the rubber iso
 Screw the headless bolt into isolator until it stops.
 
 <div align="center">
-<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003B1000002DC0BD8FB16.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000003EC000002E263D51B16.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -671,14 +680,14 @@ Repeat C1-C5 for the remaining 13 similar holes.
 This metal bolt will go through the matching holes in the drum baseplate in a later step.
 
 <div align="center">
-<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000358000002DC0D4ED171.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E below).
 
 ---
 
-### D: Print Housings
+### **D: Print Housings**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -692,7 +701,7 @@ Settings: **0.2mm layer height, 40% Gyroid infill, no supports needed.**
 
 ---
 
-### E: Assemble Sensors
+### **E: Assemble Sensors**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -713,7 +722,7 @@ Cut four **12mm neoprene discs** per SVG template.
 **Superglue** neoprene disc into the printed housing's bottom center, aligned with the raised ring guide. Press for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E0FE99EF21.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E0FE99EF21.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -732,7 +741,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 - **Black** connects to the **SLEEVE**
 
 <div align="center">
-<img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000A84000006586122FF5A.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
@@ -744,7 +753,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 Take the *other* end of the stripped wire, solder **red** wire to piezo center disc (**near outer edge of center**), and solder **black** wire to outer brass ring.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E09B34A737.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E09B34A737.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -756,7 +765,7 @@ Add several drops of **Superglue** on the surface of neoprene (created in step E
 *Note: Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.*
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E09D348BCE.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E09D348BCE.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -766,7 +775,7 @@ Add several drops of **Superglue** on the surface of neoprene (created in step E
 Add a drop of **Superglue** to the strain relief channel (below wire as well as on topside) and add a few drops to the upper housing around the rim sides, then attach the top and bottom housing pieces, press and hold for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/10000000000005E8000007E05241CC8B.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000000000005E8000007E05241CC8B.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -780,12 +789,12 @@ Tighten snug for even, firm contact with the wood - but don't over-tighten.
 Here's a photo of one housing right before it's screwed into the threaded insert:
 
 <div align="center">
-<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000A42000006B7AF84CCDB.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### F: Mounting Hardware Assembly
+### **F: Mounting Hardware Assembly**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -794,7 +803,7 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 Place your **speaker bracket** against the backside of your rear base plates so that it is centered and not blocking any other holes. Mark the 4 holes that you will use to mount it with.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800F0D97183.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800F0D97183.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -804,7 +813,7 @@ Place your **speaker bracket** against the backside of your rear base plates so 
 Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
 <div align="center">
-<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000024B00000304BDC895E9.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -814,79 +823,78 @@ Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**
 Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
 <div align="center">
-<img src="images/Pictures/100000000000060000000800B528FD8E.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000060000000800B528FD8E.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **F4.** Attach speaker mount
+### **<u>F4. Attach speaker mount</u>**
 
 Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008000289516B.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008000289516B.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ---
 
-### **F5.** Assemble drum structure
+### **<u>F5. Assemble drum structure</u>**
 
 Now assemble the rest of the drum structure by feeding the **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate.
 
 <div align="center">
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **F6.** Route sensor wires
+### **<u>F6. Route sensor wires</u>**
 
 Route sensor wires through nearest openings.
 
 <div align="center">
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **F7.** Secure drum faces
+### **<u>F7. Secure drum faces</u>**
 
 Secure the drum faces with the **M6 knobs** on exposed bolts.
 
 <div align="center">
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **F8.** Attach TRS barrel mounts
+### **<u>F8. Attach TRS barrel mounts</u>**
 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures.
 
 *Note: You will not have connected the barrel connectors yet, photo for placement reference.*
 
 <div align="center">
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **F9.** Connect sensor cables
+### **<u>F9. Connect sensor cables</u>**
 
 Connect **3.5mm TRS male drum sensor ends** to top of barrel couplers.
 
 <div align="center">
-<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000223000002E922433EA6.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-## 6: Control Box
+## **6: Control Box**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 You're almost there!
 
@@ -894,7 +902,7 @@ The USB hub and USB DAC steps below are required for the build, but the structur
 
 That said, some type of control box enclosure is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
 
-### Enclosure Options
+### **Enclosure Options**
 
 - **Custom wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
 - **Simple alternatives:** Cardboard box or small plastic storage container work fine
@@ -903,9 +911,9 @@ I chose to not provide specific plans for the control box since everyone's layou
 
 ---
 
-### G: Connect Sensors To The Circuit
+### **G: Connect Sensors To The Circuit**
 
-### **G1.** Connect sensor cables to circuit
+### **<u>G1. Connect sensor cables to circuit</u>**
 
 Using **short male-to-male 3.5mm TRS cables**, connect the bottom of the 4 couplers from the last step to the input of the Female TRS jacks on your completed circuit.
 
@@ -915,61 +923,61 @@ The next step will incorporate a few last steps to make the connections more use
 
 ---
 
-### Final Connections and Housing
+### **Final Connections and Housing**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### **G2.** Mount TRS jacks to control box
+### **<u>G2. Mount TRS jacks to control box</u>**
 
 Mount the **4 Female TRS jacks** that are part of your circuit to the wall of your control box so that they face the outside.
 
 <div align="center">
-<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000224000002DF48CE7655.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **G3.** Mount USB-C to USB-A adapter
+### **<u>G3. Mount USB-C to USB-A adapter</u>**
 
 Connect the **USB C to USB A adapter** in the wall of your box so that the USB C portion is facing the outside of the box. Use **hot glue** to affix in place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **G4.** Connect USB hub
+### **<u>G4. Connect USB hub</u>**
 
 Connect the **USB HUB** to the USB A side of the adapter you just glued into place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **G5.** Connect XIAO to USB hub
+### **<u>G5. Connect XIAO to USB hub</u>**
 
 Connect the **XIAO main controller board** to the USB Hub using a **short USB C to USB A cable**.
 
 ---
 
-### **G6.** Connect USB DAC
+### **<u>G6. Connect USB DAC</u>**
 
 Connect your **USB DAC** to the USB Hub.
 
 ---
 
-### **G7.** Connect DAC to extension cable
+### **<u>G7. Connect DAC to extension cable</u>**
 
 Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS extension cable**.
 
@@ -977,31 +985,31 @@ Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS ex
 
 ---
 
-### **G8.** Mount audio jack to control box
+### **<u>G8. Mount audio jack to control box</u>**
 
 Connect the **3.5mm Female end** of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use **hot glue** to affix in place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="100%" style="max-width: 800px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000100000221000002E17277E344.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **G9.** Mount OLED/button board
+### **<u>G9. Mount OLED/button board</u>**
 
 Mount the board with your **OLED screen and gamepad buttons** so that the screen is visible and the buttons are accessible during gameplay.
 
 <div align="center">
-<img src="images/Pictures/100000000000082900000EA3CFEA28D2.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000000000082900000EA3CFEA28D2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **G10.** Wire management
+### **<u>G10. Wire management</u>**
 
 Here's an example of how the inside of your control box may look.
 
@@ -1011,32 +1019,32 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 - As much as possible, route your VCC power lines and ground lines away from signal wires and button wires
 
 <div align="center">
-<img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000CF300000B20F5026C3E.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### H: Floor Stand
+### **H: Floor Stand**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### **H1.** Mount bracket to speaker stand
+### **<u>H1. Mount bracket to speaker stand</u>**
 
 Mount bracket to the speaker stand.
 
 <div align="center">
-<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="100%" style="max-width: 600px; display: block; margin: 0 auto;">
+<img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-### **H2.** Adjust height/angle
+### **<u>H2. Adjust height/angle</u>**
 
 Adjust height/angle for playing comfort.
 
 ---
 
-### **H3.** Add drum cover
+### **<u>H3. Add drum cover</u>**
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
@@ -1045,29 +1053,28 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 The beauty of my Project is that you can adjust the Drum and make it perform just how you want regardless of Drum cover.
 
 <div align="center">
-<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
 
-## 7: Flash The Firmware
+## **7: Flash The Firmware**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
 💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
-### Step 1: Enter Boot Mode
+### **Step 1: Enter Boot Mode**
 
 Hold down the small **"B" button** on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
 
-### Step 2: Wipe the Board
+### **Step 2: Wipe the Board**
 
 Drag `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear, ready for the next step. Repeat this step one more time for good measure.
 
-### Step 3: Flash the Firmware
+### **Step 3: Flash the Firmware**
 
 Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.
 
@@ -1075,23 +1082,22 @@ You're ready for calibration and testing!
 
 ---
 
-## 8: Calibration & Setup
+## **8: Calibration & Setup**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-
-### Complete this initial calibration before proceeding further
+### **Complete this initial calibration before proceeding further**
 
 Long-press **SELECT** to enter setup mode. Set controller emulation to **SWITCH TATACON mode** (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
 
-### Basic Drum Hit Calibration
+### **Basic Drum Hit Calibration**
 
-#### Step 1: Enter the Drum Settings
+#### **Step 1: Enter the Drum Settings**
 
 - Hold **SELECT** for 1 second to open the Main Menu
 - Scroll to **Drum Settings** → press **B / Circle** to open
 
-#### Step 2: Adjust Drum Thresholds
+#### **Step 2: Adjust Drum Thresholds**
 
 Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value — how hard you must hit before it registers.
 
@@ -1101,11 +1107,11 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 ---
 
-### Extended Drum Setting Features
+### **Extended Drum Setting Features**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-#### Big Hit Arcade Mode
+#### **Big Hit Arcade Mode**
 
 This controls how the drum reacts to very strong strikes. By default, home versions of the Taiko games give full points for Big Notes by simply hitting both Don or Ka at the same time. My Big Hit Arcade Mode allows for that "Arcade Hit" where you have to hit the Don or Ka *harder* to get credit for the Big Notes — just like the Official Taiko Arcade Machines operate.
 
@@ -1114,14 +1120,14 @@ This controls how the drum reacts to very strong strikes. By default, home versi
 - **Increase** the value to lower the threshold of what counts as a Big Hit
 - **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
 
-#### SimulTap Mode
+#### **SimulTap Mode**
 
 By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay — this simply helps ensure clean hits).
 
 - Turn **SimulTap ON** if you want combined left + right hits to register as a single action
 - Leave it **OFF** for standard play or if you notice misreads
 
-#### Hold Time
+#### **Hold Time**
 
 This defines how long a hit is "held" before the drum accepts another.
 
@@ -1132,7 +1138,7 @@ This defines how long a hit is "held" before the drum accepts another.
 
 ---
 
-### Display Tips While Playing
+### **Display Tips While Playing**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1141,7 +1147,7 @@ This defines how long a hit is "held" before the drum accepts another.
 - Each character represents its drum position (left to right)
 - Consistent missed hits on one pad? Check that pad's threshold
 
-### Pro Tips
+### **Pro Tips**
 
 - Different drum covers may need threshold adjustment
 - Big Hit threshold is typically 2-3x normal threshold
@@ -1153,13 +1159,12 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## 9: Files & Downloads
+## **9: Files & Downloads**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-
 <div align="center">
-<img src="images/Pictures/100000010000053B000003083BE429C9.png" width="550px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/100000010000053B000003083BE429C9.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 💾 Here are the files referenced throughout the guide for quick reference:
@@ -1171,10 +1176,9 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 ---
 
-## 10: Basic Troubleshooting
+## **10: Basic Troubleshooting**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 <details>
 <summary><b>🖥️ DISPLAY Issues</b></summary>
@@ -1220,10 +1224,9 @@ If you have trouble with a particular game version, note your current emulation 
 
 ---
 
-## 11: About
+## **11: About**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 This project is a one-of-a-kind Hybrid product that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
 
@@ -1247,7 +1250,7 @@ I also want to take a moment to mention a few resources that were invaluable for
 
 (If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
-### Spread The Word
+### **Spread The Word**
 
 Please share your results and excitement as well as this guide with your favorite DIY gaming communities. Tag me (KillerQ97) when you do!
 
@@ -1255,12 +1258,11 @@ Enjoy, Have Fun, and Peace Out!
 
 ---
 
-## 12: Copyright Information
+## **12: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-
-### Copyright & License Transparency
+### **Copyright & License Transparency**
 
 As mentioned above, this project builds upon the outstanding work of the open-source community and strictly adheres to all licensing requirements. **OuchiTaiko** is primarily based on [ravinrabbid's DonCon2040](https://github.com/ravinrabbid/DonCon2040), which is licensed under the **MIT License**, and also incorporates elements from [kasasiki3's HIDtaiko](https://github.com/kasasiki3/HIDtaiko), licensed under the **Apache License, Version 2.0**.
 
@@ -1268,7 +1270,7 @@ All custom features, modifications, and improvements documented in this project 
 
 ---
 
-### Attribution Chain
+### **Attribution Chain**
 
 - **Original DonCon2040 firmware:** © ravinrabbid (MIT License)
 - **HIDtaiko components:** © kasasiki3 (Apache License 2.0)
@@ -1276,7 +1278,7 @@ All custom features, modifications, and improvements documented in this project 
 
 ---
 
-### Legal Compliance Notice
+### **Legal Compliance Notice**
 
 Any distribution of this firmware (binary or source) must include:
 
@@ -1289,9 +1291,9 @@ The complete license texts are provided below for full transparency and legal co
 
 ---
 
-## Complete License Documentation
+## **Complete License Documentation**
 
-### 1. License for KillerQ's Original Contributions
+### **1. License for KillerQ's Original Contributions**
 
 The modifications and original code contributed to this repository by **KillerQ** are **dual-licensed** under the **MIT License** and the **Apache License, Version 2.0**.
 
@@ -1299,7 +1301,7 @@ The modifications and original code contributed to this repository by **KillerQ*
 
 ---
 
-### 2. External Component: DonCon2040 Firmware
+### **2. External Component: DonCon2040 Firmware**
 
 **Applies to portions of OuchiTaiko firmware derived from DonCon2040.**
 
@@ -1307,4 +1309,5 @@ The modifications and original code contributed to this repository by **KillerQ*
 **License:** MIT License  
 **Copyright (c) 2021 ravinrabbid**
 
-#### Full Text: MIT License
+#### **Full Text: MIT License**
+```
