@@ -61,10 +61,13 @@
 
     /* --- CARD CONTAINER STYLE --- */
     .card-box {
-        background-color: white;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 25px;
         padding: 40px 30px; 
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); 
         width: 100%;
         max-width: 480px; 
         margin: 0 auto; 
@@ -97,39 +100,33 @@
 
     .buttons {
         display: flex;
-        flex-direction: column; 
-        gap: 10px; 
-        align-items: center;
+        justify-content: center;
         margin-top: 20px;
     }
+    
     a {
         display: inline-block;
-        padding: 12px 30px; 
-        background: #c44569;
-        border: 2px solid #ff6b9d;
-        color: white;
+        padding: 15px 40px; 
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #1a1a1a;
         text-decoration: none;
         border-radius: 15px;
-        font-size: 15px; 
-        font-weight: 600;
+        font-size: 16px; 
+        font-weight: 700;
         transition: all 0.3s;
         width: 100%;
         max-width: 300px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-    a:hover {
-        background: #ff6b9d; 
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-        border: 2px solid #c44569;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
     
-    @media (min-width: 768px) {
-        .buttons {
-            flex-direction: row; 
-            justify-content: center;
-            gap: 15px;
-        }
+    a:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
     }
     
     /* --- MOBILE OPTIMIZATION: Smallest Screens --- */
@@ -147,8 +144,9 @@
             font-size: 13px; 
             margin-bottom: 10px;
         }
-        .buttons {
-             gap: 8px;
+        a {
+            font-size: 14px;
+            padding: 12px 30px;
         }
     }
 </style>
@@ -160,11 +158,9 @@
             <img src="otlogo.png" alt="OuchiTaiko Project Logo" class="logo">
             
             <p class="p-main">Bring the authentic Taiko Arcade experience Home!</p>
-            <p class="p-cta">View or download the guide:</p>
             
             <div class="buttons">
-                <a href="New OT.pdf" target="_blank">View Guide (Mobile/PC)</a>
-                <a href="New OT.pdf" download>Download Guide (PC)</a>
+                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" target="_blank">Click To Start Your Journey</a>
             </div>
         </div>
     </div>
