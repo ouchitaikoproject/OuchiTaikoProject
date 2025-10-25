@@ -825,26 +825,23 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 
 ---
 
-### **<u>F5. Assemble Drum </u>**
+### **<u>F5. Assemble Drum Faceplates to Rear Baseplate </u>**
 
-Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate.  It will only fit one way. Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
+Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate.  It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts.  Tighten them a little more finger-tight.
 
 <div align="center">
 <img src="images/Pictures/boltsthrough1.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="center">
-<img src="images/Pictures/wireroute.JPG" width="350px" style="display: block; margin: 0 auto;">
-</div>
 
 ---
 
-### **<u>F6. Attach Drum Faces</u>**
+### **<u>F6. Route Sensor Through Rear Baseplate</u>**
 
-Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts.  Tighten them a little more finger-tight. 
+Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
 <div align="center">
-<img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wireroute.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
