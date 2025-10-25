@@ -830,7 +830,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate.  It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts.  Tighten them a little more finger-tight.
 
 <div align="center">
-<img src="images/Pictures/boltsthrough1.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/boltsthrough1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -840,7 +840,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
 <div align="center">
-<img src="images/Pictures/wireroute.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wireroute.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -850,11 +850,11 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them.  You will have one set of Barrel Mounts on each side of the drum.
 
 <div align="center">
-<img src="images/Pictures/couplersempty.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersempty.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/couplersmounted.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersmounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -864,11 +864,11 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers, and then also connect your short, coiled 3.5mm extension cables - these extension cables will eventually plug into the female TRS jacks on your control box.  The wires should connect cleanly from left to right.
 
 <div align="center">
-<img src="images/Pictures/couplersconnected.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/shortcables.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/shortcables.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
