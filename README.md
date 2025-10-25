@@ -245,16 +245,20 @@ The Seeed Studio **XIAO RP2040 board** is the brain, power source, and host for 
 <div align="center">
 <img src="images/Pictures/1017A8F200011F380000DE6AE0BF0922.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<div align="center">Click the image above for full-resolution)</div>
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
 
-💾 [Download full-resolution Circuit Diagram PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+
+### **Board Pinouts**
+*(Enlarged Pin-outs of the main boards for easy reference)*
 
 <div align="center">
 <img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<div align="center">Click the image above for full-resolution)</div>
 
-*(Enlarged Pin-outs of the main boards for easy reference)*
+
 
 ---
 
