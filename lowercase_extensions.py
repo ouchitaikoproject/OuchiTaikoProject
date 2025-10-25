@@ -7,10 +7,15 @@ Updates references in README.md and other markdown files
 
 import os
 import sys
+import platform
 from pathlib import Path
 
 # Image extensions to process
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'}
+
+def is_windows():
+    """Check if running on Windows"""
+    return platform.system() == 'Windows'
 
 def find_images_with_uppercase_extensions(directory):
     """Find all image files with uppercase extensions"""
@@ -32,24 +37,37 @@ def rename_image_file(file_path):
     new_name = file_path.stem + file_path.suffix.lower()
     new_path = file_path.parent / new_name
     
-    if new_path.exists() and new_path != file_path:
-        print(f"⏭️  Skipped: {file_path.name} (lowercase version already exists)")
-        return None
-    
     try:
-        # On Windows, we need to handle case-insensitive filesystems
-        if new_path.resolve() == file_path.resolve():
-            # Same file (case-insensitive filesystem), use temp rename
-            temp_path = file_path.parent / (file_path.stem + "_TEMP_" + file_path.suffix.lower())
-            file_path.rename(temp_path)
-            temp_path.rename(new_path)
+        # Check if we're renaming to the same name (case-insensitive match)
+        if file_path.name.lower() == new_name.lower() and file_path.name != new_name:
+            # This is a case-only change on a case-insensitive filesystem
+            # Use a temporary name to force the rename
+            temp_name = file_path.stem + "_TEMP_RENAME_" + file_path.suffix
+            temp_path = file_path.parent / temp_name
+            
+            # First rename to temp
+            os.rename(str(file_path), str(temp_path))
+            print(f"  → Step 1: {file_path.name} → {temp_name}")
+            
+            # Then rename to final name
+            os.rename(str(temp_path), str(new_path))
+            print(f"  → Step 2: {temp_name} → {new_name}")
+            print(f"✅ Renamed: {file_path.name} → {new_name}")
+            return (file_path.name, new_name)
         else:
-            file_path.rename(new_path)
-        
-        print(f"✅ Renamed: {file_path.name} → {new_name}")
-        return (file_path.name, new_name)
+            # Direct rename (different names or case-sensitive filesystem)
+            if new_path.exists():
+                print(f"⏭️  Skipped: {file_path.name} (lowercase version already exists)")
+                return None
+            
+            os.rename(str(file_path), str(new_path))
+            print(f"✅ Renamed: {file_path.name} → {new_name}")
+            return (file_path.name, new_name)
+            
     except Exception as e:
         print(f"❌ Error renaming {file_path.name}: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def update_markdown_files(directory, renamed_files):
@@ -96,7 +114,9 @@ def main():
     
     # Get the directory where the script is located
     script_dir = Path(__file__).parent.resolve()
-    print(f"📁 Working directory: {script_dir}\n")
+    print(f"📁 Working directory: {script_dir}")
+    print(f"💻 Operating System: {platform.system()}")
+    print()
     
     # Step 1: Find all images with uppercase extensions
     print("STEP 1: Finding images with uppercase extensions...")
@@ -110,7 +130,8 @@ def main():
     
     print(f"Found {len(images_to_rename)} image(s) to rename:\n")
     for img in images_to_rename:
-        print(f"  • {img.relative_to(script_dir)}")
+        rel_path = img.relative_to(script_dir)
+        print(f"  • {rel_path} (extension: {img.suffix})")
     
     # Step 2: Rename the files
     print(f"\n{'=' * 70}")
@@ -145,6 +166,8 @@ def main():
         print("\n📋 Renamed files:")
         for old, new in renamed_files:
             print(f"   {old} → {new}")
+    
+    print("\n💡 TIP: After running this script, commit and push the changes to GitHub.")
 
 if __name__ == "__main__":
     try:
