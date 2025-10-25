@@ -833,7 +833,6 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 <img src="images/Pictures/boltsthrough1.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
 ---
 
 ### **<u>F6. Route Sensor Through Rear Baseplate</u>**
@@ -850,7 +849,6 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them.  You will have one set of Barrel Mounts on each side of the drum.
 
-
 <div align="center">
 <img src="images/Pictures/couplersempty.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -858,7 +856,6 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 <div align="center">
 <img src="images/Pictures/couplersmounted.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 
 ---
 
@@ -881,10 +878,6 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 You're almost there!
-
-
-
-
 
 The USB hub and USB DAC steps below *are* required for the build, but the physical structural enclosure itself is optional.
 
@@ -936,7 +929,7 @@ Connect the **USB C to USB A adapter** in the wall of your box so that the USB C
 </div>
 
 <div align="center">
-<img src="images/Pictures/bothports.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/usbwall.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
