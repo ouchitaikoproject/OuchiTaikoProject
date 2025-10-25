@@ -834,7 +834,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 </div>
 
 <div align="center">
-<img src="images/Pictures/wireroute.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wireroute.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
