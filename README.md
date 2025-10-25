@@ -747,9 +747,9 @@ Take the *other* end of the stripped wire, and solder the **red** wire to piezo 
 
 ---
 
-### **<u>E6. Glue Piezo to Neoprene</u>**
+### **<u>E6. Glue Piezo to Neoprene Mount</u>**
 
-Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell.  Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene and press together. press lightly for 30 seconds. Be sure that wire is laying across the strain relief channel portion on one side of the bottom housing channel.
+Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell.  Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene and press together. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
 
 *Note: Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.*
 
@@ -853,7 +853,7 @@ Secure the drum faces against the baseplate by screwing the **M6 knobs** onto th
 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures.  You will have one set of Barrel Mounts on each side of the drum.
 
-*Note: You will not have connected the barrel connectors just yet, this photo is for placement reference.*
+
 
 <div align="center">
 <img src="images/Pictures/couplers.JPG" width="350px" style="display: block; margin: 0 auto;">
@@ -877,6 +877,10 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 
 You're almost there!
 
+
+
+
+
 The USB hub and USB DAC steps below *are* required for the build, but the physical structural enclosure itself is optional.
 
 That said, at least some type of control box enclosure or housing is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
@@ -898,7 +902,7 @@ Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector 
 
 This completes the core circuit assembly.
 
-The next step will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
+The next portion of the guide will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
 
 ---
 
