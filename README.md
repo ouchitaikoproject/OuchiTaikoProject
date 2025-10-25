@@ -848,22 +848,30 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 ### **<u>F7. Attach TRS barrel mounts</u>**
 
-3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures.  You will have one set of Barrel Mounts on each side of the drum.
-
+3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them.  You will have one set of Barrel Mounts on each side of the drum.
 
 
 <div align="center">
-<img src="images/Pictures/couplersold.JPG" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersempty.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+<div align="center">
+<img src="images/Pictures/couplersmounted.JPG" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 
 ---
 
 ### **<u>F8. Connect sensor cables</u>**
 
-Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers.  The wires should connect cleanly from left to right.
+Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers, and then also connect your short, coiled 3.5mm extension cables - these extension cables will eventually plug into the female TRS jacks on your control box.  The wires should connect cleanly from left to right.
 
 <div align="center">
-<img src="images/Pictures/couplerstopold.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersconnected.JPG" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/shortcables.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
