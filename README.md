@@ -1,9 +1,6 @@
-
-
 <div align="center">
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
-
 
 ---
 
@@ -11,6 +8,7 @@
 the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
+
 <a id="table-of-contents"></a>
 <br>
 
@@ -45,7 +43,6 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 <img src="images/Pictures/1000000000000753000009C464647684.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
 Hi, I'm KillerQ. Welcome to my  **"OuchiTaiko Project" Arcade Controller Build Guide.** 
 
 Congratulations, you're about to build the most functional and comprehensive Arcade-scale home Taiko drum controller ever created. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home.
@@ -62,14 +59,12 @@ All you need is your enthusiasm and some basic soldering and woodworking skills.
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
-
 **📋 Unprecedented Performance & Design**
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
 - **Adaptive Baseline Software Technology (ABSI):** Custom-designed, velocity-sensing triggers for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by the option of hitting Big Notes *harder* for full points  
 - **Zero Coding or Programming Skills Required:** Simply Drag-and-drop my completed firmware for instant use and simple setup
-
 
 **🔧 Advanced Hardware & Connectivity**
 
@@ -90,12 +85,11 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - Instant hit confirmation - no need to connect to a PC to test drum functionality.
 
 **HARDWARE:**
+
 - **14 Game Navigation Buttons:** Full in-game navigation regardless of game version
 - **Built-in 3.5mm Headphone Jack:** Lag-free audio right at the drum, no long cords to get tangled
 - **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
 - **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
-
-
 
 **🎮 14 Input Modes for Maximum Compatibility**
 
@@ -114,7 +108,6 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - MIDI Controller
 - Debug Mode
 
-
 ### 🎥 Demo Videos
 
 - [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
@@ -132,34 +125,33 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 **Important:** "Quantity" refers to the number of individual items you need, NOT the number of packages you need to order since some items come with multiple items in one package.
 
-
 <div style="overflow-x: auto;">
 
-| #    | Item                                                         | Qty  | Product Link                   |
-| ---- | ------------------------------------------------------------ | ---- | ------------------------------ |
-| 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
-| 2    | MCP23017 I2C expander Board                                  | 1    | [Link](https://a.co/d/er7ux8r) |
-| 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
-| 4    | 100nF capacitor (same as 0.1 µf)                             | 4    | [Link](https://a.co/d/fP04dyW) |
-| 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
-| 6    | 3.5mm TRS male w/ standard ends                              | 4    | [Link](https://a.co/d/414YG9z) |
-| 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
-| 8    | 128x64 Mono OLED display (I2C)                               | 1    | [Link](https://a.co/d/bHAtiY2) |
-| 9    | Tactile buttons (6mm or your choice)                         | 14   | [Link](https://a.co/d/2j6JNsp) |
-| 10   | 22 AWG Siamese wire                                          | 1    | [Link](https://a.co/d/0pGa2wH) |
-| 11   | Small USB-A hub (2+ ports)                                   | 1    | [Link](https://a.co/d/4vWTHAC) |
-| 12   | USB Audio DAC with 3.5mm output (32-bit, 48kHz)              | 1    | [Link](https://a.co/d/au4BLDH) |
-| 13   | 6 inch 3.5mm TRS audio extension cable (Male to Female)      | 1    | [Link](https://a.co/d/cesBnrm) |
-| 14   | USB-A to USB-C converter                                     | 1    | [Link](https://a.co/d/bG4QJUF) |
-| 15   | Short USB-C to USB-A extension cable                         | 1    | [Link](https://a.co/d/d61CuLt) |
-| 16   | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4    | [Link](https://a.co/d/cSKAJ7D) |
-| 17   | 3.5mm TRS barrel coupler                                     | 4    | [Link](https://a.co/d/fOiYb5s) |
-| 18   | JST-XH 2.54mm Pitch connector kit                            | 1    | [Link](https://a.co/d/11FXUlI) |
-| 19   | 22 AWG Connection Ribbon Wire                                | 1    | [Link](https://a.co/d/1D5mJ8Z) |
-| 20   | 2.54mm pitch Header Pins                                     | 1    | [Link](https://a.co/d/6D4ftKM) |
-| 21   | Female DuPont connector wires                                | 1    | [Link](https://a.co/d/a7tXZma) |
-| 22   | Blank Protoboard Circuit Boards                              | 3    | [Link](https://a.co/d/2yOqCkd) |
-| 23   | 10ft USB-C to USB-C Cable                                    | 1    | [Link](https://a.co/d/6F0Ic5R) |
+| #   | Item                                                          | Qty | Product Link                   |
+| --- | ------------------------------------------------------------- | --- | ------------------------------ |
+| 1   | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://a.co/d/g9dFG88) |
+| 2   | MCP23017 I2C expander Board                                   | 1   | [Link](https://a.co/d/er7ux8r) |
+| 3   | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
+| 4   | 100nF capacitor (same as 0.1 µf)                              | 4   | [Link](https://a.co/d/fP04dyW) |
+| 5   | 3.5mm TRS FEMALE jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
+| 6   | 3.5mm TRS male w/ standard ends                               | 4   | [Link](https://a.co/d/414YG9z) |
+| 7   | 27mm Piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
+| 8   | 128x64 Mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
+| 9   | Tactile buttons (6mm or your choice)                          | 14  | [Link](https://a.co/d/2j6JNsp) |
+| 10  | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
+| 11  | Small USB-A hub (2+ ports)                                    | 1   | [Link](https://a.co/d/4vWTHAC) |
+| 12  | USB Audio DAC with 3.5mm output (32-bit, 48kHz)               | 1   | [Link](https://a.co/d/au4BLDH) |
+| 13  | 6 inch 3.5mm TRS audio extension cable (Male to Female)       | 1   | [Link](https://a.co/d/cesBnrm) |
+| 14  | USB-A to USB-C converter                                      | 1   | [Link](https://a.co/d/bG4QJUF) |
+| 15  | Short USB-C to USB-A extension cable                          | 1   | [Link](https://a.co/d/d61CuLt) |
+| 16  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
+| 17  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
+| 18  | JST-XH 2.54mm Pitch connector kit                             | 1   | [Link](https://a.co/d/11FXUlI) |
+| 19  | 22 AWG Connection Ribbon Wire                                 | 1   | [Link](https://a.co/d/1D5mJ8Z) |
+| 20  | 2.54mm pitch Header Pins                                      | 1   | [Link](https://a.co/d/6D4ftKM) |
+| 21  | Female DuPont connector wires                                 | 1   | [Link](https://a.co/d/a7tXZma) |
+| 22  | Blank Protoboard Circuit Boards                               | 3   | [Link](https://a.co/d/2yOqCkd) |
+| 23  | 10ft USB-C to USB-C Cable                                     | 1   | [Link](https://a.co/d/6F0Ic5R) |
 
 </div>
 
@@ -189,29 +181,27 @@ This guide assumes you have access to the following:
 10. Utility knife
 11. Rubber mallet
 
-
-
 ### **Hardware Parts List**
 
 <div style="overflow-x: auto;">
 
-| #    | Item                                                         | Qty  | Product Link                                                 |
-| ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
-| 1    | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) or call local lumberyard |
-| 2    | Strong Wood Glue                                             | 1    | [Link](https://a.co/d/1uKv6cR)                               |
-| 3    | M3x8mm bolts                                                 | 8    | [Link](https://a.co/d/52Q8UtD)                               |
-| 4    | M3x5mm threaded inserts                                      | 8    | [Link](https://a.co/d/bKB6OpW)                               |
-| 5    | M6x10mm wood threaded inserts                                | 14   | [Link](https://a.co/d/jhY5rYA)                               |
-| 6    | M6x20mm nylon bolts                                          | 14   | [Link](https://a.co/d/bPitQiX)                               |
-| 7    | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt) | 14   | [Link](https://a.co/d/9dWHezk)                               |
-| 8    | 3D printer filament (PLA)                                    | 1    | [Link](https://a.co/d/7cCSDtJ)                               |
-| 9    | Gel Superglue                                                | 1    | [Link](https://a.co/d/dxU7lfw)                               |
-| 10   | Loctite thread adhesive - Medium                             | 1    | [Link](https://a.co/d/2W890aJ)                               |
-| 11   | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed) | 1    | [Link](https://a.co/d/dfMhZ4k)                               |
-| 12   | Finger Knobs with pass-through M6 threads                    | 18   | [Link](https://a.co/d/hjL3QQP)                               |
-| 13   | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below) | 1    | [Link](https://a.co/d/2YkmhPj)                               |
-| 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
-| 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| #   | Item                                                                                                                                        | Qty | Product Link                                                                                                                        |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------- | --- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files                                              | 1   | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) or call local lumberyard |
+| 2   | Strong Wood Glue                                                                                                                            | 1   | [Link](https://a.co/d/1uKv6cR)                                                                                                      |
+| 3   | M3x8mm bolts                                                                                                                                | 8   | [Link](https://a.co/d/52Q8UtD)                                                                                                      |
+| 4   | M3x5mm threaded inserts                                                                                                                     | 8   | [Link](https://a.co/d/bKB6OpW)                                                                                                      |
+| 5   | M6x10mm wood threaded inserts                                                                                                               | 14  | [Link](https://a.co/d/jhY5rYA)                                                                                                      |
+| 6   | M6x20mm nylon bolts                                                                                                                         | 14  | [Link](https://a.co/d/bPitQiX)                                                                                                      |
+| 7   | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt)                                                   | 14  | [Link](https://a.co/d/9dWHezk)                                                                                                      |
+| 8   | 3D printer filament (PLA)                                                                                                                   | 1   | [Link](https://a.co/d/7cCSDtJ)                                                                                                      |
+| 9   | Gel Superglue                                                                                                                               | 1   | [Link](https://a.co/d/dxU7lfw)                                                                                                      |
+| 10  | Loctite thread adhesive - Medium                                                                                                            | 1   | [Link](https://a.co/d/2W890aJ)                                                                                                      |
+| 11  | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed)                                                                            | 1   | [Link](https://a.co/d/dfMhZ4k)                                                                                                      |
+| 12  | Finger Knobs with pass-through M6 threads                                                                                                   | 18  | [Link](https://a.co/d/hjL3QQP)                                                                                                      |
+| 13  | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below)                                                 | 1   | [Link](https://a.co/d/2YkmhPj)                                                                                                      |
+| 14  | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above)                                                   | 1   | [Link](https://a.co/d/gQioU8i)                                                                                                      |
+| 15  | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1   | [Link](https://taiko.ac/products/rubber-drum-pad)                                                                                   |
 
 </div>
 
@@ -249,16 +239,14 @@ The Seeed Studio **XIAO RP2040 board** is the brain, power source, and host for 
 
 **Note:** The MCP23017 board in this diagram is flipped horizontally to represent it being mounted on the opposite side of the circuit board from the buttons — that is why the lettering is reversed. All connections are labeled correctly, the characters themselves are just mirrored.
 
-
 ### **Board Pinouts**
+
 *(Enlarged Pin-outs of the main boards for easy reference)*
 
 <div align="center">
 <img src="images/Pictures/10000001000009F600000D02F3BF30D0.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">Click the image above for full-resolution)</div>
-
-
 
 ---
 
@@ -403,8 +391,6 @@ This is the other of the two wires that sends the display and navigation buttons
 
 Mount the OLED display on the same board as the MCP23017 and and navigation buttons.
 
-
-
 ---
 
 ### **<u>A13. Connect SDA to display</u>**
@@ -468,7 +454,6 @@ Solder your **14 navigation buttons** to your OLED circuit board in the same lay
 <img src="images/Pictures/buttonscropped.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
 ---
 
 ### **<u>A18. Connect button grounds</u>**
@@ -529,9 +514,9 @@ That's it for that step; the hard part is over!
 
 **Important:** The SVG files are provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.  If you try and make the drum smaller, other parts will not fit later on during the project.
 
-Verify the SVG files are at the correct scale before cutting by referencing the stated dimensions in the file.  Another quick way top check is to ensure that 14 mounting holes in the drum base for the rubber grommet bolts all measure exactly **6mm** in diameter in template the you're going to use to cut.
+Verify the SVG files are at the correct scale before cutting by referencing the stated dimensions in the file.  Another quick way to check is to ensure that 14 mounting holes in the drum base for the rubber grommet bolts all measure exactly **6mm** in diameter in template the you're going to use to cut.
 
-**No Laser cutter or CNC access?** No worries - there re other options.  Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand.  Double check that your printed templates are sized properly before cutting or drilling anything.
+**No Laser cutter or CNC access?** No worries - there are other options.  Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand.  Double check that your printed templates are sized properly before cutting or drilling anything.
 
 ### **B: Prepare the Wood**
 
@@ -698,7 +683,7 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
-Print 4 compelte sets of Sensor Housings (each set has a top and bottom)
+Print 4 complete sets of Sensor Housings (each set has a top and bottom)
 
 Use **PLA filament**.
 
@@ -743,7 +728,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 - **Red** connects to the **TIP** of the male TRS jack
 
 - **Black** connects to the **SLEEVE** of the male TRS jack.
-
+  
   (tip: you can use your multimeter in Continuity mode to check which terminal is the Sleeve and which is the Tip)
 
 <div align="center">
@@ -852,9 +837,6 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 <img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
-
 ---
 
 ### **<u>F6. Attach Drum Faces</u>**
@@ -876,8 +858,6 @@ Secure the drum faces against the baseplate by screwing the **M6 knobs** onto th
 <div align="center">
 <img src="images/Pictures/couplers.JPG" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-
 
 ---
 
@@ -908,8 +888,6 @@ I chose to not provide specific plans for the control box since everyone's layou
 - **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
 - **Simple alternatives:** Small shipping box, small plastic box, etc.  Even attaching everything to a single piece of cardboard would help.  You just want to avoid everything moving around.
 
-
-
 ---
 
 ### **G: Connect Drum To The Circuit and Control Box Example**
@@ -938,8 +916,6 @@ Mount the **4 Female TRS jacks** that are part of your circuit to the wall of yo
 <img src="images/Pictures/trstop.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
 ---
 
 ### **<u>G3. Mount USB-C to USB-A adapter</u>**
@@ -949,7 +925,6 @@ Connect the **USB C to USB A adapter** in the wall of your box so that the USB C
 <div align="center">
 <img src="images/Pictures/usbport.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 
 <div align="center">
 <img src="images/Pictures/1000000100000221000002E17277E344.png" width="350px" style="display: block; margin: 0 auto;">
@@ -996,7 +971,6 @@ Connect the **3.5mm Female end** of the short audio extension cable you just con
 <div align="center">
 <img src="images/Pictures/audiowall.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 
 ---
 
@@ -1071,9 +1045,9 @@ Hold down the small **"B" button** on your XIAO RP2040 micro controller board wh
 
 ### **Step 2: Wipe the Board**
 
-A good practice is to always flash a cleaning/nuke file to your board before you flash your actual firmware.  This clears out any residual memory or cache that, while rare, may still be hanging around that would conflict with your desired fiemware.
+A good practice is to always flash a cleaning/nuke file to your board before you flash your actual firmware.  This clears out any residual memory or cache that, while rare, may still be hanging around that would conflict with your desired firmware.
 
-To do this, drag the`universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode.  Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware1
+To do this, drag the`universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode.  Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware...
 
 ### **Step 3: Flash the Firmware**
 
@@ -1083,15 +1057,15 @@ You're ready for calibration and testing!
 
 ---
 
-## **8: Calibration & Settings
+## 8: **Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### ***<u>Complete this initial calibration before proceeding further</u>***
 
-Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Visit the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller shoudl also light up the same drum or button on the screen. 
+Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Visit the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller should also light up the same drum or button on the screen. 
 
-By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double its, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
+By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double hits, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
 
 ### **<u>Basic Drum Hit Threshold Calibration</u>**
 
@@ -1155,8 +1129,6 @@ This defines how long a hit is "held" before the drum accepts another.
 
 - Use Debug mode to see raw ADC values (should be 200-400 baseline)
 
-  
-
 There you have it - You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
 
 **You're Ready to Play!**
@@ -1179,14 +1151,11 @@ There you have it - You've just built a professional controller circuit with ada
 
 - [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
-  
-
 ---
 
 ## **10: Basic Troubleshooting**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
 
 <b>🖥️ DISPLAY Issues</b>
 
@@ -1195,8 +1164,6 @@ There you have it - You've just built a professional controller circuit with ada
 - **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
-
-
 <b>🥁 SENSOR Issues</b>
 
 - **No response:** Check diode polarity, TRS wiring
@@ -1204,21 +1171,16 @@ There you have it - You've just built a professional controller circuit with ada
 - **Missed hits:** Decrease thresholds, check mounting
 - **Crosstalk:** Increase threshold on triggering pad
 
-
-
 <b>🎮 MODE SWITCHING Issues</b>
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
-
-
 
 <b>🔊 AUDIO Issues</b>
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
 - **Latency:** Should be <5ms, check game/computer settings
-
 
 If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
 
@@ -1247,8 +1209,6 @@ I also want to take a moment to mention a few, more general resources that were 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
 - [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
-
-
 
 ### <u>**Closing Thoughts**</u>
 
