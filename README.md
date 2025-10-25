@@ -1,6 +1,9 @@
+
+
 <div align="center">
 <img src="images/Pictures/10000001000009F600000CE4BA065654.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
+
 
 ---
 
@@ -41,9 +44,11 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 <div align="center">
 <img src="images/Pictures/1000000000000753000009C464647684.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-**Congratulations!**
 
-Hi, I'm KillerQ. Welcome to my  **"OuchiTaiko Project: Arcade Controller Build Guide."** You're about to build the most functional and comprehensive Arcade-scale home Taiko drum controller ever created. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home.
+
+Hi, I'm KillerQ. Welcome to my  **"OuchiTaiko Project" Arcade Controller Build Guide.** 
+
+Congratulations, you're about to build the most functional and comprehensive Arcade-scale home Taiko drum controller ever created. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home.
 
 Completing the OuchiTaiko Project will leave you with a pioneering adaptive drum design—the first of its kind for any home Arcade controller—addressing the limited availability and high cost of commercial units, or other units that claim to be professional.
 
@@ -888,32 +893,34 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 
 You're almost there!
 
-The USB hub and USB DAC steps below are required for the build, but the structural enclosure itself is optional.
+The USB hub and USB DAC steps below *are* required for the build, but the physical structural enclosure itself is optional.
 
-That said, some type of control box enclosure is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
-
-### **Enclosure Options**
-
-- **Custom wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
-- **Simple alternatives:** Cardboard box or small plastic storage container work fine
+That said, at least some type of control box enclosure or housing is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
 
 I chose to not provide specific plans for the control box since everyone's layout will vary slightly depending on their build choices and creative freedom. The steps below show my personal approach that you can adapt your own version.
 
+### **Optional Enclosure Ideas**
+
+- **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
+- **Simple alternatives:** Small shipping box, small plastic box, etc.  Even attaching everything to a single piece of cardboard would help.  You just want to avoid everything moving around.
+
+
+
 ---
 
-### **G: Connect Sensors To The Circuit**
+### **G: Connect Drum To The Circuit and Control Box Example**
 
 ### **<u>G1. Connect sensor cables to circuit</u>**
 
-Using **short male-to-male 3.5mm TRS cables**, connect the bottom of the 4 couplers from the last step to the input of the Female TRS jacks on your completed circuit.
+Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers to the input of the Female TRS jacks on your completed circuit.
 
 This completes the core circuit assembly.
 
-The next step will incorporate a few last steps to make the connections more user-friendly, as well as keep your circuit protected in an enclosure.
+The next step will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
 
 ---
 
-### **Final Connections and Housing**
+### **Final Connections**
 
 ### **<u>G2. Mount TRS jacks to control box</u>**
 
@@ -924,8 +931,10 @@ Mount the **4 Female TRS jacks** that are part of your circuit to the wall of yo
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/trstop.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+
 
 ---
 
@@ -934,8 +943,9 @@ Mount the **4 Female TRS jacks** that are part of your circuit to the wall of yo
 Connect the **USB C to USB A adapter** in the wall of your box so that the USB C portion is facing the outside of the box. Use **hot glue** to affix in place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008005AA2E536.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/usbport.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
 
 <div align="center">
 <img src="images/Pictures/1000000100000221000002E17277E344.png" width="350px" style="display: block; margin: 0 auto;">
@@ -976,12 +986,13 @@ Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS ex
 Connect the **3.5mm Female end** of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use **hot glue** to affix in place.
 
 <div align="center">
-<img src="images/Pictures/1000000000000600000008008135383A.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/audioport.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/1000000100000221000002E17277E344.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/audiowall.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
 
 ---
 
@@ -1001,7 +1012,7 @@ Here's an example of how the inside of your control box may look.
 
 Take your time with wire management. It doesn't have to be the prettiest thing in the world but make sure of the following:
 
-- All connections are secure, and nothing will be bent or stressed or pulled loose when the box is closed
+- All connections are secure, and nothing will be bent or stressed or pulled loose when the box is opened or closed
 - As much as possible, route your VCC power lines and ground lines away from signal wires and button wires
 
 <div align="center">
@@ -1014,7 +1025,7 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 ### **<u>H1. Mount bracket to speaker stand</u>**
 
-Mount bracket to the speaker stand.
+Mount the angled speaker bracket to the speaker stand.
 
 <div align="center">
 <img src="images/Pictures/10000001000002210000026E92CF05A8.png" width="350px" style="display: block; margin: 0 auto;">
@@ -1034,7 +1045,7 @@ Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensio
 
 If that isn't an option for you, you can try using a towel, blanket, large mouse pad, thin foam, whatever you want that gives you sound-reducing qualities as well as the amount of bounce that you're looking for.
 
-The beauty of my Project is that you can adjust the Drum and make it perform just how you want regardless of Drum cover.
+The beauty of my Project is that you can adjust the Drum Thresholds and make it perform just how you want regardless of Drum cover.
 
 <div align="center">
 <img src="images/Pictures/1000000000000753000009C4DA4EE4D3.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1052,88 +1063,97 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 
 ### **Step 1: Enter Boot Mode**
 
-Hold down the small **"B" button** on your actual XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.
+Hold down the small **"B" button** on your XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.  The board is now in BOOT mode, and is waiting for you to load a file to it.
 
 ### **Step 2: Wipe the Board**
 
-Drag `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear, ready for the next step. Repeat this step one more time for good measure.
+A good practice is to always flash a cleaning/nuke file to your board before you flash your actual firmware.  This clears out any residual memory or cache that, while rare, may still be hanging around that would conflict with your desired fiemware.
+
+To do this, drag the`universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode.  Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware1
 
 ### **Step 3: Flash the Firmware**
 
-Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.
+Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.  If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it.  This will manually reboot it, and it's ready to go!
 
 You're ready for calibration and testing!
 
 ---
 
-## **8: Calibration & Setup**
+## **8: Calibration & Settings
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### **Complete this initial calibration before proceeding further**
+### ***<u>Complete this initial calibration before proceeding further</u>***
 
-Long-press **SELECT** to enter setup mode. Set controller emulation to **SWITCH TATACON mode** (default). Tap all four drum sensors and press all 14 navigation buttons at the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon). You're just ensuring that they register at all, and in the correct location. If automatic drum hits occur without touching anything, don't worry—this is normal during initial setup, and the calibration process below will fix it.
+Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Visit the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller shoudl also light up the same drum or button on the screen. 
 
-### **Basic Drum Hit Calibration**
+By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double its, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
+
+### **<u>Basic Drum Hit Threshold Calibration</u>**
 
 #### **Step 1: Enter the Drum Settings**
 
 - Hold **SELECT** for 1 second to open the Main Menu
-- Scroll to **Drum Settings** → press **B / Circle** to open
+- Scroll to **Drum Settings** → press **A** to open
 
 #### **Step 2: Adjust Drum Thresholds**
 
-Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value — how hard you must hit before it registers.
+Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value — that is, how hard you must hit before it registers.
 
-- If light hits don't register, **lower** the threshold
-- If false hits happen too easily, **raise** the threshold
-- If you find that hitting one drum causes ANOTHER drum to trigger, **raise the threshold value** of the drum that accidentally triggered by a one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
+- If light/regular hits don't register, **lower** the threshold
+- If false hits happen too easily, or even the slightest accidental bump registers as a hit, **raise** the threshold
+- If you find that hitting one drum causes ANOTHER drum to trigger, **raise the threshold value** **of the drum that accidentally triggered** by one or two steps. Repeat this until all drums function normally. This should only need to be done once during the initial setup with your particular drum
 
 ---
 
 ### **Extended Drum Setting Features**
 
-#### **Big Hit Arcade Mode**
+#### <u>**Big Hit Arcade Mode**</u>
 
-This controls how the drum reacts to very strong strikes. By default, home versions of the Taiko games give full points for Big Notes by simply hitting both Don or Ka at the same time. My Big Hit Arcade Mode allows for that "Arcade Hit" where you have to hit the Don or Ka *harder* to get credit for the Big Notes — just like the Official Taiko Arcade Machines operate.
+This controls how the drum reacts to very strong strikes
 
-- Set Detection: **ON**
-- Adjust Threshold Level: Start around **850**
+In the Arcade, to get full points for Big Notes, you have to hit the any Don or Ka *much harder* than your regular note hits.  Because most existing home Taiko drums didn't have the technology to detect when a hit was harder than other hits,  home Console ports and PC versions of Taiko games changed the method up a bit, and would give full points for Big Notes by simply hitting both Don or Ka at the same time - instead of just hitting a single Don or Ka harder.
+
+My **Big Hit Arcade Mode** solves that, and allows for that "Arcade Hit" where you can simply hit the Don or Ka of your choice *harder* than typical hits to get credit for the Big Notes - Just like how Official Taiko Arcade Machines operate.
+
+- Set Mode to: **ON**
+- Adjust Threshold Level: Start around **850** (Big Hit threshold is typically 2-3x normal threshold)
 - **Increase** the value to lower the threshold of what counts as a Big Hit
 - **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
 
-#### **SimulTap Mode**
+#### <u>**SimulTap Mode**</u>
 
-By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay — this simply helps ensure clean hits).
+By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay, and helps ensure clean hits).  If you wanted to use this controller to play your other favorite 4-lane rhythm games, this would be an issue.  So, I added this mode that lets you toggle whether there are hit limitations.
 
-- Turn **SimulTap ON** if you want combined left + right hits to register as a single action
-- Leave it **OFF** for standard play or if you notice misreads
+- Turn **SimulTap ON** if you want to use the Drum in non-Taiko Rhythm Games (since you'll want the ability to hit more than one drum/note at the same time)
+- Leave it **OFF** when playing Taiko Games.
 
-#### **Hold Time**
+#### <u>**Hold Time**</u>
 
 This defines how long a hit is "held" before the drum accepts another.
 
 - Recommended range: **25—35ms**
 - **Increase** if double hits register too fast
 - **Decrease** if hits feel laggy or delayed
-- In most cases, this is not needed — some say it helps when playing on the Nintendo Switch
+- In most cases, this is not needed — some say a level of at least 25ms is needed when playing on the Nintendo Switch
 
 ---
 
-### **Display Tips While Playing**
+### **OLED Display Featured While Playing**
 
 - Streak counter resets after 1 second of inactivity
 - Main Screen Character animations confirm every registered hit
 - Each character represents its drum position (left to right)
-- Consistent missed hits on one pad? Check that pad's threshold
 
 ### **Pro Tips**
 
 - Different drum covers may need threshold adjustment
-- Big Hit threshold is typically 2-3x normal threshold
+
 - Use Debug mode to see raw ADC values (should be 200-400 baseline)
 
-You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
+  
+
+There you have it - You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
 
 **You're Ready to Play!**
 
@@ -1150,9 +1170,12 @@ You've just built a professional controller circuit with adaptive baseline techn
 💾 Here are the files referenced throughout the guide for quick reference:
 
 - [Download all SVG and STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+
 - [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+
 - [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
-- To Download a copy of this guide, use the download link on the landing page at [www.OuchiTaiko.com](http://www.OuchiTaiko.com) or simply save the PDF using your Web Browser's preferred method
+
+  
 
 ---
 
@@ -1160,47 +1183,40 @@ You've just built a professional controller circuit with adaptive baseline techn
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-<details>
-<summary><b>🖥️ DISPLAY Issues</b></summary>
+
+<b>🖥️ DISPLAY Issues</b>
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
 - **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
-</details>
 
 
-<details>
-<summary><b>🥁 SENSOR Issues</b></summary>
+<b>🥁 SENSOR Issues</b>
 
 - **No response:** Check diode polarity, TRS wiring
 - **False triggers:** Increase thresholds
 - **Missed hits:** Decrease thresholds, check mounting
 - **Crosstalk:** Increase threshold on triggering pad
 
-</details>
 
 
-<details>
-<summary><b>🎮 MODE SWITCHING Issues</b></summary>
+<b>🎮 MODE SWITCHING Issues</b>
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
-</details>
 
 
-<details>
-<summary><b>🔊 AUDIO Issues</b></summary>
+<b>🔊 AUDIO Issues</b>
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
 - **Latency:** Should be <5ms, check game/computer settings
 
-</details>
 
-If you have trouble with a particular game version, note your current emulation mode and research what others have done to get that controller series working with your game version.
+If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
 
 ---
 
@@ -1208,9 +1224,9 @@ If you have trouble with a particular game version, note your current emulation 
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-This project is a one-of-a-kind Hybrid product that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
+This project is a one-of-a-kind Hybrid creation that pulls from several amazing resources. As they say, "We stand on the shoulders of Giants…"
 
-The core firmware as well the navigation and OSD hardware portion of the Circuit was adapted from the amazing work by 'ravinrabbid' who created the **[DonCon 2040](https://github.com/ravinrabbid/DonCon2040)** Project. You can visit there for more of the nitty-gritty details of the software.
+The core firmware version as well the navigation and OSD hardware portion of the Circuit was adapted from the amazing work by 'ravinrabbid' who created the **[DonCon 2040](https://github.com/ravinrabbid/DonCon2040)** Project. You can visit there for more of the nitty-gritty details of the software.
 
 The inspiration for the circuit came from the great, amazingly straightforward circuitry work by 'kasasiki3' who created the **[HIDtaiko](https://github.com/kasasiki3/HIDtaiko/tree/master)** Project (2040 edition).
 
@@ -1218,23 +1234,31 @@ Without these two projects, none of this would have been possible.
 
 Credit to 'Gadgetoid' on GitHub for his [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke) file that helps clean things up between flashes.
 
-Credit to the creative minds over at [Boxes.py](https://boxes.hackerspace-bamberg.de/) as well for creating the ultimate box-creating resource. It offers endless ideas and guides on how to make enclosure boxes for pretty much anything - especially projects like this.
+Credit also goes to the creative minds over at [Boxes.py](https://boxes.hackerspace-bamberg.de/) as well for creating the ultimate box-creating resource. It offers endless ideas and guides on how to make enclosure boxes for pretty much anything - especially projects like this.
 
 I want to thank Discord user 'Allspice.' I discovered a random message from him in my inbox one day asking if he could help test my Taiko Project when I was finished creating it. He said he had only basic soldering skills, yet he was able to successfully build the entire circuit from scratch as well as the drum! Even more importantly, he helped shape this how-to guide that you are reading right now.
 
-I also want to take a moment to mention a few resources that were invaluable for me during this entire process. These are great if you ever want to go down the rabbit hole of the world of Taiko no Tatsujin modding or Custom Controller creation - with these assets, you have the power to create anything imaginable:
+I also want to take a moment to mention a few, more general resources that were invaluable for me during this entire process. These are great if you ever want to go down the rabbit hole of the world of Taiko no Tatsujin modding or Custom Controller creation - with these assets at your disposal, you have the power to create anything imaginable:
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
 - [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
-(If you have any questions, please use the Discussion panel on my GitHub. You can also ask common, non-project-specific questions in the appropriate section of any of the forums mentioned above and tag me if needed.)
 
-### **Spread The Word**
+
+### <u>**Closing Thoughts**</u>
+
+I can't thank you enough for taking the time to follow along with my guide.  It really means a lot.
+
+If you have any project-specific questions or suggestions, please use the Discussion panel on my GitHub. You can also ask more general questions in any of the Discord Channels I mentioned above - they are all very helpful in their own way.
+
+#### **Spread The Word**
 
 Please share your results and excitement as well as this guide with your favorite DIY gaming communities. Tag me (KillerQ97) when you do!
 
 Enjoy, Have Fun, and Peace Out!
+
+www.ouchitaiko.com
 
 ---
 
@@ -1536,6 +1560,8 @@ This project is fully transparent about its licensing and gives proper credit to
 Thank you to ravinrabbid and kasasiki3 for their incredible open-source contributions that made this project possible.
 
 **KillerQ**
+
+www.ouchitaiko.com
 
 ---
 
