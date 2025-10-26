@@ -63,7 +63,8 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
-- **Adaptive Baseline Software Technology (ABSI):** Custom-designed, velocity-sensing triggers for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by the option of hitting Big Notes *harder* for full points  
+- **Adaptive Baseline Software Technology (ABSI):** Custom-designed, velocity-sensing triggers for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by the option of hitting Big Notes *harder* for full points - 
+- **Taiko-Tune™ Auto-Calibration System:** Revolutionary ***automatic ***drum calibration - the world's first automated threshold detection for Taiko controllers. Hit each pad until the progress bar reaches 100%, and the system analyzes your playing style and automatically sets optimal sensitivity levels - virtually eliminates all double hits and ghost notes. No manual tweaking, no guesswork - just perfect calibration in under 2 minutes per pad.
 - **Zero Coding or Programming Skills Required:** Simply Drag-and-drop my completed firmware for instant use and simple setup
 
 **🔧 Advanced Hardware & Connectivity**
@@ -1069,7 +1070,9 @@ Long-press **SELECT**  for approximately one second to enter setup mode. The con
 
 By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double hits, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
 
-### **<u>Basic Drum Hit Threshold Calibration</u>**
+### **<u>Manual Drum Hit Threshold Calibration</u>**
+
+*Note: If you prefer automated calibration, skip to the **Taiko-Tune™ Auto-Calibration System** section below - it's faster and more accurate.*
 
 #### **Step 1: Enter the Drum Settings**
 
@@ -1086,7 +1089,52 @@ Each pad (Left Ka, Left Don, Right Don, Right Ka) has its own threshold value �
 
 ---
 
-### **Extended Drum Setting Features**
+### **<u>Taiko-Tune™ Auto-Calibration System (Recommended)</u>**
+
+**The world's first automated calibration system for Taiko drum controllers** - a revolutionary feature that eliminates the manual threshold guesswork.
+
+#### **What is Taiko-Tune?**
+
+Instead of manually adjusting thresholds through trial and error, Taiko-Tune analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
+
+- Monitors hits in real-time until progress bar reaches 100%
+- Analyzes velocity patterns and strike consistency  
+- Detects cross-talk between adjacent pads and adjusts accordingly
+- Automatically applies mathematically optimal threshold values
+- Adapts to your unique playing style and drum cover choice
+
+#### **How to Use Taiko-Tune:**
+
+1. **Enter the Menu:** Hold **SELECT** for 1 second
+2. **Navigate to Drum Settings** → **Drum Thresholds** → **Auto Taiko-Tune**
+3. **Select a pad** to calibrate (Left Ka, Left Don, Right Don, or Right Ka)
+4. **Wait for the 3-second countdown** (this samples ambient noise, do not touch the drum ***<u>at all </u>***during this countdown)
+5. **Hit the selected pad until the progress meter reaches 100%** using your normal playing intensity
+   - Hit naturally - don't baby it or go crazy
+   - Mix light taps and stronger hits like you would during actual gameplay
+   - Progress bar shows completion status
+6. **Automatic application:** Optimal threshold is calculated and applied instantly
+
+#### **Why Use Taiko-Tune Instead of Manual Calibration?**
+
+- **Faster:** 2 minutes or less per pad vs. 10+ minutes of manual testing
+- **More accurate:** Mathematical analysis vs. guesswork
+- **Adapts to you:** Learns your specific playing dynamics
+- **Eliminates crosstalk:** Automatically detects and compensates for pad interference
+- **Future-proof:** Recalibrate anytime if you change drum covers or playing style
+
+#### **When to Recalibrate:**
+
+- After changing drum covers or padding
+- If you notice sensitivity has changed over time (this should never happen, however)
+- When switching between soft and aggressive playing styles
+- After any hardware modifications
+
+**Pro Tip:** You can mix Taiko-Tune with manual adjustments - let Taiko-Tune set the baseline, then fine-tune individual pads ±5-10 points if desired.
+
+---
+
+### <u>Extended Drum Setting Features</u>
 
 #### <u>**Big Hit Arcade Mode**</u>
 
