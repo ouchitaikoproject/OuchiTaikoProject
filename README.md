@@ -1064,13 +1064,11 @@ You're ready for calibration and testing!
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
----
 ### ***<u>Complete this initial calibration before proceeding further</u>***
 
 Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Visit the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller should also light up the same drum or button on the screen. 
 
 By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double hits, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
----
 
 ### **<u>Taiko-Tune™ Auto-Calibration System (Recommended)</u>**
 
