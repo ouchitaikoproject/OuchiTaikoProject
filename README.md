@@ -1063,7 +1063,7 @@ You're ready for calibration and testing!
 ## 8: **Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
----
+
 ---
 ### ***<u>Complete this initial calibration before proceeding further</u>***
 
@@ -1071,7 +1071,7 @@ Long-press **SELECT**  for approximately one second to enter setup mode. The con
 
 By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double hits, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
 ---
----
+
 ### **<u>Taiko-Tune™ Auto-Calibration System (Recommended)</u>**
 
 **The world's first automated calibration system for Taiko drum controllers** - a revolutionary feature that eliminates the manual threshold guesswork.
