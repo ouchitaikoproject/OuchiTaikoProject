@@ -21,7 +21,7 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 - [5: Build the Drum](#5-build-the-drum)
 - [6: Control Box](#6-control-box)
 - [7: Flash The Firmware](#7-flash-the-firmware)
-- [8: Calibration & Setup](#8-calibration--setup)
+- [8: Calibration & Setup](#8-calibration-setup)
 - [9: Files & Downloads](#9-files--downloads)
 - [10: Basic Troubleshooting](#10-basic-troubleshooting)
 - [11: About](#11-about)
