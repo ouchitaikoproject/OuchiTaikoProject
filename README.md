@@ -1064,11 +1064,14 @@ You're ready for calibration and testing!
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### ***<u>Complete this initial calibration before proceeding further</u>***
+### ***<u>Complete this below button and drum pad test before any calibration</u>***
 
-Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Visit the [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller should also light up the same drum or button on the screen. 
+By doing this step, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. 
 
-By doing this, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. *If you notice any automatic drum hits happening or you experience double hits, don't worry—this is normal before initial threshold setup, and the calibration process below will fix it.*
+Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Stay inside the Menu structure for this test (this prevents any fall triggers from interrupting your button test). 
+Now, visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller should also light up the same drum or button on the screen. 
+
+You can now exit the menu screen.  Again, if you notice any automatic/false triggering of the drum panels, you can ignore that as the below calibration will solve that trmporary issue.
 
 ### **<u>Taiko-Tune™ Auto-Calibration System (Recommended)</u>**
 
