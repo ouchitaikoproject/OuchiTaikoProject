@@ -1313,8 +1313,8 @@ If you have trouble with a particular version of a Taiko game, note your current
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **Quick Access**
-- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 - **Hold SELECT (1 sec):** Enter main menu
+- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 
 ---
 
@@ -1329,7 +1329,7 @@ If you have trouble with a particular version of a Taiko game, note your current
 | **EAST (A)** | Any menu | Confirm selection |
 | **SOUTH (B)** | Any menu | Cancel / Go back |
 
-**Note:** Throughout this guide, EAST = A button, SOUTH = B button
+**Note:** Throughout this guide, A button = EAST = , B button SOUTH
 
 ---
 
@@ -1436,32 +1436,12 @@ MAIN MENU
 
 ---
 
-### **Special Behaviors**
-
-**Controller Mode Selection:**
-- Changing mode automatically schedules a reboot
-- After confirming with A, device reboots in 3 seconds
-- B cancels before confirming (restores original mode)
-
-**Taiko-Tune Analysis:**
-- A starts the countdown and analysis
-- B cancels at any time (restores previous thresholds)
-- Results auto-apply when complete
-
-**Hold-to-Repeat:**
-- Holding UP/DOWN starts fast after 1 second
-- Ultra-fast repeat after 5 seconds
-- Useful for large value adjustments
-
----
-
 ### **Idle Screen Display**
 
 When not in menu, the OLED shows:
 - **Top:** Current controller mode
-- **Center:** 4 animated characters (Left Ka, Left Don, Right Don, Right Ka)
-- **Middle:** Live streak counter (resets after 1 sec)
-- **Bottom:** "Hold SELECT for menu"
+- **Center:** 4 animated Spheres (Left Ka, Left Don, Right Don, Right Ka)
+- **Middle:** Live streak counter (Will start voer from Zero after 1 sec of idling)
 
 ---
 
