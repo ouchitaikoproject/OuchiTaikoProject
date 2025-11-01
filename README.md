@@ -24,8 +24,9 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 - [8: Calibration & Settings](#8-calibration--settings)
 - [9: Files & Downloads](#9-files--downloads)
 - [10: Basic Troubleshooting](#10-basic-troubleshooting)
-- [11: About](#11-about)
-- [12: Copyright Information](#12-copyright-information)
+- [11: Menu System Reference](#11-menu-system-reference)
+- [12: About](#12-about)
+- [13: Copyright Information](#13-copyright-information)
 
 ---
 
@@ -1307,7 +1308,164 @@ If you have trouble with a particular version of a Taiko game, note your current
 
 ---
 
-## **11: About**
+## **11: Menu System Reference**
+
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
+### **Quick Access**
+- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
+- **Hold SELECT (1 sec):** Enter main menu
+
+---
+
+### **Navigation Controls**
+
+| Button | Menu Type | Action |
+|--------|-----------|--------|
+| **LEFT/RIGHT** | Menu items | Navigate between options |
+| **LEFT/RIGHT** | Toggle | Switch ON/OFF |
+| **LEFT/RIGHT** | Selection | Cycle through choices |
+| **UP/DOWN** | Value adjust | Increase/decrease numbers |
+| **EAST (A)** | Any menu | Confirm selection |
+| **SOUTH (B)** | Any menu | Cancel / Go back |
+
+**Note:** Throughout this guide, EAST = A button, SOUTH = B button
+
+---
+
+### **Complete Menu Structure**
+
+```
+MAIN MENU
+│
+├── 🎮 Controller Modes
+│   ├── Nintendo Switch Tatacon Drum
+│   ├── Nintendo Switch Pro Controller
+│   ├── Sony PS3 Dualshock3
+│   ├── Sony PS4 Tatacon Drum
+│   ├── Sony PS4 Dualshock4
+│   ├── Keyboard Player 1
+│   ├── Keyboard Player 2
+│   ├── Microsoft Xbox Xbox360
+│   ├── Android (XInput)
+│   ├── iOS (XInput)
+│   ├── Analog Player 1
+│   ├── Analog Player 2
+│   ├── MIDI Controller
+│   └── Debug Mode
+│   [LEFT/RIGHT to select, A to confirm & reboot]
+│
+├── 🥁 Drum Settings
+│   │
+│   ├── Drum Thresholds
+│   │   │
+│   │   ├── Auto Taiko-Tune ⚡
+│   │   │   ├── Analyze All 4 Drums
+│   │   │   ├── Analyze Left Ka
+│   │   │   ├── Analyze Left Don
+│   │   │   ├── Analyze Right Don
+│   │   │   └── Analyze Right Ka
+│   │   │   [LEFT/RIGHT to select, A to start]
+│   │   │
+│   │   ├── Manual Pad Adjust
+│   │   │   ├── Left Ka (0-4095)
+│   │   │   ├── Left Don (0-4095)
+│   │   │   ├── Right Don (0-4095)
+│   │   │   └── Right Ka (0-4095)
+│   │   │   [UP/DOWN to adjust, A to save, B to cancel]
+│   │   │
+│   │   └── Reset Thresholds
+│   │       ├── No, Thank You!
+│   │       └── Yes, Please!
+│   │
+│   ├── Big Hit Arcade Mode
+│   │   ├── Mode On/Off [LEFT/RIGHT toggle]
+│   │   └── Threshold Level (0-4095) [UP/DOWN adjust]
+│   │
+│   ├── SimulTap Mode
+│   │   └── ON/OFF [LEFT/RIGHT toggle]
+│   │
+│   └── Hold Time
+│       └── Adjust (0-255 ms) [UP/DOWN adjust]
+│
+├── 💡 LED Settings
+│   ├── Brightness (0-255) [UP/DOWN adjust]
+│   └── Player Color (PS4) [LEFT/RIGHT toggle]
+│
+├── ℹ️ About
+│   ├── OuchiTaiko Project by KillerQ
+│   ├── Full Guide & Info: ouchitaiko.com
+│   ├── Firmware v1.0 October 2025
+│   ├── Based on: DonCon2040 (MIT)
+│   └── & HIDtaiko (Apache 2.0)
+│   [LEFT/RIGHT to scroll info]
+│
+├── 🔄 Reset
+│   ├── No, Thank You!
+│   └── Yes, Please!
+│
+└── 💾 USB Flash Mode
+    ├── Yes, Reboot Now
+    └── No, Go Back!
+```
+
+---
+
+### **Detailed Control Reference by Menu Type**
+
+#### **Menu Type: Menu (List Navigation)**
+- **LEFT/RIGHT:** Cycle through menu options
+- **A:** Select and enter sub-menu
+- **B:** Go back to previous menu
+
+#### **Menu Type: Selection (Choose One)**
+- **LEFT/RIGHT:** Cycle through choices
+- **A:** Confirm selection (for Controller Mode: triggers reboot)
+- **B:** Cancel and restore original value
+
+#### **Menu Type: Toggle (ON/OFF)**
+- **LEFT/RIGHT:** Switch between ON and OFF (applies immediately)
+- **A:** Confirm and exit
+- **B:** Cancel and restore original value
+
+#### **Menu Type: Value (Number Adjustment)**
+- **UP:** Increase value by 1 (holds to fast-repeat)
+- **DOWN:** Decrease value by 1 (holds to fast-repeat)
+- **A:** Save value and exit
+- **B:** Cancel and restore original value
+
+---
+
+### **Special Behaviors**
+
+**Controller Mode Selection:**
+- Changing mode automatically schedules a reboot
+- After confirming with A, device reboots in 3 seconds
+- B cancels before confirming (restores original mode)
+
+**Taiko-Tune Analysis:**
+- A starts the countdown and analysis
+- B cancels at any time (restores previous thresholds)
+- Results auto-apply when complete
+
+**Hold-to-Repeat:**
+- Holding UP/DOWN starts fast after 1 second
+- Ultra-fast repeat after 5 seconds
+- Useful for large value adjustments
+
+---
+
+### **Idle Screen Display**
+
+When not in menu, the OLED shows:
+- **Top:** Current controller mode
+- **Center:** 4 animated characters (Left Ka, Left Don, Right Don, Right Ka)
+- **Middle:** Live streak counter (resets after 1 sec)
+- **Bottom:** "Hold SELECT for menu"
+
+---
+
+## **12: About**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1347,7 +1505,7 @@ www.ouchitaiko.com
 
 ---
 
-## **12: Copyright Information**
+## **13: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
