@@ -1375,11 +1375,11 @@ MAIN MENU
 │   │   │   [UP/DOWN to adjust, A to save, B to cancel]
 │   │   │
 │   │   └── Reset Thresholds
-│   │       ├── No, Thank You!
-│   │       └── Yes, Please!
+│   │       └── No/Yes [LEFT/RIGHT, A to confirm]
 │   │
 │   ├── Big Hit Arcade Mode
-│   │   ├── Mode On/Off [LEFT/RIGHT toggle]
+│   │   ├── Mode
+│   │   │   └── ON/OFF [LEFT/RIGHT toggle]
 │   │   └── Threshold Level (0-4095) [UP/DOWN adjust]
 │   │
 │   ├── SimulTap Mode
@@ -1390,7 +1390,8 @@ MAIN MENU
 │
 ├── 💡 LED Settings
 │   ├── Brightness (0-255) [UP/DOWN adjust]
-│   └── Player Color (PS4) [LEFT/RIGHT toggle]
+│   └── Player Color (PS4)
+│       └── ON/OFF [LEFT/RIGHT toggle]
 │
 ├── ℹ️ About
 │   ├── OuchiTaiko Project by KillerQ
@@ -1401,12 +1402,10 @@ MAIN MENU
 │   [LEFT/RIGHT to scroll info]
 │
 ├── 🔄 Reset
-│   ├── No, Thank You!
-│   └── Yes, Please!
+│   └── No/Yes [LEFT/RIGHT, A to confirm]
 │
 └── 💾 USB Flash Mode
-    ├── Yes, Reboot Now
-    └── No, Go Back!
+    └── No/Yes [LEFT/RIGHT, A to confirm]
 ```
 
 ---
