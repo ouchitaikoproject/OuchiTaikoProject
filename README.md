@@ -24,7 +24,7 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 - [8: Calibration & Settings](#8-calibration--settings)
 - [9: Files & Downloads](#9-files--downloads)
 - [10: Basic Troubleshooting](#10-basic-troubleshooting)
-- [11: Menu System Reference](#11-menu-system-reference)
+- [11: Menu Tree Structure/Quick Reference](#11-menu-system-reference)
 - [12: About](#12-about)
 - [13: Copyright Information](#13-copyright-information)
 
@@ -1409,7 +1409,7 @@ MAIN MENU
 
 When not in menu, the OLED shows:
 - **Top:** Current controller mode
-- **Center:** 4 animated spheres (Left Ka, Left Don, Right Don, Right Ka)
+- **Center:** 4 animated feedback spheres (Left Ka, Left Don, Right Don, Right Ka)
 - **Bottom:** Live streak counter (resets after 1 sec idle)
 
 ---
