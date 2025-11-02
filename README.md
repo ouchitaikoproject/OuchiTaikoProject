@@ -1320,21 +1320,16 @@ If you have trouble with a particular version of a Taiko game, note your current
 
 ### **Navigation Controls**
 
-| Button | Menu Type | Action |
-|--------|-----------|--------|
-| **LEFT/RIGHT** | Menu items | Navigate between options |
-| **LEFT/RIGHT** | Toggle | Switch ON/OFF |
-| **LEFT/RIGHT** | Selection | Cycle through choices |
-| **UP/DOWN** | Value adjust | Increase/decrease numbers |
-| **EAST (A)** | Any menu | Confirm selection |
-| **SOUTH (B)** | Any menu | Cancel / Go back |
-
-**Note:** Throughout this guide, A button = EAST = , B button SOUTH
+| Button | Action |
+|--------|--------|
+| **LEFT/RIGHT** | Navigate menu items / Toggle ON-OFF / Cycle selections |
+| **UP/DOWN** | Adjust values (hold to fast-repeat) |
+| **EAST (A)** | Confirm selection / Save changes |
+| **SOUTH (B)** | Cancel / Go back / Restore original value |
 
 ---
 
 ### **Complete Menu Structure**
-
 ```
 MAIN MENU
 │
@@ -1410,37 +1405,12 @@ MAIN MENU
 
 ---
 
-### **Detailed Control Reference by Menu Type**
-
-#### **Menu Type: Menu (List Navigation)**
-- **LEFT/RIGHT:** Cycle through menu options
-- **A:** Select and enter sub-menu
-- **B:** Go back to previous menu
-
-#### **Menu Type: Selection (Choose One)**
-- **LEFT/RIGHT:** Cycle through choices
-- **A:** Confirm selection (for Controller Mode: triggers reboot)
-- **B:** Cancel and restore original value
-
-#### **Menu Type: Toggle (ON/OFF)**
-- **LEFT/RIGHT:** Switch between ON and OFF (applies immediately)
-- **A:** Confirm and exit
-- **B:** Cancel and restore original value
-
-#### **Menu Type: Value (Number Adjustment)**
-- **UP:** Increase value by 1 (holds to fast-repeat)
-- **DOWN:** Decrease value by 1 (holds to fast-repeat)
-- **A:** Save value and exit
-- **B:** Cancel and restore original value
-
----
-
 ### **Idle Screen Display**
 
 When not in menu, the OLED shows:
 - **Top:** Current controller mode
-- **Center:** 4 animated Spheres (Left Ka, Left Don, Right Don, Right Ka)
-- **Middle:** Live streak counter (Will start voer from Zero after 1 sec of idling)
+- **Center:** 4 animated spheres (Left Ka, Left Don, Right Don, Right Ka)
+- **Bottom:** Live streak counter (resets after 1 sec idle)
 
 ---
 
