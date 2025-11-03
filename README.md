@@ -1413,8 +1413,8 @@ MAIN MENU
 
 When not in menu, the OLED shows:
 - **Top:** Current controller mode
-- **Center:** 4 animated feedback spheres (Left Ka, Left Don, Right Don, Right Ka)
-- **Bottom:** Live streak counter (resets after 1 sec idle)
+- **Center:** Live streak counter (resets after 1 sec idle)
+- **Bottom:** 4 animated feedback spheres (Left Ka, Left Don, Right Don, Right Ka)
 
 ---
 
