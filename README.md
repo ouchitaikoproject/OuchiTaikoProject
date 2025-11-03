@@ -1370,12 +1370,17 @@ MAIN MENU
 │   │   │   [UP/DOWN to adjust, A to save, B to cancel]
 │   │   │
 │   │   └── Reset Thresholds
-│   │       └── No/Yes [LEFT/RIGHT, A to confirm]
+│   │       └── Yes/No [LEFT/RIGHT, A to confirm]
 │   │
-│   ├── Big Hit Arcade Mode
-│   │   ├── Mode
-│   │   │   └── ON/OFF [LEFT/RIGHT toggle]
-│   │   └── Threshold Level (0-4095) [UP/DOWN adjust]
+│   ├── Big Hit Mode
+│   │   ├── Off
+│   │   ├── Light (2000)
+│   │   ├── Medium (2500)
+│   │   ├── Heavy (3000)
+│   │   └── Custom...
+│   │       └── Threshold (0-4095) [UP/DOWN adjust]
+│   │   [LEFT/RIGHT to preview, A to apply]
+│   │   [Shows "(Current Mode)" on active setting]
 │   │
 │   ├── SimulTap Mode
 │   │   └── ON/OFF [LEFT/RIGHT toggle]
@@ -1397,12 +1402,11 @@ MAIN MENU
 │   [LEFT/RIGHT to scroll info]
 │
 ├── 🔄 Reset
-│   └── No/Yes [LEFT/RIGHT, A to confirm]
+│   └── Yes/No [LEFT/RIGHT, A to confirm]
 │
 └── 💾 USB Flash Mode
-    └── No/Yes [LEFT/RIGHT, A to confirm]
+    └── Yes/No [LEFT/RIGHT, A to confirm]
 ```
-
 ---
 
 ### **Idle Screen Display**
