@@ -132,19 +132,19 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | #   | Item                                                          | Qty | Product Link                   |
 | --- | ------------------------------------------------------------- | --- | ------------------------------ |
 | 1   | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://a.co/d/g9dFG88) |
-| 2   | MCP23017 I2C expander Board                                   | 1   | [Link](https://a.co/d/er7ux8r) |
+| 2   | GODIYMODULES MCP23017 I2C expander Board                      | 1   | [Link](https://a.co/d/iBEbs4b) |
 | 3   | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
-| 4   | 100nF capacitor (same as 0.1 µf)                              | 4   | [Link](https://a.co/d/fP04dyW) |
+| 4   | 0.47µF/470nF Ceramic Capacitors                               | 4   | [Link](https://a.co/d/8XWar8W) |
 | 5   | 3.5mm TRS FEMALE jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
 | 6   | 3.5mm TRS male w/ standard ends                               | 4   | [Link](https://a.co/d/414YG9z) |
 | 7   | 27mm Piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
 | 8   | 128x64 Mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
-| 9   | Tactile buttons (6mm or your choice)                          | 14  | [Link](https://a.co/d/2j6JNsp) |
+| 9   | 6mmx6mmx8mm Tactile Switches                                  | 14  | [Link](https://a.co/d/aa5ppfs) |
 | 10  | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
-| 11  | Small USB-A hub (2+ ports)                                    | 1   | [Link](https://a.co/d/4vWTHAC) |
+| 11  | Small USB-A hub (2+ ports)                                    | 1   | [Link](https://a.co/d/gJRdr2e) |
 | 12  | USB Audio DAC with 3.5mm output (32-bit, 48kHz)               | 1   | [Link](https://a.co/d/au4BLDH) |
 | 13  | 6 inch 3.5mm TRS audio extension cable (Male to Female)       | 1   | [Link](https://a.co/d/cesBnrm) |
-| 14  | USB-A to USB-C converter                                      | 1   | [Link](https://a.co/d/bG4QJUF) |
+| 14  | USB-A to USB-A Female Coupler                                 | 1   | [Link](https://a.co/d/79GN5E1) |
 | 15  | Short USB-C to USB-A extension cable                          | 1   | [Link](https://a.co/d/d61CuLt) |
 | 16  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
 | 17  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
@@ -152,8 +152,9 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 19  | 22 AWG Connection Ribbon Wire                                 | 1   | [Link](https://a.co/d/1D5mJ8Z) |
 | 20  | 2.54mm pitch Header Pins                                      | 1   | [Link](https://a.co/d/6D4ftKM) |
 | 21  | Female DuPont connector wires                                 | 1   | [Link](https://a.co/d/a7tXZma) |
-| 22  | Blank Protoboard Circuit Boards                               | 3   | [Link](https://a.co/d/2yOqCkd) |
-| 23  | 10ft USB-C to USB-C Cable                                     | 1   | [Link](https://a.co/d/6F0Ic5R) |
+| 22  | 70mmx90mm Double-Sided  Board                                 | 1   | [Link](https://a.co/d/9Ee1XEl) |
+| 23  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
+| 24  | M3 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/0evEe6Y) |
 
 </div>
 
