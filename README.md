@@ -148,13 +148,12 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 15  | Short USB-C to USB-A extension cable                          | 1   | [Link](https://a.co/d/d61CuLt) |
 | 16  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
 | 17  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 18  | JST-XH 2.54mm Pitch connector kit                             | 1   | [Link](https://a.co/d/11FXUlI) |
-| 19  | 22 AWG Connection Ribbon Wire                                 | 1   | [Link](https://a.co/d/1D5mJ8Z) |
+| 18  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 1   | [Link](https://a.co/d/11FXUlI) |
+| 19  | 22 AWG Connection Ribbon Wire                                 | 2   | [Link](https://a.co/d/0aHT0Mn) |
 | 20  | 2.54mm pitch Header Pins                                      | 1   | [Link](https://a.co/d/6D4ftKM) |
-| 21  | Female DuPont connector wires                                 | 1   | [Link](https://a.co/d/a7tXZma) |
-| 22  | 70mmx90mm Double-Sided  Board                                 | 1   | [Link](https://a.co/d/9Ee1XEl) |
-| 23  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 24  | M3 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/0evEe6Y) |
+| 21  | 70mmx90mm Double-Sided  Board                                 | 1   | [Link](https://a.co/d/9Ee1XEl) |
+| 22  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
+| 23  | M3 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/0evEe6Y) |
 
 </div>
 
