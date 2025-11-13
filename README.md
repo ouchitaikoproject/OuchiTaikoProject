@@ -148,7 +148,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 15  | Short USB-C to USB-A extension cable                          | 1   | [Link](https://a.co/d/d61CuLt) |
 | 16  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
 | 17  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 18  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 1   | [Link](https://a.co/d/11FXUlI) |
+| 18  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
 | 19  | 22 AWG Connection Ribbon Wire                                 | 2   | [Link](https://a.co/d/0aHT0Mn) |
 | 20  | 2.54mm pitch Header Pins                                      | 1   | [Link](https://a.co/d/6D4ftKM) |
 | 21  | 70mmx90mm Double-Sided  Board                                 | 1   | [Link](https://a.co/d/9Ee1XEl) |
