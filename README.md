@@ -130,24 +130,21 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 3   | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
 | 4   | 0.47µF/470nF Ceramic Capacitors                               | 4   | [Link](https://a.co/d/8XWar8W) |
 | 5   | 3.5mm TRS FEMALE jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
-| 6   | 3.5mm TRS male w/ standard ends                               | 4   | [Link](https://a.co/d/414YG9z) |
+| 6   | 3.5mm TRS male Plugs w/ standard ends                         | 4   | [Link](https://a.co/d/414YG9z) |
 | 7   | 27mm Piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
 | 8   | 128x64 Mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
 | 9   | 6mmx6mmx8mm Tactile Switches                                  | 14  | [Link](https://a.co/d/aa5ppfs) |
 | 10  | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
-| 11  | Small USB-A hub (2+ ports)                                    | 1   | [Link](https://a.co/d/gJRdr2e) |
-| 12  | USB Audio DAC with 3.5mm output (32-bit, 48kHz)               | 1   | [Link](https://a.co/d/au4BLDH) |
-| 13  | 6 inch 3.5mm TRS audio extension cable (Male to Female)       | 1   | [Link](https://a.co/d/cesBnrm) |
-| 14  | USB-A to USB-A Female Coupler                                 | 1   | [Link](https://a.co/d/79GN5E1) |
-| 15  | Short USB-C to USB-A extension cable                          | 1   | [Link](https://a.co/d/d61CuLt) |
-| 16  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
-| 17  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 18  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
-| 19  | 22 AWG Connection Ribbon Wire                                 | 2   | [Link](https://a.co/d/0aHT0Mn) |
-| 20  | 2.54mm pitch Header Pins                                      | 1   | [Link](https://a.co/d/6D4ftKM) |
-| 21  | 70mmx90mm Double-Sided  Board                                 | 1   | [Link](https://a.co/d/9Ee1XEl) |
-| 22  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 23  | M3 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/0evEe6Y) |
+| 11  | USB-C to USB-A Female Coupler                                 | 1   | [Link](https://a.co/d/9WTmxTu) |
+| 12  | Short USB-C to USB-C extension cable                          | 1   | [Link](https://a.co/d/cVbKVmQ) |
+| 13  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
+| 14  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
+| 15  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
+| 16  | 24 AWG Connection 4-Wire Ribbon Wire                          | 1   | [Link](https://a.co/d/5YkPnMC) |
+| 17  | ElectroCookie Circuit Board(88.9mm x 96.5mm)                  | 1   | [Link](https://a.co/d/i5jfYjs) |
+| 18  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
+| 19  | M2 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/hbHKwvZ) |
+| 20  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/3rabcWT) |
 
 </div>
 
@@ -226,234 +223,279 @@ The ElectroCookie protoboard has **shared rows** where multiple holes are electr
 
 💡 **Shared Row Reminder:** When you see "any hole in shared row," choose the most convenient hole - they're all connected.
 
-### **Reference Materials**
+---
+
+### **IMPORTANT: Board Orientation**
+
+This protoboard has **row letters and numbers printed on both sides**.
+
+- **FRONT face** = Display and buttons side (use the rows and hole numbers on the front face when placing the display and button placement for Steps 1-2)
+- **BACK face** = XIAO, MCP23017, and screw terminals side (use the rows and hole numbers on the BACK face when referencing Steps 3-12)
+
+Always verify which side you're working on before placing components.
 
 💾 **[Download full circuit schematic (PDF)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)**
 
 ---
 
-### **PART A: Drum Sensor Circuit (XIAO Board)**
+### **Step 1: Mount OLED Display (FRONT face)**
 
-#### **Steps A1-A3: Mount XIAO & Power Rails**
-
-**Note:** This project takes advantage of shared rows on the circuit board for cleaner assembly and more freedom in wire placement.
-
-**A1. Mount XIAO RP2040:**
-- Solder XIAO RP2040 on the **right side** of protoboard using header/IC socket
-- Orient with **USB-C port facing left**
-- **Top row of pins:** Row D, holes 1-7
-- **Bottom row of pins:** Row H, holes 1-7 (spanning across the blank space)
-- This board will be on the **backside** (opposite from display/buttons)
-
-**A2. Connect Ground Rails:**
-- Connect any pin in the XIAO's **GND** shared row to the common GND rail
-- Jump all GND rails together across the board
-
-**A3. Power Rails:**
-- **VCC rails will NOT be used** in this circuit (XIAO provides power directly)
-
----
-
-#### **Step A4: Wire All Four Drum Sensors**
-
-Each of the 4 drum sensors requires identical protection circuitry. Complete all connections for each sensor listed in the table below.
-
-**For Each Sensor, Complete These Steps:**
-
-1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the **specific hole** listed below. Place cathode (striped end) into GND rail hole directly below
-2. **Capacitor:** Place either leg of **0.15µF capacitor** into same hole as diode. Place other leg into same GND rail hole
-3. **Solder:** Solder the combined diode + capacitor legs together. This saves space and keeps assembly clean
-4. **Signal Wire:** No need to address now - signal wires will be connected in a later step
-
-**Diode & Capacitor Placement (Protection Circuit):**
-
-| Drum Zone | XIAO Pin | Diode (anode side) +Capacitor Location (SPECIFIC hole) |
-|-----------|----------|---------------------------------------------------------|
-| Left Ka   | A0       | Row J, hole 7                                           |
-| Left Don  | A1       | Row J, hole 6                                           |
-| Right Don | A2       | Row J, hole 5                                           |
-| Right Ka  | A3       | Row J, hole 4                                           |
-
----
-
-### **PART B: Control Board Circuit (MCP23017, OLED, Buttons)**
-
-#### **Step B1: Mount OLED Display**
-
-Mount OLED Display on the **top center** of the board (opposite side from XIAO and MCP23017). This is the same side as the buttons.
+Mount OLED Display on the **top center** of the FRONT face.
 
 **OLED Placement:**
-- **Location:** Row A, holes 14-17
+- **Location:** Row A, holes 14-17 (FRONT face coordinates)
 - **Orientation:** Screen facing up
+- Solder in place
 
-**OLED Pin Connections** (will connect in Step B3):
-
-| OLED Pin | Circuit Board Location | Connects To |
-|----------|------------------------|-------------|
-| VCC      | Row A, hole 15         | MCP23017 VCC (via Row A, hole 11) |
-| GND      | Row A, hole 14         | MCP23017 GND (via Row A, hole 12) |
-| SCL      | Row A, hole 16         | MCP23017 SCL (via Row A, hole 13) |
-| SDA      | Row A, hole 17         | MCP23017 SDA (via Row A, hole 14) |
+**OLED pins** (will be wired in Step 7):
+- VCC (Row A, hole 15)
+- GND (Row A, hole 14)
+- SCL (Row A, hole 16)
+- SDA (Row A, hole 17)
 
 ---
 
-#### **Step B2: Prepare MCP23017 Board**
-
-**Solder Header Pins:**
-1. The MCP23017 board comes with headers to be soldered
-2. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
-3. This is the row starting with **A2** (left) and ending with **VCC** (right)
-4. The double row of pins on top remains as empty holes (no header pins installed) for button connections
-
----
-
-#### **Step B3: Pre-Wire Power & I²C Lines**
-
-Before mounting the MCP23017, pre-wire these 4 connections on the **backside** of the board (beneath where MCP23017 will sit). This keeps the build cleaner.
-
-**Temporarily place** the MCP23017 centered horizontally (Row E, holes 11-21, double pins facing up). Note where it sits, then remove it.
-
-**Make these 4 connections (see table below):**
-
-| Connection | From (Under MCP23017) | To (OLED Shared Row) | Purpose |
-|------------|-----------------------|----------------------|---------|
-| VCC        | Row A, hole 11        | Row A, hole 15       | Power to display |
-| GND        | Row A, hole 12        | Row A, hole 14       | Ground to display |
-| SCL        | Row A, hole 13        | Row A, hole 16       | I²C Clock to display |
-| SDA        | Row A, hole 14        | Row A, hole 17       | I²C Data to display |
-
-**Now mount the MCP23017:**
-- Place bottom single row of 10 pins into Row E, holes 11-21
-- Verify **VCC pin** is in Row E, hole 11
-- Verify **A2 pin** is in Row E, hole 21
-- Solder the bottom row only
-
----
-
-#### **Step B4: Connect I²C Data Lines**
-
-Connect XIAO to MCP23017 (see table below):
-
-| Connection | From XIAO Shared Row | To MCP23017 Shared Row |
-|------------|---------------------|------------------------|
-| SDA        | Any pin in SDA row  | Any pin in SDA row     |
-| SCL        | Any pin in SCL row  | Any pin in SCL row     |
-
----
-
-#### **Step B5: Mount Buttons**
+### **Step 2: Mount Buttons (FRONT face)**
 
 **Button Orientation:**
 - Orient buttons with legs on the **left and right side** (NOT up and down)
-- For visual consistency: buttons have two small metal tabs on either top or bottom edge—align all buttons the same way (all tabs up OR all tabs down)
-- Solder 14 tactile buttons in gamepad layout on the display/button side of board
-- Follow the photo layout as closely as possible to ensure buttons align with control box openings
+- For visual consistency: align all button tabs the same way (all tabs up OR all tabs down)
 
----
+**CRITICAL - Use Exact Positions:**
+The table below specifies exact FRONT face hole positions. These align with the control box openings to ensure proper fit of the controller face plate.
 
-#### **Step B6: Connect Button Grounds**
+**Button Position Reference (FRONT face):**
 
-- Connect one leg of each button to GND rail (daisy-chaining is fine)
-- **Recommended approach:** Visually split buttons into left half and right half. For each half, use the **outer edge leg** (away from center) as the ground leg. This optimizes space and keeps wiring organized.
+| Button | Ground Leg Position | Signal Leg Position |
+|--------|---------------------|---------------------|
+| **LEFT SIDE BUTTONS** | | |
+| UP     | Row E, hole 4       | Row E, hole 6       |
+| Down   | Row A, hole 4       | Row A, hole 6       |
+| Left   | Row C, hole 1       | Row C, hole 3       |
+| Right  | Row C, hole 7       | Row C, hole 9       |
+| L      | Row F, hole 1       | Row F, hole 3       |
+| Select | Row A, hole 12      | Row A, hole 14      |
+| Share  | Row H, hole 7       | Row H, hole 9       |
+| **RIGHT SIDE BUTTONS** | | |
+| North  | Row E, hole 27      | Row E, hole 25      |
+| South  | Row A, hole 27      | Row A, hole 25      |
+| West   | Row C, hole 24      | Row C, hole 22      |
+| East   | Row C, hole 30      | Row C, hole 28      |
+| R      | Row F, hole 30      | Row F, hole 28      |
+| Start  | Row A, hole 19      | Row A, hole 17      |
+| Home   | Row H, hole 24      | Row H, hole 22      |
 
----
+**Installation:**
+1. Insert each button into its specified position, bend legs behind board to hold into place
+2. Solder both legs in place
+3. Verify button alignment matches reference photos
 
-#### **Step B7: CRITICAL - Prevent Button Signal Shorts**
-
-Two button pairs share signal rows and will short without this fix:
+**CRITICAL - Prevent 2 existing Signal Shorts:**
+Because of the shared rows, two button pairs share signal rows and will short without this fix:
 - **NORTH/SOUTH buttons**
 - **UP/DOWN buttons**
 
-**Fix (takes 30 seconds per pair):**
+**Quick Fix (30 seconds per pair):**
 1. Find the hole centered between the two signal legs
 2. Scrape away copper with 3mm drill bit or knife
-3. Test with multimeter: touch both signal legs - NO beep = success
+3. Test with multi-meter: touch both signal legs - NO beep = success.  If you hear a beep, remove more copper metal and try again.
 4. Repeat for second button pair
 
-**If your button layout differs from the photos:** Carefully inspect ALL button signal wires to ensure none are sharing rows. Repeat the above fix as necessary.
+---
+
+### **Step 3: Mount XIAO RP2040 (BACK face)**
+
+**Flip board to BACK face.** All remaining steps use BACK face coordinates.
+
+**XIAO Placement:**
+- Solder XIAO RP2040 on the **right side** of board using header pins or IC socket for easy removal
+- Orient with **USB-C port facing left**
+- **Top row of pins:** Row D, holes 1-7 (BACK face)
+- **Bottom row of pins:** Row H, holes 1-7 (BACK face)
+
+**Connect Ground:**
+- Connect any pin in XIAO's **GND** shared row to the common GND rail
+- Take a moment to jump/connect all GND rails together across the board
 
 ---
 
-#### **Step B8: Connect Button Signals**
+### **Step 4: Install Drum Sensor Protection Circuits (BACK face)**
 
-Connect the remaining leg of each button to corresponding MCP23017 pin (see mapping table below).
+Each of the 4 drum sensors requires identical protection circuitry.
 
-**Soldering Technique** (MCP23017 button holes are small and closely spaced):
+**For Each Sensor:**
+1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
+2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
+3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
+4. Place other leg into same GND rail hole (do not solder yet)
+5. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
 
-**A. Prepare the holes:**
-- Fill each MCP23017 hole with a small amount of solder enough to seal the hole
+**Diode & Capacitor Placement:**
 
-**B. Prepare the wires:**
-- Strip button wire ends to **1-2mm maximum** (prevents shorts from wire poking through board)
-- Tin the stripped wire ends
-
-**C. Solder the connections:**
-- Place tinned wire end on top of the now-solder-filled hole
-- Press soldering iron against solder-filled hole while gently pressing down on wire
-- As solder melts, wire will sink 1-2mm into the solder
-- Hold wire steady while removing iron
-- Solder will harden in 1 second
-
-**D. Soldering order:**
-- Start with **Row A** (top-most, outer edge): Wire all Row A buttons from closest to furthest from MCP23017
-- Finish with **Row B**: Wire all Row B buttons using same approach
-
-Use the below photo along with the table as reference for button labeling/layout:
-
-**Button to MCP23017 Pin Mapping:**
-
-| Button | MCP23017 Pin | | Button | MCP23017 Pin |
-|--------|--------------|---|--------|--------------|
-| North  | A0           | | UP     | B0           |
-| South  | A1           | | Down   | B1           |
-| West   | A2           | | Left   | B2           |
-| East   | A3           | | Right  | B3           |
-| R      | A4           | | L      | B4           |
-| Start  | A5           | | Select | B5           |
-| Home   | A6           | | Share  | B6           |
+| Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
+|-----------|----------|----------------------------------------------|
+| Left Ka   | A0       | Row J, hole 7                                |
+| Left Don  | A1       | Row J, hole 6                                |
+| Right Don | A2       | Row J, hole 5                                |
+| Right Ka  | A3       | Row J, hole 4                                |
 
 ---
 
-#### **Step B9: Mount Drum Pad Screw Terminals**
+### **Step 5: Connect Button Grounds (BACK face)**
 
-Place two 4-pin screw terminal blocks on the same side as MCP23017:
+**Flip board as needed** - button legs are now accessible on BACK.
 
-**Terminal Block 1 (Drum Signals):**
-- **Location:** Row C, holes 22-25
-- **Orientation:** Wire clamp openings facing UP (toward buttons/display)
-- **Label the 4 ports:** Port 1 (hole 22), Port 2 (hole 23), Port 3 (hole 24), Port 4 (hole 25)
-
-**Terminal Block 2 (GND):**
-- **Location:** Row C, holes 27-30
-- **Orientation:** Wire clamp openings facing UP (toward buttons/display)
-- **Label all 4 ports:** "GND"
-- Create solder bridge between all 4 pins of GND terminal block
-- Connect any hole in the shared row to nearest GND rail
+- Connect one leg of each button (ground leg) to GND rail
+- **Recommended:** Daisy-chain grounds. Split buttons into left/right halves. You may find it easiest to divide the buttons into left side and right side. On the left set of buttons, designate the GND to all of the legs on the left side of the button (toward the left edge of the board) as ground legs. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
 
 ---
 
-#### **Step B10: Connect Drum Signal Terminals**
+### **Step 6: Prepare MCP23017 Board**
 
-Make these 4 connections from terminal shared rows to XIAO RP2040 shared rows (see table below):
+**Solder Header Pins:**
+1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
+2. This row starts with **A2** (left) and ends with **VCC** (right)
+3. The double row of pins on top remains empty (for button signal connections later on)
 
-| Drum Pad  | From Terminal Row                        | To XIAO Pin |
-|-----------|------------------------------------------|-------------|
-| Left Ka   | Any hole in Row C, hole 22 shared row   | A0          |
-| Left Don  | Any hole in Row C, hole 23 shared row   | A1          |
-| Right Don | Any hole in Row C, hole 24 shared row   | A2          |
-| Right Ka  | Any hole in Row C, hole 25 shared row   | A3          |
+---
 
-The drum sensor TRS jacks (added later in this guide) will connect to these screw terminals.
+### **Step 7: Pre-Wire I²C Lines Under MCP (BACK face)**
+
+Before mounting the MCP23017, pre-wire power and I²C connections underneath where it will sit.
+
+**Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
+
+**Make these 4 connections underneath:**
+
+| Connection | From (Under MCP) | To (OLED) | Purpose |
+|------------|------------------|-----------|---------|
+| VCC        | Row A, hole 11   | Row A, hole 15 | Power to display |
+| GND        | Row A, hole 12   | Row A, hole 14 | Ground to display |
+| SCL        | Row A, hole 13   | Row A, hole 16 | I²C Clock to display |
+| SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display |
+
+**Now mount MCP23017:**
+- Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
+- Verify **VCC pin** is in Row E, hole 11
+- Verify **A2 pin** is in Row E, hole 21
+- Solder these header pins to the circuit board
+
+---
+
+### **Step 8: Mount Terminal Blocks (BACK face)**
+
+Place two 4-pin screw terminal blocks on BACK face with openings facing UP (toward display).
+
+**Terminal Block 1 (GND):**
+- **Location:** Row D, holes 27-30 (BACK face)
+- **Orientation:** Wire openings facing UP
+- Bridge all 4 pins together with solder
+- Connect any hole in shared row to GND rail
+
+**Terminal Block 2 (Drum Signals):**
+- **Location:** Row D, holes 22-25 (BACK face)
+- **Orientation:** Wire openings facing UP
+- Leave one hole space between this block and the GND block
+
+**Label the signal block ports:**
+- Port 1 (hole 22) = Left Ka
+- Port 2 (hole 23) = Left Don
+- Port 3 (hole 24) = Right Don
+- Port 4 (hole 25) = Right Ka
+
+These will be connected in a later step.
+
+---
+
+### **Step 9: Connect Power & Ground**
+
+Connect/verify power and ground between XIAO, MCP23017, and Display.
+
+**Connections:**
+1. **XIAO 3.3V** → **MCP23017 VCC** → **OLED VCC** (OLED already connected via Step 7)
+2. **XIAO GND** → **MCP23017 GND** → **OLED GND** (OLED already connected via Step 7)
+3. Verify all three components (XIAO, MCP, Display) share common ground
+
+---
+
+### **Step 10: Connect I²C Data Lines**
+
+Connect I²C between XIAO and MCP23017.
+
+| Connection | From XIAO | To MCP23017 |
+|------------|-----------|-------------|
+| SDA        | Any pin in SDA shared row | Any pin in SDA shared row |
+| SCL        | Any pin in SCL shared row | Any pin in SCL shared row |
+
+**Verify I²C connections:**
+- XIAO SDA → MCP23017 SDA → Display SDA (all connected)
+- XIAO SCL → MCP23017 SCL → Display SCL (all connected)
+
+---
+
+### **Step 11: Connect Button Signals to MCP23017 (BACK face)**
+
+Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
+
+**Soldering Technique** (MCP holes are small):
+
+1. **Prepare MCP holes:** Fill each MCP pin hole with small amount of solder
+2. **Prepare wires:** Strip to 1-2mm max, tin the ends with solder
+3. **Solder:** Place tinned wire on solder-filled hole, press iron down onto solder pad, wire sinks into solder
+4. **Order:** Start with Row A pins (top), then Row B pins
+
+**Complete Button Wiring Map:**
+
+| Button | MCP Pin | Wire Connection |
+|--------|---------|-----------------|
+| **LEFT SIDE BUTTONS** | | |
+| UP     | B0      | MCP B0 → any hole in UP button signal shared row |
+| Down   | B1      | MCP B1 → any hole in DOWN button signal shared row |
+| Left   | B2      | MCP B2 → any hole in LEFT button signal shared row |
+| Right  | B3      | MCP B3 → any hole in RIGHT button signal shared row |
+| L      | B4      | MCP B4 → any hole in L button signal shared row |
+| Select | B5      | MCP B5 → any hole in SELECT button signal shared row |
+| Share  | B6      | MCP B6 → any hole in SHARE button signal shared row |
+| **RIGHT SIDE BUTTONS** | | |
+| North  | A0      | MCP A0 → any hole in NORTH button signal shared row |
+| South  | A1      | MCP A1 → any hole in SOUTH button signal shared row |
+| West   | A2      | MCP A2 → any hole in WEST button signal shared row |
+| East   | A3      | MCP A3 → any hole in EAST button signal shared row |
+| R      | A4      | MCP A4 → any hole in R button signal shared row |
+| Start  | A5      | MCP A5 → any hole in START button signal shared row |
+| Home   | A6      | MCP A6 → any hole in HOME button signal shared row |
+
+**Wiring Tips:**
+- Wire Row A pins first (work from closest to furthest button)
+- Then wire Row B pins
+- Route wires to minimize crossover and blocking
+
+---
+
+### **Step 12: Connect Drum Signal Terminals (BACK face)**
+
+Connect terminal block signal pins to XIAO analog pins.
+
+**Wiring Map:**
+
+| Drum Pad  | From Terminal Block | To XIAO Pin |
+|-----------|---------------------|-------------|
+| Left Ka   | Any hole in Row D, hole 22 shared row | A0 |
+| Left Don  | Any hole in Row D, hole 23 shared row | A1 |
+| Right Don | Any hole in Row D, hole 24 shared row | A2 |
+| Right Ka  | Any hole in Row D, hole 25 shared row | A3 |
+
+The drum sensor TRS jacks (added later) connect to these screw terminals.
 
 ---
 
 ### **Circuit Complete!**
 
 You now have a single-board circuit with:
-- ✅ XIAO RP2040 (drum sensor controller)
-- ✅ MCP23017 (button/display controller)
 - ✅ OLED Display
 - ✅ 14 Navigation Buttons
+- ✅ XIAO RP2040 (drum sensor controller)
+- ✅ MCP23017 (button/display controller)
 - ✅ Screw terminals for drum sensors
 
 Continue to Section 5 to build the drum.
@@ -837,13 +879,9 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 
 You're almost there!
 
-The USB hub and USB DAC steps below *are* required for the build, but the physical structural enclosure itself is optional.
+If you built the board to the exact specifications in my guide, you'll be able to 3D print the below enclosure box.  I have also included a Laser Cutter version as an alternative.
 
-That said, at least some type of control box enclosure or housing is highly recommended to protect your circuit and components. It keeps parts clean and safe, and allows you to connect and disconnect the drum without exposing the electronics.
-
-I chose to not provide specific plans for the control box since everyone's layout will vary slightly depending on their build choices and creative freedom. The steps below show my personal approach that you can adapt your own version.
-
-### **Optional Enclosure Ideas**
+If you choose to go another route, you can look into the below suggestionsL:
 
 - **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
 - **Simple alternatives:** Small shipping box, small plastic box, etc. Even attaching everything to a single piece of cardboard would help. You just want to avoid everything moving around.
@@ -854,11 +892,9 @@ I chose to not provide specific plans for the control box since everyone's layou
 
 #### **<u>I1. Connect sensor cables to circuit</u>**
 
-Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers to the input of the Female TRS jacks on your completed circuit.
+Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers mounted to the drum to the input of the Female TRS jacks on your completed circuit.
 
 This completes the core circuit assembly.
-
-💡 **Note:** The next portion of the guide will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
 
 ---
 
@@ -876,86 +912,8 @@ Mount the **4 Female TRS jacks** that are part of your circuit to the wall of yo
 <img src="images/Pictures/trstop.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
----
 
-#### **<u>J2. Mount USB-C to USB-A adapter</u>**
-
-Connect the **USB C to USB A adapter** in the wall of your box so that the USB C portion is facing the outside of the box. Use **hot glue** to affix in place.
-
-<div align="center">
-<img src="images/Pictures/usbport.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/usbwall.png" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-#### **<u>J3. Connect USB hub</u>**
-
-Connect the **USB HUB** to the USB A side of the adapter you just glued into place.
-
-<div align="center">
-<img src="images/Pictures/insideboxall.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-#### **<u>J4. Connect XIAO to USB hub</u>**
-
-Connect the **XIAO main controller board** to the USB Hub using a **short USB C to USB A cable**.
-
----
-
-#### **<u>J5. Connect USB DAC</u>**
-
-Connect your **USB DAC** to the USB Hub.
-
----
-
-#### **<u>J6. Connect DAC to extension cable</u>**
-
-Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS extension cable**.
-
----
-
-#### **<u>J7. Mount audio jack to control box</u>**
-
-Connect the **3.5mm Female end** of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use **hot glue** to affix in place.
-
-<div align="center">
-<img src="images/Pictures/audioport.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/audiowall.png" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-#### **<u>J8. Mount OLED/button board</u>**
-
-Mount the board with your **OLED screen and gamepad buttons** so that the screen is visible and the buttons are accessible during gameplay.
-
-<div align="center">
-<img src="images/Pictures/frontbox.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-#### **<u>J9. Wire management</u>**
-
-Here's an example of how the inside of your control box may look.
-
-Take your time with wire management. It doesn't have to be the prettiest thing in the world but make sure of the following:
-
-- All connections are secure, and nothing will be bent or stressed or pulled loose when the box is opened or closed
-- As much as possible, route your VCC power lines and ground lines away from signal wires and button wires
-
-<div align="center">
-<img src="images/Pictures/boxopenall.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
+FINISH THIS
 
 ---
 
@@ -1295,12 +1253,6 @@ There you have it - You've just built a professional controller circuit with ada
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
-
-**🔊 AUDIO Issues**
-
-- **No sound:** Check USB DAC, verify audio output device
-- **Crackling:** Try different USB port
-- **Latency:** Should be <5ms, check game/computer settings
 
 💡 **Tip:** If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
 
