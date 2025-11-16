@@ -209,10 +209,9 @@ This guide assumes you have access to the following:
 
 ---
 
-
 ## **4: Build the Circuit**
 
----
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **Circuit Overview**
 
@@ -231,279 +230,236 @@ The ElectroCookie protoboard has **shared rows** where multiple holes are electr
 
 **When this guide specifies a hole location** (e.g., "Row D, hole 5"), you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location.
 
-**Shared Row Reminder:** When you see "any hole in shared row," choose the most convenient hole - they're all connected.
+💡 **Shared Row Reminder:** When you see "any hole in shared row," choose the most convenient hole - they're all connected.
+
+### **Reference Materials**
+
+💾 **[Download full circuit schematic (PDF)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)**
 
 ---
 
-### **IMPORTANT: Board Orientation**
+### **PART A: Drum Sensor Circuit (XIAO Board)**
 
-This protoboard has **row letters and numbers printed on both sides**.
+#### **Steps A1-A3: Mount XIAO & Power Rails**
 
-- **FRONT face** = Display and buttons side (use the rows and hole numbers on the front face when placing the display and button placement for Steps 1-2)
-- **BACK face** = XIAO, MCP23017, and screw terminals side (use the rows and hole numbers on the BACK face when referencing Steps 3-12)
+**Note:** This project takes advantage of shared rows on the circuit board for cleaner assembly and more freedom in wire placement.
 
-Always verify which side you're working on before placing components.
+**A1. Mount XIAO RP2040:**
+- Solder XIAO RP2040 on the **right side** of protoboard using header/IC socket
+- Orient with **USB-C port facing left**
+- **Top row of pins:** Row D, holes 1-7
+- **Bottom row of pins:** Row H, holes 1-7 (spanning across the blank space)
+- This board will be on the **backside** (opposite from display/buttons)
+
+**A2. Connect Ground Rails:**
+- Connect any pin in the XIAO's **GND** shared row to the common GND rail
+- Jump all GND rails together across the board
+
+**A3. Power Rails:**
+- **VCC rails will NOT be used** in this circuit (XIAO provides power directly)
 
 ---
 
-### **Step 1: Mount OLED Display (FRONT face)**
+#### **Step A4: Wire All Four Drum Sensors**
 
-Mount OLED Display on the **top center** of the FRONT face.
+Each of the 4 drum sensors requires identical protection circuitry. Complete all connections for each sensor listed in the table below.
+
+**For Each Sensor, Complete These Steps:**
+
+1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the **specific hole** listed below. Place cathode (striped end) into GND rail hole directly below
+2. **Capacitor:** Place either leg of **0.15µF capacitor** into same hole as diode. Place other leg into same GND rail hole
+3. **Solder:** Solder the combined diode + capacitor legs together. This saves space and keeps assembly clean
+4. **Signal Wire:** No need to address now - signal wires will be connected in a later step
+
+**Diode & Capacitor Placement (Protection Circuit):**
+
+| Drum Zone | XIAO Pin | Diode (anode side) +Capacitor Location (SPECIFIC hole) |
+|-----------|----------|---------------------------------------------------------|
+| Left Ka   | A0       | Row J, hole 7                                           |
+| Left Don  | A1       | Row J, hole 6                                           |
+| Right Don | A2       | Row J, hole 5                                           |
+| Right Ka  | A3       | Row J, hole 4                                           |
+
+---
+
+### **PART B: Control Board Circuit (MCP23017, OLED, Buttons)**
+
+#### **Step B1: Mount OLED Display**
+
+Mount OLED Display on the **top center** of the board (opposite side from XIAO and MCP23017). This is the same side as the buttons.
 
 **OLED Placement:**
-- **Location:** Row A, holes 14-17 (FRONT face coordinates)
+- **Location:** Row A, holes 14-17
 - **Orientation:** Screen facing up
-- Solder in place
 
-**OLED pins** (will be wired in Step 9):
-- VCC (Row A, hole 15)
-- GND (Row A, hole 14)
-- SCL (Row A, hole 16)
-- SDA (Row A, hole 17)
+**OLED Pin Connections** (will connect in Step B3):
+
+| OLED Pin | Circuit Board Location | Connects To |
+|----------|------------------------|-------------|
+| VCC      | Row A, hole 15         | MCP23017 VCC (via Row A, hole 11) |
+| GND      | Row A, hole 14         | MCP23017 GND (via Row A, hole 12) |
+| SCL      | Row A, hole 16         | MCP23017 SCL (via Row A, hole 13) |
+| SDA      | Row A, hole 17         | MCP23017 SDA (via Row A, hole 14) |
 
 ---
 
-### **Step 2: Mount Buttons (FRONT face)**
+#### **Step B2: Prepare MCP23017 Board**
+
+**Solder Header Pins:**
+1. The MCP23017 board comes with headers to be soldered
+2. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
+3. This is the row starting with **A2** (left) and ending with **VCC** (right)
+4. The double row of pins on top remains as empty holes (no header pins installed) for button connections
+
+---
+
+#### **Step B3: Pre-Wire Power & I²C Lines**
+
+Before mounting the MCP23017, pre-wire these 4 connections on the **backside** of the board (beneath where MCP23017 will sit). This keeps the build cleaner.
+
+**Temporarily place** the MCP23017 centered horizontally (Row E, holes 11-21, double pins facing up). Note where it sits, then remove it.
+
+**Make these 4 connections (see table below):**
+
+| Connection | From (Under MCP23017) | To (OLED Shared Row) | Purpose |
+|------------|-----------------------|----------------------|---------|
+| VCC        | Row A, hole 11        | Row A, hole 15       | Power to display |
+| GND        | Row A, hole 12        | Row A, hole 14       | Ground to display |
+| SCL        | Row A, hole 13        | Row A, hole 16       | I²C Clock to display |
+| SDA        | Row A, hole 14        | Row A, hole 17       | I²C Data to display |
+
+**Now mount the MCP23017:**
+- Place bottom single row of 10 pins into Row E, holes 11-21
+- Verify **VCC pin** is in Row E, hole 11
+- Verify **A2 pin** is in Row E, hole 21
+- Solder the bottom row only
+
+---
+
+#### **Step B4: Connect I²C Data Lines**
+
+Connect XIAO to MCP23017 (see table below):
+
+| Connection | From XIAO Shared Row | To MCP23017 Shared Row |
+|------------|---------------------|------------------------|
+| SDA        | Any pin in SDA row  | Any pin in SDA row     |
+| SCL        | Any pin in SCL row  | Any pin in SCL row     |
+
+---
+
+#### **Step B5: Mount Buttons**
 
 **Button Orientation:**
 - Orient buttons with legs on the **left and right side** (NOT up and down)
-- For visual consistency: align all button tabs the same way (all tabs up OR all tabs down)
+- For visual consistency: buttons have two small metal tabs on either top or bottom edge—align all buttons the same way (all tabs up OR all tabs down)
+- Solder 14 tactile buttons in gamepad layout on the display/button side of board
+- Follow the photo layout as closely as possible to ensure buttons align with control box openings
 
-**CRITICAL - Use Exact Positions:**
-The table below specifies exact FRONT face hole positions. These align with the control box openings to ensure proper fit of the controller face plate.
+---
 
-**Button Position Reference (FRONT face):**
+#### **Step B6: Connect Button Grounds**
 
-| Button | Ground Leg Position | Signal Leg Position |
-|--------|---------------------|---------------------|
-| **LEFT SIDE BUTTONS** | | |
-| UP     | Row E, hole 4       | Row E, hole 6       |
-| Down   | Row A, hole 4       | Row A, hole 6       |
-| Left   | Row C, hole 1       | Row C, hole 3       |
-| Right  | Row C, hole 7       | Row C, hole 9       |
-| L      | Row F, hole 1       | Row F, hole 3       |
-| Select | Row A, hole 12      | Row A, hole 14      |
-| Share  | Row H, hole 7       | Row H, hole 9       |
-| **RIGHT SIDE BUTTONS** | | |
-| North  | Row E, hole 27      | Row E, hole 25      |
-| South  | Row A, hole 27      | Row A, hole 25      |
-| West   | Row C, hole 24      | Row C, hole 22      |
-| East   | Row C, hole 30      | Row C, hole 28      |
-| R      | Row F, hole 30      | Row F, hole 28      |
-| Start  | Row A, hole 19      | Row A, hole 17      |
-| Home   | Row H, hole 24      | Row H, hole 22      |
+- Connect one leg of each button to GND rail (daisy-chaining is fine)
+- **Recommended approach:** Visually split buttons into left half and right half. For each half, use the **outer edge leg** (away from center) as the ground leg. This optimizes space and keeps wiring organized.
 
-**Installation:**
-1. Insert each button into its specified position, bend legs behind board to hold into place
-2. Solder both legs in place
-3. Verify button alignment matches reference photos
+---
 
-**CRITICAL - Prevent 2 existing Signal Shorts:**
-Because of the shared rows, two button pairs share signal rows and will short without this fix:
+#### **Step B7: CRITICAL - Prevent Button Signal Shorts**
+
+Two button pairs share signal rows and will short without this fix:
 - **NORTH/SOUTH buttons**
 - **UP/DOWN buttons**
 
-**Quick Fix (30 seconds per pair):**
+**Fix (takes 30 seconds per pair):**
 1. Find the hole centered between the two signal legs
 2. Scrape away copper with 3mm drill bit or knife
-3. Test with multi-meter: touch both signal legs - NO beep = success.  If you hear a beep, remove more copper metal and try again.
+3. Test with multimeter: touch both signal legs - NO beep = success
 4. Repeat for second button pair
 
----
-
-### **Step 3: Mount XIAO RP2040 (BACK face)**
-
-**Flip board to BACK face.** All remaining steps use BACK face coordinates.
-
-**XIAO Placement:**
-- Solder XIAO RP2040 on the **right side** of board using header pins or IC socket for easy removal
-- Orient with **USB-C port facing left**
-- **Top row of pins:** Row D, holes 1-7 (BACK face)
-- **Bottom row of pins:** Row H, holes 1-7 (BACK face)
-
-**Connect Ground:**
-- Connect any pin in XIAO's **GND** shared row to the common GND rail
-- Take a moment to jump/connect all GND rails together across the board
+**If your button layout differs from the photos:** Carefully inspect ALL button signal wires to ensure none are sharing rows. Repeat the above fix as necessary.
 
 ---
 
-### **Step 4: Install Drum Sensor Protection Circuits (BACK face)**
+#### **Step B8: Connect Button Signals**
 
-Each of the 4 drum sensors requires identical protection circuitry.
+Connect the remaining leg of each button to corresponding MCP23017 pin (see mapping table below).
 
-**For Each Sensor:**
-1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
-2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
-3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
-4. Place other leg into same GND rail hole (do not solder yet)
-5. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
+**Soldering Technique** (MCP23017 button holes are small and closely spaced):
 
-**Diode & Capacitor Placement:**
+**A. Prepare the holes:**
+- Fill each MCP23017 hole with a small amount of solder enough to seal the hole
 
-| Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
-|-----------|----------|----------------------------------------------|
-| Left Ka   | A0       | Row J, hole 7                                |
-| Left Don  | A1       | Row J, hole 6                                |
-| Right Don | A2       | Row J, hole 5                                |
-| Right Ka  | A3       | Row J, hole 4                                |
+**B. Prepare the wires:**
+- Strip button wire ends to **1-2mm maximum** (prevents shorts from wire poking through board)
+- Tin the stripped wire ends
 
----
+**C. Solder the connections:**
+- Place tinned wire end on top of the now-solder-filled hole
+- Press soldering iron against solder-filled hole while gently pressing down on wire
+- As solder melts, wire will sink 1-2mm into the solder
+- Hold wire steady while removing iron
+- Solder will harden in 1 second
 
-### **Step 5: Connect Button Grounds (BACK face)**
+**D. Soldering order:**
+- Start with **Row A** (top-most, outer edge): Wire all Row A buttons from closest to furthest from MCP23017
+- Finish with **Row B**: Wire all Row B buttons using same approach
 
-**Flip board as needed** - button legs are now accessible on BACK.
+Use the below photo along with the table as reference for button labeling/layout:
 
-- Connect one leg of each button (ground leg) to GND rail
-- **Recommended:** Daisy-chain grounds. Split buttons into left/right halves. You may find it easiest to divide the buttons into left side and right side. On the left set of buttons, designate the GND to all of the legs on the left side of the button (toward the left edge of the board) as ground legs. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
+**Button to MCP23017 Pin Mapping:**
 
----
-
-### **Step 6: Prepare MCP23017 Board**
-
-**Solder Header Pins:**
-1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
-2. This row starts with **A2** (left) and ends with **VCC** (right)
-3. The double row of pins on top remains empty (for button signal connections later on)
-
----
-
-### **Step 7: Pre-Wire I²C Lines Under MCP (BACK face)**
-
-Before mounting the MCP23017, pre-wire power and I²C connections underneath where it will sit.
-
-**Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
-
-**Make these 4 connections underneath:**
-
-| Connection | From (Under MCP) | To (OLED) | Purpose |
-|------------|------------------|-----------|---------|
-| VCC        | Row A, hole 11   | Row A, hole 15 | Power to display |
-| GND        | Row A, hole 12   | Row A, hole 14 | Ground to display |
-| SCL        | Row A, hole 13   | Row A, hole 16 | I²C Clock to display |
-| SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display |
-
-**Now mount MCP23017:**
-- Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
-- Verify **VCC pin** is in Row E, hole 11
-- Verify **A2 pin** is in Row E, hole 21
-- Solder these header pins to the circuit board
+| Button | MCP23017 Pin | | Button | MCP23017 Pin |
+|--------|--------------|---|--------|--------------|
+| North  | A0           | | UP     | B0           |
+| South  | A1           | | Down   | B1           |
+| West   | A2           | | Left   | B2           |
+| East   | A3           | | Right  | B3           |
+| R      | A4           | | L      | B4           |
+| Start  | A5           | | Select | B5           |
+| Home   | A6           | | Share  | B6           |
 
 ---
 
-### **Step 8: Mount Terminal Blocks (BACK face)**
+#### **Step B9: Mount Drum Pad Screw Terminals**
 
-Place two 4-pin screw terminal blocks on BACK face with openings facing UP (toward display).
+Place two 4-pin screw terminal blocks on the same side as MCP23017:
 
-**Terminal Block 1 (GND):**
-- **Location:** Row D, holes 27-30 (BACK face)
-- **Orientation:** Wire openings facing UP
-- Bridge all 4 pins together with solder
-- Connect any hole in shared row to GND rail
+**Terminal Block 1 (Drum Signals):**
+- **Location:** Row C, holes 22-25
+- **Orientation:** Wire clamp openings facing UP (toward buttons/display)
+- **Label the 4 ports:** Port 1 (hole 22), Port 2 (hole 23), Port 3 (hole 24), Port 4 (hole 25)
 
-**Terminal Block 2 (Drum Signals):**
-- **Location:** Row D, holes 22-25 (BACK face)
-- **Orientation:** Wire openings facing UP
-- Leave one hole space between this block and the GND block
-
-**Label the signal block ports:**
-- Port 1 (hole 22) = Left Ka
-- Port 2 (hole 23) = Left Don
-- Port 3 (hole 24) = Right Don
-- Port 4 (hole 25) = Right Ka
-
-These will be connected in a later step.
+**Terminal Block 2 (GND):**
+- **Location:** Row C, holes 27-30
+- **Orientation:** Wire clamp openings facing UP (toward buttons/display)
+- **Label all 4 ports:** "GND"
+- Create solder bridge between all 4 pins of GND terminal block
+- Connect any hole in the shared row to nearest GND rail
 
 ---
 
-### **Step 9: Connect Power & Ground**
+#### **Step B10: Connect Drum Signal Terminals**
 
-Connect/verify power and ground between XIAO, MCP23017, and Display.
+Make these 4 connections from terminal shared rows to XIAO RP2040 shared rows (see table below):
 
-**Connections:**
-1. **XIAO 3.3V** → **MCP23017 VCC** → **OLED VCC** (OLED already connected via Step 7)
-2. **XIAO GND** → **MCP23017 GND** → **OLED GND** (OLED already connected via Step 7)
-3. Verify all three components (XIAO, MCP, Display) share common ground
+| Drum Pad  | From Terminal Row                        | To XIAO Pin |
+|-----------|------------------------------------------|-------------|
+| Left Ka   | Any hole in Row C, hole 22 shared row   | A0          |
+| Left Don  | Any hole in Row C, hole 23 shared row   | A1          |
+| Right Don | Any hole in Row C, hole 24 shared row   | A2          |
+| Right Ka  | Any hole in Row C, hole 25 shared row   | A3          |
 
----
-
-### **Step 10: Connect I²C Data Lines**
-
-Connect I²C between XIAO and MCP23017.
-
-| Connection | From XIAO | To MCP23017 |
-|------------|-----------|-------------|
-| SDA        | Any pin in SDA shared row | Any pin in SDA shared row |
-| SCL        | Any pin in SCL shared row | Any pin in SCL shared row |
-
-**Verify I²C connections:**
-- XIAO SDA → MCP23017 SDA → Display SDA (all connected)
-- XIAO SCL → MCP23017 SCL → Display SCL (all connected)
-
----
-
-### **Step 11: Connect Button Signals to MCP23017 (BACK face)**
-
-Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
-
-**Soldering Technique** (MCP holes are small):
-
-1. **Prepare MCP holes:** Fill each MCP pin hole with small amount of solder
-2. **Prepare wires:** Strip to 1-2mm max, tin the ends with solder
-3. **Solder:** Place tinned wire on solder-filled hole, press iron down onto solder pad, wire sinks into solder
-4. **Order:** Start with Row A pins (top), then Row B pins
-
-**Complete Button Wiring Map:**
-
-| Button | MCP Pin | Wire Connection |
-|--------|---------|-----------------|
-| **LEFT SIDE BUTTONS** | | |
-| UP     | B0      | MCP B0 → any hole in UP button signal shared row |
-| Down   | B1      | MCP B1 → any hole in DOWN button signal shared row |
-| Left   | B2      | MCP B2 → any hole in LEFT button signal shared row |
-| Right  | B3      | MCP B3 → any hole in RIGHT button signal shared row |
-| L      | B4      | MCP B4 → any hole in L button signal shared row |
-| Select | B5      | MCP B5 → any hole in SELECT button signal shared row |
-| Share  | B6      | MCP B6 → any hole in SHARE button signal shared row |
-| **RIGHT SIDE BUTTONS** | | |
-| North  | A0      | MCP A0 → any hole in NORTH button signal shared row |
-| South  | A1      | MCP A1 → any hole in SOUTH button signal shared row |
-| West   | A2      | MCP A2 → any hole in WEST button signal shared row |
-| East   | A3      | MCP A3 → any hole in EAST button signal shared row |
-| R      | A4      | MCP A4 → any hole in R button signal shared row |
-| Start  | A5      | MCP A5 → any hole in START button signal shared row |
-| Home   | A6      | MCP A6 → any hole in HOME button signal shared row |
-
-**Wiring Tips:**
-- Wire Row A pins first (work from closest to furthest button)
-- Then wire Row B pins
-- Route wires to minimize crossover and blocking
-
----
-
-### **Step 12: Connect Drum Signal Terminals (BACK face)**
-
-Connect terminal block signal pins to XIAO analog pins.
-
-**Wiring Map:**
-
-| Drum Pad  | From Terminal Block | To XIAO Pin |
-|-----------|---------------------|-------------|
-| Left Ka   | Any hole in Row D, hole 22 shared row | A0 |
-| Left Don  | Any hole in Row D, hole 23 shared row | A1 |
-| Right Don | Any hole in Row D, hole 24 shared row | A2 |
-| Right Ka  | Any hole in Row D, hole 25 shared row | A3 |
-
-The drum sensor TRS jacks (added later) connect to these screw terminals.
+The drum sensor TRS jacks (added later in this guide) will connect to these screw terminals.
 
 ---
 
 ### **Circuit Complete!**
 
 You now have a single-board circuit with:
-- ✅ OLED Display
-- ✅ 14 Navigation Buttons
 - ✅ XIAO RP2040 (drum sensor controller)
 - ✅ MCP23017 (button/display controller)
+- ✅ OLED Display
+- ✅ 14 Navigation Buttons
 - ✅ Screw terminals for drum sensors
 
 Continue to Section 5 to build the drum.
@@ -514,15 +470,17 @@ Continue to Section 5 to build the drum.
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**Important:** The SVG files are provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components.  If you try and make the drum smaller, other parts will not fit later on during the project.
+**Important Scale Notice:** The SVG files provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components. If you try and make the drum smaller, other parts will not fit later on during the project.
 
-Verify the SVG files are at the correct scale before cutting by referencing the stated dimensions in the file.  Another quick way to check is to ensure that 14 mounting holes in the drum base for the rubber grommet bolts all measure exactly **6mm** in diameter in template the you're going to use to cut.
+💡 **Scale Verification:** Before cutting, verify the SVG files are at correct scale by checking that all 14 mounting holes in the drum base measure exactly **6mm** in diameter.
 
-**No Laser cutter or CNC access?** No worries - there are other options.  Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand.  Double check that your printed templates are sized properly before cutting or drilling anything.
+**No Laser cutter or CNC access?** No worries - there are other options. Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand. Double check that your printed templates are sized properly before cutting or drilling anything.
 
-### **B: Prepare the Wood**
+---
 
-### **<u>B1. Cut all MDF wood pieces per SVG templates</u>**
+### **PART C: Prepare the Wood**
+
+#### **<u>C1. Cut all MDF wood pieces per SVG templates</u>**
 
 💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
@@ -530,15 +488,15 @@ Use your Laser or CNC machine to cut out all of the parts in template files.
 
 ---
 
-### **<u>B2. Sand smooth as needed</u>**
+#### **<u>C2. Sand smooth as needed</u>**
 
 Sand down any rough edges from the cutting or drilling to ensure that the pieces marry up well during assembly later.
 
 ---
 
-### ***Assemble the Drum Structure***
+### **PART D: Assemble the Drum Structure**
 
-### **<u>B3. Assemble and glue the rear base plates together</u>**
+#### **<u>D1. Assemble and glue the rear base plates together</u>**
 
 Use **Wood Glue** to glue the two identical rear base plates together (they are 100% identical, just align the holes and glue together). Clamp securely or weigh down and let dry for several hours.
 
@@ -548,23 +506,27 @@ Use **Wood Glue** to glue the two identical rear base plates together (they are 
 
 ---
 
-### **<u>B4. Assemble and glue the drum face plate panels together</u>**
+#### **<u>D2. Assemble and glue the drum face plate panels together</u>**
 
-There will be 4 finished drum faceplates that you will be assembling in during this step.  Left Ka, Left Don, Right Don, and Right Ka.  Each faceplate has a smooth top plate along with a corresponding bottom plate with holes in it
+There will be 4 finished drum faceplates that you will be assembling in during this step. Left Ka, Left Don, Right Don, and Right Ka. Each faceplate has a smooth top plate along with a corresponding bottom plate with holes in it.
 
-Let's start with the Ka plates- specifically, the Left Ka.   You will be using the Left Ka TOP and the Left Ka BOTTOM Plate.
+**For Ka Plates:**
 
-Apply wood glue to the underside of the top Ka plate and apply wood glue to the topside of the bottom Ka plate.  Press the two pieces together and clamp or weigh them down for several hours.  Check on them to ensure that no shifting occurs during the drying process.
+Let's start with the Ka plates - specifically, the Left Ka. You will be using the Left Ka TOP and the Left Ka BOTTOM Plate.
 
-*<u>**Repeat this exact same process for the Right Ka.**</u>*  
+Apply wood glue to the underside of the top Ka plate and apply wood glue to the topside of the bottom Ka plate. Press the two pieces together and clamp or weigh them down for several hours. Check on them to ensure that no shifting occurs during the drying process.
 
-Now, let's move on to the Don plates- specifically, the Left Don. You will be using the Left Don TOP and the Left Don BOTTOM Plate.
+**Repeat this exact same process for the Right Ka.**
 
-Apply wood glue to the underside of the top Don plate and apply wood glue to the topside of the bottom Don plate.  Press the two pieces together and clamp or weigh them down for several hours. Check on them to ensure that no shifting occurs during the drying process.
+**For Don Plates:**
 
-*<u>**Repeat this exact same process for the Right Don.**</u>*  
+Now, let's move on to the Don plates - specifically, the Left Don. You will be using the Left Don TOP and the Left Don BOTTOM Plate.
 
-*Ignore the 4 smaller holes in the center in this photo, your version will be different and only have 2 holes*
+Apply wood glue to the underside of the top Don plate and apply wood glue to the topside of the bottom Don plate. Press the two pieces together and clamp or weigh them down for several hours. Check on them to ensure that no shifting occurs during the drying process.
+
+**Repeat this exact same process for the Right Don.**
+
+💡 **Note:** Ignore the 4 smaller holes in the center in this photo, your version will be different and only have 2 holes.
 
 <div align="center">
 <img src="images/Pictures/kaholes.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -572,7 +534,7 @@ Apply wood glue to the underside of the top Don plate and apply wood glue to the
 
 ---
 
-### **<u>B5. Rout/sand the Ka rim edges</u>**
+#### **<u>D3. Rout/sand the Ka rim edges</u>**
 
 Use a router or at least sand down the top sharp outer, curved edge of the **Ka rim faces**. This helps prevent stick damage and wear and tear on your drum and cover as well. Do not smooth/route the inside edges at all, just the outside curve.
 
@@ -582,9 +544,9 @@ Use a router or at least sand down the top sharp outer, curved edge of the **Ka 
 
 ---
 
-### **<u>B6. Drill holes for threaded inserts</u>**
+#### **<u>D4. Drill holes for threaded inserts</u>**
 
-Using an **8mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut **6mm** holes where the rubber grommets will go, and use those holes as a drill guide. Drill <u>**straight**</u> down into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
+Using an **8mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut **6mm** holes where the rubber grommets will go, and use those holes as a drill guide. Drill **straight** down into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
 <div align="center">
 <img src="images/Pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -592,7 +554,7 @@ Using an **8mm** diameter drill bit (or the specialized drill bit that came with
 
 ---
 
-### **<u>B7. Chamfer holes</u>**
+#### **<u>D5. Chamfer holes</u>**
 
 Chamfer the (inner) rim of each 8mm hole so that the angled head of the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This chamfering can be done with a sharp screwdriver, knife, etc.
 
@@ -602,7 +564,7 @@ Chamfer the (inner) rim of each 8mm hole so that the angled head of the threaded
 
 ---
 
-### **<u>B8. Install the M6 threaded inserts</u>**
+#### **<u>D6. Install the M6 threaded inserts</u>**
 
 Screw in the **14 individual M6 threaded wood inserts** into the corresponding holes until flush (add **Superglue** to the *outside* of threads to help permanently secure them to wood).
 
@@ -615,11 +577,11 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 
 ---
 
-### **<u>B9. Install M3 threaded inserts</u>**
+#### **<u>D7. Install M3 threaded inserts</u>**
 
-Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates.  8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood.  These threaded inserts are where the sensor housings will mount later on.
+Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
 
-*Note: Your orientation will be different, this is just an example showing the sensor housing next to a threaded insert.*
+💡 **Note:** Your orientation will be different, this is just an example showing the sensor housing next to a threaded insert.
 
 <div align="center">
 <img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
@@ -627,9 +589,9 @@ Using a small hammer or rubber mallet, tap two M3 threaded inserts into the hole
 
 ---
 
-### **C: Install the Rubber Isolators**
+### **PART E: Install the Rubber Isolators**
 
-### **<u>C1. Cut nylon bolt head</u>**
+#### **<u>E1. Cut nylon bolt head</u>**
 
 Cut the head off of a **20mm M6 nylon bolt**.
 
@@ -639,13 +601,13 @@ Cut the head off of a **20mm M6 nylon bolt**.
 
 ---
 
-### **<u>C2. Apply Loctite to isolator</u>**
+#### **<u>E2. Apply Loctite to isolator</u>**
 
 Apply one drop or less of **Loctite** to threads on the inside of the rubber isolator threaded hole.
 
 ---
 
-### **<u>C3. Install bolt in isolator</u>**
+#### **<u>E3. Install bolt in isolator</u>**
 
 Screw one end of the headless bolt into isolator until it stops.
 
@@ -658,48 +620,49 @@ Screw one end of the headless bolt into isolator until it stops.
 
 ---
 
-### **<u>C4. Apply Loctite to drum plate inserts</u>**
+#### **<u>E4. Apply Loctite to drum plate inserts</u>**
 
 Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
 
 ---
 
-### **<u>C5. Install isolator/bolt assemblies</u>**
+#### **<u>E5. Install isolator/bolt assemblies</u>**
 
 Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
 
-<u>***Repeat steps C1-C5 for the remaining 13 similar holes.***</u>
+**Repeat steps E1-E5 for the remaining 13 similar holes.**
 
 This metal bolt will go through the matching holes in the drum baseplate in a later step.
 
 <div align="center">
 <img src="images/Pictures/grommetinstalled.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
-**Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Section E later in the guide).
+
+💡 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Part G later in the guide).
 
 ---
 
-### **D: Print Housings**
+### **PART F: Print Housings**
 
-### **<u>D1. Print The Sensor Housings</u>**
+#### **<u>F1. Print The Sensor Housings</u>**
 
 💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
-Print 4 complete sets of Sensor Housings (each set has a top and bottom)
+Print 4 complete sets of Sensor Housings (each set has a top and bottom).
 
 Use **PLA filament**.
 
-Printer Settings: **0.2mm layer height, 40% Gyroid infill, no supports needed.**
+**Printer Settings:** 0.2mm layer height, 40% Gyroid infill, no supports needed.
 
 ---
 
-### **E: Assemble Sensors Electronics**
+### **PART G: Assemble Sensor Electronics**
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
-<u>***Note: Steps E1-E7 will be repeated 4 times - this will give you a total of 4 complete sensor dongles.***</u>
+💡 **Note:** Steps G1-G7 will be repeated 4 times - this will give you a total of 4 complete sensor dongles.
 
-### **<u>E1. Cut neoprene discs</u>**
+#### **<u>G1. Cut neoprene discs</u>**
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
@@ -707,9 +670,9 @@ Cut four **12mm neoprene discs** by using the SVG template.
 
 ---
 
-### **<u>E2. Glue neoprene disc to housing</u>**
+#### **<u>G2. Glue neoprene disc to housing</u>**
 
-Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing.  Place a single neoprene disc in this ring on on top of the glue. Press lightly for 30 seconds.
+Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
 
 <div align="center">
 <img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -717,21 +680,20 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 
 ---
 
-### **<u>E3. Strip Siamese wire</u>**
+#### **<u>G3. Strip Siamese wire</u>**
 
 Take **10"-12" length of Siamese wire**, strip both ends exposing the two wires within.
 
 ---
 
-### **<u>E4. Solder TRS Jack</u>**
+#### **<u>G4. Solder TRS Jack</u>**
 
 Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
 - **Red** connects to the **TIP** of the male TRS jack
+- **Black** connects to the **SLEEVE** of the male TRS jack
 
-- **Black** connects to the **SLEEVE** of the male TRS jack.
-  
-  (tip: you can use your multimeter in Continuity mode to check which terminal is the Sleeve and which is the Tip)
+💡 **Tip:** You can use your multimeter in Continuity mode to check which terminal is the Sleeve and which is the Tip.
 
 <div align="center">
 <img src="images/Pictures/trssolder.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -739,9 +701,9 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
 ---
 
-### **<u>E5. Solder to Piezo</u>**
+#### **<u>G5. Solder to Piezo</u>**
 
-Take the *other* end of the stripped wire, and solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring.  The video linked at the beginning of this section illustrates this well for clarity)
+Take the *other* end of the stripped wire, and solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates this well for clarity.
 
 <div align="center">
 <img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -749,11 +711,11 @@ Take the *other* end of the stripped wire, and solder the **red** wire to piezo 
 
 ---
 
-### **<u>E6. Glue Piezo to Neoprene Mount</u>**
+#### **<u>G6. Glue Piezo to Neoprene Mount</u>**
 
-Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell.  Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene and press together. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
+Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene and press together. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
 
-*Note: Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.*
+💡 **Note:** Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.
 
 <div align="center">
 <img src="images/Pictures/sensorinhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -761,9 +723,9 @@ Add several drops of **Superglue** onto the top surface of neoprene that is alre
 
 ---
 
-### **<u>E7. Assemble housing</u>**
+#### **<u>G7. Assemble housing</u>**
 
-Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim.  Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
+Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
 
 <div align="center">
 <img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -771,9 +733,9 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 ---
 
-### **<u>E8. Mount the Sensor Housings to The Drum</u>**
+#### **<u>G8. Mount the Sensor Housings to The Drum</u>**
 
-Mount your 4 completed housings to the underside of drum faces using **2 M3x8mm screws** for each housing and screw them into the threaded inserts. (Be sure that the bottom (side with the neoprene disc inside) of the housing is against the wood).
+Mount your 4 completed housings to the underside of drum faces using **2 M3x8mm screws** for each housing and screw them into the threaded inserts. Be sure that the bottom (side with the neoprene disc inside) of the housing is against the wood.
 
 Tighten snug so that the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
@@ -785,9 +747,9 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 ---
 
-### **F: Mounting Hardware Assembly**
+### **PART H: Mounting Hardware Assembly**
 
-### **<u>F1. Mark mounting holes</u>**
+#### **<u>H1. Mark mounting holes</u>**
 
 Place your **speaker bracket** against the backside of your rear base plate so that it is centered and not blocking any other holes. Mark the 4 holes in the speaker bracket that you will use to mount it with.
 
@@ -797,7 +759,7 @@ Place your **speaker bracket** against the backside of your rear base plate so t
 
 ---
 
-### **<u>F2. Drill mounting holes</u>**
+#### **<u>H2. Drill mounting holes</u>**
 
 Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
@@ -807,7 +769,7 @@ Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**
 
 ---
 
-### **<u>F3. Install mounting bolts</u>**
+#### **<u>H3. Install mounting bolts</u>**
 
 Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
@@ -817,7 +779,7 @@ Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate s
 
 ---
 
-### **<u>F4. Attach Speaker Mount</u>**
+#### **<u>H4. Attach Speaker Mount</u>**
 
 Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**.
 
@@ -827,9 +789,9 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 
 ---
 
-### **<u>F5. Assemble Drum Faceplates to Rear Baseplate </u>**
+#### **<u>H5. Assemble Drum Faceplates to Rear Baseplate</u>**
 
-Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate.  It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts.  Tighten them a little more finger-tight.
+Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate. It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts. Tighten them a little more finger-tight.
 
 <div align="center">
 <img src="images/Pictures/boltsthrough1.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -837,7 +799,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 ---
 
-### **<u>F6. Route Sensor Through Rear Baseplate</u>**
+#### **<u>H6. Route Sensor Through Rear Baseplate</u>**
 
 Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
@@ -847,9 +809,9 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 ---
 
-### **<u>F7. Attach TRS barrel mounts</u>**
+#### **<u>H7. Attach TRS barrel mounts</u>**
 
-3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them.  You will have one set of Barrel Mounts on each side of the drum.
+3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them. You will have one set of Barrel Mounts on each side of the drum.
 
 <div align="center">
 <img src="images/Pictures/couplersempty.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -861,9 +823,9 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 ---
 
-### **<u>F8. Connect sensor cables</u>**
+#### **<u>H8. Connect sensor cables</u>**
 
-Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers, and then also connect your short, coiled 3.5mm extension cables - these extension cables will eventually plug into the female TRS jacks on your control box.  The wires should connect cleanly from left to right.
+Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers, and then also connect your short, coiled 3.5mm extension cables - these extension cables will eventually plug into the female TRS jacks on your control box. The wires should connect cleanly from left to right.
 
 <div align="center">
 <img src="images/Pictures/couplersconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -890,25 +852,25 @@ I chose to not provide specific plans for the control box since everyone's layou
 ### **Optional Enclosure Ideas**
 
 - **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
-- **Simple alternatives:** Small shipping box, small plastic box, etc.  Even attaching everything to a single piece of cardboard would help.  You just want to avoid everything moving around.
+- **Simple alternatives:** Small shipping box, small plastic box, etc. Even attaching everything to a single piece of cardboard would help. You just want to avoid everything moving around.
 
 ---
 
-### **G: Connect Drum To The Circuit and Control Box Example**
+### **PART I: Connect Drum To The Circuit and Control Box**
 
-### **<u>G1. Connect sensor cables to circuit</u>**
+#### **<u>I1. Connect sensor cables to circuit</u>**
 
 Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers to the input of the Female TRS jacks on your completed circuit.
 
 This completes the core circuit assembly.
 
-The next portion of the guide will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
+💡 **Note:** The next portion of the guide will incorporate a few last steps to make the circuit connection to the PC and Audio more user-friendly, as well as showing you how keep your circuit protected in an enclosure.
 
 ---
 
-### **Final Connections**
+### **PART J: Final Connections**
 
-### **<u>G2. Mount TRS jacks to control box</u>**
+#### **<u>J1. Mount TRS jacks to control box</u>**
 
 Mount the **4 Female TRS jacks** that are part of your circuit to the wall of your control box so that they face the outside.
 
@@ -922,7 +884,7 @@ Mount the **4 Female TRS jacks** that are part of your circuit to the wall of yo
 
 ---
 
-### **<u>G3. Mount USB-C to USB-A adapter</u>**
+#### **<u>J2. Mount USB-C to USB-A adapter</u>**
 
 Connect the **USB C to USB A adapter** in the wall of your box so that the USB C portion is facing the outside of the box. Use **hot glue** to affix in place.
 
@@ -936,7 +898,7 @@ Connect the **USB C to USB A adapter** in the wall of your box so that the USB C
 
 ---
 
-### **<u>G4. Connect USB hub</u>**
+#### **<u>J3. Connect USB hub</u>**
 
 Connect the **USB HUB** to the USB A side of the adapter you just glued into place.
 
@@ -946,25 +908,25 @@ Connect the **USB HUB** to the USB A side of the adapter you just glued into pla
 
 ---
 
-### **<u>G5. Connect XIAO to USB hub</u>**
+#### **<u>J4. Connect XIAO to USB hub</u>**
 
 Connect the **XIAO main controller board** to the USB Hub using a **short USB C to USB A cable**.
 
 ---
 
-### **<u>G6. Connect USB DAC</u>**
+#### **<u>J5. Connect USB DAC</u>**
 
 Connect your **USB DAC** to the USB Hub.
 
 ---
 
-### **<u>G7. Connect DAC to extension cable</u>**
+#### **<u>J6. Connect DAC to extension cable</u>**
 
 Connect the **3.5mm audio out jack** on your USB DAC to the **short 3.5mm TRS extension cable**.
 
 ---
 
-### **<u>G8. Mount audio jack to control box</u>**
+#### **<u>J7. Mount audio jack to control box</u>**
 
 Connect the **3.5mm Female end** of the short audio extension cable you just connected to the wall of your controller box so that it faces outside of the box. Use **hot glue** to affix in place.
 
@@ -978,7 +940,7 @@ Connect the **3.5mm Female end** of the short audio extension cable you just con
 
 ---
 
-### **<u>G9. Mount OLED/button board</u>**
+#### **<u>J8. Mount OLED/button board</u>**
 
 Mount the board with your **OLED screen and gamepad buttons** so that the screen is visible and the buttons are accessible during gameplay.
 
@@ -988,7 +950,7 @@ Mount the board with your **OLED screen and gamepad buttons** so that the screen
 
 ---
 
-### **<u>G10. Wire management</u>**
+#### **<u>J9. Wire management</u>**
 
 Here's an example of how the inside of your control box may look.
 
@@ -1003,9 +965,9 @@ Take your time with wire management. It doesn't have to be the prettiest thing i
 
 ---
 
-### **H: Floor Stand**
+### **PART K: Floor Stand**
 
-### **<u>H1. Mount bracket to speaker stand</u>**
+#### **<u>K1. Mount bracket to speaker stand</u>**
 
 Mount the angled speaker bracket to the speaker stand.
 
@@ -1015,19 +977,19 @@ Mount the angled speaker bracket to the speaker stand.
 
 ---
 
-### **<u>H2. Adjust height/angle</u>**
+#### **<u>K2. Adjust height/angle</u>**
 
 Adjust height/angle for playing comfort.
 
 ---
 
-### **<u>H3. Add drum cover</u>**
+#### **<u>K3. Add drum cover</u>**
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
 If that isn't an option for you, you can try using a towel, blanket, large mouse pad, thin foam, whatever you want that gives you sound-reducing qualities as well as the amount of bounce that you're looking for.
 
-The beauty of my Project is that you can adjust the Drum Thresholds and make it perform just how you want regardless of Drum cover.
+💡 **Pro Tip:** The beauty of this Project is that you can adjust the Drum Thresholds and make it perform just how you want regardless of Drum cover.
 
 <div align="center">
 <img src="images/Pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1043,38 +1005,51 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 
 💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
+---
+
 ### **Step 1: Enter Boot Mode**
 
-Hold down the small **"B" button** on your XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive.  The board is now in BOOT mode, and is waiting for you to load a file to it.
+Hold down the small **"B" button** on your XIAO RP2040 micro controller board while connecting it to your PC. The board will appear as a removable drive. The board is now in BOOT mode, and is waiting for you to load a file to it.
+
+---
 
 ### **Step 2: Wipe the Board**
 
-A good practice is to always flash a cleaning/nuke file to your board before you flash your actual firmware.  This clears out any residual memory or cache that, while rare, may still be hanging around that would conflict with your desired firmware.
+A good practice is to always flash a cleaning/nuke file to your board before you flash your actual firmware. This clears out any residual memory or cache that, while rare, may still be hanging around that would conflict with your desired firmware.
 
-To do this, drag the`universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode.  Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware...
+To do this, drag the `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode. Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware...
+
+---
 
 ### **Step 3: Flash the Firmware**
 
-Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play.  If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it.  This will manually reboot it, and it's ready to go!
+Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
 You're ready for calibration and testing!
 
 ---
 
-## 8: **Calibration & Settings**
+## **8: Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### ***<u>Complete this below button and drum pad test before any calibration</u>***
+### **Complete Button and Drum Pad Test (Before Calibration)**
 
-By doing this step, you're just ensuring that they are all wired correctly, registering properly, and in the correct location. 
+💡 **Important:** By doing this step, you're just ensuring that they are all wired correctly, registering properly, and in the correct location.
 
-Long-press **SELECT**  for approximately one second to enter setup mode. The controller, by default, will be in **SWITCH TATACON mode**. Stay inside the Menu structure for this test (this prevents any fall triggers from interrupting your button test). 
-Now, visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons.  The button you press and the drum you tap on your controller should also light up the same drum or button on the screen. 
+**Test Procedure:**
 
-You can now exit the menu screen.  Again, if you notice any automatic/false triggering of the drum panels, you can ignore that as the below calibration will solve that trmporary issue.
+1. Long-press **SELECT** for approximately one second to enter setup mode
+2. The controller, by default, will be in **SWITCH TATACON mode**
+3. Stay inside the Menu structure for this test (this prevents any false triggers from interrupting your button test)
+4. Visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons
+5. The button you press and the drum you tap on your controller should also light up the same drum or button on the screen
 
-### **<u>Taiko-Tune™ Auto-Calibration System (Recommended)</u>**
+You can now exit the menu screen. If you notice any automatic/false triggering of the drum panels, you can ignore that as the below calibration will solve that temporary issue.
+
+---
+
+### **Taiko-Tune™ Auto-Calibration System (Recommended)**
 
 **The world's first automated calibration system for Taiko drum controllers** - a revolutionary feature that eliminates the manual threshold guesswork.
 
@@ -1083,14 +1058,16 @@ You can now exit the menu screen.  Again, if you notice any automatic/false trig
 Instead of manually adjusting thresholds through trial and error, Taiko-Tune analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
 
 - Monitors hits in real-time until progress bar reaches 100%
-- Analyzes velocity patterns and strike consistency  
+- Analyzes velocity patterns and strike consistency
 - Detects cross-talk between adjacent pads and adjusts accordingly
 - Automatically applies mathematically optimal threshold values
 - Adapts to your unique playing style and drum cover choice
 
+---
+
 #### **How to Use Taiko-Tune:**
 
-**<u>Quick Start - Calibrate All 4 Pads Automatically (Fastest Method):</u>**
+**Quick Start - Calibrate All 4 Pads Automatically (Fastest Method):**
 
 **Option A: Triple-Tap Shortcut (No Menu Required)**
 
@@ -1104,6 +1081,8 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → **Analyze All 4 Drums**
 3. **Select "Start Analysis"** to begin the wizard
+
+---
 
 **During the All 4 Drums Wizard:**
 
@@ -1120,12 +1099,14 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 - Between Pass 1 and Pass 2, a transition screen appears briefly
 - **Total time:** Approximately 5-8 minutes for all 4 drums (both passes)
 
-**<u>Calibrate a Single Pad using Taiko-Tune:</u>**
+---
+
+**Calibrate a Single Pad using Taiko-Tune:**
 
 Use this method if you only want to recalibrate one specific drum without affecting the others.
 
 1. **Enter the Menu:** Hold **SELECT** for 1 second
-2. **Navigate:** 
+2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
 3. **Choose your drum:**
    - Analyze Left Ka
@@ -1139,13 +1120,15 @@ Use this method if you only want to recalibrate one specific drum without affect
    - Progress bar shows completion status
 7. **Results auto-apply:** Optimal threshold is calculated and saved instantly
 
-**<u>Canceling Taiko-Tune:</u>**
+---
+
+**Canceling Taiko-Tune:**
 
 - Press **B** at any time during analysis to cancel
 - Original thresholds are automatically restored
 - Returns you to where you started (menu or idle)
 
-
+---
 
 #### **Why Use Taiko-Tune Instead of Manual Calibration?**
 
@@ -1157,22 +1140,26 @@ Use this method if you only want to recalibrate one specific drum without affect
 
 ---
 
-### **<u>Manual Single Pad Threshold Adjustment</u>**
+### **Manual Single Pad Threshold Adjustment**
 
-*Note: If you prefer automated calibration, use the **Taiko-Tune™ Auto-Calibration System** above - it's faster and more accurate.*
+💡 **Note:** If you prefer automated calibration, use the **Taiko-Tune™ Auto-Calibration System** above - it's faster and more accurate.
 
 Use this method when you want precise manual control over individual drum sensitivity values, or need to fine-tune after Taiko-Tune calibration.
+
+---
 
 #### **Step 1: Enter Manual Adjustment Mode**
 
 1. **Enter the Menu:** Hold **SELECT** for 1 second
-2. **Navigate:** 
+2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
 3. **Choose your drum:**
    - Left Ka
    - Left Don
    - Right Don
    - Right Ka
+
+---
 
 #### **Step 2: Adjust Threshold Values**
 
@@ -1183,17 +1170,23 @@ Each pad has an adjustable threshold value (0-4095) that determines how hard you
 - **A Button:** Save and exit
 - **B Button:** Cancel and restore original value
 
+---
+
 #### **Troubleshooting Guide:**
 
 - **Light/regular hits don't register:** **LOWER** the threshold value
 - **False hits happen too easily:** **RAISE** the threshold value
 - **Hitting one drum triggers another drum (crosstalk):** **RAISE the threshold** of the drum that accidentally triggered by 10-20 points. Repeat until all drums function independently.
 
+---
+
 #### **Threshold Value Guidelines:**
 
 - **Don (Center) Pads:** Typically 40-80
 - **Ka (Rim) Pads:** Typically 60-100
 - Values depend heavily on your drum construction, covers, and playing style
+
+---
 
 #### **When to Recalibrate:**
 
@@ -1202,35 +1195,45 @@ Each pad has an adjustable threshold value (0-4095) that determines how hard you
 - When switching between soft and aggressive playing styles
 - After any hardware modifications
 
-**Pro Tip:** You can mix Taiko-Tune with manual adjustments - let Taiko-Tune set the baseline, then fine-tune individual pads ±10-20 points if desired.
+💡 **Pro Tip:** You can mix Taiko-Tune with manual adjustments - let Taiko-Tune set the baseline, then fine-tune individual pads ±10-20 points if desired.
 
 ---
 
-### <u>Extended Drum Setting Features</u>
+### **Extended Drum Setting Features**
 
-#### <u>**Big Hit Arcade Mode**</u>
+#### **Big Hit Arcade Mode**
 
-This controls how the drum reacts to very strong strikes
+This controls how the drum reacts to very strong strikes.
 
-In the Arcade, to get full points for Big Notes, you have to hit the any Don or Ka *much harder* than your regular note hits.  Because most existing home Taiko drums didn't have the technology to detect when a hit was harder than other hits,  home Console ports and PC versions of Taiko games changed the method up a bit, and would give full points for Big Notes by simply hitting both Don or Ka at the same time - instead of just hitting a single Don or Ka harder.
+In the Arcade, to get full points for Big Notes, you have to hit the any Don or Ka *much harder* than your regular note hits. Because most existing home Taiko drums didn't have the technology to detect when a hit was harder than other hits, home Console ports and PC versions of Taiko games changed the method up a bit, and would give full points for Big Notes by simply hitting both Don or Ka at the same time - instead of just hitting a single Don or Ka harder.
 
 My **Big Hit Arcade Mode** solves that, and allows for that "Arcade Hit" where you can simply hit the Don or Ka of your choice *harder* than typical hits to get credit for the Big Notes - Just like how Official Taiko Arcade Machines operate.
+
+**Settings:**
 
 - Set Mode to: **ON**
 - Adjust Threshold Level: Start around **850** (Big Hit threshold is typically 2-3x normal threshold)
 - **Increase** the value to lower the threshold of what counts as a Big Hit
 - **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
 
-#### <u>**SimulTap Mode**</u>
+---
 
-By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay, and helps ensure clean hits).  If you wanted to use this controller to play your other favorite 4-lane rhythm games, this would be an issue.  So, I added this mode that lets you toggle whether there are hit limitations.
+#### **SimulTap Mode**
+
+By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay, and helps ensure clean hits). If you wanted to use this controller to play your other favorite 4-lane rhythm games, this would be an issue. So, I added this mode that lets you toggle whether there are hit limitations.
+
+**Settings:**
 
 - Turn **SimulTap ON** if you want to use the Drum in non-Taiko Rhythm Games (since you'll want the ability to hit more than one drum/note at the same time)
-- Leave it **OFF** when playing Taiko Games.
+- Leave it **OFF** when playing Taiko Games
 
-#### <u>**Hold Time**</u>
+---
+
+#### **Hold Time**
 
 This defines how long a hit is "held" before the drum accepts another.
+
+**Settings:**
 
 - Recommended range: **25—35ms**
 - **Increase** if double hits register too fast
@@ -1245,10 +1248,11 @@ This defines how long a hit is "held" before the drum accepts another.
 - Main Screen Character animations confirm every registered hit
 - Each character represents its drum position (left to right)
 
+---
+
 ### **Pro Tips**
 
 - Different drum covers may need threshold adjustment
-
 - Use Debug mode to see raw ADC values (should be 200-400 baseline)
 
 There you have it - You've just built a professional controller circuit with adaptive baseline technology that automatically maintains perfect calibration—no manual adjustments needed as components wear or age!
@@ -1279,32 +1283,32 @@ There you have it - You've just built a professional controller circuit with ada
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-<b>🖥️ DISPLAY Issues</b>
+**🖥️ DISPLAY Issues**
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
 - **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
-<b>🥁 SENSOR Issues</b>
+**🥁 SENSOR Issues**
 
 - **No response:** Check diode polarity, TRS wiring
 - **False triggers:** Increase thresholds
 - **Missed hits:** Decrease thresholds, check mounting
 - **Crosstalk:** Increase threshold on triggering pad
 
-<b>🎮 MODE SWITCHING Issues</b>
+**🎮 MODE SWITCHING Issues**
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
-<b>🔊 AUDIO Issues</b>
+**🔊 AUDIO Issues**
 
 - **No sound:** Check USB DAC, verify audio output device
 - **Crackling:** Try different USB port
 - **Latency:** Should be <5ms, check game/computer settings
 
-If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
+💡 **Tip:** If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
 
 ---
 
@@ -1442,9 +1446,9 @@ I also want to take a moment to mention a few, more general resources that were 
 - [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
 - [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
-### <u>**Closing Thoughts**</u>
+### **Closing Thoughts**
 
-I can't thank you enough for taking the time to follow along with my guide.  It really means a lot.
+I can't thank you enough for taking the time to follow along with my guide. It really means a lot.
 
 If you have any project-specific questions or suggestions, please use the Discussion panel on my GitHub. You can also ask more general questions in any of the Discord Channels I mentioned above - they are all very helpful in their own way.
 
