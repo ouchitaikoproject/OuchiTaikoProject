@@ -72,19 +72,13 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
-**The OLED OSD IDLE SCREEN SHOWS:**
+**COMPLETE STANDALONE TESTING:**
 
-- Controller mode (top)
-- Streak counter (live roll count)
-- 4 animated characters (react to hits)
-- Menu hint (bottom)
-
-**VISUAL FEEDBACK:**
-
-- Each character = a specific drum pad (left to right: Left Ka, Left Don, Right Done, Right Ka)
-- Characters squish when hit
-- Fluid OLED animation
-- Instant hit confirmation - no need to connect to a PC to test drum functionality.
+- **No PC Required:** Calibrate and test entire system with just USB power
+- **Visual drum feedback:** 4 animated icons (Left Ka, Left Don, Right Don, Right Ka) react to hits
+- **Button mapping confirmation:** Real-time indicators verify all 14 navigation buttons and button naming/labeling
+- **Live stats:** Streak counter, controller mode, menu hints
+- Instant confirmation that everything is wired correctly
 
 **HARDWARE:**
 
