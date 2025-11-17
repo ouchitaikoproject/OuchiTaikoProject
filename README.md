@@ -204,6 +204,12 @@ This guide assumes you have access to the following:
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+<div align="center">
+<img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
 ### **Circuit Overview**
 
 This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
@@ -234,7 +240,7 @@ This protoboard has **row letters and numbers printed on both sides**.
 
 Always verify which side you're working on before placing components.
 
-💾 **[Download full circuit schematic (PDF)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)**
+
 
 ---
 
@@ -243,15 +249,23 @@ Always verify which side you're working on before placing components.
 Mount OLED Display on the **top center** of the FRONT face.
 
 **OLED Placement:**
-- **Location:** Row A, holes 14-17 (FRONT face coordinates)
+- **Location:** Row J, holes 14-17 (FRONT face coordinates)
 - **Orientation:** Screen facing up
 - Solder in place
+
+<div align="center">
+<img src="images/Pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 **OLED pins** (will be wired in Step 7):
 - VCC (Row A, hole 15)
 - GND (Row A, hole 14)
 - SCL (Row A, hole 16)
 - SDA (Row A, hole 17)
+
+<div align="center">
+<img src="images/Pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 ---
 
@@ -263,6 +277,12 @@ Mount OLED Display on the **top center** of the FRONT face.
 
 **CRITICAL - Use Exact Positions:**
 The table below specifies exact FRONT face hole positions. These align with the control box openings to ensure proper fit of the controller face plate.
+
+<div align="center">
+<img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
 
 **Button Position Reference (FRONT face):**
 
@@ -290,10 +310,24 @@ The table below specifies exact FRONT face hole positions. These align with the 
 2. Solder both legs in place
 3. Verify button alignment matches reference photos
 
+<div align="center">
+<img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 **CRITICAL - Prevent 2 existing Signal Shorts:**
 Because of the shared rows, two button pairs share signal rows and will short without this fix:
 - **NORTH/SOUTH buttons**
 - **UP/DOWN buttons**
+
+<div align="center">
+<img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+<div align="center">
+<img src="images/Pictures/drill2	.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 **Quick Fix (30 seconds per pair):**
 1. Find the hole centered between the two signal legs
@@ -307,7 +341,18 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 
 **Flip board to BACK face.** All remaining steps use BACK face coordinates.
 
+<div align="center">
+<img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+<div align="center">
+<img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 **XIAO Placement:**
+
 - Solder XIAO RP2040 on the **right side** of board using header pins or IC socket for easy removal
 - Orient with **USB-C port facing left**
 - **Top row of pins:** Row D, holes 1-7 (BACK face)
@@ -323,21 +368,52 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 
 Each of the 4 drum sensors requires identical protection circuitry.
 
-**For Each Sensor:**
-1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
-2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
-3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
-4. Place other leg into same GND rail hole (do not solder yet)
-5. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
+
 
 **Diode & Capacitor Placement:**
 
 | Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
-|-----------|----------|----------------------------------------------|
+| --------- | -------- | -------------------------------------------- |
 | Left Ka   | A0       | Row J, hole 7                                |
 | Left Don  | A1       | Row J, hole 6                                |
 | Right Don | A2       | Row J, hole 5                                |
 | Right Ka  | A3       | Row J, hole 4                                |
+
+
+
+**For Each Sensor:**
+1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
+
+2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
+
+   <div align="center">
+   <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
+
+3. <div align="center">
+   <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
+
+4. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
+
+5. Place other leg into same GND rail hole (do not solder yet)
+
+   <div align="center">
+   <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
+
+   <div align="center">
+   <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
+   
+   
+6. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
+
+<div align="center">
+<img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
 
 ---
 
@@ -348,6 +424,10 @@ Each of the 4 drum sensors requires identical protection circuitry.
 - Connect one leg of each button (ground leg) to GND rail
 - **Recommended:** Daisy-chain grounds. Split buttons into left/right halves. You may find it easiest to divide the buttons into left side and right side. On the left set of buttons, designate the GND to all of the legs on the left side of the button (toward the left edge of the board) as ground legs. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
 
+<div align="center">
+<img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 ---
 
 ### **Step 6: Prepare MCP23017 Board**
@@ -357,6 +437,12 @@ Each of the 4 drum sensors requires identical protection circuitry.
 2. This row starts with **A2** (left) and ends with **VCC** (right)
 3. The double row of pins on top remains empty (for button signal connections later on)
 
+
+
+<div align="center">
+<img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 ---
 
 ### **Step 7: Pre-Wire I²C Lines Under MCP (BACK face)**
@@ -364,6 +450,13 @@ Each of the 4 drum sensors requires identical protection circuitry.
 Before mounting the MCP23017, pre-wire power and I²C connections underneath where it will sit.
 
 **Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
+
+<div align="center">
+<img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
 
 **Make these 4 connections underneath:**
 
@@ -374,11 +467,28 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 | SCL        | Row A, hole 13   | Row A, hole 16 | I²C Clock to display |
 | SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display |
 
+<div align="center">
+<img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+(photo shows SDA and SCL connection progress.  You will also connect VCC and GND to the Display in this step)
+
+
+
 **Now mount MCP23017:**
+
 - Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
 - Verify **VCC pin** is in Row E, hole 11
 - Verify **A2 pin** is in Row E, hole 21
 - Solder these header pins to the circuit board
+
+
+
+<div align="center">
+<img src="images/Pictures/expanderterminals2.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+(in the above photo the VCC and GND were routed different than the guide, but work the same)
 
 ---
 
@@ -392,10 +502,17 @@ Place two 4-pin screw terminal blocks on BACK face with openings facing UP (towa
 - Bridge all 4 pins together with solder
 - Connect any hole in shared row to GND rail
 
-**Terminal Block 2 (Drum Signals):**
+**Terminal Block 2 ( For Drum Signals):**
+
 - **Location:** Row D, holes 22-25 (BACK face)
 - **Orientation:** Wire openings facing UP
 - Leave one hole space between this block and the GND block
+
+<div align="center">
+<img src="images/Pictures/expanderterminals2.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
 
 **Label the signal block ports:**
 - Port 1 (hole 22) = Left Ka
@@ -422,14 +539,23 @@ Connect/verify power and ground between XIAO, MCP23017, and Display.
 
 Connect I²C between XIAO and MCP23017.
 
+
+
 | Connection | From XIAO | To MCP23017 |
 |------------|-----------|-------------|
 | SDA        | Any pin in SDA shared row | Any pin in SDA shared row |
 | SCL        | Any pin in SCL shared row | Any pin in SCL shared row |
 
 **Verify I²C connections:**
+
+
+
 - XIAO SDA → MCP23017 SDA → Display SDA (all connected)
 - XIAO SCL → MCP23017 SCL → Display SCL (all connected)
+
+<div align="center">
+<img src="images/Pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 ---
 
@@ -469,6 +595,32 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 - Wire Row A pins first (work from closest to furthest button)
 - Then wire Row B pins
 - Route wires to minimize crossover and blocking
+
+<div align="center">
+<img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+<div align="center">
+<img src="images/Pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+<div align="center">
+<img src="images/Pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+<div align="center">
+<img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 ---
 
