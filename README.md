@@ -485,7 +485,7 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 
 
 <div align="center">
-<img src="images/Pictures/expanderterminals2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 (in the above photo the VCC and GND were routed different than the guide, but work the same)
