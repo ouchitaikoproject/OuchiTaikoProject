@@ -37,9 +37,11 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 <div align="center">
 <img src="images/Pictures/finishedside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
 <div align="center">
 <img src="images/Pictures/finishedface.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
 <div align="center">
 <img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -208,6 +210,9 @@ This guide assumes you have access to the following:
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+📸 Photo Documentation Note
+Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. Don't worry about these mismatches - the installation process is identical. You'll see the correct terminals when you reach Step 8.
+
 ### **Circuit Overview**
 
 This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
@@ -344,7 +349,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 <div align="center">
 <img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
+<br>
 <div align="center">
 <img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -371,10 +376,10 @@ Each of the 4 drum sensors requires identical protection circuitry.
 
 | Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
 | --------- | -------- | -------------------------------------------- |
-| Left Ka   | A0       | Row J, hole 7                                |
-| Left Don  | A1       | Row J, hole 6                                |
-| Right Don | A2       | Row J, hole 5                                |
-| Right Ka  | A3       | Row J, hole 4                                |
+| Left Ka | A0 | Row J, hole 7 |
+| Left Don | A1 | Row J, hole 6 |
+| Right Don | A2 | Row J, hole 5 |
+| Right Ka | A3 | Row J, hole 4 |
 
 **For Each Sensor:**
 
@@ -385,28 +390,30 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <div align="center">
    <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
-
-3. <div align="center">
+   
+   <br>
+   <div align="center">
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-4. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
+3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode anode (do not solder yet)
 
-5. Place other leg into same GND rail hole (do not solder yet)
+4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
    
    <div align="center">
    <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
+   <br>
    <div align="center">
    <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-6. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
+5. **Solder:** NOW, you can solder the combined diode + capacitor legs together. This saves space, and keeps things looking clean.
 
-<div align="center">
-<img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
+   <div align="center">
+   <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
 
 ---
 
@@ -477,43 +484,7 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 
 ---
 
-### **Step 8: Mount Terminal Blocks (BACK face)**
-
-Place two 4-pin screw terminal blocks on BACK face 
-
-**Terminal Block 1 (GND):**
-
-- **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
-- **Orientation:** Wire openings facing UP toward top of board.
-- Bridge all 4 pins together with solder or wire.
-- Connect this common GND cluster to nearest GND rail
-
-**Terminal Block 2 ( For Drum Signals):**
-
-- **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
-- **Orientation:** Wire openings facing DOWN toward bottom of board
-- Leave one hole space between this block and the GND block
-
-<div align="center">
-<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-<div align="center">
-<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-**Label the signal block ports:**
-
-- Pad 1 (Row F, hole 24) = Left Ka
-- Pad 2 (Row F, hole 26) = Left Don
-- Pad 3 (Row F, hole 28) = Right Don
-- Pad4 (Row F, hole 30)= Right Ka
-
-These will be connected in a later step.
-
----
-
-### **Step 9: Connect Power & Ground**
+### **Step 8: Connect Power & Ground**
 
 Connect/verify power and ground between XIAO, MCP23017, and Display.
 
@@ -525,7 +496,7 @@ Connect/verify power and ground between XIAO, MCP23017, and Display.
 
 ---
 
-### **Step 10: Connect I²C Data Lines**
+### **Step 9: Connect I²C Data Lines**
 
 Connect I²C between XIAO and MCP23017.
 
@@ -545,7 +516,7 @@ Connect I²C between XIAO and MCP23017.
 
 ---
 
-### **Step 11: Connect Button Signals to MCP23017 (BACK face)**
+### **Step 10: Connect Button Signals to MCP23017 (BACK face)**
 
 Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
 
@@ -604,19 +575,61 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 </div>
 
 ---
+### **Step 11: Mount Terminal Blocks (BACK face)**
 
-### **Step 12: Connect Drum Signal Terminals (BACK face)**
+Place two 4-pin screw terminal blocks on BACK face 
+
+**Terminal Block 1 (GND):**
+
+- **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
+- **Orientation:** Wire openings facing UP toward top of board.
+- Bridge all 4 pins together with solder or wire.
+- Connect this common GND cluster to nearest GND rail
+
+**Terminal Block 2 ( For Drum Signals):**
+
+- **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
+- **Orientation:** Wire openings facing DOWN toward bottom of board
+- Leave one hole space between this block and the GND block
+
+<div align="center">
+<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+<div align="center">
+<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+**Label the signal block ports:**
+
+- Pad 1/Left Ka (Row F, hole 24)
+- Pad 2/Left Don (Row F, hole 26) 
+- Pad 3/Right Don (Row F, hole 28) 
+- Pad 4/Right Ka (Row F, hole 30)
+
+These will be connected in the next step.
+
+---
+
+### **Step 12: Connect Drum Signal Terminals (FRONT face)**
 
 Connect terminal block signal pins to XIAO analog pins.
+
+<img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+<img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 **Wiring Map:**
 
 | Drum Pad  | From Terminal Block                   | To XIAO Pin |
 | --------- | ------------------------------------- | ----------- |
-| Left Ka   | Any hole in Row D, hole 22 shared row | A0          |
-| Left Don  | Any hole in Row D, hole 23 shared row | A1          |
-| Right Don | Any hole in Row D, hole 24 shared row | A2          |
-| Right Ka  | Any hole in Row D, hole 25 shared row | A3          |
+| Left Ka   | Any hole in Row D, hole 24 shared row | A0          |
+| Left Don  | Any hole in Row C, hole 26 shared row | A1          |
+| Right Don | Any hole in Row B, hole 28 shared row | A2          |
+| Right Ka  | Any hole in Row A, hole 30 shared row | A3          |
 
 The drum sensor TRS jacks (added later) connect to these screw terminals.
 
