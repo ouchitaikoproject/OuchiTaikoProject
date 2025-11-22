@@ -1272,7 +1272,7 @@ You're ready for calibration and testing!
 
 **Test Procedure:**
 
-1. Hold **SELECT** for 1 second to enter the system menu
+1. Long-press **SELECT** for approximately one second to enter setup mode
 2. The controller, by default, will be in **SWITCH TATACON mode**
 3. Stay inside the Menu structure for this test (this prevents any false triggers from interrupting your button test)
 4. Visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons
@@ -1302,15 +1302,15 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 **Quick Start - Calibrate All 4 Pads Automatically (Fastest Method):**
 
-**Option A: Hold START Shortcut (No Menu Required)**
+**Option A: Triple-Tap Shortcut (No Menu Required)**
 
-1. While in idle mode (not in menu), **hold START** for 1 second
+1. While in idle mode (not in menu), **triple-tap START** within 0.5 seconds
 2. The calibration wizard launches instantly and takes you through all 4 drums automatically
 3. Follow the on-screen instructions for each drum
 
-**Option B: Through the System Menu**
+**Option B: Through the Menu**
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → **Analyze All 4 Drums**
 3. **Select "Start Analysis"** to begin the wizard
@@ -1338,7 +1338,7 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 Use this method if you only want to recalibrate one specific drum without affecting the others.
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
 3. **Choose your drum:**
@@ -1383,7 +1383,7 @@ Use this method when you want precise manual control over individual drum sensit
 
 #### **Step 1: Enter Manual Adjustment Mode**
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
 3. **Choose your drum:**
@@ -1520,7 +1520,7 @@ There you have it - You've just built a professional controller circuit with ada
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
-- **Menu won't open:** Hold SELECT for 1 second
+- **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
 **🥁 SENSOR Issues**
@@ -1545,8 +1545,8 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **Quick Access**
 
-- **Hold SELECT (1 sec):** Enter system menu
-- **Hold START (1 sec):** Launch Taiko-Tune (calibrate all 4 drums)
+- **Hold SELECT (1 sec):** Enter main menu
+- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 
 ---
 
@@ -1564,7 +1564,7 @@ There you have it - You've just built a professional controller circuit with ada
 ### **Complete Menu Structure**
 
 ```
-SYSTEM MENU
+MAIN MENU
 │
 ├── 🎮 Controller Modes
 │   ├── Nintendo Switch Tatacon Drum

@@ -4,14 +4,16 @@
 
 ---
 
-<div align="center">
-*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
-
-
+<div align="center">*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents<br>
+the joy of bringing the authentic Taiko experience from the Arcade into your own space.*</div>
 
 ---
 
+<a id="table-of-contents"></a>
+<br>
+
 ## **Table of Contents**
+
 - [1: Project Overview](#1-project-overview)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
@@ -30,23 +32,19 @@
 
 ## **1: Project Overview**
 
-#### The Finished Build - You'll be building and creating this entire setup:
+<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
+<div align="center">
+<img src="images/Pictures/finishedside.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+<div align="center">
+<img src="images/Pictures/finishedface.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
 <div align="center">
 <img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-<div align="center">
-<img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-<div align="center">
-<img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
 
 Hi, I'm KillerQ. Welcome to my  **"OuchiTaiko Project" Arcade Controller Build Guide.** 
 
@@ -352,7 +350,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 <div align="center">
 <img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
+<br>
 <div align="center">
 <img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -394,7 +392,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
-   
+   <br>
    <div align="center">
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
@@ -407,7 +405,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
-   
+   <br>
    <div align="center">
    <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
@@ -618,7 +616,7 @@ Connect terminal block signal pins to XIAO analog pins.
 <div align="center">
 <img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
+<br>
 <div align="center">
 <img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -1041,19 +1039,17 @@ If you built the board to the exact specifications in my guide, you'll be able t
 
 Using the free .STL files provided HERE, print the control box base and lid using the following settings:
 
---Layer Height: .20mm
-
---Infill: Gyroid fill @ 20%
-
---Supports: Automatic
-
-
+--Layer Height: .20mm <br>
+--Infill: Gyroid fill @ 20%<br>
+--Supports: Automatic<br>
 
 #### **<u>I2. Add TRS Terminal Jacks & USB Coupler</u>**
 
 <div align="center">
 <img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
+
 Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
 
 <div align="center">
@@ -1071,12 +1067,12 @@ Place the USB coupler in the bottom opening in the base.  Use the slight depress
 <div align="center">
 <img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
+<br>Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
 
 <div align="center">
 <img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
+<br>Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
 
 <div align="center">
 <img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1272,7 +1268,7 @@ You're ready for calibration and testing!
 
 **Test Procedure:**
 
-1. Hold **SELECT** for 1 second to enter the system menu
+1. Long-press **SELECT** for approximately one second to enter setup mode
 2. The controller, by default, will be in **SWITCH TATACON mode**
 3. Stay inside the Menu structure for this test (this prevents any false triggers from interrupting your button test)
 4. Visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons
@@ -1302,15 +1298,15 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 **Quick Start - Calibrate All 4 Pads Automatically (Fastest Method):**
 
-**Option A: Hold START Shortcut (No Menu Required)**
+**Option A: Triple-Tap Shortcut (No Menu Required)**
 
-1. While in idle mode (not in menu), **hold START** for 1 second
+1. While in idle mode (not in menu), **triple-tap START** within 0.5 seconds
 2. The calibration wizard launches instantly and takes you through all 4 drums automatically
 3. Follow the on-screen instructions for each drum
 
-**Option B: Through the System Menu**
+**Option B: Through the Menu**
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → **Analyze All 4 Drums**
 3. **Select "Start Analysis"** to begin the wizard
@@ -1338,7 +1334,7 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 Use this method if you only want to recalibrate one specific drum without affecting the others.
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
 3. **Choose your drum:**
@@ -1383,7 +1379,7 @@ Use this method when you want precise manual control over individual drum sensit
 
 #### **Step 1: Enter Manual Adjustment Mode**
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
 3. **Choose your drum:**
@@ -1520,7 +1516,7 @@ There you have it - You've just built a professional controller circuit with ada
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
-- **Menu won't open:** Hold SELECT for 1 second
+- **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
 **🥁 SENSOR Issues**
@@ -1545,8 +1541,8 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **Quick Access**
 
-- **Hold SELECT (1 sec):** Enter system menu
-- **Hold START (1 sec):** Launch Taiko-Tune (calibrate all 4 drums)
+- **Hold SELECT (1 sec):** Enter main menu
+- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 
 ---
 
@@ -1564,7 +1560,7 @@ There you have it - You've just built a professional controller circuit with ada
 ### **Complete Menu Structure**
 
 ```
-SYSTEM MENU
+MAIN MENU
 │
 ├── 🎮 Controller Modes
 │   ├── Nintendo Switch Tatacon Drum
