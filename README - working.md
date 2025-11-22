@@ -146,7 +146,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 17  | ElectroCookie Circuit Board(88.9mm x 96.5mm)                  | 1   | [Link](https://a.co/d/i5jfYjs) |
 | 18  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
 | 19  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/8VZdEql) |
-| 20  | M2x4 bolts                                                    | 4   | [Link](https://a.co/d/a7h3vdd) |
+| 20  | M2x4 bolts                                                    | 4   | [Link](https://a.co/d/4cPSWVY) |
 
 </div>
 
@@ -1061,7 +1061,7 @@ Place the USB coupler in the bottom opening in the base.  Use the slight depress
 <img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-#### **<u>I3. Mount Circuit To Enclosure Lid</u>**
+#### **<u>I3. Mount The Circuit To The Enclosure Lid</u>**
 
 <div align="center">
 <img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1078,11 +1078,37 @@ Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make
 Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
 
 <div align="center">
+<img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Place the circuit board face with buttons and display through the holes in the lid.  Everything should align perfectly.
+
+
+<div align="center">
 <img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <br>
 
-Using 4 M4x4mm screws, attach the circuit board
+
+
+Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
+
+#### **<u>I3. Attach Lid and Box Hinges</u>**
+
+<div align="center">
+<img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+The hinges on the box were designed to be fastened using standard, 1.75mm filament as opposed to a metal hinge pin.
+
+<div align="center">
+<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Cut off a small section of filament that is just long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections.  Cut each end flush.  Repeat this for the other hinge as well.  
+
+For a cleaner look, once the hinges are complete, push a few millimeters of the filament out of one end, cut it off, and then push the remainder back in, but push it in a millimeter or so.  this makes the edges look more uniform since there's no filament right up to the edge.
 
 ---
 
