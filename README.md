@@ -85,7 +85,6 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 **HARDWARE:**
 
 - **14 Game Navigation Buttons:** Full in-game navigation regardless of game version
-- **Built-in 3.5mm Headphone Jack:** Lag-free audio right at the drum, no long cords to get tangled
 - **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
 - **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
 
