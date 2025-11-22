@@ -330,7 +330,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 </div>
 
 <div align="center">
-<img src="images/Pictures/drill2    .jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Quick Fix (30 seconds per pair):**
@@ -1026,15 +1026,31 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 
 You're almost there!
 
-If you built the board to the exact specifications in my guide, you'll be able to 3D print the below enclosure box.  I have also included a Laser Cutter version as an alternative.
-
-If you choose to go another route, you can look into the below suggestionsL:
-
-- **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
-- **Simple alternatives:** Small shipping box, small plastic box, etc. Even attaching everything to a single piece of cardboard would help. You just want to avoid everything moving around.
+If you built the board to the exact specifications in my guide, you'll be able to 3D print the included enclosure box for a professional finish to your circuit.
 
 ---
+### **PART IXXX: 3D Print and Assemble The Control Box**
 
+#### **<u>I1. Print the Enclosure</u>**
+Using the free .STL files provided HERE, print the control box using th efollowing settings:
+
+--Layer Height: .20mm
+--Infill: Gyroid fill @ 20%
+--Supports: If nee
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
 ### **PART I: Connect Drum To The Circuit and Control Box**
 
 #### **<u>I1. Connect sensor cables to circuit</u>**
