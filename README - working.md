@@ -181,23 +181,24 @@ This guide assumes you have access to the following:
 
 <div style="overflow-x: auto;">
 
-| #   | Item                                                                                                                                        | Qty | Product Link                                                                                               |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------- | --- | ---------------------------------------------------------------------------------------------------------- |
-| 1   | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files                                              | 1   | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
-| 2   | Strong Wood Glue                                                                                                                            | 1   | [Link](https://a.co/d/1uKv6cR)                                                                             |
-| 3   | M3x8mm bolts                                                                                                                                | 8   | [Link](https://a.co/d/52Q8UtD)                                                                             |
-| 4   | M3x5mm threaded inserts                                                                                                                     | 8   | [Link](https://a.co/d/bKB6OpW)                                                                             |
-| 5   | M6x10mm wood threaded inserts                                                                                                               | 14  | [Link](https://a.co/d/jhY5rYA)                                                                             |
-| 6   | M6x20mm nylon bolts                                                                                                                         | 14  | [Link](https://a.co/d/bPitQiX)                                                                             |
-| 7   | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt)                                                   | 14  | [Link](https://a.co/d/9dWHezk)                                                                             |
-| 8   | 3D printer filament (PLA)                                                                                                                   | 1   | [Link](https://a.co/d/7cCSDtJ)                                                                             |
-| 9   | Gel Superglue                                                                                                                               | 1   | [Link](https://a.co/d/dxU7lfw)                                                                             |
-| 10  | Loctite thread adhesive - Medium                                                                                                            | 1   | [Link](https://a.co/d/2W890aJ)                                                                             |
-| 11  | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed)                                                                            | 1   | [Link](https://a.co/d/dfMhZ4k)                                                                             |
-| 12  | Finger Knobs with pass-through M6 threads                                                                                                   | 18  | [Link](https://a.co/d/hjL3QQP)                                                                             |
-| 13  | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below)                                                 | 1   | [Link](https://a.co/d/2YkmhPj)                                                                             |
-| 14  | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above)                                                   | 1   | [Link](https://a.co/d/gQioU8i)                                                                             |
-| 15  | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1   | [Link](https://taiko.ac/products/rubber-drum-pad)                                                          |
+| #    | Item                                                         | Qty  | Product Link                                                 |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| 1    | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 2    | Strong Wood Glue                                             | 1    | [Link](https://a.co/d/1uKv6cR)                               |
+| 3    | M3x8mm bolts                                                 | 8    | [Link](https://a.co/d/52Q8UtD)                               |
+| 4    | M3x5mm threaded inserts                                      | 8    | [Link](https://a.co/d/bKB6OpW)                               |
+| 5    | M6x10mm wood threaded inserts                                | 14   | [Link](https://a.co/d/jhY5rYA)                               |
+| 6    | M6x20mm nylon bolts                                          | 14   | [Link](https://a.co/d/bPitQiX)                               |
+| 7    | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt) | 14   | [Link](https://a.co/d/9dWHezk)                               |
+| 8    | 3D printer filament (PLA)                                    | 1    | [Link](https://a.co/d/7cCSDtJ)                               |
+| 9    | Gel Superglue                                                | 1    | [Link](https://a.co/d/dxU7lfw)                               |
+| 10   | Loctite thread adhesive - Medium                             | 1    | [Link](https://a.co/d/2W890aJ)                               |
+| 11   | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed) | 1    | [Link](https://a.co/d/dfMhZ4k)                               |
+| 12   | Finger Knobs with pass-through M6 threads                    | 18   | [Link](https://a.co/d/hjL3QQP)                               |
+| 13   | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below) | 1    | [Link](https://a.co/d/2YkmhPj)                               |
+| 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
+| 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 16   | Spring-Loaded Phone Holder with Gooseneck Arm                | 1    | [Link](https://a.co/d/fRja2H6)                               |
 
 </div>
 
@@ -630,7 +631,7 @@ Connect terminal block signal pins to XIAO analog pins.
 | Right Don | Any hole in Row B, hole 28 shared row | A2          |
 | Right Ka  | Any hole in Row A, hole 30 shared row | A3          |
 
-The drum sensor TRS jacks (added later) connect to these screw terminals.
+These screw terminals will connect to the drum sensor TRS jacks in a step later in this guide
 
 ---
 
@@ -1084,8 +1085,6 @@ Place the circuit board face with buttons and display through the holes in the l
 <div align="center">
 <img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-<br>
-
 Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
 
 #### **<u>I3. Attach Lid and Box Hinges</u>**
@@ -1122,25 +1121,89 @@ From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable appr
 #### **<u>J2. Connect The Ground Wires</u>**
 
 <div align="center">
-<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
----
+Connect the 4 wires on one end of one of the sets of ribbon wire to the green, GND terminal block on the circuit board.
+
+<div align="center">
+<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the opposite end of that strip of wire to the GND terminal in each of the 4 TRS jacks in your control box.  There is no specific order for the the GND wires hear.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
+
+#### **<u>J2. Connect The Signal Wires</u>**
+
+<div align="center">
+<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+<div align="center">
+<img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the 4 wires on one end of one of other set of ribbon wire to the blue, SIGNAL terminal block on the circuit board.  
+
+<div align="center">
+<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the other end to the TIP terminal of the respective TRS jack in the control box. 
+
+Terminal pin 1 connects to the TIP terminal of TRS Jack 1.
+
+Terminal pin 2connects to the TIP terminal of TRS Jack 2.
+
+Terminal pin 3 connects to the TIP terminal of TRS Jack 3.
+
+Terminal pin 4 connects to the TIP terminal of TRS Jack 4.
+
+<div align="center">
+<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 
 
+#### **<u>J2. Connect The XIAO Board To The Control Box USB Coupler</u>**
+
+Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the control box.
+
+------
+
+This is how the final, wired product should look:
+
+<div align="center">
+<img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 
 
-### **PART K: Floor Stand**
+------
 
-#### **<u>K1. Mount bracket to speaker stand</u>**
+
+
+### **PART K: Floor Stand And Control Box Mount**
+
+#### **<u>K1. Mount Drum to speaker stand</u>**
 
 Mount the angled speaker bracket to the speaker stand.
 
 <div align="center">
 <img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+#### **<u>K1. Mount Control Box and Connect Signal Wires</u>**
+
+Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the Control Box.
+
 
 ---
 
@@ -1188,7 +1251,7 @@ To do this, drag the `universal_flash_nuke.uf2` to the root of the removable dri
 
 ---
 
-### **Step 3: Flash the Firmware**
+### **Step 3: Drag the Firmware File To The Board to Flash It**
 
 Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
