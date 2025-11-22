@@ -398,7 +398,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode anode (do not solder yet)
+3. **Capacitor:** Place either leg of 0.47µF capacitor into same hole as diode anode (do not solder yet)
 
 4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
    
