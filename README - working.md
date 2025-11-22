@@ -145,8 +145,8 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 16  | 24 AWG Connection 4-Wire Ribbon Wire                          | 1   | [Link](https://a.co/d/5YkPnMC) |
 | 17  | ElectroCookie Circuit Board(88.9mm x 96.5mm)                  | 1   | [Link](https://a.co/d/i5jfYjs) |
 | 18  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 19  | M2 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/hbHKwvZ) |
-| 20  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/3rabcWT) |
+| 19  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/8VZdEql) |
+| 20  | M2x4 bolts                                                    | 4   | [Link](https://a.co/d/a7h3vdd) |
 
 </div>
 
@@ -376,10 +376,10 @@ Each of the 4 drum sensors requires identical protection circuitry.
 
 | Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
 | --------- | -------- | -------------------------------------------- |
-| Left Ka | A0 | Row J, hole 7 |
-| Left Don | A1 | Row J, hole 6 |
-| Right Don | A2 | Row J, hole 5 |
-| Right Ka | A3 | Row J, hole 4 |
+| Left Ka   | A0       | Row J, hole 7                                |
+| Left Don  | A1       | Row J, hole 6                                |
+| Right Don | A2       | Row J, hole 5                                |
+| Right Ka  | A3       | Row J, hole 4                                |
 
 **For Each Sensor:**
 
@@ -410,7 +410,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    </div>
 
 5. **Solder:** NOW, you can solder the combined diode + capacitor legs together. This saves space, and keeps things looking clean.
-
+   
    <div align="center">
    <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
@@ -575,6 +575,7 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 </div>
 
 ---
+
 ### **Step 11: Mount Terminal Blocks (BACK face)**
 
 Place two 4-pin screw terminal blocks on BACK face 
@@ -593,13 +594,8 @@ Place two 4-pin screw terminal blocks on BACK face
 - Leave one hole space between this block and the GND block
 
 <div align="center">
-<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-<br>
-<div align="center">
 <img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 
 **Label the signal block ports:**
 
@@ -616,9 +612,11 @@ These will be connected in the next step.
 
 Connect terminal block signal pins to XIAO analog pins.
 
+<div align="center">
 <img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <br>
+<div align="center">
 <img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
@@ -1029,20 +1027,65 @@ You're almost there!
 If you built the board to the exact specifications in my guide, you'll be able to 3D print the included enclosure box for a professional finish to your circuit.
 
 ---
-### **PART IXXX: 3D Print and Assemble The Control Box**
+
+### **PART I: 3D Print and Assemble The Control Box**
 
 #### **<u>I1. Print the Enclosure</u>**
-Using the free .STL files provided HERE, print the control box using th efollowing settings:
 
 <div align="center">
-<img src="images/Pictures/shortcables.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
---Layer Height: .20mm
---Infill: Gyroid fill @ 20%
---Supports: Automatic
+Using the free .STL files provided HERE, print the control box base and lid using the following settings:
+
+--Layer Height: .20mm <br>
+--Infill: Gyroid fill @ 20%<br>
+--Supports: Automatic<br>
+
+#### **<u>I2. Add TRS Terminal Jacks & USB Coupler</u>**
+
+<div align="center">
+<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
+
+<div align="center">
+<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Place the USB coupler in the bottom opening in the base.  Use the slight depression in the base floor to help you align it.  Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box.  Use a small of hot glue to ensure the coupler stays in place.
+
+<div align="center">
+<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+#### **<u>I3. Mount Circuit To Enclosure Lid</u>**
+
+<div align="center">
+<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
+
+<div align="center">
+<img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
+
+<div align="center">
+<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Using 4 M4x4mm screws, attach the circuit board
 
 ---
+
 ### **PART I: Connect Drum To The Circuit and Control Box**
 
 #### **<u>I1. Connect sensor cables to circuit</u>**

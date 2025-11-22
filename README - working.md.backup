@@ -1029,26 +1029,52 @@ You're almost there!
 If you built the board to the exact specifications in my guide, you'll be able to 3D print the included enclosure box for a professional finish to your circuit.
 
 ---
-### **PART IXXX: 3D Print and Assemble The Control Box**
+### **PART I: 3D Print and Assemble The Control Box**
 
 #### **<u>I1. Print the Enclosure</u>**
-Using the free .STL files provided HERE, print the control box using th efollowing settings:
 
---Layer Height: .20mm
---Infill: Gyroid fill @ 20%
---Supports: If nee
-
+<div align="center">
+<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 
+Using the free .STL files provided HERE, print the control box base and lid using the following settings:
 
 
+--Layer Height: .20mm <br>
+--Infill: Gyroid fill @ 20%<br>
+--Supports: Automatic<br>
 
 
+#### **<u>I2. Add TRS Terminal Jacks & USB Coupler</u>**
 
 
+<div align="center">
+<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
 
+Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
 
+<div align="center">
+<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
+Place the USB coupler in the bottom opening in the base.  Use the slight depression in the base floor to help you align it.  Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box.  Use a small of hot glue to ensure the coupler stays in place.
+
+<div align="center">
+<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+#### **<u>I3. Mount Circuit To Enclosure Lod</u>**
+
+<div align="center">
+<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Set one M2x5 
 
 ---
 ### **PART I: Connect Drum To The Circuit and Control Box**
