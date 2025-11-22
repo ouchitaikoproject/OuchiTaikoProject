@@ -125,28 +125,28 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 <div style="overflow-x: auto;">
 
-| #   | Item                                                          | Qty | Product Link                   |
-| --- | ------------------------------------------------------------- | --- | ------------------------------ |
-| 1   | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://a.co/d/g9dFG88) |
-| 2   | GODIYMODULES MCP23017 I2C expander Board                      | 1   | [Link](https://a.co/d/iBEbs4b) |
-| 3   | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
-| 4   | 0.47µF/470nF Ceramic Capacitors                               | 4   | [Link](https://a.co/d/8XWar8W) |
-| 5   | 3.5mm TRS FEMALE jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
-| 6   | 3.5mm TRS male Plugs w/ standard ends                         | 4   | [Link](https://a.co/d/414YG9z) |
-| 7   | 27mm Piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
-| 8   | 128x64 Mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
-| 9   | 6mmx6mmx8mm Tactile Switches                                  | 14  | [Link](https://a.co/d/aa5ppfs) |
-| 10  | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
-| 11  | USB-C to USB-A Female Coupler                                 | 1   | [Link](https://a.co/d/9WTmxTu) |
-| 12  | Short USB-C to USB-C extension cable                          | 1   | [Link](https://a.co/d/cVbKVmQ) |
-| 13  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
-| 14  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 15  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
-| 16  | 24 AWG Connection 4-Wire Ribbon Wire                          | 1   | [Link](https://a.co/d/5YkPnMC) |
-| 17  | ElectroCookie Circuit Board(88.9mm x 96.5mm)                  | 1   | [Link](https://a.co/d/i5jfYjs) |
-| 18  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 19  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/8VZdEql) |
-| 20  | M2x4 bolts                                                    | 4   | [Link](https://a.co/d/4cPSWVY) |
+| #    | Item                                                         | Qty  | Product Link                   |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------ |
+| 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
+| 2    | GODIYMODULES MCP23017 I2C expander Board                     | 1    | [Link](https://a.co/d/iBEbs4b) |
+| 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
+| 4    | 0.47µF/470nF Ceramic Capacitors                              | 4    | [Link](https://a.co/d/8XWar8W) |
+| 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
+| 6    | 3.5mm TRS male Plugs w/ standard ends                        | 4    | [Link](https://a.co/d/414YG9z) |
+| 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
+| 8    | 128x64 Mono OLED display (I2C)                               | 1    | [Link](https://a.co/d/bHAtiY2) |
+| 9    | 6mmx6mmx8mm Tactile Switches                                 | 14   | [Link](https://a.co/d/aa5ppfs) |
+| 10   | 22 AWG Siamese wire                                          | 1    | [Link](https://a.co/d/0pGa2wH) |
+| 11   | USB-C to USB-A Female Coupler                                | 1    | [Link](https://a.co/d/9WTmxTu) |
+| 12   | Short USB-C to USB-C extension cable                         | 1    | [Link](https://a.co/d/cVbKVmQ) |
+| 13   | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4    | [Link](https://a.co/d/cSKAJ7D) |
+| 14   | 3.5mm TRS barrel coupler                                     | 4    | [Link](https://a.co/d/fOiYb5s) |
+| 15   | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                  | 2    | [Link](https://a.co/d/1X20DtA) |
+| 16   | 22 AWG 4-Wire Ribbon Connection Wire                         | 1    | [Link](https://a.co/d/cXyTYy1) |
+| 17   | ElectroCookie Circuit Board(88.9mm x 96.5mm)                 | 1    | [Link](https://a.co/d/i5jfYjs) |
+| 18   | 10ft USB-A to USB-A Cable                                    | 1    | [Link](https://a.co/d/cBqJJua) |
+| 19   | M2x3x3 Threaded Inserts                                      | 4    | [Link](https://a.co/d/8VZdEql) |
+| 20   | M2x4 bolts                                                   | 4    | [Link](https://a.co/d/4cPSWVY) |
 
 </div>
 
@@ -1066,16 +1066,12 @@ Place the USB coupler in the bottom opening in the base.  Use the slight depress
 <div align="center">
 <img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-<br>
-
-Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
+<br>Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
 
 <div align="center">
 <img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-<br>
-
-Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
+<br>Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
 
 <div align="center">
 <img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1088,8 +1084,6 @@ Place the circuit board face with buttons and display through the holes in the l
 <img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <br>
-
-
 
 Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
 
@@ -1112,33 +1106,24 @@ For a cleaner look, once the hinges are complete, push a few millimeters of the 
 
 ---
 
-### **PART I: Connect Drum To The Circuit and Control Box**
+### **PART J: Connect the Circuit Wiring To The Control Box**
 
-#### **<u>I1. Connect sensor cables to circuit</u>**
+#### **<u>J1. Create the Wires</u>**
 
-Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers mounted to the drum to the input of the Female TRS jacks on your completed circuit.
+<div align="center">
+<img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
-This completes the core circuit assembly.
+From the spool of 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each
+
+
 
 ---
 
-### **PART J: Final Connections**
 
-#### **<u>J1. Mount TRS jacks to control box</u>**
 
-Mount the **4 Female TRS jacks** that are part of your circuit to the wall of your control box so that they face the outside.
 
-<div align="center">
-<img src="images/Pictures/trsbox.png" width="350px" style="display: block; margin: 0 auto;">
-</div>
 
-<div align="center">
-<img src="images/Pictures/trstop.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-FINISH THIS
-
----
 
 ### **PART K: Floor Stand**
 
