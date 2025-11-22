@@ -147,6 +147,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 18   | 10ft USB-A to USB-A Cable                                    | 1    | [Link](https://a.co/d/cBqJJua) |
 | 19   | M2x3x3 Threaded Inserts                                      | 4    | [Link](https://a.co/d/8VZdEql) |
 | 20   | M2x4 bolts                                                   | 4    | [Link](https://a.co/d/4cPSWVY) |
+| 21   | 22 AWG Wire Ferrules and Crimper                             | 8    | [Link](https://a.co/d/5ead5x9) |
 
 </div>
 
@@ -1114,9 +1115,15 @@ For a cleaner look, once the hinges are complete, push a few millimeters of the 
 <img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-From the spool of 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each
+From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each.  Crimp the ends using 22 AWG wire ferrules (with small gauge wire like this, going a size smaller on the ferrule helps secure the crimp better and prevent it from pulling off)
 
 
+
+#### **<u>J2. Connect The Ground Wires</u>**
+
+<div align="center">
+<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 ---
 
