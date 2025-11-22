@@ -37,9 +37,11 @@ the joy of bringing the authentic Taiko experience from the Arcade into your own
 <div align="center">
 <img src="images/Pictures/finishedside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
 <div align="center">
 <img src="images/Pictures/finishedface.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
 <div align="center">
 <img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -123,28 +125,29 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 <div style="overflow-x: auto;">
 
-| #   | Item                                                          | Qty | Product Link                   |
-| --- | ------------------------------------------------------------- | --- | ------------------------------ |
-| 1   | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://a.co/d/g9dFG88) |
-| 2   | GODIYMODULES MCP23017 I2C expander Board                      | 1   | [Link](https://a.co/d/iBEbs4b) |
-| 3   | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
-| 4   | 0.47µF/470nF Ceramic Capacitors                               | 4   | [Link](https://a.co/d/8XWar8W) |
-| 5   | 3.5mm TRS FEMALE jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
-| 6   | 3.5mm TRS male Plugs w/ standard ends                         | 4   | [Link](https://a.co/d/414YG9z) |
-| 7   | 27mm Piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
-| 8   | 128x64 Mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
-| 9   | 6mmx6mmx8mm Tactile Switches                                  | 14  | [Link](https://a.co/d/aa5ppfs) |
-| 10  | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
-| 11  | USB-C to USB-A Female Coupler                                 | 1   | [Link](https://a.co/d/9WTmxTu) |
-| 12  | Short USB-C to USB-C extension cable                          | 1   | [Link](https://a.co/d/cVbKVmQ) |
-| 13  | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
-| 14  | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 15  | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
-| 16  | 24 AWG Connection 4-Wire Ribbon Wire                          | 1   | [Link](https://a.co/d/5YkPnMC) |
-| 17  | ElectroCookie Circuit Board(88.9mm x 96.5mm)                  | 1   | [Link](https://a.co/d/i5jfYjs) |
-| 18  | 10ft USB-A to USB-A Cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 19  | M2 6+6 Nylon Standoffs                                        | 4   | [Link](https://a.co/d/hbHKwvZ) |
-| 20  | M2x3x3 Threaded Inserts                                       | 4   | [Link](https://a.co/d/3rabcWT) |
+| #    | Item                                                         | Qty  | Product Link                   |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------ |
+| 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
+| 2    | GODIYMODULES MCP23017 I2C expander Board                     | 1    | [Link](https://a.co/d/iBEbs4b) |
+| 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
+| 4    | 0.47µF/470nF Ceramic Capacitors                              | 4    | [Link](https://a.co/d/8XWar8W) |
+| 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
+| 6    | 3.5mm TRS male Plugs w/ standard ends                        | 4    | [Link](https://a.co/d/414YG9z) |
+| 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
+| 8    | 128x64 Mono OLED display (I2C)                               | 1    | [Link](https://a.co/d/bHAtiY2) |
+| 9    | 6mmx6mmx8mm Tactile Switches                                 | 14   | [Link](https://a.co/d/aa5ppfs) |
+| 10   | 22 AWG Siamese wire                                          | 1    | [Link](https://a.co/d/0pGa2wH) |
+| 11   | USB-C to USB-A Female Coupler                                | 1    | [Link](https://a.co/d/9WTmxTu) |
+| 12   | Short USB-C to USB-C extension cable                         | 1    | [Link](https://a.co/d/cVbKVmQ) |
+| 13   | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4    | [Link](https://a.co/d/cSKAJ7D) |
+| 14   | 3.5mm TRS barrel coupler                                     | 4    | [Link](https://a.co/d/fOiYb5s) |
+| 15   | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                  | 2    | [Link](https://a.co/d/1X20DtA) |
+| 16   | 22 AWG 4-Wire Ribbon Connection Wire                         | 1    | [Link](https://a.co/d/cXyTYy1) |
+| 17   | ElectroCookie Circuit Board(88.9mm x 96.5mm)                 | 1    | [Link](https://a.co/d/i5jfYjs) |
+| 18   | 10ft USB-A to USB-A Cable                                    | 1    | [Link](https://a.co/d/cBqJJua) |
+| 19   | M2x3x3 Threaded Inserts                                      | 4    | [Link](https://a.co/d/8VZdEql) |
+| 20   | M2x4 bolts                                                   | 4    | [Link](https://a.co/d/4cPSWVY) |
+| 21   | 22 AWG Wire Ferrules and Crimper                             | 8    | [Link](https://a.co/d/5ead5x9) |
 
 </div>
 
@@ -178,23 +181,24 @@ This guide assumes you have access to the following:
 
 <div style="overflow-x: auto;">
 
-| #   | Item                                                                                                                                        | Qty | Product Link                                                                                                                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------- | --- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files                                              | 1   | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069)|
-| 2   | Strong Wood Glue                                                                                                                            | 1   | [Link](https://a.co/d/1uKv6cR)                                                                                                      |
-| 3   | M3x8mm bolts                                                                                                                                | 8   | [Link](https://a.co/d/52Q8UtD)                                                                                                      |
-| 4   | M3x5mm threaded inserts                                                                                                                     | 8   | [Link](https://a.co/d/bKB6OpW)                                                                                                      |
-| 5   | M6x10mm wood threaded inserts                                                                                                               | 14  | [Link](https://a.co/d/jhY5rYA)                                                                                                      |
-| 6   | M6x20mm nylon bolts                                                                                                                         | 14  | [Link](https://a.co/d/bPitQiX)                                                                                                      |
-| 7   | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt)                                                   | 14  | [Link](https://a.co/d/9dWHezk)                                                                                                      |
-| 8   | 3D printer filament (PLA)                                                                                                                   | 1   | [Link](https://a.co/d/7cCSDtJ)                                                                                                      |
-| 9   | Gel Superglue                                                                                                                               | 1   | [Link](https://a.co/d/dxU7lfw)                                                                                                      |
-| 10  | Loctite thread adhesive - Medium                                                                                                            | 1   | [Link](https://a.co/d/2W890aJ)                                                                                                      |
-| 11  | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed)                                                                            | 1   | [Link](https://a.co/d/dfMhZ4k)                                                                                                      |
-| 12  | Finger Knobs with pass-through M6 threads                                                                                                   | 18  | [Link](https://a.co/d/hjL3QQP)                                                                                                      |
-| 13  | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below)                                                 | 1   | [Link](https://a.co/d/2YkmhPj)                                                                                                      |
-| 14  | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above)                                                   | 1   | [Link](https://a.co/d/gQioU8i)                                                                                                      |
-| 15  | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1   | [Link](https://taiko.ac/products/rubber-drum-pad)                                                                                   |
+| #    | Item                                                         | Qty  | Product Link                                                 |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| 1    | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 2    | Strong Wood Glue                                             | 1    | [Link](https://a.co/d/1uKv6cR)                               |
+| 3    | M3x8mm bolts                                                 | 8    | [Link](https://a.co/d/52Q8UtD)                               |
+| 4    | M3x5mm threaded inserts                                      | 8    | [Link](https://a.co/d/bKB6OpW)                               |
+| 5    | M6x10mm wood threaded inserts                                | 14   | [Link](https://a.co/d/jhY5rYA)                               |
+| 6    | M6x20mm nylon bolts                                          | 14   | [Link](https://a.co/d/bPitQiX)                               |
+| 7    | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt) | 14   | [Link](https://a.co/d/9dWHezk)                               |
+| 8    | 3D printer filament (PLA)                                    | 1    | [Link](https://a.co/d/7cCSDtJ)                               |
+| 9    | Gel Superglue                                                | 1    | [Link](https://a.co/d/dxU7lfw)                               |
+| 10   | Loctite thread adhesive - Medium                             | 1    | [Link](https://a.co/d/2W890aJ)                               |
+| 11   | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed) | 1    | [Link](https://a.co/d/dfMhZ4k)                               |
+| 12   | Finger Knobs with pass-through M6 threads                    | 18   | [Link](https://a.co/d/hjL3QQP)                               |
+| 13   | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below) | 1    | [Link](https://a.co/d/2YkmhPj)                               |
+| 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
+| 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 16   | Spring-Loaded Phone Holder with Gooseneck Arm                | 1    | [Link](https://a.co/d/fRja2H6)                               |
 
 </div>
 
@@ -208,11 +212,13 @@ This guide assumes you have access to the following:
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
+📸 Photo Documentation Note
+Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. Don't worry about these mismatches - the installation process is identical. You'll see the correct terminals when you reach Step 8.
 
 ### **Circuit Overview**
 
 This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
+
 - **XIAO RP2040**: Brain of the system, handles drum sensors
 - **MCP23017**: Controls OLED display and navigation buttons
 - **OLED Display**: Status and menu display
@@ -221,6 +227,7 @@ This build uses a **single circuit board** design with everything mounted on one
 ### **Understanding Shared Rows**
 
 The ElectroCookie protoboard has **shared rows** where multiple holes are electrically connected. This allows you to:
+
 - Solder components into any hole in that row
 - Connect wires between shared row holes without additional soldering
 - Keep the build clean and organized
@@ -240,8 +247,6 @@ This protoboard has **row letters and numbers printed on both sides**.
 
 Always verify which side you're working on before placing components.
 
-
-
 ---
 
 ### **Step 1: Mount OLED Display (FRONT face)**
@@ -249,6 +254,7 @@ Always verify which side you're working on before placing components.
 Mount OLED Display on the **top center** of the FRONT face.
 
 **OLED Placement:**
+
 - **Location:** Row J, holes 14-17 (FRONT face coordinates)
 - **Orientation:** Screen facing up
 - Solder in place
@@ -258,6 +264,7 @@ Mount OLED Display on the **top center** of the FRONT face.
 </div>
 
 **OLED pins** (will be wired in Step 7):
+
 - VCC (Row A, hole 15)
 - GND (Row A, hole 14)
 - SCL (Row A, hole 16)
@@ -272,6 +279,7 @@ Mount OLED Display on the **top center** of the FRONT face.
 ### **Step 2: Mount Buttons (FRONT face)**
 
 **Button Orientation:**
+
 - Orient buttons with legs on the **left and right side** (NOT up and down)
 - For visual consistency: align all button tabs the same way (all tabs up OR all tabs down)
 
@@ -282,30 +290,29 @@ The table below specifies exact FRONT face hole positions. These align with the 
 <img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
 **Button Position Reference (FRONT face):**
 
-| Button | Ground Leg Position | Signal Leg Position |
-|--------|---------------------|---------------------|
-| **LEFT SIDE BUTTONS** | | |
-| UP     | Row E, hole 4       | Row E, hole 6       |
-| Down   | Row A, hole 4       | Row A, hole 6       |
-| Left   | Row C, hole 1       | Row C, hole 3       |
-| Right  | Row C, hole 7       | Row C, hole 9       |
-| L      | Row F, hole 1       | Row F, hole 3       |
-| Select | Row A, hole 12      | Row A, hole 14      |
-| Share  | Row H, hole 7       | Row H, hole 9       |
-| **RIGHT SIDE BUTTONS** | | |
-| North  | Row E, hole 27      | Row E, hole 25      |
-| South  | Row A, hole 27      | Row A, hole 25      |
-| West   | Row C, hole 24      | Row C, hole 22      |
-| East   | Row C, hole 30      | Row C, hole 28      |
-| R      | Row F, hole 30      | Row F, hole 28      |
-| Start  | Row A, hole 19      | Row A, hole 17      |
-| Home   | Row H, hole 24      | Row H, hole 22      |
+| Button                 | Ground Leg Position | Signal Leg Position |
+| ---------------------- | ------------------- | ------------------- |
+| **LEFT SIDE BUTTONS**  |                     |                     |
+| UP                     | Row E, hole 4       | Row E, hole 6       |
+| Down                   | Row A, hole 4       | Row A, hole 6       |
+| Left                   | Row C, hole 1       | Row C, hole 3       |
+| Right                  | Row C, hole 7       | Row C, hole 9       |
+| L                      | Row F, hole 1       | Row F, hole 3       |
+| Select                 | Row A, hole 12      | Row A, hole 14      |
+| Share                  | Row H, hole 7       | Row H, hole 9       |
+| **RIGHT SIDE BUTTONS** |                     |                     |
+| North                  | Row E, hole 27      | Row E, hole 25      |
+| South                  | Row A, hole 27      | Row A, hole 25      |
+| West                   | Row C, hole 24      | Row C, hole 22      |
+| East                   | Row C, hole 30      | Row C, hole 28      |
+| R                      | Row F, hole 30      | Row F, hole 28      |
+| Start                  | Row A, hole 19      | Row A, hole 17      |
+| Home                   | Row H, hole 24      | Row H, hole 22      |
 
 **Installation:**
+
 1. Insert each button into its specified position, bend legs behind board to hold into place
 2. Solder both legs in place
 3. Verify button alignment matches reference photos
@@ -316,6 +323,7 @@ The table below specifies exact FRONT face hole positions. These align with the 
 
 **CRITICAL - Prevent 2 existing Signal Shorts:**
 Because of the shared rows, two button pairs share signal rows and will short without this fix:
+
 - **NORTH/SOUTH buttons**
 - **UP/DOWN buttons**
 
@@ -323,13 +331,12 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 <img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
 <div align="center">
-<img src="images/Pictures/drill2	.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Quick Fix (30 seconds per pair):**
+
 1. Find the hole centered between the two signal legs
 2. Scrape away copper with 3mm drill bit or knife
 3. Test with multi-meter: touch both signal legs - NO beep = success.  If you hear a beep, remove more copper metal and try again.
@@ -344,9 +351,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 <div align="center">
 <img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-
-
+<br>
 <div align="center">
 <img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -359,6 +364,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 - **Bottom row of pins:** Row H, holes 1-7 (BACK face)
 
 **Connect Ground:**
+
 - Connect any pin in XIAO's **GND** shared row to the common GND rail
 - Take a moment to jump/connect all GND rails together across the board
 
@@ -367,8 +373,6 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 ### **Step 4: Install Drum Sensor Protection Circuits (BACK face)**
 
 Each of the 4 drum sensors requires identical protection circuitry.
-
-
 
 **Diode & Capacitor Placement:**
 
@@ -379,41 +383,39 @@ Each of the 4 drum sensors requires identical protection circuitry.
 | Right Don | A2       | Row J, hole 5                                |
 | Right Ka  | A3       | Row J, hole 4                                |
 
-
-
 **For Each Sensor:**
+
 1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
 
 2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
-
+   
    <div align="center">
    <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
-
-3. <div align="center">
+   
+   <br>
+   <div align="center">
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-4. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode (do not solder yet)
+3. **Capacitor:** Place either leg of 0.15µF capacitor into same hole as diode anode (do not solder yet)
 
-5. Place other leg into same GND rail hole (do not solder yet)
-
+4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
+   
    <div align="center">
    <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
-
+   
+   <br>
    <div align="center">
    <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
+
+5. **Solder:** NOW, you can solder the combined diode + capacitor legs together. This saves space, and keeps things looking clean.
    
-   
-6. **Solder:** NOW, you can solder the combined diode + capacitor legs together.  This saves space, and keeps things looking clean.
-
-<div align="center">
-<img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
+   <div align="center">
+   <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
+   </div>
 
 ---
 
@@ -433,11 +435,10 @@ Each of the 4 drum sensors requires identical protection circuitry.
 ### **Step 6: Prepare MCP23017 Board**
 
 **Solder Header Pins:**
+
 1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
 2. This row starts with **A2** (left) and ends with **VCC** (right)
 3. The double row of pins on top remains empty (for button signal connections later on)
-
-
 
 <div align="center">
 <img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -455,17 +456,14 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 <img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
-
 **Make these 4 connections underneath:**
 
-| Connection | From (Under MCP) | To (OLED) | Purpose |
-|------------|------------------|-----------|---------|
-| VCC        | Row A, hole 11   | Row A, hole 15 | Power to display |
-| GND        | Row A, hole 12   | Row A, hole 14 | Ground to display |
+| Connection | From (Under MCP) | To (OLED)      | Purpose              |
+| ---------- | ---------------- | -------------- | -------------------- |
+| VCC        | Row A, hole 11   | Row A, hole 15 | Power to display     |
+| GND        | Row A, hole 12   | Row A, hole 14 | Ground to display    |
 | SCL        | Row A, hole 13   | Row A, hole 16 | I²C Clock to display |
-| SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display |
+| SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display  |
 
 <div align="center">
 <img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -473,16 +471,12 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 
 (photo shows SDA and SCL connection progress.  You will also connect VCC and GND to the Display in this step)
 
-
-
 **Now mount MCP23017:**
 
 - Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
 - Verify **VCC pin** is in Row E, hole 11
 - Verify **A2 pin** is in Row E, hole 21
 - Solder these header pins to the circuit board
-
-
 
 <div align="center">
 <img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -492,63 +486,28 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 
 ---
 
-### **Step 8: Mount Terminal Blocks (BACK face)**
-
-Place two 4-pin screw terminal blocks on BACK face with openings facing UP (toward display).
-
-**Terminal Block 1 (GND):**
-- **Location:** Row D, holes 27-30 (BACK face)
-- **Orientation:** Wire openings facing UP
-- Bridge all 4 pins together with solder
-- Connect any hole in shared row to GND rail
-
-**Terminal Block 2 ( For Drum Signals):**
-
-- **Location:** Row D, holes 22-25 (BACK face)
-- **Orientation:** Wire openings facing UP
-- Leave one hole space between this block and the GND block
-
-<div align="center">
-<img src="images/Pictures/expanderterminals2.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-
-**Label the signal block ports:**
-- Port 1 (hole 22) = Left Ka
-- Port 2 (hole 23) = Left Don
-- Port 3 (hole 24) = Right Don
-- Port 4 (hole 25) = Right Ka
-
-These will be connected in a later step.
-
----
-
-### **Step 9: Connect Power & Ground**
+### **Step 8: Connect Power & Ground**
 
 Connect/verify power and ground between XIAO, MCP23017, and Display.
 
 **Connections:**
+
 1. **XIAO 3.3V** → **MCP23017 VCC** → **OLED VCC** (OLED already connected via Step 7)
 2. **XIAO GND** → **MCP23017 GND** → **OLED GND** (OLED already connected via Step 7)
 3. Verify all three components (XIAO, MCP, Display) share common ground
 
 ---
 
-### **Step 10: Connect I²C Data Lines**
+### **Step 9: Connect I²C Data Lines**
 
 Connect I²C between XIAO and MCP23017.
 
-
-
-| Connection | From XIAO | To MCP23017 |
-|------------|-----------|-------------|
+| Connection | From XIAO                 | To MCP23017               |
+| ---------- | ------------------------- | ------------------------- |
 | SDA        | Any pin in SDA shared row | Any pin in SDA shared row |
 | SCL        | Any pin in SCL shared row | Any pin in SCL shared row |
 
 **Verify I²C connections:**
-
-
 
 - XIAO SDA → MCP23017 SDA → Display SDA (all connected)
 - XIAO SCL → MCP23017 SCL → Display SCL (all connected)
@@ -559,7 +518,7 @@ Connect I²C between XIAO and MCP23017.
 
 ---
 
-### **Step 11: Connect Button Signals to MCP23017 (BACK face)**
+### **Step 10: Connect Button Signals to MCP23017 (BACK face)**
 
 Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
 
@@ -572,26 +531,27 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 
 **Complete Button Wiring Map:**
 
-| Button | MCP Pin | Wire Connection |
-|--------|---------|-----------------|
-| **LEFT SIDE BUTTONS** | | |
-| UP     | B0      | MCP B0 → any hole in UP button signal shared row |
-| Down   | B1      | MCP B1 → any hole in DOWN button signal shared row |
-| Left   | B2      | MCP B2 → any hole in LEFT button signal shared row |
-| Right  | B3      | MCP B3 → any hole in RIGHT button signal shared row |
-| L      | B4      | MCP B4 → any hole in L button signal shared row |
-| Select | B5      | MCP B5 → any hole in SELECT button signal shared row |
-| Share  | B6      | MCP B6 → any hole in SHARE button signal shared row |
-| **RIGHT SIDE BUTTONS** | | |
-| North  | A0      | MCP A0 → any hole in NORTH button signal shared row |
-| South  | A1      | MCP A1 → any hole in SOUTH button signal shared row |
-| West   | A2      | MCP A2 → any hole in WEST button signal shared row |
-| East   | A3      | MCP A3 → any hole in EAST button signal shared row |
-| R      | A4      | MCP A4 → any hole in R button signal shared row |
-| Start  | A5      | MCP A5 → any hole in START button signal shared row |
-| Home   | A6      | MCP A6 → any hole in HOME button signal shared row |
+| Button                 | MCP Pin | Wire Connection                                      |
+| ---------------------- | ------- | ---------------------------------------------------- |
+| **LEFT SIDE BUTTONS**  |         |                                                      |
+| UP                     | B0      | MCP B0 → any hole in UP button signal shared row     |
+| Down                   | B1      | MCP B1 → any hole in DOWN button signal shared row   |
+| Left                   | B2      | MCP B2 → any hole in LEFT button signal shared row   |
+| Right                  | B3      | MCP B3 → any hole in RIGHT button signal shared row  |
+| L                      | B4      | MCP B4 → any hole in L button signal shared row      |
+| Select                 | B5      | MCP B5 → any hole in SELECT button signal shared row |
+| Share                  | B6      | MCP B6 → any hole in SHARE button signal shared row  |
+| **RIGHT SIDE BUTTONS** |         |                                                      |
+| North                  | A0      | MCP A0 → any hole in NORTH button signal shared row  |
+| South                  | A1      | MCP A1 → any hole in SOUTH button signal shared row  |
+| West                   | A2      | MCP A2 → any hole in WEST button signal shared row   |
+| East                   | A3      | MCP A3 → any hole in EAST button signal shared row   |
+| R                      | A4      | MCP A4 → any hole in R button signal shared row      |
+| Start                  | A5      | MCP A5 → any hole in START button signal shared row  |
+| Home                   | A6      | MCP A6 → any hole in HOME button signal shared row   |
 
 **Wiring Tips:**
+
 - Wire Row A pins first (work from closest to furthest button)
 - Then wire Row B pins
 - Route wires to minimize crossover and blocking
@@ -599,8 +559,6 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 <div align="center">
 <img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-
 
 <div align="center">
 <img src="images/Pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -610,13 +568,9 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 <img src="images/Pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
 <div align="center">
 <img src="images/Pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-
 
 <div align="center">
 <img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -624,26 +578,67 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 
 ---
 
-### **Step 12: Connect Drum Signal Terminals (BACK face)**
+### **Step 11: Mount Terminal Blocks (BACK face)**
+
+Place two 4-pin screw terminal blocks on BACK face 
+
+**Terminal Block 1 (GND):**
+
+- **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
+- **Orientation:** Wire openings facing UP toward top of board.
+- Bridge all 4 pins together with solder or wire.
+- Connect this common GND cluster to nearest GND rail
+
+**Terminal Block 2 ( For Drum Signals):**
+
+- **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
+- **Orientation:** Wire openings facing DOWN toward bottom of board
+- Leave one hole space between this block and the GND block
+
+<div align="center">
+<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+**Label the signal block ports:**
+
+- Pad 1/Left Ka (Row F, hole 24)
+- Pad 2/Left Don (Row F, hole 26) 
+- Pad 3/Right Don (Row F, hole 28) 
+- Pad 4/Right Ka (Row F, hole 30)
+
+These will be connected in the next step.
+
+---
+
+### **Step 12: Connect Drum Signal Terminals (FRONT face)**
 
 Connect terminal block signal pins to XIAO analog pins.
 
+<div align="center">
+<img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+<div align="center">
+<img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 **Wiring Map:**
 
-| Drum Pad  | From Terminal Block | To XIAO Pin |
-|-----------|---------------------|-------------|
-| Left Ka   | Any hole in Row D, hole 22 shared row | A0 |
-| Left Don  | Any hole in Row D, hole 23 shared row | A1 |
-| Right Don | Any hole in Row D, hole 24 shared row | A2 |
-| Right Ka  | Any hole in Row D, hole 25 shared row | A3 |
+| Drum Pad  | From Terminal Block                   | To XIAO Pin |
+| --------- | ------------------------------------- | ----------- |
+| Left Ka   | Any hole in Row D, hole 24 shared row | A0          |
+| Left Don  | Any hole in Row C, hole 26 shared row | A1          |
+| Right Don | Any hole in Row B, hole 28 shared row | A2          |
+| Right Ka  | Any hole in Row A, hole 30 shared row | A3          |
 
-The drum sensor TRS jacks (added later) connect to these screw terminals.
+These screw terminals will connect to the drum sensor TRS jacks in a step later in this guide
 
 ---
 
 ### **Circuit Complete!**
 
 You now have a single-board circuit with:
+
 - ✅ OLED Display
 - ✅ 14 Navigation Buttons
 - ✅ XIAO RP2040 (drum sensor controller)
@@ -1031,53 +1026,184 @@ Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector 
 
 You're almost there!
 
-If you built the board to the exact specifications in my guide, you'll be able to 3D print the below enclosure box.  I have also included a Laser Cutter version as an alternative.
-
-If you choose to go another route, you can look into the below suggestionsL:
-
-- **Custom Laser/CNC wood box:** Visit [Boxes.py](https://boxes.hackerspace-bamberg.de/) to design and create your own
-- **Simple alternatives:** Small shipping box, small plastic box, etc. Even attaching everything to a single piece of cardboard would help. You just want to avoid everything moving around.
+If you built the board to the exact specifications in my guide, you'll be able to 3D print the included enclosure box for a professional finish to your circuit.
 
 ---
 
-### **PART I: Connect Drum To The Circuit and Control Box**
+### **PART I: 3D Print and Assemble The Control Box**
 
-#### **<u>I1. Connect sensor cables to circuit</u>**
-
-Using the **short male-to-male 3.5mm TRS cables**, connect the bottom connector of the 4 couplers mounted to the drum to the input of the Female TRS jacks on your completed circuit.
-
-This completes the core circuit assembly.
-
----
-
-### **PART J: Final Connections**
-
-#### **<u>J1. Mount TRS jacks to control box</u>**
-
-Mount the **4 Female TRS jacks** that are part of your circuit to the wall of your control box so that they face the outside.
+#### **<u>I1. Print the Enclosure</u>**
 
 <div align="center">
-<img src="images/Pictures/trsbox.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Using the free .STL files provided HERE, print the control box base and lid using the following settings:
+
+--Layer Height: .20mm <br>
+--Infill: Gyroid fill @ 20%<br>
+--Supports: Automatic<br>
+
+#### **<u>I2. Add TRS Terminal Jacks & USB Coupler</u>**
+
+<div align="center">
+<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>
+
+Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
+
+<div align="center">
+<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Place the USB coupler in the bottom opening in the base.  Use the slight depression in the base floor to help you align it.  Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box.  Use a small of hot glue to ensure the coupler stays in place.
+
+<div align="center">
+<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+#### **<u>I3. Mount The Circuit To The Enclosure Lid</u>**
+
+<div align="center">
+<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
+
+<div align="center">
+<img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<br>Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
+
+<div align="center">
+<img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Place the circuit board face with buttons and display through the holes in the lid.  Everything should align perfectly.
+
+
+<div align="center">
+<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
+
+#### **<u>I3. Attach Lid and Box Hinges</u>**
+
+<div align="center">
+<img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+The hinges on the box were designed to be fastened using standard, 1.75mm filament as opposed to a metal hinge pin.
+
+<div align="center">
+<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Cut off a small section of filament that is just long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections.  Cut each end flush.  Repeat this for the other hinge as well.  
+
+For a cleaner look, once the hinges are complete, push a few millimeters of the filament out of one end, cut it off, and then push the remainder back in, but push it in a millimeter or so.  this makes the edges look more uniform since there's no filament right up to the edge.
+
+---
+
+### **PART J: Connect the Circuit Wiring To The Control Box**
+
+#### **<u>J1. Create the Wires</u>**
+
+<div align="center">
+<img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each.  Crimp the ends using 22 AWG wire ferrules (with small gauge wire like this, going a size smaller on the ferrule helps secure the crimp better and prevent it from pulling off)
+
+
+
+#### **<u>J2. Connect The Ground Wires</u>**
+
+<div align="center">
+<img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the 4 wires on one end of one of the sets of ribbon wire to the green, GND terminal block on the circuit board.
+
+<div align="center">
+<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the opposite end of that strip of wire to the GND terminal in each of the 4 TRS jacks in your control box.  There is no specific order for the the GND wires hear.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
+
+#### **<u>J2. Connect The Signal Wires</u>**
+
+<div align="center">
+<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+<div align="center">
+<img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the 4 wires on one end of one of other set of ribbon wire to the blue, SIGNAL terminal block on the circuit board.  
+
+<div align="center">
+<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Connect the other end to the TIP terminal of the respective TRS jack in the control box. 
+
+Terminal pin 1 connects to the TIP terminal of TRS Jack 1.
+
+Terminal pin 2connects to the TIP terminal of TRS Jack 2.
+
+Terminal pin 3 connects to the TIP terminal of TRS Jack 3.
+
+Terminal pin 4 connects to the TIP terminal of TRS Jack 4.
+
+<div align="center">
+<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+#### **<u>J2. Connect The XIAO Board To The Control Box USB Coupler</u>**
+
+Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the control box.
+
+------
+
+This is how the final, wired product should look:
+
+<div align="center">
+<img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/trstop.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
-FINISH THIS
 
----
+------
 
-### **PART K: Floor Stand**
 
-#### **<u>K1. Mount bracket to speaker stand</u>**
+
+### **PART K: Floor Stand And Control Box Mount**
+
+#### **<u>K1. Mount Drum to speaker stand</u>**
 
 Mount the angled speaker bracket to the speaker stand.
 
 <div align="center">
 <img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+#### **<u>K1. Mount Control Box and Connect Signal Wires</u>**
+
+Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the Control Box.
+
 
 ---
 
@@ -1125,7 +1251,7 @@ To do this, drag the `universal_flash_nuke.uf2` to the root of the removable dri
 
 ---
 
-### **Step 3: Flash the Firmware**
+### **Step 3: Drag the Firmware File To The Board to Flash It**
 
 Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
@@ -1415,6 +1541,7 @@ There you have it - You've just built a professional controller circuit with ada
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **Quick Access**
+
 - **Hold SELECT (1 sec):** Enter main menu
 - **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 
@@ -1422,16 +1549,17 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **Navigation Controls**
 
-| Button | Action |
-|--------|--------|
+| Button         | Action                                                 |
+| -------------- | ------------------------------------------------------ |
 | **LEFT/RIGHT** | Navigate menu items / Toggle ON-OFF / Cycle selections |
-| **UP/DOWN** | Adjust values (hold to fast-repeat) |
-| **EAST (A)** | Confirm selection / Save changes |
-| **SOUTH (B)** | Cancel / Go back / Restore original value |
+| **UP/DOWN**    | Adjust values (hold to fast-repeat)                    |
+| **EAST (A)**   | Confirm selection / Save changes                       |
+| **SOUTH (B)**  | Cancel / Go back / Restore original value              |
 
 ---
 
 ### **Complete Menu Structure**
+
 ```
 MAIN MENU
 │
@@ -1509,11 +1637,13 @@ MAIN MENU
 └── 💾 USB Flash Mode
     └── Yes/No [LEFT/RIGHT, A to confirm]
 ```
+
 ---
 
 ### **Idle Screen Display**
 
 When not in menu, the OLED shows:
+
 - **Top:** Current controller mode
 - **Center:** Live streak counter (resets after 1 sec idle)
 - **Bottom:** 4 animated feedback spheres (Left Ka, Left Don, Right Don, Right Ka)
@@ -1864,3 +1994,4 @@ www.ouchitaiko.com
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+
