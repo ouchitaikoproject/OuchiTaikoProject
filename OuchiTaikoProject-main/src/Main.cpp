@@ -423,8 +423,8 @@ int main() {
                 current_drum_index++;
 
                 if (current_drum_index < 8) {
-                    // Show results for 2.5 seconds
-                    sleep_ms(2500);
+                    // TEMPORARY: No sleep - test if sequence continues
+                    // TODO: Add sleep back once we confirm it works
 
                     // Check if we just finished Pass 1 (drum index 3 → 4)
                     if (current_drum_index == 4) {
@@ -437,7 +437,7 @@ int main() {
                         sleep_ms(3000);
                     }
 
-                    // Start next drum
+                    // Start next drum immediately
                     uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                     TaikoTuneMessage pass_msg{
                         .command = TaikoTuneCommand::SetPass,
@@ -456,7 +456,6 @@ int main() {
                     queue_try_add(&taikotune_command_queue, &show_msg);
                 } else {
                     // All 8 drums complete
-                    sleep_ms(2500);
                     all_drums_mode_active = false;
                     current_drum_index = 0;
                     resetHotkeyState();
