@@ -69,6 +69,7 @@ enum class TaikoTuneCommand : uint8_t {
     ShowSplash,           // NEW: Show initial splash screen
     ShowPassTransition,   // NEW: Show transition between passes
     SetPass,              // NEW: Set current pass number (1 or 2)
+    ShowComplete,         // NEW: Show completion screen
 };
 
 struct TaikoTuneMessage {
@@ -167,6 +168,9 @@ void core1_task() {
                 break;
             case TaikoTuneCommand::SetPass:
                 display.setCurrentPass(taikotune_msg.pass_number);
+                break;
+            case TaikoTuneCommand::ShowComplete:
+                display.showTaikoTuneComplete();
                 break;
             default:
                 break;
@@ -435,28 +439,22 @@ int main() {
             current_drum_index++;
 
             if (current_drum_index < 8) {
-                // More drums to go - start next drum
+                // More drums to go - check if we need to show pass transition first
 
-                // CRITICAL: Must start DRUM analysis BEFORE sending Display command
-                // Otherwise Drum stays in ShowingResults and Display can't transition
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-
-                // CRITICAL: Brief delay to let state change propagate to Core 1
-                // Core 1 Display needs to detect Drum is no longer in ShowingResults
-                sleep_ms(100);
-
-                // Check if we just finished Pass 1
+                // CRITICAL FIX: Show pass transition BEFORE starting next drum
+                // This ensures user sees the transition screen and next drum has proper countdown
                 if (current_drum_index == 4) {
+                    // Just finished Pass 1 (drums 0-3), about to start Pass 2 (drums 4-7)
                     TaikoTuneMessage transition_msg{
                         .command = TaikoTuneCommand::ShowPassTransition,
                         .pad_id = Peripherals::Drum::Id::KA_LEFT,
                         .pass_number = 0
                     };
                     queue_try_add(&taikotune_command_queue, &transition_msg);
-                    sleep_ms(3000);
+                    sleep_ms(3000);  // Display transition screen for 3 seconds
                 }
 
-                // Update pass number
+                // Update pass number for display
                 uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                 TaikoTuneMessage pass_msg{
                     .command = TaikoTuneCommand::SetPass,
@@ -465,7 +463,13 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
 
-                // Now tell Display to show analysis screen (Drum is already analyzing!)
+                // Now start the next drum analysis
+                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+
+                // Brief delay to let state change propagate to Core 1
+                sleep_ms(100);
+
+                // Tell Display to show analysis screen
                 TaikoTuneMessage show_msg{
                     .command = TaikoTuneCommand::ShowAnalysisScreen,
                     .pad_id = drum_sequence[current_drum_index],
@@ -473,8 +477,14 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
             } else {
-                // All 8 drums complete! Let final results display for 3 seconds
-                sleep_ms(3000);
+                // All 8 drums complete! Show completion screen
+                TaikoTuneMessage complete_msg{
+                    .command = TaikoTuneCommand::ShowComplete,
+                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
+                    .pass_number = 0
+                };
+                queue_try_add(&taikotune_command_queue, &complete_msg);
+                sleep_ms(5000);  // Show completion screen for 5 seconds
 
                 // Then exit back to idle (we used START shortcut, not menu)
                 all_drums_mode_active = false;

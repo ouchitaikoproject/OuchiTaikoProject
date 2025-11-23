@@ -36,6 +36,7 @@ class Display {
         TaikoTuneCancelled,
         TaikoTuneAllDrumsSplash,
         TaikoTunePassTransition,
+        TaikoTuneComplete,
         RebootCountdown
     };
 
@@ -81,6 +82,9 @@ class Display {
     uint32_t m_taikotune_transition_start{0};
     static constexpr uint32_t TRANSITION_DISPLAY_MS = 3000;
 
+    uint32_t m_taikotune_complete_start{0};
+    static constexpr uint32_t COMPLETE_DISPLAY_MS = 5000;
+
     uint8_t m_current_pass{1};
 
     // Burst circle animation
@@ -121,6 +125,7 @@ class Display {
     void drawTaikoTuneCancelledScreen();
     void drawTaikoTuneAllDrumsSplashScreen();
     void drawTaikoTunePassTransitionScreen();
+    void drawTaikoTuneCompleteScreen();
     
     // Reboot countdown display function
     void drawRebootCountdown();
@@ -155,6 +160,7 @@ class Display {
     void showTaikoTuneCancelled();
     void showTaikoTuneAllDrumsSplash();
     void showTaikoTunePassTransition();
+    void showTaikoTuneComplete();
     void showRebootCountdown();
 
     void update();

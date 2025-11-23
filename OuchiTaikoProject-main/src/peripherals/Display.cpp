@@ -218,6 +218,11 @@ void Display::showTaikoTunePassTransition() {
     m_state = State::TaikoTunePassTransition;
 }
 
+void Display::showTaikoTuneComplete() {
+    m_taikotune_complete_start = to_ms_since_boot(get_absolute_time());
+    m_state = State::TaikoTuneComplete;
+}
+
 void Display::setCurrentPass(uint8_t pass_number) {
     m_current_pass = pass_number;
 }
@@ -1053,6 +1058,30 @@ void Display::drawTaikoTunePassTransitionScreen() {
     ssd1306_draw_string(&m_display, line4_x, 56, 1, line4);
 }
 
+void Display::drawTaikoTuneCompleteScreen() {
+    // Display doesn't auto-transition - Main.cpp handles timeout and exit
+
+    // Title
+    const char* line1 = "All Drums";
+    int line1_x = (128 - strlen(line1) * 12) / 2;
+    ssd1306_draw_string(&m_display, line1_x, 4, 2, line1);
+
+    const char* line2 = "Complete!";
+    int line2_x = (128 - strlen(line2) * 12) / 2;
+    ssd1306_draw_string(&m_display, line2_x, 20, 2, line2);
+
+    ssd1306_draw_line(&m_display, 10, 38, 117, 38);
+
+    // Success message
+    const char* line3 = "All Thresholds Saved";
+    int line3_x = (128 - strlen(line3) * 6) / 2;
+    ssd1306_draw_string(&m_display, line3_x, 44, 1, line3);
+
+    const char* line4 = "Returning to idle...";
+    int line4_x = (128 - strlen(line4) * 6) / 2;
+    ssd1306_draw_string(&m_display, line4_x, 56, 1, line4);
+}
+
 // ==========================================================
 // CUSTOM BURST ANIMATION FUNCTIONS (Rings)
 // ==========================================================
@@ -1179,6 +1208,9 @@ void Display::update() {
         break;
     case State::TaikoTunePassTransition:
         drawTaikoTunePassTransitionScreen();
+        break;
+    case State::TaikoTuneComplete:
+        drawTaikoTuneCompleteScreen();
         break;
     case State::RebootCountdown:
         drawRebootCountdown();
