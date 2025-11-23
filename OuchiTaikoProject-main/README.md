@@ -132,7 +132,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
 | 2    | GODIYMODULES MCP23017 I2C expander Board                     | 1    | [Link](https://a.co/d/iBEbs4b) |
 | 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
-| 4    | 0.47µF/470nF Ceramic Capacitors                              | 4    | [Link](https://a.co/d/8XWar8W) |
+| 4    | 0.1µF/100nF Ceramic Capacitors                               | 4    | [Link](https://a.co/d/cG1cxOQ) |
 | 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
 | 6    | 3.5mm TRS male Plugs w/ standard ends                        | 4    | [Link](https://a.co/d/414YG9z) |
 | 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
@@ -393,7 +393,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-3. **Capacitor:** Place either leg of 0.47µF capacitor into same hole as diode anode (do not solder yet)
+3. **Capacitor:** Place either leg of 0.1µF capacitor into same hole as diode anode (do not solder yet)
 
 4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
    
