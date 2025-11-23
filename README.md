@@ -39,14 +39,13 @@
 <div align="center">
 <img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
 <div align="center">
 <img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 <div align="center">
 <img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 
 
 Hi, I'm KillerQ. Welcome to my  **"OuchiTaiko Project" Arcade Controller Build Guide.** 
@@ -65,15 +64,15 @@ All you need is your enthusiasm and some basic soldering and woodworking skills.
 
 You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
 
-**Performance & Design**
+**📋 Unprecedented Performance & Design**
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
 - **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
 - **Adaptive Baseline Software Technology (ABSI):** Custom-designed, velocity-sensing triggers for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by the option of hitting Big Notes *harder* for full points - 
-- **Taiko-Tune™ Auto-Calibration System:** Revolutionary automatic drum calibration system (see Section 8 for details)
+- **Taiko-Tune™ Auto-Calibration System:** Revolutionary ***automatic ***drum calibration - the world's first automated threshold detection for Taiko controllers. Hit each pad until the progress bar reaches 100%, and the system analyzes your playing style and automatically sets optimal sensitivity levels - virtually eliminates all double hits and ghost notes. No manual tweaking, no guesswork - just perfect calibration in under 2 minutes per pad.
 - **Zero Coding or Programming Skills Required:** Simply Drag-and-drop my completed firmware for instant use and simple setup
 
-**Hardware & Connectivity**
+**🔧 Advanced Hardware & Connectivity**
 
 **OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
 
@@ -91,7 +90,7 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
 - **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
 
-**14 Input Modes for Maximum Compatibility**
+**🎮 14 Input Modes for Maximum Compatibility**
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -149,7 +148,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 18   | 10ft USB-A to USB-A Cable                                    | 1    | [Link](https://a.co/d/cBqJJua) |
 | 19   | M2x3x3 Threaded Inserts                                      | 4    | [Link](https://a.co/d/8VZdEql) |
 | 20   | M2x4 bolts                                                   | 4    | [Link](https://a.co/d/4cPSWVY) |
-| 21   | 22 AWG Wire Ferrules and Crimper                             | 8    | [Link](https://a.co/d/hu5OIl3) |
+| 21   | 22 AWG Wire Ferrules and Crimper                             | 8    | [Link](https://a.co/d/5ead5x9) |
 
 </div>
 
@@ -158,6 +157,10 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 ## **3: Parts List for Hardware**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
+
+The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
+
+**Important:** "Quantity" refers to the number of individual items you need, NOT the number of packages you need to order since some items come with multiple items in one package.
 
 ### **Required Tools and Supplies**
 
@@ -209,6 +212,7 @@ This guide assumes you have access to the following:
 <div align="center">
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
 📸 Photo Documentation Note
 Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. Don't worry about these mismatches - the installation process is identical. You'll see the correct terminals when you reach Step 8.
 
@@ -230,6 +234,8 @@ The ElectroCookie protoboard has **shared rows** where multiple holes are electr
 - Keep the build clean and organized
 
 **When this guide specifies a hole location** (e.g., "Row D, hole 5"), you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location.
+
+💡 **Shared Row Reminder:** When you see "any hole in shared row," choose the most convenient hole - they're all connected.
 
 ---
 
@@ -419,7 +425,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
 **Flip board as needed** - button legs are now accessible on BACK.
 
 - Connect one leg of each button (ground leg) to GND rail
-- **Recommended:** Daisy-chain grounds for cleaner routing - see reference photo for layout Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
+- **Recommended:** Daisy-chain grounds. Split buttons into left/right halves. You may find it easiest to divide the buttons into left side and right side. On the left set of buttons, designate the GND to all of the legs on the left side of the button (toward the left edge of the board) as ground legs. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
 
 <div align="center">
 <img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -656,9 +662,9 @@ Continue to Section 5 to build the drum.
 
 ---
 
-### **5.1: Prepare the Wood**
+### **PART C: Prepare the Wood**
 
-#### **C1. Cut all MDF wood pieces per SVG templates**
+#### **<u>C1. Cut all MDF wood pieces per SVG templates</u>**
 
 💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
@@ -666,15 +672,15 @@ Use your Laser or CNC machine to cut out all of the parts in template files.
 
 ---
 
-#### **C2. Sand smooth as needed**
+#### **<u>C2. Sand smooth as needed</u>**
 
 Sand down any rough edges from the cutting or drilling to ensure that the pieces marry up well during assembly later.
 
 ---
 
-### **5.2: Assemble the Drum Structure**
+### **PART D: Assemble the Drum Structure**
 
-#### **D1. Assemble and glue the rear base plates together**
+#### **<u>D1. Assemble and glue the rear base plates together</u>**
 
 Use **Wood Glue** to glue the two identical rear base plates together (they are 100% identical, just align the holes and glue together). Clamp securely or weigh down and let dry for several hours.
 
@@ -684,7 +690,7 @@ Use **Wood Glue** to glue the two identical rear base plates together (they are 
 
 ---
 
-#### **D2. Assemble and glue the drum face plate panels together**
+#### **<u>D2. Assemble and glue the drum face plate panels together</u>**
 
 There will be 4 finished drum faceplates that you will be assembling in during this step. Left Ka, Left Don, Right Don, and Right Ka. Each faceplate has a smooth top plate along with a corresponding bottom plate with holes in it.
 
@@ -712,7 +718,7 @@ Apply wood glue to the underside of the top Don plate and apply wood glue to the
 
 ---
 
-#### **D3. Rout/sand the Ka rim edges**
+#### **<u>D3. Rout/sand the Ka rim edges</u>**
 
 Use a router or at least sand down the top sharp outer, curved edge of the **Ka rim faces**. This helps prevent stick damage and wear and tear on your drum and cover as well. Do not smooth/route the inside edges at all, just the outside curve.
 
@@ -722,7 +728,7 @@ Use a router or at least sand down the top sharp outer, curved edge of the **Ka 
 
 ---
 
-#### **D4. Drill holes for threaded inserts**
+#### **<u>D4. Drill holes for threaded inserts</u>**
 
 Using an **8mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), locate the 14 pre-cut **6mm** holes where the rubber grommets will go, and use those holes as a drill guide. Drill **straight** down into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at the 11mm mark with tape for easy reference so you know when to stop.
 
@@ -732,7 +738,7 @@ Using an **8mm** diameter drill bit (or the specialized drill bit that came with
 
 ---
 
-#### **D5. Chamfer holes**
+#### **<u>D5. Chamfer holes</u>**
 
 Chamfer the (inner) rim of each 8mm hole so that the angled head of the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This chamfering can be done with a sharp screwdriver, knife, etc.
 
@@ -742,22 +748,20 @@ Chamfer the (inner) rim of each 8mm hole so that the angled head of the threaded
 
 ---
 
-#### **D6. Install the M6 threaded inserts**
+#### **<u>D6. Install the M6 threaded inserts</u>**
 
 Screw in the **14 individual M6 threaded wood inserts** into the corresponding holes until flush (add **Superglue** to the *outside* of threads to help permanently secure them to wood).
 
 <div align="center">
+<img src="images/Pictures/kagrommetin.png" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<div align="center">
 <img src="images/Pictures/kagrommettool.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<div align="center">
-<img src="images/Pictures/kagrommetin.png" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
 ---
 
-#### **D7. Install M3 threaded inserts**
+#### **<u>D7. Install M3 threaded inserts</u>**
 
 Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
 
@@ -769,9 +773,9 @@ Using a small hammer or rubber mallet, tap two M3 threaded inserts into the hole
 
 ---
 
-### **5.3: Install the Rubber Isolators**
+### **PART E: Install the Rubber Isolators**
 
-#### **E1. Cut nylon bolt head**
+#### **<u>E1. Cut nylon bolt head</u>**
 
 Cut the head off of a **20mm M6 nylon bolt**.
 
@@ -781,13 +785,13 @@ Cut the head off of a **20mm M6 nylon bolt**.
 
 ---
 
-#### **E2. Apply Loctite to isolator**
+#### **<u>E2. Apply Loctite to isolator</u>**
 
 Apply one drop or less of **Loctite** to threads on the inside of the rubber isolator threaded hole.
 
 ---
 
-#### **E3. Install bolt in isolator**
+#### **<u>E3. Install bolt in isolator</u>**
 
 Screw one end of the headless bolt into isolator until it stops.
 
@@ -800,13 +804,13 @@ Screw one end of the headless bolt into isolator until it stops.
 
 ---
 
-#### **E4. Apply Loctite to drum plate inserts**
+#### **<u>E4. Apply Loctite to drum plate inserts</u>**
 
 Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
 
 ---
 
-#### **E5. Install isolator/bolt assemblies**
+#### **<u>E5. Install isolator/bolt assemblies</u>**
 
 Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
 
@@ -822,9 +826,9 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 ---
 
-### **5.4: Print Sensor Housings**
+### **PART F: Print Housings**
 
-#### **F1. Print The Sensor Housings**
+#### **<u>F1. Print The Sensor Housings</u>**
 
 💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
@@ -836,13 +840,13 @@ Use **PLA filament**.
 
 ---
 
-### **5.5: Assemble Sensor Electronics**
+### **PART G: Assemble Sensor Electronics**
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
 💡 **Note:** Steps G1-G7 will be repeated 4 times - this will give you a total of 4 complete sensor dongles.
 
-#### **G1. Cut neoprene discs**
+#### **<u>G1. Cut neoprene discs</u>**
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
@@ -850,7 +854,7 @@ Cut four **12mm neoprene discs** by using the SVG template.
 
 ---
 
-#### **G2. Glue neoprene disc to housing**
+#### **<u>G2. Glue neoprene disc to housing</u>**
 
 Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
 
@@ -860,13 +864,13 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 
 ---
 
-#### **G3. Strip Siamese wire**
+#### **<u>G3. Strip Siamese wire</u>**
 
 Take **10"-12" length of Siamese wire**, strip both ends exposing the two wires within.
 
 ---
 
-#### **G4. Solder TRS Jack**
+#### **<u>G4. Solder TRS Jack</u>**
 
 Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
@@ -881,7 +885,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 
 ---
 
-#### **G5. Solder to Piezo**
+#### **<u>G5. Solder to Piezo</u>**
 
 Take the *other* end of the stripped wire, and solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates this well for clarity.
 
@@ -891,7 +895,7 @@ Take the *other* end of the stripped wire, and solder the **red** wire to piezo 
 
 ---
 
-#### **G6. Glue Piezo to Neoprene Mount**
+#### **<u>G6. Glue Piezo to Neoprene Mount</u>**
 
 Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene and press together. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
 
@@ -903,7 +907,7 @@ Add several drops of **Superglue** onto the top surface of neoprene that is alre
 
 ---
 
-#### **G7. Assemble housing**
+#### **<u>G7. Assemble housing</u>**
 
 Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
 
@@ -913,7 +917,7 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 ---
 
-#### **G8. Mount the Sensor Housings to The Drum**
+#### **<u>G8. Mount the Sensor Housings to The Drum</u>**
 
 Mount your 4 completed housings to the underside of drum faces using **2 M3x8mm screws** for each housing and screw them into the threaded inserts. Be sure that the bottom (side with the neoprene disc inside) of the housing is against the wood.
 
@@ -927,9 +931,9 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 
 ---
 
-### **5.6: Mounting Hardware Assembly**
+### **PART H: Mounting Hardware Assembly**
 
-#### **H1. Mark mounting holes**
+#### **<u>H1. Mark mounting holes</u>**
 
 Place your **speaker bracket** against the backside of your rear base plate so that it is centered and not blocking any other holes. Mark the 4 holes in the speaker bracket that you will use to mount it with.
 
@@ -939,7 +943,7 @@ Place your **speaker bracket** against the backside of your rear base plate so t
 
 ---
 
-#### **H2. Drill mounting holes**
+#### **<u>H2. Drill mounting holes</u>**
 
 Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
@@ -949,7 +953,7 @@ Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**
 
 ---
 
-#### **H3. Install mounting bolts**
+#### **<u>H3. Install mounting bolts</u>**
 
 Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate so that they protrude from the rear to attach the speaker mounting plate.
 
@@ -959,7 +963,7 @@ Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate s
 
 ---
 
-#### **H4. Attach Speaker Mount**
+#### **<u>H4. Attach Speaker Mount</u>**
 
 Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**.
 
@@ -969,7 +973,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 
 ---
 
-#### **H5. Assemble Drum Faceplates to Rear Baseplate**
+#### **<u>H5. Assemble Drum Faceplates to Rear Baseplate</u>**
 
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate. It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts. Tighten them a little more finger-tight.
 
@@ -979,7 +983,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 ---
 
-#### **H6. Route Sensor Through Rear Baseplate**
+#### **<u>H6. Route Sensor Through Rear Baseplate</u>**
 
 Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
@@ -989,7 +993,7 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 ---
 
-#### **H7. Attach TRS barrel mounts**
+#### **<u>H7. Attach TRS barrel mounts</u>**
 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them. You will have one set of Barrel Mounts on each side of the drum.
 
@@ -1003,7 +1007,7 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 ---
 
-#### **H8. Connect sensor cables**
+#### **<u>H8. Connect sensor cables</u>**
 
 Connect the ends of the **3.5mm TRS male Drum sensors** to the top of connector of the barrel couplers, and then also connect your short, coiled 3.5mm extension cables - these extension cables will eventually plug into the female TRS jacks on your control box. The wires should connect cleanly from left to right.
 
@@ -1027,9 +1031,9 @@ If you built the board to the exact specifications in my guide, you'll be able t
 
 ---
 
-### **6.1: 3D Print and Assemble The Control Box**
+### **PART I: 3D Print and Assemble The Control Box**
 
-#### **I1. Print the Enclosure**
+#### **<u>I1. Print the Enclosure</u>**
 
 <div align="center">
 <img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1045,7 +1049,7 @@ Using the free .STL files provided HERE, print the control box base and lid usin
 
 
 
-#### **I2. Add TRS Terminal Jacks & USB Coupler**
+#### **<u>I2. Add TRS Terminal Jacks & USB Coupler</u>**
 
 <div align="center">
 <img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1062,7 +1066,7 @@ Place the USB coupler in the bottom opening in the base.  Use the slight depress
 <img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-#### **I3. Mount The Circuit To The Enclosure Lid**
+#### **<u>I3. Mount The Circuit To The Enclosure Lid</u>**
 
 <div align="center">
 <img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1086,7 +1090,7 @@ Place the circuit board face with buttons and display through the holes in the l
 </div>
 Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
 
-#### **I3. Attach Lid and Box Hinges**
+#### **<u>I3. Attach Lid and Box Hinges</u>**
 
 <div align="center">
 <img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1105,9 +1109,9 @@ For a cleaner look, once the hinges are complete, push a few millimeters of the 
 
 ---
 
-### **6.2: Connect Circuit Wiring To Control Box**
+### **PART J: Connect the Circuit Wiring To The Control Box**
 
-#### **J1. Create the Wires**
+#### **<u>J1. Create the Wires</u>**
 
 <div align="center">
 <img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1117,7 +1121,7 @@ From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable appr
 
 
 
-#### **J2. Connect The Ground Wires**
+#### **<u>J2. Connect The Ground Wires</u>**
 
 <div align="center">
 <img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1131,7 +1135,7 @@ Connect the 4 wires on one end of one of the sets of ribbon wire to the green, G
 
 Connect the opposite end of that strip of wire to the GND terminal in each of the 4 TRS jacks in your control box.  There is no specific order for the the GND wires hear.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
 
-#### **J2. Connect The Signal Wires**
+#### **<u>J2. Connect The Signal Wires</u>**
 
 <div align="center">
 <img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1164,7 +1168,7 @@ Terminal pin 4 connects to the TIP terminal of TRS Jack 4.
 
 
 
-#### **J2. Connect The XIAO Board To The Control Box USB Coupler**
+#### **<u>J2. Connect The XIAO Board To The Control Box USB Coupler</u>**
 
 Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the control box.
 
@@ -1190,29 +1194,29 @@ This is how the final, wired product should look:
 
 
 
-### **6.3: Floor Stand And Control Box Mount**
+### **PART K: Floor Stand And Control Box Mount**
 
-#### **K1. Mount Drum to speaker stand**
+#### **<u>K1. Mount Drum to speaker stand</u>**
 
 Mount the angled speaker bracket to the speaker stand.
 
 <div align="center">
 <img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
-#### **K1. Mount Control Box and Connect Signal Wires**
+#### **<u>K1. Mount Control Box and Connect Signal Wires</u>**
 
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the Control Box.
 
 
 ---
 
-#### **K2. Adjust height/angle**
+#### **<u>K2. Adjust height/angle</u>**
 
 Adjust height/angle for playing comfort.
 
 ---
 
-#### **K3. Add drum cover**
+#### **<u>K3. Add drum cover</u>**
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
@@ -1268,7 +1272,7 @@ You're ready for calibration and testing!
 
 **Test Procedure:**
 
-1. Hold **SELECT** for 1 second to enter the system menu
+1. Long-press **SELECT** for approximately one second to enter setup mode
 2. The controller, by default, will be in **SWITCH TATACON mode**
 3. Stay inside the Menu structure for this test (this prevents any false triggers from interrupting your button test)
 4. Visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons
@@ -1296,11 +1300,20 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 #### **How to Use Taiko-Tune:**
 
-**Quick Start - Calibrate All 4 Pads Automatically:**
+**Quick Start - Calibrate All 4 Pads Automatically (Fastest Method):**
 
-Launch calibration using either method:
-- **Hold START** for 1 second (fastest - launches directly)
-- **System Menu:** Hold SELECT → Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → Analyze All 4 Drums → Start Analysis
+**Option A: Triple-Tap Shortcut (No Menu Required)**
+
+1. While in idle mode (not in menu), **triple-tap START** within 0.5 seconds
+2. The calibration wizard launches instantly and takes you through all 4 drums automatically
+3. Follow the on-screen instructions for each drum
+
+**Option B: Through the Menu**
+
+1. **Enter the Menu:** Hold **SELECT** for 1 second
+2. **Navigate:**
+   - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → **Analyze All 4 Drums**
+3. **Select "Start Analysis"** to begin the wizard
 
 ---
 
@@ -1325,7 +1338,7 @@ Launch calibration using either method:
 
 Use this method if you only want to recalibrate one specific drum without affecting the others.
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
 3. **Choose your drum:**
@@ -1370,7 +1383,7 @@ Use this method when you want precise manual control over individual drum sensit
 
 #### **Step 1: Enter Manual Adjustment Mode**
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
+1. **Enter the Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
    - Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
 3. **Choose your drum:**
@@ -1491,7 +1504,7 @@ There you have it - You've just built a professional controller circuit with ada
 
 💾 Here are the files referenced throughout the guide for quick reference:
 
-- Download all SVG and STL Files (see Section 9: Files & Downloads)
+- [Download all SVG and STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
 - [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
 
@@ -1507,7 +1520,7 @@ There you have it - You've just built a professional controller circuit with ada
 
 - **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
 - **Frozen:** Unplug USB cable and reconnect
-- **Menu won't open:** Hold SELECT for 1 second
+- **Menu won't open:** Hold SELECT for full 1 second
 - **No animation:** Check if sensors register (LED flash)
 
 **🥁 SENSOR Issues**
@@ -1532,8 +1545,8 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **Quick Access**
 
-- **Hold SELECT (1 sec):** Enter system menu
-- **Hold START (1 sec):** Launch Taiko-Tune (calibrate all 4 drums)
+- **Hold SELECT (1 sec):** Enter main menu
+- **Triple-tap START:** Launch Taiko-Tune (calibrate all 4 drums)
 
 ---
 
@@ -1551,7 +1564,7 @@ There you have it - You've just built a professional controller circuit with ada
 ### **Complete Menu Structure**
 
 ```
-SYSTEM MENU
+MAIN MENU
 │
 ├── 🎮 Controller Modes
 │   ├── Nintendo Switch Tatacon Drum
@@ -1599,6 +1612,9 @@ SYSTEM MENU
 │   │   ├── Heavy (3000)
 │   │   └── Custom...
 │   │       └── Threshold (0-4095) [UP/DOWN adjust]
+│   │   [LEFT/RIGHT to preview, A to apply]
+│   │   [Shows "(Current Mode)" on active setting]
+│   │
 │   ├── SimulTap Mode
 │   │   └── ON/OFF [LEFT/RIGHT toggle]
 │   │
