@@ -360,7 +360,56 @@ int main() {
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
-        
+        bool currently_showing_results = (tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults);
+
+        // CRITICAL: Handle ShowingResults state for All 4 Drums mode
+        // If we're in All 4 Drums mode and showing results, immediately start next drum
+        // This prevents Display's autonomous timeout from showing Menu while menu is inactive
+        if (all_drums_mode_active && currently_showing_results && !last_analysis_active) {
+            // Results just appeared - start next drum immediately
+            current_drum_index++;
+
+            if (current_drum_index < 8) {
+                // Save thresholds first
+                settings_store->setTriggerThresholds(drum.getCurrentThresholds());
+                settings_store->store();
+                readSettings();
+
+                // Check if we just finished Pass 1 (drum index 3 → 4)
+                if (current_drum_index == 4) {
+                    // Show transition screen between passes
+                    TaikoTuneMessage transition_msg{
+                        .command = TaikoTuneCommand::ShowPassTransition,
+                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
+                        .pass_number = 0
+                    };
+                    queue_try_add(&taikotune_command_queue, &transition_msg);
+                    sleep_ms(3000);
+                }
+
+                // Start next drum (this will reset Drum state from ShowingResults to Analyzing)
+                uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
+                TaikoTuneMessage pass_msg{
+                    .command = TaikoTuneCommand::SetPass,
+                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
+                    .pass_number = pass_number
+                };
+                queue_try_add(&taikotune_command_queue, &pass_msg);
+
+                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+
+                TaikoTuneMessage show_msg{
+                    .command = TaikoTuneCommand::ShowAnalysisScreen,
+                    .pad_id = drum_sequence[current_drum_index],
+                    .pass_number = 0
+                };
+                queue_try_add(&taikotune_command_queue, &show_msg);
+            } else {
+                // All 8 drums done - let Display show results, then it will auto-return to menu
+                all_drums_mode_active = false;
+            }
+        }
+
         if (current_analysis_active && input_state.controller.buttons.south) {
             drum.cancelTaikoTuneAnalysis();
         }
