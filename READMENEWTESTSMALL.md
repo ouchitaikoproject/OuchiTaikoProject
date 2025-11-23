@@ -5,29 +5,29 @@
 ---
 
 <div align="center">
-*'Ouchi' (おうち) = home, 'Taiko' (太鼓) = drum. Bringing authentic arcade experience home.*
+*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
 </div>
 
 ---
 
 ## **Table of Contents**
-- [1: Overview](#1-overview)
-- [2: Electronics Parts](#2-electronics-parts)
-- [3: Hardware Parts](#3-hardware-parts)
-- [4: Build Circuit](#4-build-circuit)
-- [5: Build Drum](#5-build-drum)
+- [1: Project Overview](#1-project-overview)
+- [2: Parts List for Electronics](#2-parts-list-for-electronics)
+- [3: Parts List for Hardware](#3-parts-list-for-hardware)
+- [4: Build the Circuit](#4-build-the-circuit)
+- [5: Build the Drum](#5-build-the-drum)
 - [6: Control Box](#6-control-box)
-- [7: Flash Firmware](#7-flash-firmware)
-- [8: Calibration](#8-calibration)
-- [9: Downloads](#9-downloads)
-- [10: Troubleshooting](#10-troubleshooting)
-- [11: Menu Reference](#11-menu-reference)
+- [7: Flash The Firmware](#7-flash-the-firmware)
+- [8: Calibration & Settings](#8-calibration--settings)
+- [9: Files & Downloads](#9-files--downloads)
+- [10: Basic Troubleshooting](#10-basic-troubleshooting)
+- [11: Menu System Reference](#11-menu-system-reference)
 - [12: About](#12-about)
-- [13: Copyright](#13-copyright)
+- [13: Copyright Information](#13-copyright-information)
 
 ---
 
-## **1: Overview**
+## **1: Project Overview**
 
 <div align="center">
 <img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -42,83 +42,123 @@
 <img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**KillerQ's OuchiTaiko Project** - Professional arcade-scale Taiko drum controller build guide.
+Welcome to **KillerQ's OuchiTaiko Project** - A comprehensive Arcade Controller Build Guide.
 
-**Key Features:**
-- **4 Velocity-Sensitive Zones** with mechanical/electronic false-trigger isolation
-- **Custom Arcade Sensors** with suspension mounting mimicking Japanese arcade machines
-- **Adaptive Baseline Software Intelligence (ABSI)** - Auto sensitivity adjustment, velocity sensing for authentic Big Note scoring
-- **Taiko-Tune™ Auto-Calibration** - Revolutionary automatic drum calibration
-- **Zero Coding Required** - Drag-and-drop firmware
-- **OLED Display** - Real-time mode selection, settings, calibration, hit feedback
-- **Complete Standalone Testing** - No PC required, visual feedback for all 4 pads + 14 buttons
-- **14 Navigation Buttons** - Full in-game navigation
-- **14 Input Modes** - Switch Tatacon, Switch Pro, PS3/PS4 Tatacon, PS4 DS4, Keyboard P1/P2, Xbox360, Android, iOS, Analog P1/P2, MIDI, Debug
+You're about to build a professional arcade-scale home Taiko drum controller. This open-source guide represents 8 months of research and development, bringing the authentic arcade experience home.
 
-🎥 **Demo Videos:** [Finished Drum](https://youtu.be/Ji3sOdRHO0Q) | [Gameplay](https://youtu.be/p4eFeo_LB5I) | [Roll Polling](https://youtu.be/wEw9HbGcR-s) | [Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
+**What You'll Build:**
+
+**Performance & Design**
+- **4 Velocity-Sensitive Zones** with enhanced mechanical and electronic false-trigger isolation
+- **Custom Arcade Sensors** with suspension mounting that precisely mimics Japanese arcade machines
+- **Adaptive Baseline Software Intelligence (ABSI)** for automatic sensitivity adjustment and authentic Big Note scoring
+- **Taiko-Tune™ Auto-Calibration System** - Revolutionary automatic drum calibration
+- **Zero Coding Required** - Simply drag-and-drop firmware for instant use
+
+**Hardware & Connectivity**
+- **OLED Display** for on-the-fly mode selection, settings, calibration, and real-time hit feedback
+- **Complete Standalone Testing** - No PC required to calibrate and test your entire system
+- **14 Game Navigation Buttons** for full in-game navigation
+- **Professional Mounting** via adjustable, angled speaker stand
+
+**14 Input Modes for Maximum Compatibility**
+- Nintendo Switch Tatacon (HORI NSW-079)
+- Nintendo Switch Pro Controller
+- Sony PS3 Dualshock3
+- Sony PS4 Tatacon Drum (HORI PS4-095)
+- Sony PS4 Dualshock4 (PC/Steam only)
+- Keyboard Player 1 & 2
+- Microsoft Xbox360 (XInput)
+- Android & iOS (XInput)
+- Analog Player 1 & 2 (XInput)
+- MIDI Controller
+- Debug Mode
+
+### 🎥 Demo Videos
+- [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
+- [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
+- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
+- [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
 ---
 
-## **2: Electronics Parts**
+## **2: Parts List for Electronics**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-Compatible parts list. "Quantity" = individual items needed (not packages).
+The Amazon links reference parts that are 100% compatible when used together. You can source from any supplier as long as they meet specifications.
 
-| #  | Item | Qty | Link |
-|----|------|-----|------|
-| 1  | XIAO RP2040 (Seeed Studio) | 1 | [Link](https://a.co/d/g9dFG88) |
-| 2  | MCP23017 I2C Expander | 1 | [Link](https://a.co/d/iBEbs4b) |
-| 3  | 1N4148 Diodes | 4 | [Link](https://a.co/d/jlNKdaJ) |
-| 4  | 0.47µF/470nF Ceramic Caps | 4 | [Link](https://a.co/d/8XWar8W) |
-| 5  | 3.5mm TRS Female Jacks (screw terminals) | 4 | [Link](https://a.co/d/2umR9us) |
-| 6  | 3.5mm TRS Male Plugs | 4 | [Link](https://a.co/d/414YG9z) |
-| 7  | 27mm Piezo Sensors | 4 | [Link](https://a.co/d/hbacbaF) |
-| 8  | 128x64 OLED Display (I2C) | 1 | [Link](https://a.co/d/bHAtiY2) |
-| 9  | 6x6x8mm Tactile Switches | 14 | [Link](https://a.co/d/aa5ppfs) |
-| 10 | 22 AWG Siamese Wire | 1 | [Link](https://a.co/d/0pGa2wH) |
+**Important:** "Quantity" refers to individual items needed, NOT packages (some items come with multiples per package).
+
+| #  | Item | Qty | Product Link |
+|----|------|-----|--------------|
+| 1  | XIAO RP2040 board (Seeed Studio) | 1 | [Link](https://a.co/d/g9dFG88) |
+| 2  | GODIYMODULES MCP23017 I2C expander Board | 1 | [Link](https://a.co/d/iBEbs4b) |
+| 3  | 1N4148 diodes | 4 | [Link](https://a.co/d/jlNKdaJ) |
+| 4  | 0.47µF/470nF Ceramic Capacitors | 4 | [Link](https://a.co/d/8XWar8W) |
+| 5  | 3.5mm TRS FEMALE jacks w/ screw terminals | 4 | [Link](https://a.co/d/2umR9us) |
+| 6  | 3.5mm TRS male Plugs w/ standard ends | 4 | [Link](https://a.co/d/414YG9z) |
+| 7  | 27mm Piezo sensors | 4 | [Link](https://a.co/d/hbacbaF) |
+| 8  | 128x64 Mono OLED display (I2C) | 1 | [Link](https://a.co/d/bHAtiY2) |
+| 9  | 6mmx6mmx8mm Tactile Switches | 14 | [Link](https://a.co/d/aa5ppfs) |
+| 10 | 22 AWG Siamese wire | 1 | [Link](https://a.co/d/0pGa2wH) |
 | 11 | USB-C to USB-A Female Coupler | 1 | [Link](https://a.co/d/9WTmxTu) |
-| 12 | Short USB-C Extension Cable | 1 | [Link](https://a.co/d/cVbKVmQ) |
-| 13 | 6" Coiled 3.5mm TRS Extension (M-M) | 4 | [Link](https://a.co/d/cSKAJ7D) |
-| 14 | 3.5mm TRS Barrel Coupler | 4 | [Link](https://a.co/d/fOiYb5s) |
-| 15 | 4-Pin 0.2" Screw Terminal Blocks | 2 | [Link](https://a.co/d/1X20DtA) |
-| 16 | 22 AWG 4-Wire Ribbon Cable | 1 | [Link](https://a.co/d/cXyTYy1) |
-| 17 | ElectroCookie Board (88.9x96.5mm) | 1 | [Link](https://a.co/d/i5jfYjs) |
+| 12 | Short USB-C to USB-C extension cable | 1 | [Link](https://a.co/d/cVbKVmQ) |
+| 13 | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4 | [Link](https://a.co/d/cSKAJ7D) |
+| 14 | 3.5mm TRS barrel coupler | 4 | [Link](https://a.co/d/fOiYb5s) |
+| 15 | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks | 2 | [Link](https://a.co/d/1X20DtA) |
+| 16 | 22 AWG 4-Wire Ribbon Connection Wire | 1 | [Link](https://a.co/d/cXyTYy1) |
+| 17 | ElectroCookie Circuit Board(88.9mm x 96.5mm) | 1 | [Link](https://a.co/d/i5jfYjs) |
 | 18 | 10ft USB-A to USB-A Cable | 1 | [Link](https://a.co/d/cBqJJua) |
 | 19 | M2x3x3 Threaded Inserts | 4 | [Link](https://a.co/d/8VZdEql) |
-| 20 | M2x4 Bolts | 4 | [Link](https://a.co/d/4cPSWVY) |
-| 21 | 22 AWG Wire Ferrules + Crimper | 8 | [Link](https://a.co/d/hu5OIl3) |
+| 20 | M2x4 bolts | 4 | [Link](https://a.co/d/4cPSWVY) |
+| 21 | 22 AWG Wire Ferrules and Crimper | 8 | [Link](https://a.co/d/hu5OIl3) |
 
 ---
 
-## **3: Hardware Parts**
+## **3: Parts List for Hardware**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**Required Tools:** Laser/CNC, soldering iron, wire strippers, screwdrivers, hot glue gun, clamps, drill, router, sandpaper, utility knife, rubber mallet
+### **Required Tools and Supplies**
 
-| # | Item | Qty | Link |
-|---|------|-----|------|
-| 1 | 6mm Cabinet MDF (per SVG sizes) | 1 | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
-| 2 | Wood Glue | 1 | [Link](https://a.co/d/1uKv6cR) |
-| 3 | M3x8mm Bolts | 8 | [Link](https://a.co/d/52Q8UtD) |
-| 4 | M3x5mm Threaded Inserts | 8 | [Link](https://a.co/d/bKB6OpW) |
-| 5 | M6x10mm Wood Threaded Inserts | 14 | [Link](https://a.co/d/jhY5rYA) |
-| 6 | M6x20mm Nylon Bolts | 14 | [Link](https://a.co/d/bPitQiX) |
-| 7 | M6 Threaded 20x15mm Rubber Isolators | 14 | [Link](https://a.co/d/9dWHezk) |
-| 8 | PLA Filament | 1 | [Link](https://a.co/d/7cCSDtJ) |
+This guide assumes you have access to the following:
+1. Laser cutter or CNC machine (or other means to cut wood)
+2. Soldering iron and solder
+3. Wire strippers/cutters
+4. Screwdrivers
+5. Hot glue gun
+6. Strong clamps
+7. Drill
+8. Router
+9. Sandpaper
+10. Utility knife
+11. Rubber mallet
+
+### **Hardware Parts List**
+
+| # | Item | Qty | Product Link |
+|---|------|-----|--------------|
+| 1 | 6mm Cabinet-Grade MDF (amount needed dictated by SVG files) | 1 | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 2 | Strong Wood Glue | 1 | [Link](https://a.co/d/1uKv6cR) |
+| 3 | M3x8mm bolts | 8 | [Link](https://a.co/d/52Q8UtD) |
+| 4 | M3x5mm threaded inserts | 8 | [Link](https://a.co/d/bKB6OpW) |
+| 5 | M6x10mm wood threaded inserts | 14 | [Link](https://a.co/d/jhY5rYA) |
+| 6 | M6x20mm nylon bolts | 14 | [Link](https://a.co/d/bPitQiX) |
+| 7 | M6 threaded 20mmx15mm rubber isolators | 14 | [Link](https://a.co/d/9dWHezk) |
+| 8 | 3D printer filament (PLA) | 1 | [Link](https://a.co/d/7cCSDtJ) |
 | 9 | Gel Superglue | 1 | [Link](https://a.co/d/dxU7lfw) |
-| 10 | Loctite Thread Adhesive (Medium) | 1 | [Link](https://a.co/d/2W890aJ) |
-| 11 | 2.2mm Scuba Neoprene (4"x4" total) | 1 | [Link](https://a.co/d/dfMhZ4k) |
-| 12 | M6 Pass-Through Finger Knobs | 18 | [Link](https://a.co/d/hjL3QQP) |
-| 13 | Mini PA Speaker Stand | 1 | [Link](https://a.co/d/2YkmhPj) |
-| 14 | Adjustable Angle Speaker Bracket | 1 | [Link](https://a.co/d/gQioU8i) |
-| 15 | Rubber Drum Cover (optional) | 1 | [Link](https://taiko.ac/products/rubber-drum-pad) |
-| 16 | Spring-Loaded Phone Holder w/ Gooseneck | 1 | [Link](https://a.co/d/fRja2H6) |
+| 10 | Loctite thread adhesive - Medium | 1 | [Link](https://a.co/d/2W890aJ) |
+| 11 | 2.2mm thick Scuba Knit Neoprene fabric (4"x4" total needed) | 1 | [Link](https://a.co/d/dfMhZ4k) |
+| 12 | Finger Knobs with pass-through M6 threads | 18 | [Link](https://a.co/d/hjL3QQP) |
+| 13 | Mini PA speaker stand | 1 | [Link](https://a.co/d/2YkmhPj) |
+| 14 | Adjustable Angle Speaker bracket | 1 | [Link](https://a.co/d/gQioU8i) |
+| 15 | Rubber Taiko Drum Cover (optional but crucial for Arcade feel) | 1 | [Link](https://taiko.ac/products/rubber-drum-pad) |
+| 16 | Spring-Loaded Phone Holder with Gooseneck Arm | 1 | [Link](https://a.co/d/fRja2H6) |
 
 ---
 
-## **4: Build Circuit**
+## **4: Build the Circuit**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -126,37 +166,50 @@ Compatible parts list. "Quantity" = individual items needed (not packages).
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-📸 **Note:** Early photos show different terminals than parts list. Installation process identical.
+📸 **Photo Documentation Note:** Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. The installation process is identical.
 
-**Single Board Layout:**
-- **XIAO RP2040** - Drum sensor controller
-- **MCP23017** - Button/display I2C expander
-- **OLED Display** - Status/menu
-- **14 Buttons** - Navigation
+### **Circuit Overview**
 
-**ElectroCookie Board:** Shared rows = electrically connected holes. Use exact holes when specified, any hole in shared row when flexible.
+This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
+- **XIAO RP2040** - Brain of the system, handles drum sensors
+- **MCP23017** - Controls OLED display and navigation buttons
+- **OLED Display** - Status and menu display
+- **14 Navigation Buttons** - Gamepad controls
 
-**CRITICAL - Board Orientation:**
-- **FRONT** = Display/buttons (use FRONT coordinates for Steps 1-2)
-- **BACK** = XIAO/MCP/terminals (use BACK coordinates for Steps 3-12)
+### **Understanding Shared Rows**
+
+The ElectroCookie protoboard has **shared rows** where multiple holes are electrically connected. **When this guide specifies a hole location**, you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location.
 
 ---
 
-### **Step 1: Mount OLED (FRONT)**
+### **IMPORTANT: Board Orientation**
+
+This protoboard has **row letters and numbers printed on both sides**.
+- **FRONT face** = Display and buttons side (use FRONT coordinates for Steps 1-2)
+- **BACK face** = XIAO, MCP23017, and screw terminals side (use BACK coordinates for Steps 3-12)
+
+Always verify which side you're working on before placing components.
+
+---
+
+### **Step 1: Mount OLED Display (FRONT face)**
+
+Mount OLED Display on the **top center** of the FRONT face.
+
+**OLED Placement:**
+- **Location:** Row J, holes 14-17 (FRONT face coordinates)
+- **Orientation:** Screen facing up
+- Solder in place
 
 <div align="center">
 <img src="images/Pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- **Location:** Row J, holes 14-17 (FRONT)
-- **Orientation:** Screen up
-- Solder in place
-
-**Pin locations:**
-- VCC: Row A, hole 15
-- GND: Row A, hole 14
-- SCL: Row A, hole 16
-- SDA: Row A, hole 17
+**OLED pins** (will be wired in Step 7):
+- VCC (Row A, hole 15)
+- GND (Row A, hole 14)
+- SCL (Row A, hole 16)
+- SDA (Row A, hole 17)
 
 <div align="center">
 <img src="images/Pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -164,19 +217,24 @@ Compatible parts list. "Quantity" = individual items needed (not packages).
 
 ---
 
-### **Step 2: Mount Buttons (FRONT)**
+### **Step 2: Mount Buttons (FRONT face)**
+
+**Button Orientation:**
+- Orient buttons with legs on the **left and right side** (NOT up and down)
+- For visual consistency: align all button tabs the same way
+
+**CRITICAL - Use Exact Positions:**
+The table below specifies exact FRONT face hole positions. These align with the control box openings.
 
 <div align="center">
 <img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Orient buttons:** Legs left/right (not up/down). Align tabs consistently.
+**Button Position Reference (FRONT face):**
 
-**CRITICAL - Exact Positions (FRONT):**
-
-| Button | Ground | Signal |
-|--------|--------|--------|
-| **LEFT SIDE** |||
+| Button | Ground Leg Position | Signal Leg Position |
+|--------|---------------------|---------------------|
+| **LEFT SIDE BUTTONS** |||
 | UP | Row E, hole 4 | Row E, hole 6 |
 | Down | Row A, hole 4 | Row A, hole 6 |
 | Left | Row C, hole 1 | Row C, hole 3 |
@@ -184,7 +242,7 @@ Compatible parts list. "Quantity" = individual items needed (not packages).
 | L | Row F, hole 1 | Row F, hole 3 |
 | Select | Row A, hole 12 | Row A, hole 14 |
 | Share | Row H, hole 7 | Row H, hole 9 |
-| **RIGHT SIDE** |||
+| **RIGHT SIDE BUTTONS** |||
 | North | Row E, hole 27 | Row E, hole 25 |
 | South | Row A, hole 27 | Row A, hole 25 |
 | West | Row C, hole 24 | Row C, hole 22 |
@@ -193,15 +251,21 @@ Compatible parts list. "Quantity" = individual items needed (not packages).
 | Start | Row A, hole 19 | Row A, hole 17 |
 | Home | Row H, hole 24 | Row H, hole 22 |
 
-Insert, bend legs, solder.
+**Installation:**
+1. Insert each button into its specified position
+2. Bend legs behind board to hold in place
+3. Solder both legs
+4. Verify alignment matches reference photos
 
 <div align="center">
 <img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**CRITICAL - Prevent Signal Shorts:**
+**CRITICAL - Prevent 2 existing Signal Shorts:**
 
-Shared rows short NORTH/SOUTH and UP/DOWN buttons.
+Because of the shared rows, two button pairs share signal rows and will short without this fix:
+- **NORTH/SOUTH buttons**
+- **UP/DOWN buttons**
 
 <div align="center">
 <img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -210,17 +274,17 @@ Shared rows short NORTH/SOUTH and UP/DOWN buttons.
 <img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Fix (30 sec/pair):**
-1. Find hole centered between signal legs
-2. Scrape copper with 3mm drill/knife
-3. Test with multimeter - NO beep = success
-4. Repeat for second pair
+**Quick Fix (30 seconds per pair):**
+1. Find the hole centered between the two signal legs
+2. Scrape away copper with 3mm drill bit or knife
+3. Test with multi-meter: touch both signal legs - NO beep = success
+4. Repeat for second button pair
 
 ---
 
-### **Step 3: Mount XIAO (BACK)**
+### **Step 3: Mount XIAO RP2040 (BACK face)**
 
-**Flip to BACK. All remaining steps use BACK coordinates.**
+**Flip board to BACK face.** All remaining steps use BACK face coordinates.
 
 <div align="center">
 <img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -229,29 +293,36 @@ Shared rows short NORTH/SOUTH and UP/DOWN buttons.
 <img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- Solder XIAO right side using headers/IC socket
-- **USB-C port faces left**
-- Top row: Row D, holes 1-7 (BACK)
-- Bottom row: Row H, holes 1-7 (BACK)
-- Connect XIAO GND to common GND rail
-- Jump all GND rails together
+**XIAO Placement:**
+- Solder XIAO RP2040 on the **right side** of board using header pins or IC socket
+- Orient with **USB-C port facing left**
+- **Top row of pins:** Row D, holes 1-7 (BACK face)
+- **Bottom row of pins:** Row H, holes 1-7 (BACK face)
+
+**Connect Ground:**
+- Connect any pin in XIAO's **GND** shared row to the common GND rail
+- Jump all GND rails together across the board
 
 ---
 
-### **Step 4: Drum Protection Circuits (BACK)**
+### **Step 4: Install Drum Sensor Protection Circuits (BACK face)**
 
-4 identical circuits (diode + capacitor per sensor).
+Each of the 4 drum sensors requires identical protection circuitry (diode + capacitor).
 
-**Locations:**
+**Diode & Capacitor Placement:**
 
-| Drum | XIAO Pin | Diode Anode + Cap Location (BACK) |
-|------|----------|-----------------------------------|
+| Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
+|-----------|----------|----------------------------------------------|
 | Left Ka | A0 | Row J, hole 7 |
 | Left Don | A1 | Row J, hole 6 |
 | Right Don | A2 | Row J, hole 5 |
 | Right Ka | A3 | Row J, hole 4 |
 
-**Per Sensor:**
+**For Each Sensor:**
+
+1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed above (don't solder yet)
+
+2. Place cathode (striped end) into GND rail hole directly below (don't solder yet)
 
 <div align="center">
 <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -260,10 +331,9 @@ Shared rows short NORTH/SOUTH and UP/DOWN buttons.
 <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-1. Place 1N4148 anode (non-stripe) in specified hole
-2. Place cathode (stripe) in GND rail below
-3. Place one capacitor leg in same hole as anode
-4. Place other leg in same GND hole as cathode
+3. **Capacitor:** Place either leg of 0.47µF capacitor into same hole as diode anode (don't solder yet)
+
+4. Place other leg into same GND rail hole as the diode cathode (don't solder yet)
 
 <div align="center">
 <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -272,7 +342,7 @@ Shared rows short NORTH/SOUTH and UP/DOWN buttons.
 <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-5. Solder combined legs together
+5. **Solder:** Now solder the combined diode + capacitor legs together. This saves space and keeps things clean.
 
 <div align="center">
 <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -280,53 +350,58 @@ Shared rows short NORTH/SOUTH and UP/DOWN buttons.
 
 ---
 
-### **Step 5: Button Grounds (BACK)**
+### **Step 5: Connect Button Grounds (BACK face)**
 
 <div align="center">
 <img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- Connect one leg per button to GND rail
-- Daisy-chain for cleaner routing
+- Connect one leg of each button (ground leg) to GND rail
+- **Recommended:** Daisy-chain grounds for cleaner routing (see reference photo)
 
 ---
 
-### **Step 6: Prepare MCP23017**
+### **Step 6: Prepare MCP23017 Board**
+
+**Solder Header Pins:**
+1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
+2. This row starts with **A2** (left) and ends with **VCC** (right)
+3. The double row of pins on top remains empty (for button signal connections later)
 
 <div align="center">
 <img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- Solder 10-pin header row into bottom holes (A2 left → VCC right)
-- Top double row stays empty
-
 ---
 
-### **Step 7: Pre-Wire I²C Under MCP (BACK)**
+### **Step 7: Pre-Wire I²C Lines Under MCP (BACK face)**
 
-Temporarily place MCP Row E, holes 11-21 (BACK), note position, remove.
+Before mounting the MCP23017, pre-wire power and I²C connections underneath where it will sit.
+
+**Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
 
 <div align="center">
 <img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Wire underneath:**
+**Make these 4 connections underneath:**
 
-| Connection | From (Under MCP) | To (OLED) |
-|------------|------------------|-----------|
-| VCC | Row A, hole 11 | Row A, hole 15 |
-| GND | Row A, hole 12 | Row A, hole 14 |
-| SCL | Row A, hole 13 | Row A, hole 16 |
-| SDA | Row A, hole 14 | Row A, hole 17 |
+| Connection | From (Under MCP) | To (OLED) | Purpose |
+|------------|------------------|-----------|---------|
+| VCC | Row A, hole 11 | Row A, hole 15 | Power to display |
+| GND | Row A, hole 12 | Row A, hole 14 | Ground to display |
+| SCL | Row A, hole 13 | Row A, hole 16 | I²C Clock to display |
+| SDA | Row A, hole 14 | Row A, hole 17 | I²C Data to display |
 
 <div align="center">
 <img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Mount MCP:**
-- Row E, holes 11-21 (BACK)
-- VCC at hole 11, A2 at hole 21
-- Solder
+**Now mount MCP23017:**
+- Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
+- Verify **VCC pin** is in Row E, hole 11
+- Verify **A2 pin** is in Row E, hole 21
+- Solder these header pins to the circuit board
 
 <div align="center">
 <img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -334,31 +409,45 @@ Temporarily place MCP Row E, holes 11-21 (BACK), note position, remove.
 
 ---
 
-### **Step 8: Power & Ground**
+### **Step 8: Connect Power & Ground**
 
-Connect/verify:
-1. XIAO 3.3V → MCP VCC → OLED VCC
-2. XIAO GND → MCP GND → OLED GND
-3. All three share common ground
+Connect/verify power and ground between XIAO, MCP23017, and Display.
+
+**Connections:**
+1. **XIAO 3.3V** → **MCP23017 VCC** → **OLED VCC**
+2. **XIAO GND** → **MCP23017 GND** → **OLED GND**
+3. Verify all three components share common ground
 
 ---
 
-### **Step 9: I²C Data**
+### **Step 9: Connect I²C Data Lines**
+
+Connect I²C between XIAO and MCP23017.
+
+| Connection | From XIAO | To MCP23017 |
+|------------|-----------|-------------|
+| SDA | Any pin in SDA shared row | Any pin in SDA shared row |
+| SCL | Any pin in SCL shared row | Any pin in SCL shared row |
+
+**Verify I²C connections:**
+- XIAO SDA → MCP23017 SDA → Display SDA (all connected)
+- XIAO SCL → MCP23017 SCL → Display SCL (all connected)
 
 <div align="center">
 <img src="images/Pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-| Connection | From XIAO | To MCP |
-|------------|-----------|--------|
-| SDA | Any SDA row hole | Any SDA row hole |
-| SCL | Any SCL row hole | Any SCL row hole |
-
-Verify: XIAO SDA → MCP SDA → Display SDA (all connected)
-
 ---
 
-### **Step 10: Button Signals to MCP (BACK)**
+### **Step 10: Connect Button Signals to MCP23017 (BACK face)**
+
+Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
+
+**Soldering Technique** (MCP holes are small):
+1. **Prepare MCP holes:** Fill each MCP pin hole with small amount of solder
+2. **Prepare wires:** Strip to 1-2mm max, tin the ends with solder
+3. **Solder:** Place tinned wire on solder-filled hole, press iron down, wire sinks into solder
+4. **Order:** Start with Row A pins (top), then Row B pins
 
 <div align="center">
 <img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -376,48 +465,59 @@ Verify: XIAO SDA → MCP SDA → Display SDA (all connected)
 <img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Soldering:** Fill MCP holes with solder, tin wire 1-2mm, press together.
+**Complete Button Wiring Map:**
 
-| Button | MCP Pin | Connection |
-|--------|---------|------------|
-| **LEFT** |||
-| UP | B0 | → UP signal row |
-| Down | B1 | → DOWN signal row |
-| Left | B2 | → LEFT signal row |
-| Right | B3 | → RIGHT signal row |
-| L | B4 | → L signal row |
-| Select | B5 | → SELECT signal row |
-| Share | B6 | → SHARE signal row |
-| **RIGHT** |||
-| North | A0 | → NORTH signal row |
-| South | A1 | → SOUTH signal row |
-| West | A2 | → WEST signal row |
-| East | A3 | → EAST signal row |
-| R | A4 | → R signal row |
-| Start | A5 | → START signal row |
-| Home | A6 | → HOME signal row |
+| Button | MCP Pin | Wire Connection |
+|--------|---------|-----------------|
+| **LEFT SIDE BUTTONS** |||
+| UP | B0 | MCP B0 → any hole in UP button signal shared row |
+| Down | B1 | MCP B1 → any hole in DOWN button signal shared row |
+| Left | B2 | MCP B2 → any hole in LEFT button signal shared row |
+| Right | B3 | MCP B3 → any hole in RIGHT button signal shared row |
+| L | B4 | MCP B4 → any hole in L button signal shared row |
+| Select | B5 | MCP B5 → any hole in SELECT button signal shared row |
+| Share | B6 | MCP B6 → any hole in SHARE button signal shared row |
+| **RIGHT SIDE BUTTONS** |||
+| North | A0 | MCP A0 → any hole in NORTH button signal shared row |
+| South | A1 | MCP A1 → any hole in SOUTH button signal shared row |
+| West | A2 | MCP A2 → any hole in WEST button signal shared row |
+| East | A3 | MCP A3 → any hole in EAST button signal shared row |
+| R | A4 | MCP A4 → any hole in R button signal shared row |
+| Start | A5 | MCP A5 → any hole in START button signal shared row |
+| Home | A6 | MCP A6 → any hole in HOME button signal shared row |
 
 ---
 
-### **Step 11: Mount Terminals (BACK)**
+### **Step 11: Mount Terminal Blocks (BACK face)**
+
+Place two 4-pin screw terminal blocks on BACK face.
+
+**Terminal Block 1 (GND):**
+- **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
+- **Orientation:** Wire openings facing UP toward top of board
+- Bridge all 4 pins together with solder or wire
+- Connect this common GND cluster to nearest GND rail
+
+**Terminal Block 2 (For Drum Signals):**
+- **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
+- **Orientation:** Wire openings facing DOWN toward bottom of board
+- Leave one hole space between this block and the GND block
 
 <div align="center">
 <img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**Terminal Block 1 (GND):**
-- Row A, holes 29, 27, 25, 23 (BACK)
-- Wire openings UP
-- Bridge all 4 pins, connect to GND rail
-
-**Terminal Block 2 (Drum Signals):**
-- Row F, holes 30, 28, 26, 24 (BACK)
-- Wire openings DOWN
-- Label: Pad 1/LK (hole 24), Pad 2/LD (26), Pad 3/RD (28), Pad 4/RK (30)
+**Label the signal block ports:**
+- Pad 1/Left Ka (Row F, hole 24)
+- Pad 2/Left Don (Row F, hole 26)
+- Pad 3/Right Don (Row F, hole 28)
+- Pad 4/Right Ka (Row F, hole 30)
 
 ---
 
-### **Step 12: Drum Signal Wiring (BACK)**
+### **Step 12: Connect Drum Signal Terminals (BACK face)**
+
+Connect terminal block signal pins to XIAO analog pins.
 
 <div align="center">
 <img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -426,63 +526,85 @@ Verify: XIAO SDA → MCP SDA → Display SDA (all connected)
 <img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-| Pad | Terminal Block | To XIAO |
-|-----|----------------|---------|
-| Left Ka | Row D, hole 24 row | A0 |
-| Left Don | Row C, hole 26 row | A1 |
-| Right Don | Row B, hole 28 row | A2 |
-| Right Ka | Row A, hole 30 row | A3 |
+**Wiring Map:**
 
-**Circuit Complete!** ✅ OLED ✅ 14 Buttons ✅ XIAO ✅ MCP ✅ Terminals
+| Drum Pad | From Terminal Block | To XIAO Pin |
+|----------|---------------------|-------------|
+| Left Ka | Any hole in Row D, hole 24 shared row | A0 |
+| Left Don | Any hole in Row C, hole 26 shared row | A1 |
+| Right Don | Any hole in Row B, hole 28 shared row | A2 |
+| Right Ka | Any hole in Row A, hole 30 shared row | A3 |
+
+These screw terminals will connect to the drum sensor TRS jacks in a later step.
 
 ---
 
-## **5: Build Drum**
+### **Circuit Complete!**
+
+You now have a single-board circuit with:
+- ✅ OLED Display
+- ✅ 14 Navigation Buttons
+- ✅ XIAO RP2040 (drum sensor controller)
+- ✅ MCP23017 (button/display controller)
+- ✅ Screw terminals for drum sensors
+
+---
+
+## **5: Build the Drum**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**CRITICAL - Scale:** SVG files correct scale - DO NOT resize. Verify: 14 mounting holes = exactly 6mm diameter.
+**Important Scale Notice:** The SVG files provided are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other components.
 
-💾 [SVG/STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+💡 **Scale Verification:** Before cutting, verify SVG files are at correct scale by checking that all 14 mounting holes in the drum base measure exactly **6mm** in diameter.
 
-**No laser/CNC?** Print SVGs full-size (100% / "Actual Size") as template, cut by hand.
-
----
-
-### **5.1: Prepare Wood**
-
-**C1. Cut MDF per SVG templates**
-**C2. Sand smooth**
+**No Laser cutter or CNC access?** Ask a friend, local shop, or check for a Makerspace. Alternatively, print the SVG files full-size across multiple sheets (ensure printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut/drill by hand.
 
 ---
 
-### **5.2: Assemble Drum**
+### **5.1: Prepare the Wood**
 
-**D1. Glue rear base plates**
+#### **Cut all MDF wood pieces per SVG templates**
+
+💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+
+Use your Laser or CNC machine to cut out all parts from template files.
+
+#### **Sand smooth as needed**
+
+Sand down any rough edges from cutting to ensure pieces fit together well during assembly.
+
+---
+
+### **5.2: Assemble the Drum Structure**
+
+#### **Assemble and glue the rear base plates together**
+
+Use **Wood Glue** to glue the two identical rear base plates together. Clamp securely or weigh down and let dry for several hours.
 
 <div align="center">
 <img src="images/Pictures/baseplate.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Glue two identical rear plates together. Clamp, dry several hours.
-
 ---
 
-**D2. Glue drum faceplates**
+#### **Assemble and glue the drum face plate panels together**
 
-4 faceplates: Left Ka, Left Don, Right Don, Right Ka. Each = smooth top + bottom w/ holes.
+There will be 4 finished drum faceplates: Left Ka, Left Don, Right Don, and Right Ka. Each faceplate has a smooth top plate and a corresponding bottom plate with holes.
 
-**Ka Plates:**
-- Glue Left Ka TOP + Left Ka BOTTOM together
-- Clamp, dry
-- Repeat for Right Ka
+**For Ka Plates:**
 
-**Don Plates:**
-- Glue Left Don TOP + Left Don BOTTOM together
-- Clamp, dry
-- Repeat for Right Don
+Apply wood glue to the underside of the top Ka plate and to the topside of the bottom Ka plate. Press together and clamp for several hours. Check to ensure no shifting occurs during drying.
 
-💡 Ignore 4 smaller holes in photo - your version has 2 holes only.
+**Repeat for Right Ka.**
+
+**For Don Plates:**
+
+Apply wood glue to the underside of the top Don plate and to the topside of the bottom Don plate. Press together and clamp for several hours.
+
+**Repeat for Right Don.**
+
+💡 **Note:** Ignore the 4 smaller holes in photo - your version will be different and only have 2 holes.
 
 <div align="center">
 <img src="images/Pictures/kaholes.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -490,37 +612,39 @@ Glue two identical rear plates together. Clamp, dry several hours.
 
 ---
 
-**D3. Rout Ka rim edges**
+#### **Rout/sand the Ka rim edges**
+
+Use a router or at least sand down the top sharp outer curved edge of the **Ka rim faces**. This helps prevent stick damage. Do not smooth the inside edges, just the outside curve.
 
 <div align="center">
 <img src="images/Pictures/kafront.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Route/sand top outer curved edge of Ka rims. Prevents stick damage. Don't touch inside edges.
-
 ---
 
-**D4. Drill for threaded inserts**
+#### **Drill holes for threaded inserts**
+
+Using an **8mm** diameter drill bit, locate the 14 pre-cut **6mm** holes where the rubber grommets will go. Drill straight down into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at 11mm with tape.
 
 <div align="center">
 <img src="images/Pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Using 8mm bit, drill 14 pre-cut 6mm holes to 8mm wide x 11mm deep. Mark bit at 11mm with tape.
-
 ---
 
-**D5. Chamfer holes**
+#### **Chamfer holes**
+
+Chamfer the inner rim of each 8mm hole so that the angled head of the threaded inserts will tighten down flush. This can be done with a sharp screwdriver or knife.
 
 <div align="center">
 <img src="images/Pictures/kagrommetout.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Chamfer inner rim of 8mm holes for flush insert seating. Use screwdriver/knife.
-
 ---
 
-**D6. Install M6 threaded inserts**
+#### **Install the M6 threaded inserts**
+
+Screw in the **14 individual M6 threaded wood inserts** into the corresponding holes until flush. Add **Superglue** to the outside of threads to help permanently secure them to wood.
 
 <div align="center">
 <img src="images/Pictures/kagrommettool.png" width="350px" style="display: block; margin: 0 auto;">
@@ -529,39 +653,41 @@ Chamfer inner rim of 8mm holes for flush insert seating. Use screwdriver/knife.
 <img src="images/Pictures/kagrommetin.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Screw 14 M6 inserts until flush. Add superglue to outside of threads.
-
 ---
 
-**D7. Install M3 inserts**
+#### **Install M3 threaded inserts**
+
+Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates (8 inserts total). Tap them flush to the wood - add Superglue to outside of threads. These are where the sensor housings will mount.
+
+💡 **Note:** Your orientation will be different - this is just an example showing the sensor housing next to a threaded insert.
 
 <div align="center">
 <img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Tap two M3 inserts into underside of each faceplate (8 total). Flush, superglue threads. For sensor housing mounting.
-
 ---
 
-### **5.3: Rubber Isolators**
+### **5.3: Install the Rubber Isolators**
 
-**E1. Cut nylon bolt head**
+#### **Cut nylon bolt head**
+
+Cut the head off of a **20mm M6 nylon bolt**.
 
 <div align="center">
 <img src="images/Pictures/nyloncut.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Cut head off M6x20mm nylon bolt.
+---
+
+#### **Apply Loctite to isolator**
+
+Apply one drop or less of **Loctite** to threads on the inside of the rubber isolator threaded hole.
 
 ---
 
-**E2. Loctite isolator**
+#### **Install bolt in isolator**
 
-Add drop of Loctite to isolator threads.
-
----
-
-**E3. Install bolt in isolator**
+Screw one end of the headless bolt into isolator until it stops.
 
 <div align="center">
 <img src="images/Pictures/isolatorgrommetside.png" width="350px" style="display: block; margin: 0 auto;">
@@ -570,182 +696,195 @@ Add drop of Loctite to isolator threads.
 <img src="images/Pictures/grommetmeasure.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Screw headless bolt into isolator until stops.
+---
+
+#### **Apply Loctite to drum plate inserts**
+
+Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
 
 ---
 
-**E4. Loctite drum inserts**
+#### **Install isolator/bolt assemblies**
 
-Add Loctite to M6 inserts on drum plate underside.
+Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
 
----
-
-**E5. Install assemblies**
+**Repeat these steps for the remaining 13 holes.**
 
 <div align="center">
 <img src="images/Pictures/grommetinstalled.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Screw isolator/bolt into drum inserts, finger-tighten flush. **Repeat E1-E5 for 13 remaining holes.**
-
 ---
 
 ### **5.4: Print Sensor Housings**
 
-**F1. Print housings**
+#### **Print The Sensor Housings**
 
-💾 [Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
 
-Print 4 sets (top + bottom each). PLA, 0.2mm layer, 40% Gyroid infill, no supports.
+Print 4 complete sets of Sensor Housings (each set has a top and bottom).
 
----
+Use **PLA filament**.
 
-### **5.5: Assemble Sensors**
-
-🎥 [Video](https://youtu.be/tQe-xDEqEdY)
-
-💡 Repeat G1-G7 four times for 4 sensor dongles.
-
-**G1. Cut neoprene discs**
-
-Cut four 12mm neoprene discs per SVG template.
+**Printer Settings:** 0.2mm layer height, 40% Gyroid infill, no supports needed.
 
 ---
 
-**G2. Glue disc to housing**
+### **5.5: Assemble Sensor Electronics**
+
+🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
+
+💡 **Note:** Steps G1-G7 will be repeated 4 times for 4 complete sensor dongles.
+
+#### **Cut neoprene discs**
+
+Cut four **12mm neoprene discs** using the SVG template.
+
+💾 [Template found in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+
+---
+
+#### **Glue neoprene disc to housing**
+
+Place several drops of **Superglue** into the raised center ring in the bottom shell. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
 
 <div align="center">
 <img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Drops of superglue in bottom shell center ring. Place disc, press 30 sec.
+---
+
+#### **Strip Siamese wire**
+
+Take **10"-12" length of Siamese wire**, strip both ends exposing the two wires within.
 
 ---
 
-**G3. Strip Siamese wire**
+#### **Solder TRS Jack**
 
-Cut 10-12" Siamese wire, strip both ends.
+Take one end of the wire and solder the two exposed wires to the male TRS jack:
+- **Red** connects to the **TIP**
+- **Black** connects to the **SLEEVE**
 
----
-
-**G4. Solder TRS jack**
+💡 **Tip:** Use your multimeter in Continuity mode to check which terminal is which.
 
 <div align="center">
 <img src="images/Pictures/trssolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- Red → TIP
-- Black → SLEEVE
-
-💡 Use multimeter continuity to ID terminals.
-
 ---
 
-**G5. Solder to piezo**
+#### **Solder to Piezo**
+
+Take the *other* end of the stripped wire, and solder:
+- **Red** wire to piezo center disc
+- **Black** wire to outer brass ring
 
 <div align="center">
 <img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Other end:
-- Red → center disc
-- Black → outer brass ring
-
 ---
 
-**G6. Glue piezo to neoprene**
+#### **Glue Piezo to Neoprene Mount**
+
+Add several drops of **Superglue** onto the top surface of neoprene. Center the **piezo sensor** face up (brass side faces *down*, wires on top) onto the neoprene and press together. Press lightly for 30 seconds. Be sure the wire is laying across the strain relief channel.
+
+💡 **Note:** Pic varies slightly from your version - this was an earlier version.
 
 <div align="center">
 <img src="images/Pictures/sensorinhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Superglue on neoprene top. Center piezo (brass down, wires up). Wire in strain relief channel. Press 30 sec.
-
 ---
 
-**G7. Assemble housing**
+#### **Assemble housing**
+
+Add a drop of **Superglue** to the strain relief channel below the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds.
 
 <div align="center">
 <img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Superglue below wire, on wire, inside rim of top shell. Nest top/bottom, hold 30 sec.
-
 ---
 
-**G8. Mount to drum**
+#### **Mount the Sensor Housings to The Drum**
+
+Mount your 4 completed housings to the underside of drum faces using **2 M3x8mm screws** for each housing. Be sure the bottom (neoprene disc side) is against the wood.
+
+Tighten snug so the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
 <div align="center">
 <img src="images/Pictures/housinginsert.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Mount 4 housings to drum underside using 2x M3x8mm screws per housing. Neoprene side against wood. Snug, don't over-tighten.
-
 ---
 
-### **5.6: Mounting Hardware**
+### **5.6: Mounting Hardware Assembly**
 
-**H1. Mark mounting holes**
+#### **Mark mounting holes**
+
+Place your **speaker bracket** against the backside of your rear base plate so it is centered. Mark the 4 holes in the speaker bracket that you will use to mount it.
 
 <div align="center">
 <img src="images/Pictures/speakerbracket.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Place speaker bracket on rear baseplate, centered. Mark 4 mounting holes.
-
 ---
 
-**H2. Drill mounting holes**
+#### **Drill mounting holes**
+
+Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
 <div align="center">
 <img src="images/Pictures/bracketholes.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Drill 4 marked holes with 6mm bit.
-
 ---
 
-**H3. Install bolts**
+#### **Install mounting bolts**
+
+Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate so they protrude from the rear to attach the speaker mounting plate.
 
 <div align="center">
 <img src="images/Pictures/bracketbolts.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Feed 4x M6x16 bolts + washers through baseplate, protruding rear.
-
 ---
 
-**H4. Attach speaker mount**
+#### **Attach Speaker Mount**
+
+Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**.
 
 <div align="center">
 <img src="images/Pictures/bracketconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Attach adjustable mount to bracket, secure with M6 knobs.
-
 ---
 
-**H5. Assemble faceplates to baseplate**
+#### **Assemble Drum Faceplates to Rear Baseplate**
+
+Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes. It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts. Tighten a bit more than finger-tight.
 
 <div align="center">
 <img src="images/Pictures/boltsthrough1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Feed 14x M6x18 bolts (on drum faces) through baseplate holes. Secure with M6 knobs, finger-tight+.
-
 ---
 
-**H6. Route sensor wires**
+#### **Route Sensor Through Rear Baseplate**
+
+Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
 <div align="center">
 <img src="images/Pictures/wireroute.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Route sensor wires through nearest opening to drum back.
-
 ---
 
-**H7. Attach TRS barrel mounts**
+#### **Attach TRS barrel mounts**
+
+3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them. You will have one set of Barrel Mounts on each side of the drum.
 
 <div align="center">
 <img src="images/Pictures/couplersempty.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -754,11 +893,11 @@ Route sensor wires through nearest opening to drum back.
 <img src="images/Pictures/couplersmounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-3D print barrel mounts, attach with tape. One set each side. Insert couplers.
-
 ---
 
-**H8. Connect sensor cables**
+#### **Connect sensor cables**
+
+Connect the ends of the **3.5mm TRS male Drum sensors** to the top of barrel couplers, and then also connect your short, coiled 3.5mm extension cables. The wires should connect cleanly from left to right.
 
 <div align="center">
 <img src="images/Pictures/couplersconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -767,106 +906,126 @@ Route sensor wires through nearest opening to drum back.
 <img src="images/Pictures/shortcables.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Connect drum sensor TRS to top of couplers. Connect coiled extension cables. Wires left-to-right.
-
 ---
 
 ## **6: Control Box**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### **6.1: 3D Print Enclosure**
+You're almost there! If you built the board to the exact specifications in this guide, you'll be able to 3D print the included enclosure box.
 
-**I1. Print enclosure**
+---
+
+### **6.1: 3D Print and Assemble The Control Box**
+
+#### **Print the Enclosure**
 
 <div align="center">
 <img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Print base + lid. 0.2mm layer, Gyroid 20%, auto supports.
+Using the free .STL files, print the control box base and lid using these settings:
+- Layer Height: 0.20mm
+- Infill: Gyroid fill @ 20%
+- Supports: Automatic
 
 ---
 
-**I2. Add TRS jacks & USB coupler**
+#### **Add TRS Terminal Jacks & USB Coupler**
 
 <div align="center">
 <img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way through until they stop. Use a small amount of hot glue to secure the jacks.
+
 <div align="center">
 <img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+Place the USB coupler in the bottom opening in the base. Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box. Use hot glue to secure.
+
 <div align="center">
 <img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- Insert 4x TRS jacks into back holes, align with depressions. Hot glue.
-- Insert USB coupler in bottom opening (USB-A out, USB-C in). Hot glue.
-
 ---
 
-**I3. Mount circuit to lid**
+#### **Mount The Circuit To The Enclosure Lid**
 
 <div align="center">
 <img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid. Make sure the smooth lip of the grommet is facing down.
+
 <div align="center">
 <img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Set M2x4 inserts in 4 standoffs (smooth lip down). Heat insert with soldering iron tip, press flush vertical.
+Using the included soldering iron heat insert tip, gently press the inserts into the standoffs until the top of the insert is flush. Be sure the insert remains vertical.
 
 <div align="center">
 <img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+Place the circuit board face with buttons and display through the holes in the lid. Everything should align perfectly.
+
 <div align="center">
 <img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Place circuit (buttons/display through lid holes). Attach with 4x M4x4mm bolts. Snug.
+Using 4 M4x4mm bolts, attach the circuit board to the standoffs. Tighten snug.
 
 ---
 
-**I4. Attach hinges**
+#### **Attach Lid and Box Hinges**
 
 <div align="center">
 <img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+The hinges on the box were designed to be fastened using standard 1.75mm filament as opposed to a metal hinge pin.
+
 <div align="center">
 <img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Cut 1.75mm filament to fit 3 hinge sections. Cut end at angle, feed through, trim flush. Repeat other hinge.
+Cut off a small section of filament that is just long enough to fit through each set of three hinge sections. Cut the end at an angle, and gently yet firmly feed it all the way through all 3 sections. Cut each end flush. Repeat for the other hinge.
 
-Optional: Push filament out few mm, trim, push back in 1mm for cleaner edge.
+For a cleaner look, push a few millimeters of the filament out of one end, cut it off, and then push the remainder back in about a millimeter. This makes the edges look more uniform.
 
 ---
 
-### **6.2: Connect Wiring**
+### **6.2: Connect Circuit Wiring To Control Box**
 
-**J1. Create wires**
+#### **Create the Wires**
 
 <div align="center">
 <img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Cut 2x 215mm 4-wire ribbon cable. Crimp with 22 AWG ferrules.
+From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths approximately 215mm each. Crimp the ends using 22 AWG wire ferrules.
 
 ---
 
-**J2. Connect ground wires**
+#### **Connect The Ground Wires**
 
 <div align="center">
 <img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+Connect the 4 wires on one end of one set of ribbon wire to the green GND terminal block on the circuit board.
+
 <div align="center">
 <img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Connect one ribbon set: 4 wires → green GND terminal block (circuit). Opposite end → GND terminals of 4 TRS jacks (any order).
+Connect the opposite end to the GND terminal in each of the 4 TRS jacks. There is no specific order for the GND wires.
 
 ---
 
-**J3. Connect signal wires**
+#### **Connect The Signal Wires**
 
 <div align="center">
 <img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -875,19 +1034,23 @@ Connect one ribbon set: 4 wires → green GND terminal block (circuit). Opposite
 <img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Connect other ribbon set: 4 wires → blue SIGNAL terminal block (circuit). Opposite end:
-- Terminal 1 → TIP of TRS Jack 1
-- Terminal 2 → TIP of TRS Jack 2
-- Terminal 3 → TIP of TRS Jack 3
-- Terminal 4 → TIP of TRS Jack 4
+Connect the 4 wires on one end of the other set of ribbon wire to the blue SIGNAL terminal block on the circuit board.
+
+Connect the other end to the TIP terminal of the respective TRS jack:
+- Terminal pin 1 → TIP of TRS Jack 1
+- Terminal pin 2 → TIP of TRS Jack 2
+- Terminal pin 3 → TIP of TRS Jack 3
+- Terminal pin 4 → TIP of TRS Jack 4
 
 ---
 
-**J4. Connect XIAO to USB coupler**
+#### **Connect The XIAO Board To The Control Box USB Coupler**
 
-Using short USB-C cable, connect XIAO → USB-C coupler.
+Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the control box.
 
-**Final wired result:**
+---
+
+**This is how the final, wired product should look:**
 
 <div align="center">
 <img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -901,219 +1064,260 @@ Using short USB-C cable, connect XIAO → USB-C coupler.
 
 ---
 
-### **6.3: Floor Stand & Mount**
+### **6.3: Floor Stand And Control Box Mount**
 
-**K1. Mount drum to stand**
+#### **Mount Drum to speaker stand**
 
 <div align="center">
 <img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Mount speaker bracket to stand.
+Mount the angled speaker bracket to the speaker stand.
 
 ---
 
-**K2. Mount control box**
+#### **Mount Control Box and Connect Signal Wires**
 
-Attach phone holder to stand center post. Attach control box to holder. Connect drum sensor TRS → control box TRS jacks.
-
----
-
-**K3. Adjust height/angle**
-
-Adjust for comfort.
+Attach the phone holder arm to the central post of the Speaker Stand. Attach the control box to the Spring-Loaded phone bracket. Adjust to an appropriate position, and connect the Drum Sensor TRS male ends to the matching TRS Female Jack on the Control Box.
 
 ---
 
-**K4. Add drum cover**
+#### **Adjust height/angle**
+
+Adjust height/angle for playing comfort.
+
+---
+
+#### **Add drum cover**
+
+Add your Drum cover, skin, towel, padding, or whichever you have. As the drum dimensions are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source: [here](https://taiko.ac/products/rubber-drum-pad).
+
+If that isn't an option, you can use a towel, blanket, large mouse pad, thin foam - whatever gives you sound-reducing qualities and the amount of bounce you prefer.
+
+💡 **Pro Tip:** You can adjust the Drum Thresholds to make it perform how you want regardless of Drum cover.
 
 <div align="center">
 <img src="images/Pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Add rubber cover, towel, mouse pad, etc. Arcade drum skin recommended: [Link](https://taiko.ac/products/rubber-drum-pad)
-
-💡 Adjust thresholds for any cover via Taiko-Tune.
-
 ---
 
-## **7: Flash Firmware**
+## **7: Flash The Firmware**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-💾 [Download flash files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+Great job making it this far! Now it's time to flash the firmware. This is the quickest and easiest part.
 
-**Step 1: Boot mode**
-
-Hold "B" button on XIAO while connecting USB. Board appears as removable drive.
+💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
 ---
 
-**Step 2: Wipe board**
+### **Step 1: Enter Boot Mode**
 
-Drag `universal_flash_nuke.uf2` to drive. Auto-reboots. Drag again. Auto-reboots.
-
----
-
-**Step 3: Flash firmware**
-
-Drag `KillerQsOuchiTaikoFirmware.uf2` to drive. Auto-reboots. Drive won't reappear = correct.
-
-If no auto-reboot: wait 15 sec, unplug/replug.
+Hold down the small **"B" button** on your XIAO RP2040 while connecting it to your PC. The board will appear as a removable drive. The board is now in BOOT mode.
 
 ---
 
-## **8: Calibration**
+### **Step 2: Wipe the Board**
+
+A good practice is to always flash a cleaning/nuke file before flashing your actual firmware.
+
+Drag the `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board and automatically reboots it. The drive will reappear. Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. When the board pops up again, you'll be ready to flash the controller firmware.
+
+---
+
+### **Step 3: Drag the Firmware File To The Board to Flash It**
+
+Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode.
+
+If your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, then unplug and replug the board.
+
+You're ready for calibration and testing!
+
+---
+
+## **8: Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### **Button/Pad Test (Pre-Calibration)**
+### **Complete Button and Drum Pad Test (Before Calibration)**
 
-1. Hold SELECT 1 sec → system menu
-2. Default: SWITCH TATACON mode
-3. Stay in menu (prevents false triggers)
-4. Visit [Meloncolle Taiko](https://meloncolle.com/tatacon), test all 4 pads + 14 buttons
-5. Verify screen matches physical input
+💡 **Important:** This step ensures everything is wired correctly, registering properly, and in the correct location.
 
-Ignore false triggers - calibration fixes this.
+**Test Procedure:**
+1. Hold **SELECT** for 1 second to enter the system menu
+2. The controller, by default, will be in **SWITCH TATACON mode**
+3. Stay inside the Menu structure for this test (prevents false triggers from interrupting)
+4. Visit [Meloncolle Taiko Controller website](https://meloncolle.com/tatacon) and tap all four drum sensors and press all 14 navigation buttons
+5. The button you press and the drum you tap should light up the same on the screen
 
----
-
-### **Taiko-Tune™ Auto-Calibration**
-
-World's first automated Taiko calibration system. Analyzes playing style, calculates optimal thresholds, detects crosstalk.
-
-**Quick Start - All 4 Pads:**
-
-Launch:
-- **Hold START** 1 sec (fastest)
-- **Menu:** Hold SELECT → Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → Analyze All 4 Drums → Start Analysis
-
-**Wizard Process:**
-- 2 passes, 8 calibrations total
-- **Pass 1:** LK → LD → RD → RK
-- **Pass 2:** RK → RD → LD → LK (reverse for crosstalk compensation)
-- Per drum:
-  1. Wait 3 sec countdown (samples noise - DON'T touch drum)
-  2. Hit indicated pad naturally until 100%
-     - Mix light taps + strong hits like gameplay
-     - Use normal playing intensity
-  3. Results auto-apply, 3 sec display, auto-advance
-- **Time:** ~5-8 min total
+You can now exit the menu screen. If you notice any automatic/false triggering of the drum panels, the calibration below will solve that.
 
 ---
 
-**Single Pad Calibration:**
+### **Taiko-Tune™ Auto-Calibration System (Recommended)**
 
-1. Hold SELECT 1 sec
-2. Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
-3. Choose drum (LK/LD/RD/RK)
-4. Start Analysis
-5. Wait 3 sec countdown
-6. Hit naturally until 100%
-7. Results auto-apply
+**The world's first automated calibration system for Taiko drum controllers** - a revolutionary feature that eliminates manual threshold guesswork.
 
-**Cancel:** Press B anytime, restores original thresholds.
+#### **What is Taiko-Tune?**
 
----
-
-**Why Taiko-Tune vs Manual?**
-- Faster (5-8 min vs 30+ min)
-- More accurate (math vs guesswork)
-- Adapts to playing style
-- Eliminates crosstalk
-- Recalibrate anytime
+Instead of manually adjusting thresholds through trial and error, Taiko-Tune analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
+- Monitors hits in real-time until progress bar reaches 100%
+- Analyzes velocity patterns and strike consistency
+- Detects cross-talk between adjacent pads and adjusts accordingly
+- Automatically applies mathematically optimal threshold values
+- Adapts to your unique playing style and drum cover choice
 
 ---
 
-### **Manual Threshold Adjustment**
+#### **How to Use Taiko-Tune:**
 
-Use for precise control or fine-tuning after Taiko-Tune.
+**Quick Start - Calibrate All 4 Pads Automatically:**
 
-**Step 1: Enter manual mode**
+Launch calibration using either method:
+- **Hold START** for 1 second (fastest - launches directly)
+- **System Menu:** Hold SELECT → Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → Analyze All 4 Drums → Start Analysis
 
-1. Hold SELECT 1 sec
-2. Settings → Drum Settings → Drum Thresholds → Single Pad Adjust
-3. Choose drum
-
-**Step 2: Adjust (0-4095)**
-
-- **D-PAD UP:** ↑ threshold (less sensitive)
-- **D-PAD DOWN:** ↓ threshold (more sensitive)
-- **A:** Save
-- **B:** Cancel
-
-**Troubleshooting:**
-- Light hits don't register → LOWER value
-- False hits → RAISE value
-- Crosstalk (one drum triggers another) → RAISE victim drum by 10-20, repeat
-
-**Guidelines:**
-- Don (center): 40-80
-- Ka (rim): 60-100
-- Varies by construction/cover/style
-
-**Recalibrate when:**
-- Change covers/padding
-- Sensitivity drifts
-- Switch playing styles
-- Hardware mods
-
-💡 Mix methods: Taiko-Tune baseline, manual fine-tune ±10-20.
+**During the All 4 Drums Wizard:**
+- The system will guide you through **2 complete passes** (8 calibrations total)
+  - **Pass 1:** Left Ka → Left Don → Right Don → Right Ka
+  - **Pass 2:** Right Ka → Right Don → Left Don → Left Ka (reverse order for optimal crosstalk compensation)
+- For each drum:
+  1. **Wait for the 3-second countdown** (samples ambient noise - do NOT touch the drum during countdown)
+  2. **Hit the indicated pad naturally** until progress reaches 100%
+     - Mix light taps and stronger hits like you would during actual gameplay
+     - Use your normal playing intensity
+  3. **Results auto-apply** - the system calculates and saves optimal threshold instantly
+  4. After a 3-second results display, it automatically moves to the next drum
+- **Total time:** Approximately 5-8 minutes for all 4 drums (both passes)
 
 ---
 
-### **Extended Settings**
+**Calibrate a Single Pad using Taiko-Tune:**
 
-**Big Hit Arcade Mode**
+Use this method if you only want to recalibrate one specific drum.
 
-Authentic arcade scoring - hit harder for Big Notes (vs simultaneous home method).
+1. **Enter the System Menu:** Hold **SELECT** for 1 second
+2. **Navigate:** Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
+3. **Choose your drum:** Analyze Left Ka / Analyze Left Don / Analyze Right Don / Analyze Right Ka
+4. **Select "Start Analysis"**
+5. **Wait for the 3-second countdown** (samples ambient noise - do NOT touch the drum during countdown)
+6. **Hit the indicated pad naturally** until progress reaches 100%
+7. **Results auto-apply:** Optimal threshold is calculated and saved instantly
 
-- Set ON
-- Threshold: Start ~850 (2-3x normal threshold)
-- ↑ value = lower Big Hit threshold
-- ↓ value = harder hit required
-
----
-
-**SimulTap Mode**
-
-Toggle simultaneous drum hits.
-
-- ON: Use drum for non-Taiko rhythm games (allows simultaneous hits)
-- OFF: Taiko games (prevents impossible simultaneous hits)
+**Canceling Taiko-Tune:**
+- Press **B** at any time during analysis to cancel
+- Original thresholds are automatically restored
 
 ---
 
-**Hold Time**
+#### **Why Use Taiko-Tune Instead of Manual Calibration?**
 
-Hit hold duration before accepting next hit.
-
-- Range: 25-35ms
-- ↑ if double hits register too fast
-- ↓ if hits feel laggy
-- 25ms+ recommended for Nintendo Switch
+- **Faster:** 5-8 minutes for all pads vs. 30+ minutes of manual testing
+- **More accurate:** Mathematical analysis vs. guesswork
+- **Adapts to you:** Learns your specific playing dynamics
+- **Eliminates crosstalk:** Two-pass system automatically detects and compensates for pad interference
+- **Future-proof:** Recalibrate anytime if you change drum covers or playing style
 
 ---
 
-### **OLED Display**
+### **Manual Single Pad Threshold Adjustment**
 
-- Streak counter (resets after 1 sec idle)
-- 4 animated characters (LK/LD/RD/RK) confirm hits
-- Live mode/stats
+💡 **Note:** If you prefer automated calibration, use the **Taiko-Tune™ Auto-Calibration System** above - it's faster and more accurate.
+
+Use this method when you want precise manual control over individual drum sensitivity values.
+
+**Step 1: Enter Manual Adjustment Mode**
+
+1. **Enter the System Menu:** Hold **SELECT** for 1 second
+2. **Navigate:** Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
+3. **Choose your drum:** Left Ka / Left Don / Right Don / Right Ka
+
+**Step 2: Adjust Threshold Values**
+
+Each pad has an adjustable threshold value (0-4095) that determines how hard you must hit before it registers.
+
+- **D-PAD UP:** Increase threshold (less sensitive)
+- **D-PAD DOWN:** Decrease threshold (more sensitive)
+- **A Button:** Save and exit
+- **B Button:** Cancel and restore original value
+
+**Troubleshooting Guide:**
+- **Light/regular hits don't register:** **LOWER** the threshold value
+- **False hits happen too easily:** **RAISE** the threshold value
+- **Hitting one drum triggers another drum (crosstalk):** **RAISE the threshold** of the drum that accidentally triggered by 10-20 points
+
+**Threshold Value Guidelines:**
+- **Don (Center) Pads:** Typically 40-80
+- **Ka (Rim) Pads:** Typically 60-100
+- Values depend heavily on your drum construction, covers, and playing style
+
+**When to Recalibrate:**
+- After changing drum covers or padding
+- If sensitivity changes over time
+- When switching between soft and aggressive playing styles
+- After any hardware modifications
+
+💡 **Pro Tip:** You can mix Taiko-Tune with manual adjustments - let Taiko-Tune set the baseline, then fine-tune individual pads ±10-20 points if desired.
+
+---
+
+### **Extended Drum Setting Features**
+
+#### **Big Hit Arcade Mode**
+
+This controls how the drum reacts to very strong strikes.
+
+In the Arcade, to get full points for Big Notes, you have to hit any Don or Ka *much harder* than your regular note hits. My **Big Hit Arcade Mode** allows for that "Arcade Hit" where you can simply hit the Don or Ka *harder* than typical hits to get credit for the Big Notes - Just like Official Taiko Arcade Machines.
+
+**Settings:**
+- Set Mode to: **ON**
+- Adjust Threshold Level: Start around **850** (Big Hit threshold is typically 2-3x normal threshold)
+- **Increase** the value to lower the threshold of what counts as a Big Hit
+- **Decrease** the value to make it so you have to hit much harder for the Big Note to register
+
+---
+
+#### **SimulTap Mode**
+
+By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay). If you wanted to use this controller to play other 4-lane rhythm games, this would be an issue.
+
+**Settings:**
+- Turn **SimulTap ON** if you want to use the Drum in non-Taiko Rhythm Games (allows hitting more than one drum at the same time)
+- Leave it **OFF** when playing Taiko Games
+
+---
+
+#### **Hold Time**
+
+This defines how long a hit is "held" before the drum accepts another.
+
+**Settings:**
+- Recommended range: **25—35ms**
+- **Increase** if double hits register too fast
+- **Decrease** if hits feel laggy or delayed
+- In most cases, this is not needed — some say at least 25ms is needed when playing on Nintendo Switch
+
+---
+
+### **OLED Display Featured While Playing**
+
+- Streak counter resets after 1 second of inactivity
+- Main Screen Character animations confirm every registered hit
+- Each character represents its drum position (left to right)
 
 ---
 
 ### **Pro Tips**
 
-- Different covers need threshold adjustment
-- Debug mode shows raw ADC values (200-400 baseline)
+- Different drum covers may need threshold adjustment
+- Use Debug mode to see raw ADC values (should be 200-400 baseline)
 
 **You're Ready to Play!**
 
 ---
 
-## **9: Downloads**
+## **9: Files & Downloads**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1121,100 +1325,145 @@ Hit hold duration before accepting next hit.
 <img src="images/Pictures/downloadimage.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-- [SVG/STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
-- [Circuit Schematic PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
-- [Firmware + Nuke](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+💾 Here are the files referenced throughout the guide:
+
+- [Download all SVG and STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+- [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+- [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
 
 ---
 
-## **10: Troubleshooting**
+## **10: Basic Troubleshooting**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**🖥️ DISPLAY**
-- Blank: Check I2C (GPIO 6/7), 3.3V power
-- Frozen: Unplug/reconnect USB
-- Menu won't open: Hold SELECT 1 sec
-- No animation: Check sensor registration
+**🖥️ DISPLAY Issues**
+- **Blank OLED:** Check I2C (GPIO 6/7), verify 3.3V power
+- **Frozen:** Unplug USB cable and reconnect
+- **Menu won't open:** Hold SELECT for 1 second
+- **No animation:** Check if sensors register
 
-**🥁 SENSORS**
-- No response: Check diode polarity, TRS wiring
-- False triggers: Increase thresholds
-- Missed hits: Decrease thresholds, check mounting
-- Crosstalk: Increase threshold on triggering pad
+**🥁 SENSOR Issues**
+- **No response:** Check diode polarity, TRS wiring
+- **False triggers:** Increase thresholds
+- **Missed hits:** Decrease thresholds, check mounting
+- **Crosstalk:** Increase threshold on triggering pad
 
-**🎮 MODE SWITCHING**
-- Freezes: Unplug/reconnect USB-C
-- No change: Press EAST to confirm
+**🎮 MODE SWITCHING Issues**
+- **Freezes:** Unplug/reconnect USB-C
+- **No change:** Press EAST to confirm
 
-💡 Research controller mode compatibility for specific game versions.
+💡 **Tip:** If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller working with your game version.
 
 ---
 
-## **11: Menu Reference**
+## **11: Menu System Reference**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 ### **Quick Access**
 
-- **Hold SELECT (1 sec):** System menu
-- **Hold START (1 sec):** Taiko-Tune (all 4 drums)
+- **Hold SELECT (1 sec):** Enter system menu
+- **Hold START (1 sec):** Launch Taiko-Tune (calibrate all 4 drums)
 
 ---
 
-### **Navigation**
+### **Navigation Controls**
 
 | Button | Action |
 |--------|--------|
-| LEFT/RIGHT | Navigate / Toggle / Cycle |
-| UP/DOWN | Adjust (hold = fast-repeat) |
-| EAST (A) | Confirm / Save |
-| SOUTH (B) | Cancel / Back / Restore |
+| **LEFT/RIGHT** | Navigate menu items / Toggle ON-OFF / Cycle selections |
+| **UP/DOWN** | Adjust values (hold to fast-repeat) |
+| **EAST (A)** | Confirm selection / Save changes |
+| **SOUTH (B)** | Cancel / Go back / Restore original value |
 
 ---
 
-### **Menu Tree**
+### **Complete Menu Structure**
 
 ```
 SYSTEM MENU
 │
 ├── 🎮 Controller Modes
-│   ├── Switch Tatacon │ Switch Pro │ PS3 DS3 │ PS4 Tatacon │ PS4 DS4
-│   ├── Keyboard P1 │ Keyboard P2 │ Xbox360 │ Android │ iOS
-│   └── Analog P1 │ Analog P2 │ MIDI │ Debug
-│   [L/R select, A confirm & reboot]
+│   ├── Nintendo Switch Tatacon Drum
+│   ├── Nintendo Switch Pro Controller
+│   ├── Sony PS3 Dualshock3
+│   ├── Sony PS4 Tatacon Drum
+│   ├── Sony PS4 Dualshock4
+│   ├── Keyboard Player 1
+│   ├── Keyboard Player 2
+│   ├── Microsoft Xbox Xbox360
+│   ├── Android (XInput)
+│   ├── iOS (XInput)
+│   ├── Analog Player 1
+│   ├── Analog Player 2
+│   ├── MIDI Controller
+│   └── Debug Mode
+│   [LEFT/RIGHT to select, A to confirm & reboot]
 │
 ├── 🥁 Drum Settings
+│   │
 │   ├── Drum Thresholds
+│   │   │
 │   │   ├── Auto Taiko-Tune ⚡
-│   │   │   ├── All 4 Drums │ LK │ LD │ RD │ RK
-│   │   │   [L/R select, A start]
+│   │   │   ├── Analyze All 4 Drums
+│   │   │   ├── Analyze Left Ka
+│   │   │   ├── Analyze Left Don
+│   │   │   ├── Analyze Right Don
+│   │   │   └── Analyze Right Ka
+│   │   │   [LEFT/RIGHT to select, A to start]
+│   │   │
 │   │   ├── Manual Pad Adjust
-│   │   │   ├── LK (0-4095) │ LD │ RD │ RK
-│   │   │   [U/D adjust, A save, B cancel]
-│   │   └── Reset Thresholds [Yes/No]
+│   │   │   ├── Left Ka (0-4095)
+│   │   │   ├── Left Don (0-4095)
+│   │   │   ├── Right Don (0-4095)
+│   │   │   └── Right Ka (0-4095)
+│   │   │   [UP/DOWN to adjust, A to save, B to cancel]
+│   │   │
+│   │   └── Reset Thresholds
+│   │       └── Yes/No [LEFT/RIGHT, A to confirm]
+│   │
 │   ├── Big Hit Mode
-│   │   ├── Off │ Light (2000) │ Medium (2500) │ Heavy (3000)
-│   │   └── Custom (0-4095) [U/D adjust]
-│   ├── SimulTap [ON/OFF]
-│   └── Hold Time (0-255ms) [U/D]
+│   │   ├── Off
+│   │   ├── Light (2000)
+│   │   ├── Medium (2500)
+│   │   ├── Heavy (3000)
+│   │   └── Custom...
+│   │       └── Threshold (0-4095) [UP/DOWN adjust]
+│   ├── SimulTap Mode
+│   │   └── ON/OFF [LEFT/RIGHT toggle]
+│   │
+│   └── Hold Time
+│       └── Adjust (0-255 ms) [UP/DOWN adjust]
 │
 ├── 💡 LED Settings
-│   ├── Brightness (0-255)
-│   └── Player Color (PS4) [ON/OFF]
+│   ├── Brightness (0-255) [UP/DOWN adjust]
+│   └── Player Color (PS4)
+│       └── ON/OFF [LEFT/RIGHT toggle]
 │
 ├── ℹ️ About
 │   ├── OuchiTaiko Project by KillerQ
-│   ├── ouchitaiko.com
-│   ├── Firmware v1.0 Oct 2025
-│   └── Based on: DonCon2040 (MIT) & HIDtaiko (Apache 2.0)
+│   ├── Full Guide & Info: ouchitaiko.com
+│   ├── Firmware v1.0 October 2025
+│   ├── Based on: DonCon2040 (MIT)
+│   └── & HIDtaiko (Apache 2.0)
+│   [LEFT/RIGHT to scroll info]
 │
-├── 🔄 Reset [Yes/No]
+├── 🔄 Reset
+│   └── Yes/No [LEFT/RIGHT, A to confirm]
 │
-└── 💾 USB Flash Mode [Yes/No]
+└── 💾 USB Flash Mode
+    └── Yes/No [LEFT/RIGHT, A to confirm]
 ```
 
-**Idle Screen:** Mode (top), streak counter (center), 4 animated spheres (LK/LD/RD/RK bottom)
+---
+
+### **Idle Screen Display**
+
+When not in menu, the OLED shows:
+- **Top:** Current controller mode
+- **Center:** Live streak counter (resets after 1 sec idle)
+- **Bottom:** 4 animated feedback spheres (Left Ka, Left Don, Right Don, Right Ka)
 
 ---
 
@@ -1222,75 +1471,88 @@ SYSTEM MENU
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-Hybrid creation building on:
-- **[DonCon 2040](https://github.com/ravinrabbid/DonCon2040)** by ravinrabbid - Core firmware, navigation, OSD hardware
-- **[HIDtaiko](https://github.com/kasasiki3/HIDtaiko)** by kasasiki3 - Circuit inspiration
+This project is a one-of-a-kind Hybrid creation that pulls from several amazing resources.
 
-Credit to:
-- Gadgetoid - [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke)
-- [Boxes.py](https://boxes.hackerspace-bamberg.de/) - Enclosure design resource
-- Allspice (Discord) - Build testing, guide refinement
+The core firmware and navigation/OSD hardware portion was adapted from the work by 'ravinrabbid' who created the **[DonCon 2040](https://github.com/ravinrabbid/DonCon2040)** Project.
 
-**Communities:**
-- [Taiko no Tatsujin Modding! Discord](https://discord.com/invite/HFm37aA5zr)
-- [Cons&Stuff :) Discord](https://discord.com/invite/P4CpVHrR)
-- [OpenStick - GP2040-ce Discord](https://discord.com/invite/openstickcommunity-1049366310389289001)
+The inspiration for the circuit came from 'kasasiki3' who created the **[HIDtaiko](https://github.com/kasasiki3/HIDtaiko/tree/master)** Project (2040 edition).
 
-**Questions?** Use GitHub Discussions or Discord channels above.
+Credit to 'Gadgetoid' on GitHub for his [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke) file.
 
-**Share your build!** Tag KillerQ97 in your favorite DIY gaming communities.
+Credit also goes to [Boxes.py](https://boxes.hackerspace-bamberg.de/) for creating the ultimate box-creating resource.
+
+I want to thank Discord user 'Allspice' who helped test my project and helped shape this guide.
+
+Here are some general resources that were invaluable during this entire process:
+- [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
+- [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
+- [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
+
+### **Closing Thoughts**
+
+Thank you for taking the time to follow along with my guide.
+
+If you have any project-specific questions or suggestions, please use the Discussion panel on my GitHub. You can also ask questions in any of the Discord Channels mentioned above.
+
+#### **Spread The Word**
+
+Please share your results and this guide with your favorite DIY gaming communities. Tag me (KillerQ97) when you do!
+
+Enjoy, Have Fun, and Peace Out!
 
 www.ouchitaiko.com
 
 ---
 
-## **13: Copyright**
+## **13: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-### License Transparency
+### Copyright & License Transparency
 
-Project adheres to all licensing. Based on [DonCon2040](https://github.com/ravinrabbid/DonCon2040) (MIT) and [HIDtaiko](https://github.com/kasasiki3/HIDtaiko) (Apache 2.0).
+This project builds upon the outstanding work of the open-source community and strictly adheres to all licensing requirements. **OuchiTaiko** is primarily based on [ravinrabbid's DonCon2040](https://github.com/ravinrabbid/DonCon2040), which is licensed under the **MIT License**, and also incorporates elements from [kasasiki3's HIDtaiko](https://github.com/kasasiki3/HIDtaiko), licensed under the **Apache License, Version 2.0**.
 
-Custom features (Big Notes detection, SimulTap, PS4 always-on, adaptive baseline, mode-switching fixes, animated display, enhanced menu, circuit/drum design) shared under same open-source spirit.
-
-**Build upon this? Honor licenses with attribution + license notices. Tag KillerQ.**
+All custom features and modifications are transparently documented and shared under the same open-source spirit. If you build upon this work, please honor these licenses by including proper attribution and license notices.
 
 ---
 
 ### Attribution Chain
 
-- **DonCon2040 firmware:** © ravinrabbid (MIT)
-- **HIDtaiko components:** © kasasiki3 (Apache 2.0)
-- **Custom modifications:** © KillerQ (Dual MIT/Apache 2.0)
+- **Original DonCon2040 firmware:** © ravinrabbid (MIT License)
+- **HIDtaiko components:** © kasasiki3 (Apache License 2.0)
+- **Custom modifications and features:** Created and documented by KillerQ (Dual-licensed under MIT and Apache 2.0)
 
 ---
 
-### Distribution Requirements
+### Legal Compliance Notice
 
-Include:
-1. MIT License copy (DonCon2040)
-2. Apache 2.0 copy (HIDtaiko)
-3. Copyright notices (both projects)
-4. Contributor attribution
+Any distribution of this firmware (binary or source) must include:
+1. A copy of the MIT License from DonCon2040
+2. A copy of the Apache License 2.0 from HIDtaiko
+3. Copyright notices from both original projects
+4. Attribution to all contributors
 
 ---
 
-## License Documentation
+## Complete License Documentation
 
-### 1. KillerQ's Contributions
+### 1. License for KillerQ's Original Contributions
 
-**Dual-licensed:** MIT + Apache 2.0
+The modifications and original code contributed to this repository by **KillerQ** are **dual-licensed** under the **MIT License** and the **Apache License, Version 2.0**.
 
 **Copyright (c) 2025 KillerQ**
 
 ---
 
-### 2. DonCon2040 Firmware
+### 2. External Component: DonCon2040 Firmware
 
-**Author:** ravinrabbid
-**License:** MIT
+**Applies to portions of OuchiTaiko firmware derived from DonCon2040.**
+
+**Original Author:** ravinrabbid
+**License:** MIT License
 **Copyright (c) 2021 ravinrabbid**
+
+#### Full Text: MIT License
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1314,11 +1576,15 @@ SOFTWARE.
 
 ---
 
-### 3. HIDtaiko Components
+### 3. External Component: HIDtaiko Components
 
-**Author:** kasasiki3
-**License:** Apache 2.0
+**Applies to HID components and related code derived from HIDtaiko.**
+
+**Original Author:** kasasiki3
+**License:** Apache License, Version 2.0
 **Copyright 2022 kasasiki3**
+
+#### Full Text: Apache License, Version 2.0
 
 ```
 Apache License
@@ -1517,9 +1783,9 @@ END OF TERMS AND CONDITIONS
 
 ### Summary
 
-Full transparency, proper credit to all contributors. README serves as authoritative legal documentation.
+This project is fully transparent about its licensing and gives proper credit to all contributors. By including the complete license texts above, this README serves as the authoritative legal documentation for the OuchiTaiko Project.
 
-Thank you ravinrabbid and kasasiki3 for making this possible.
+Thank you to ravinrabbid and kasasiki3 for their incredible open-source contributions that made this project possible.
 
 **KillerQ**
 
