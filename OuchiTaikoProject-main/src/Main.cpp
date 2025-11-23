@@ -412,13 +412,12 @@ int main() {
             resetHotkeyState(); 
         }
 
-        // CRITICAL: Also handle All 4 Drums mode by direct state detection
-        // This bypasses any issues with just_finished transition detection
+        // CRITICAL: All 4 Drums mode - skip results display, go straight to next drum!
+        // This completely bypasses the Display's autonomous timeout issue
         if (all_drums_mode_active &&
             tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults &&
             last_analysis_active) {
-            // Just entered ShowingResults in All 4 Drums mode
-            // Save and continue to next drum
+            // Just completed a drum - save thresholds immediately
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
             settings_store->store();
             readSettings();
@@ -426,6 +425,7 @@ int main() {
             current_drum_index++;
 
             if (current_drum_index < 8) {
+                // More drums to go - start next one IMMEDIATELY (no sleep!)
                 // Check if we just finished Pass 1
                 if (current_drum_index == 4) {
                     TaikoTuneMessage transition_msg{
@@ -437,7 +437,7 @@ int main() {
                     sleep_ms(3000);
                 }
 
-                // Start next drum
+                // Update pass number
                 uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                 TaikoTuneMessage pass_msg{
                     .command = TaikoTuneCommand::SetPass,
@@ -446,6 +446,7 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
 
+                // Start next drum immediately - results from this drum are already saved
                 drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
 
                 TaikoTuneMessage show_msg{
@@ -455,10 +456,17 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
             } else {
-                // All 8 drums complete
+                // All 8 drums complete! Let final results display for 3 seconds
+                sleep_ms(3000);
+
+                // Then exit back to idle (we used START shortcut, not menu)
                 all_drums_mode_active = false;
                 current_drum_index = 0;
                 resetHotkeyState();
+
+                // Go back to idle screen
+                ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
+                queue_add_blocking(&control_queue, &ctrl_message);
             }
         } else if (just_finished && !all_drums_mode_active) {
             // SINGLE DRUM MODE ONLY (All 4 Drums handled above)
