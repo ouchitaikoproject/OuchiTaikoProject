@@ -437,6 +437,10 @@ int main() {
                 // Otherwise Drum stays in ShowingResults and Display can't transition
                 drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
 
+                // CRITICAL: Brief delay to let state change propagate to Core 1
+                // Core 1 Display needs to detect Drum is no longer in ShowingResults
+                sleep_ms(100);
+
                 // Check if we just finished Pass 1
                 if (current_drum_index == 4) {
                     TaikoTuneMessage transition_msg{
