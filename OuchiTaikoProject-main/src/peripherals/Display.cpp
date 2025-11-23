@@ -1077,7 +1077,7 @@ void Display::drawTaikoTuneCompleteScreen() {
     int line3_x = (128 - strlen(line3) * 6) / 2;
     ssd1306_draw_string(&m_display, line3_x, 44, 1, line3);
 
-    const char* line4 = "Returning to idle...";
+    const char* line4 = "Returning to menu...";
     int line4_x = (128 - strlen(line4) * 6) / 2;
     ssd1306_draw_string(&m_display, line4_x, 56, 1, line4);
 }
