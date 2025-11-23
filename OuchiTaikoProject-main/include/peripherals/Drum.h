@@ -121,10 +121,14 @@ class Drum {
         
         Mode current_mode{Mode::Inactive};
         Id current_pad{Id::DON_LEFT};
-        
+
         std::map<Id, VelocityHistogram> histograms;
         std::map<Id, std::array<uint16_t, 60>> crosstalk_data;  // Changed to 60 for TARGET_HITS
-        
+
+        // Two-pass crosstalk detection
+        uint8_t current_pass{1};  // 1 or 2
+        std::map<Id, uint16_t> pass1_max_crosstalk;  // Store Pass 1 crosstalk for comparison
+
         uint16_t hits_collected{0};
         static constexpr uint16_t TARGET_HITS = 60;  // Changed to 60 for double-pass
         
@@ -146,24 +150,32 @@ class Drum {
         };
         std::map<Id, Recommendation> recommendations;
         
-        void reset() {
+        void reset(uint8_t pass = 1) {
             current_mode = Mode::Inactive;
             hits_collected = 0;
             countdown_complete = false;
             max_noise_level = 0;
             cancelled = false;
-            for (auto& [id, hist] : histograms) {
-                hist.reset();
+
+            // Smart reset: Preserve Pass 1 data when starting Pass 2
+            if (pass == 1) {
+                // Full reset for Pass 1
+                for (auto& [id, hist] : histograms) {
+                    hist.reset();
+                }
+                recommendations.clear();
+                pass1_max_crosstalk.clear();
             }
+            // Always reset current analysis buffers
             for (auto& [id, data] : crosstalk_data) {
                 data.fill(0);
             }
-            recommendations.clear();
         }
-        
-        void startAnalysis(Id pad) {
-            reset();
+
+        void startAnalysis(Id pad, uint8_t pass = 1) {
+            reset(pass);
             current_pad = pad;
+            current_pass = pass;
             countdown_start = to_ms_since_boot(get_absolute_time());
             
             switch (pad) {
@@ -290,7 +302,7 @@ class Drum {
     void setSimulTap(bool enable);
     
     // Taiko-Tune V2 public interface
-    void startTaikoTuneAnalysis(Id pad);
+    void startTaikoTuneAnalysis(Id pad, uint8_t pass = 1);
     void updateTaikoTuneAnalysis(const std::map<Id, uint16_t> &raw_values);
     void finishTaikoTuneAnalysis();
     void cancelTaikoTuneAnalysis();  // Cancel analysis

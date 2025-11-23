@@ -463,8 +463,8 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
 
-                // Now start the next drum analysis
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+                // Now start the next drum analysis WITH PASS NUMBER for two-pass crosstalk detection
+                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], pass_number);
 
                 // Brief delay to let state change propagate to Core 1
                 sleep_ms(100);
@@ -575,9 +575,9 @@ int main() {
                         .pass_number = 1
                     };
                     queue_try_add(&taikotune_command_queue, &pass_msg);
-                    
-                    // Now start with first drum (Ka Left)
-                    drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+
+                    // Now start with first drum (Ka Left) - Pass 1
+                    drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], 1);
                     
                     // Tell core 1 to show the analysis screen
                     TaikoTuneMessage show_msg{
@@ -690,9 +690,9 @@ int main() {
                     .pass_number = 1
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
-                
-                // Start with first drum (Ka Left)
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+
+                // Start with first drum (Ka Left) - Pass 1
+                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], 1);
                 
                 // Tell core 1 to show the analysis screen
                 TaikoTuneMessage show_msg{

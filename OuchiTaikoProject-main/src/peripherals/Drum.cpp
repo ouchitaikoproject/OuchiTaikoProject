@@ -312,10 +312,12 @@ void Drum::setSimulTap(bool enable) { m_config.enable_simultap = enable; }
 // TAIKO-TUNE V2 IMPLEMENTATION (AUTOMATED MODE WITH COUNTDOWN & NOISE SAMPLING)
 // ============================================================================
 
-void Drum::startTaikoTuneAnalysis(Id pad) {
-    // Backup current thresholds before starting analysis
-    m_taikotune_state.backup_thresholds = m_config.trigger_thresholds;
-    m_taikotune_state.startAnalysis(pad);
+void Drum::startTaikoTuneAnalysis(Id pad, uint8_t pass) {
+    // Backup current thresholds before starting analysis (only on Pass 1)
+    if (pass == 1) {
+        m_taikotune_state.backup_thresholds = m_config.trigger_thresholds;
+    }
+    m_taikotune_state.startAnalysis(pad, pass);
 }
 
 void Drum::updateTaikoTuneAnalysis(const std::map<Id, uint16_t> &raw_values) {
@@ -431,8 +433,21 @@ void Drum::finishTaikoTuneAnalysis() {
             max_crosstalk = avg_crosstalk;
         }
     }
+
+    // TWO-PASS CROSSTALK DETECTION: Compare Pass 1 vs Pass 2
+    if (m_taikotune_state.current_pass == 1) {
+        // Pass 1: Store crosstalk for later comparison with Pass 2
+        m_taikotune_state.pass1_max_crosstalk[target_pad] = max_crosstalk;
+    } else if (m_taikotune_state.current_pass == 2) {
+        // Pass 2: Compare with Pass 1 and use MAXIMUM (bidirectional crosstalk)
+        if (m_taikotune_state.pass1_max_crosstalk.count(target_pad) > 0) {
+            uint16_t pass1_crosstalk = m_taikotune_state.pass1_max_crosstalk[target_pad];
+            max_crosstalk = std::max(max_crosstalk, pass1_crosstalk);
+        }
+    }
+
     rec.crosstalk_level = max_crosstalk;
-    
+
     // Calculate safe minimum threshold (noise floor + safety margin)
     uint16_t safe_minimum = m_taikotune_state.max_noise_level + 20;
     
