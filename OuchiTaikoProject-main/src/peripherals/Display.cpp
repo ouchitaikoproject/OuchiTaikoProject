@@ -961,7 +961,7 @@ void Display::drawTaikoTuneResultsScreen() {
     ssd1306_draw_string(&m_display, msg2_x, 40, 1, msg2.c_str());
 
     // Context-aware bottom message
-    const char* bottom = (m_taikotune_pass_number >= 1) ? "Next drum starting..." : "Returning to menu...";
+    const char* bottom = (m_current_pass >= 1) ? "Next drum starting..." : "Returning to menu...";
     int bottom_x = (128 - strlen(bottom) * 6) / 2;
     ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom);
 }
