@@ -336,6 +336,7 @@ int main() {
     // All 4 Drums sequential mode state - UPDATED for double-pass (8 drums)
     bool all_drums_mode_active = false;
     uint8_t current_drum_index = 0;
+    uint8_t last_processed_drum_index = 255;  // Guard against duplicate processing
     const Peripherals::Drum::Id drum_sequence[8] = {
         // PASS 1: Forward (Left to Right)
         Peripherals::Drum::Id::KA_LEFT,
@@ -414,10 +415,15 @@ int main() {
 
         // CRITICAL: All 4 Drums mode - skip results display, go straight to next drum!
         // This completely bypasses the Display's autonomous timeout issue
+        // SIMPLIFIED: Check ONLY mode flags, no transition detection
         if (all_drums_mode_active &&
             tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults &&
-            last_analysis_active) {
-            // Just completed a drum - save thresholds immediately
+            current_drum_index != last_processed_drum_index) {
+            // Just completed a drum we haven't processed yet
+            // Mark as processed to prevent duplicate handling
+            last_processed_drum_index = current_drum_index;
+
+            // Save thresholds immediately
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
             settings_store->store();
             readSettings();
@@ -525,6 +531,7 @@ int main() {
                     // Start sequential mode
                     all_drums_mode_active = true;
                     current_drum_index = 0;
+                    last_processed_drum_index = 255;  // Reset guard
                     
                     // Show splash screen first
                     TaikoTuneMessage splash_msg{
@@ -639,6 +646,7 @@ int main() {
                 // HOLD START DETECTED - Launch All 4 Drums calibration instantly!
                 all_drums_mode_active = true;
                 current_drum_index = 0;
+                last_processed_drum_index = 255;  // Reset guard
                 
                 // Show splash screen first
                 TaikoTuneMessage splash_msg{
