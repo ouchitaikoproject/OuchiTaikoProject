@@ -511,16 +511,22 @@ int main() {
         bool was_menu_active = menu.active();
         
         if (menu.active()) {
-            // CRITICAL FIX: Only process menu buttons when Taiko-Tune is NOT active
+            // CRITICAL FIX: Pass cleared controller state when Taiko-Tune is active
             // This prevents spurious controller inputs during analysis/results from
-            // closing the menu and breaking the "All 4 Drums" sequence
+            // closing the menu and breaking the "All 4 Drums" sequence, while still
+            // allowing menu's internal state machine to run properly
             //
             // Note: B button cancellation still works - it's handled separately at line 364
             const auto& tt_state = drum.getTaikoTuneState();
             bool taikotune_is_running = tt_state.isActive() ||
                                         tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults;
 
-            if (!taikotune_is_running) {
+            if (taikotune_is_running) {
+                // Pass empty controller state to menu so it still runs but sees no buttons
+                Utils::InputState::Controller empty_controller{};
+                menu.update(empty_controller);
+            } else {
+                // Normal operation - pass real controller state
                 menu.update(input_state.controller);
             }
             
