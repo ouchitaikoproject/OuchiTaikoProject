@@ -428,10 +428,14 @@ int main() {
             settings_store->store();
             readSettings();
 
+            // UX: Display results for 2.5 seconds so user can see the threshold value
+            // Screen shows "Next drum starting..." so they know it's not frozen
+            sleep_ms(2500);
+
             current_drum_index++;
 
             if (current_drum_index < 8) {
-                // More drums to go - start next one IMMEDIATELY
+                // More drums to go - start next drum
 
                 // CRITICAL: Must start DRUM analysis BEFORE sending Display command
                 // Otherwise Drum stays in ShowingResults and Display can't transition
