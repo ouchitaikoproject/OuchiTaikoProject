@@ -433,11 +433,19 @@ int main() {
                             .pass_number = 0
                         };
                         queue_try_add(&taikotune_command_queue, &transition_msg);
-                        
+
+                        // Clear spurious inputs before transition screen display
+                        queue_try_remove(&controller_input_queue, nullptr);
+
                         // Wait for transition screen (3 seconds)
                         sleep_ms(3000);
                     }
                     
+                    // CRITICAL FIX: Clear controller input queue to discard any spurious inputs
+                    // that accumulated during analysis. This prevents EMI/stale data from
+                    // closing the menu during the results display.
+                    queue_try_remove(&controller_input_queue, nullptr);
+
                     // Normal 3 second delay for results screen
                     sleep_ms(3000);
                     
@@ -511,24 +519,7 @@ int main() {
         bool was_menu_active = menu.active();
         
         if (menu.active()) {
-            // CRITICAL FIX: Pass cleared controller state when Taiko-Tune is active
-            // This prevents spurious controller inputs during analysis/results from
-            // closing the menu and breaking the "All 4 Drums" sequence, while still
-            // allowing menu's internal state machine to run properly
-            //
-            // Note: B button cancellation still works - it's handled separately at line 364
-            const auto& tt_state = drum.getTaikoTuneState();
-            bool taikotune_is_running = tt_state.isActive() ||
-                                        tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults;
-
-            if (taikotune_is_running) {
-                // Pass empty controller state to menu so it still runs but sees no buttons
-                Utils::InputState::Controller empty_controller{};
-                menu.update(empty_controller);
-            } else {
-                // Normal operation - pass real controller state
-                menu.update(input_state.controller);
-            }
+            menu.update(input_state.controller);
             
             // Check if Taiko-Tune start was requested
             if (menu.isTaikoTuneStartRequested()) {
@@ -547,7 +538,10 @@ int main() {
                         .pass_number = 0
                     };
                     queue_try_add(&taikotune_command_queue, &splash_msg);
-                    
+
+                    // Clear spurious inputs before splash screen display
+                    queue_try_remove(&controller_input_queue, nullptr);
+
                     // Wait for splash screen (3 seconds)
                     sleep_ms(3000);
                     
@@ -658,7 +652,10 @@ int main() {
                     .pass_number = 0
                 };
                 queue_try_add(&taikotune_command_queue, &splash_msg);
-                
+
+                // Clear spurious inputs before splash screen display
+                queue_try_remove(&controller_input_queue, nullptr);
+
                 // Wait for splash screen (3 seconds)
                 sleep_ms(3000);
                 
