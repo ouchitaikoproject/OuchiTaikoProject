@@ -72,10 +72,11 @@ All you need is your enthusiasm and some basic soldering and woodworking skills.
 
 **The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing those piezo sensors to register false "ghost hits" (crosstalk). This ruins gameplay accuracy, especially during intense sections with hard hits.
 
-**Everyone Else's Solution:**
-- **DonCon2040 & ITAIKO:** Manual threshold tweaking in code—no automated detection
-- **Roland V-Drums ($$$):** Simple "X-Talk Cancel" parameter you adjust by trial-and-error
-- **DIY Forums:** "Add foam between clamps" and "increase distance between pads"
+**Traditional Approaches:**
+- Manual threshold tweaking in code—requires recompilation and trial-and-error
+- Simple adjustable parameters that you guess-and-check
+- Physical modifications: adding foam between clamps or increasing pad spacing
+- Accepting some level of crosstalk as an inherent limitation
 
 **OuchiTaiko's Innovation (Firmware v2.0):**
 
@@ -93,7 +94,7 @@ Our **All 4 Drums Auto-Calibration** mode uses a revolutionary two-pass system t
 - ✅ **Eliminates ghost hits** from frame vibrations
 - ✅ **Zero manual tweaking** - fully automated detection and compensation
 - ✅ **Arcade-level accuracy** - play at any intensity without false triggers
-- ✅ **Genuinely unique** - not found in ANY other DIY or commercial controller
+- ✅ **World-first implementation** - automated bidirectional crosstalk analysis
 
 This bidirectional analysis ensures flawless performance even during the hardest hits that cause maximum frame resonance.
 
@@ -138,7 +139,9 @@ This isn't just cosmetic: proper sensor suspension is critical for:
 | **Cost** | ~$150 DIY | ~$100 DIY | ~$120 DIY | $800-2000+ |
 | **Open Source** | ✅ Yes | ✅ Yes | ⚠️ Partial | ❌ Proprietary |
 
-**Bottom line:** OuchiTaiko delivers professional-grade performance with innovations not found in commercial controllers costing 10x more.
+*OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding advanced features while maintaining the open-source spirit.*
+
+**Bottom line:** Professional-grade performance with innovations not found in commercial controllers costing 10x more.
 
 ---
 
