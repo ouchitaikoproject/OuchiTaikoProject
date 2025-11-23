@@ -1,3 +1,27 @@
+/*
+ * ORIGINAL VERSION - BEFORE BUG FIX
+ *
+ * This is the unmodified version of Main.cpp before fixing the Taiko-Tune
+ * "All 4 Drums" auto-calibration bug.
+ *
+ * BUG IDENTIFIED:
+ * - Lines 513-514: menu.update(input_state.controller) is called during
+ *   Taiko-Tune analysis and results display
+ * - This allows spurious controller inputs (from EMI, stale queue data, or
+ *   contact bounce) to close or navigate the menu during the 3-second results
+ *   display at line 442
+ * - Result: "All 4 Drums" mode exits after first drum (Left Ka) instead of
+ *   continuing through all 8 drums (double-pass sequence)
+ *
+ * FIX TO BE APPLIED:
+ * - Check if Taiko-Tune is active (tt_state.isActive()) OR showing results
+ *   (tt_state.current_mode == ShowingResults) before calling menu.update()
+ * - This blocks spurious inputs during analysis and results display
+ * - B button cancellation still works - handled separately at line 364
+ *
+ * Date: 2025-11-23
+ */
+
 //beginning of Main.cpp
 
 #include "peripherals/Controller.h"
@@ -110,7 +134,7 @@ void core1_task() {
         // This ensures Core 0 always gets the latest controller state
         queue_try_remove(&controller_input_queue, nullptr);
         queue_add_blocking(&controller_input_queue, &input_state.controller);
-        
+
         queue_try_remove(&drum_input_queue, &input_state.drum);
 
         if (queue_try_remove(&control_queue, &control_msg)) {
@@ -146,7 +170,7 @@ void core1_task() {
         if (queue_try_remove(&menu_display_queue, &menu_display_msg)) {
             display.setMenuState(menu_display_msg);
         }
-        
+
         // Handle commands from core 0 - UPDATED for double-pass
         if (queue_try_remove(&taikotune_command_queue, &taikotune_msg)) {
             switch (taikotune_msg.command) {
@@ -172,7 +196,7 @@ void core1_task() {
                 break;
             }
         }
-        
+
         if (queue_try_remove(&auth_challenge_queue, auth_challenge.data())) {
             const auto signed_challenge = ps4authprovider.sign(auth_challenge);
             queue_try_remove(&auth_signed_challenge_queue, nullptr);
@@ -196,7 +220,7 @@ int main() {
     queue_init(&controller_input_queue, sizeof(Utils::InputState::Controller), 1);
     queue_init(&auth_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&auth_signed_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
-    
+
     // Initialize Taiko-Tune queues
     queue_init(&drum_reference_queue, sizeof(Peripherals::Drum*), 1);
     queue_init(&taikotune_command_queue, sizeof(TaikoTuneMessage), 1);
@@ -207,7 +231,7 @@ int main() {
 
     Utils::InputReport input_report;
     Utils::InputState input_state;
-    
+
     // NEW: Hotkey state variables are now local to main, allowing manual reset
     uint32_t select_menu_hold_start = 0;
     bool select_menu_was_held = false;
@@ -217,23 +241,23 @@ int main() {
         select_menu_hold_start = 0;
         select_menu_was_held = false;
     };
-    
+
     // Hold SELECT for menu (1 second CONTINUOUS hold)
     const auto checkHoldSelect = [&input_state]() {
         static uint32_t select_hold_start = 0;
         static bool was_held = false;
         static bool was_pressed_last_frame = false;
         static const uint32_t HOLD_DURATION_MS = 1000;
-        
+
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
-        
+
         // CRITICAL: If button was released since last frame, reset the timer
         if (!select_pressed && was_pressed_last_frame) {
             select_hold_start = 0;
             was_held = false;
         }
-        
+
         if (select_pressed) {
             if (select_hold_start == 0) {
                 select_hold_start = current_time;
@@ -247,27 +271,27 @@ int main() {
             select_hold_start = 0;
             was_held = false;
         }
-        
+
         was_pressed_last_frame = select_pressed;
         return false;
     };
-    
+
     // Hold START for All 4 Drums calibration (1 second CONTINUOUS hold)
     const auto checkHoldStart = [&input_state]() {
         static uint32_t start_hold_start = 0;
         static bool was_held = false;
         static bool was_pressed_last_frame = false;
         static const uint32_t HOLD_DURATION_MS = 1000;
-        
+
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
-        
+
         // CRITICAL: If button was released since last frame, reset the timer
         if (!start_pressed && was_pressed_last_frame) {
             start_hold_start = 0;
             was_held = false;
         }
-        
+
         if (start_pressed) {
             if (start_hold_start == 0) {
                 start_hold_start = current_time;
@@ -281,7 +305,7 @@ int main() {
             start_hold_start = 0;
             was_held = false;
         }
-        
+
         was_pressed_last_frame = start_pressed;
         return false;
     };
@@ -329,10 +353,10 @@ int main() {
     readSettings();
 
     uint32_t ps4_auth_start_time = 0;
-    
+
     // Taiko-Tune state tracking for auto-save and sequential mode
     bool last_analysis_active = false;
-    
+
     // All 4 Drums sequential mode state - UPDATED for double-pass (8 drums)
     bool all_drums_mode_active = false;
     uint8_t current_drum_index = 0;
@@ -351,7 +375,7 @@ int main() {
 
     while (true) {
         drum.updateInputState(input_state);
-        
+
         // CRITICAL: Always wait for fresh controller data
         // queue_try_remove can fail and leave stale data in input_state.controller
         // This causes menu freeze on second entry because buttons are "stuck"
@@ -360,17 +384,17 @@ int main() {
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
-        
+
         if (current_analysis_active && input_state.controller.buttons.south) {
             drum.cancelTaikoTuneAnalysis();
         }
-        
+
         // Detect cancellation: went from active to inactive WITHOUT entering ShowingResults
-        bool just_cancelled = last_analysis_active && !current_analysis_active && 
+        bool just_cancelled = last_analysis_active && !current_analysis_active &&
                               tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::Inactive;
-        
+
         // Detect completion: went from active to inactive AND entered ShowingResults
-        bool just_finished = last_analysis_active && !current_analysis_active && 
+        bool just_finished = last_analysis_active && !current_analysis_active &&
                              tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults;
 
         if (just_cancelled) {
@@ -379,10 +403,10 @@ int main() {
                 all_drums_mode_active = false;
                 current_drum_index = 0;
             }
-            
+
             // Restore backed up thresholds
             readSettings();
-            
+
             // Show cancelled screen for 2 seconds
             TaikoTuneMessage cancelled_msg{
                 .command = TaikoTuneCommand::ShowCancelled,
@@ -390,10 +414,10 @@ int main() {
                 .pass_number = 0
             };
             queue_try_add(&taikotune_command_queue, &cancelled_msg);
-            
+
             // Wait for cancelled screen
             sleep_ms(2000);
-            
+
             // Check if we came from menu or triple-tap
             if (menu.active()) {
                 // Came from menu - stay in menu, just exit the analysis screen back to menu
@@ -409,7 +433,7 @@ int main() {
                 queue_add_blocking(&control_queue, &ctrl_message);
             }
             // CRITICAL FIX: Ensure hotkey is reset if analysis was cancelled outside the menu
-            resetHotkeyState(); 
+            resetHotkeyState();
         }
 
         if (just_finished) {
@@ -418,11 +442,11 @@ int main() {
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
             settings_store->store();
             readSettings();
-            
+
             // Check if we're in All 4 Drums mode and need to continue to next drum
             if (all_drums_mode_active) {
                 current_drum_index++;
-                
+
                 if (current_drum_index < 8) {  // Changed from 4 to 8 for double-pass
                     // Check if we just finished Pass 1 (drum index 3 → 4)
                     if (current_drum_index == 4) {
@@ -433,14 +457,14 @@ int main() {
                             .pass_number = 0
                         };
                         queue_try_add(&taikotune_command_queue, &transition_msg);
-                        
+
                         // Wait for transition screen (3 seconds)
                         sleep_ms(3000);
                     }
-                    
+
                     // Normal 3 second delay for results screen
                     sleep_ms(3000);
-                    
+
                     // Update pass number for display (1 or 2)
                     uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                     TaikoTuneMessage pass_msg{
@@ -449,10 +473,10 @@ int main() {
                         .pass_number = pass_number
                     };
                     queue_try_add(&taikotune_command_queue, &pass_msg);
-                    
+
                     // Start next drum
                     drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-                    
+
                     // Tell core 1 to show the analysis screen
                     TaikoTuneMessage show_msg{
                         .command = TaikoTuneCommand::ShowAnalysisScreen,
@@ -464,11 +488,11 @@ int main() {
                     // All 8 drums completed (both passes done)
                     // Wait 3 seconds so user can see the 8th drum's results
                     sleep_ms(3000);
-                    
+
                     // Now exit - check if menu was active
                     all_drums_mode_active = false;
                     current_drum_index = 0;
-                    
+
                     if (menu.active()) {
                         // We came from menu, go back to menu
                         TaikoTuneMessage exit_msg{
@@ -483,22 +507,22 @@ int main() {
                         queue_add_blocking(&control_queue, &ctrl_message);
                     }
                     // CRITICAL FIX: Ensure hotkey is reset after all drums finish
-                    resetHotkeyState(); 
+                    resetHotkeyState();
                 }
             }
         }
 
         last_analysis_active = current_analysis_active;
-        
+
         const auto drum_message = input_state.drum;
 
         if ((mode == USB_MODE_PS4_TATACON || mode == USB_MODE_DUALSHOCK4) && !menu.active()) {
             const uint32_t now = to_ms_since_boot(get_absolute_time());
-            
+
             if (ps4_auth_start_time == 0) {
                 ps4_auth_start_time = now;
             }
-            
+
             if ((now - ps4_auth_start_time) >= 420000) {
                 ps4_auth_reset();
                 ps4_auth_start_time = now;
@@ -509,31 +533,20 @@ int main() {
 
         // Track menu state BEFORE processing to detect transitions
         bool was_menu_active = menu.active();
-        
-        if (menu.active()) {
-            // CRITICAL FIX: Only process menu buttons when Taiko-Tune is NOT active
-            // This prevents spurious controller inputs during analysis/results from
-            // closing the menu and breaking the "All 4 Drums" sequence
-            //
-            // Note: B button cancellation still works - it's handled separately at line 364
-            const auto& tt_state = drum.getTaikoTuneState();
-            bool taikotune_is_running = tt_state.isActive() ||
-                                        tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults;
 
-            if (!taikotune_is_running) {
-                menu.update(input_state.controller);
-            }
-            
+        if (menu.active()) {
+            menu.update(input_state.controller);
+
             // Check if Taiko-Tune start was requested
             if (menu.isTaikoTuneStartRequested()) {
                 auto requested_page = menu.getTaikoTuneRequestedPage();
-                
+
                 // Check if this is "All 4 Drums" mode (double-pass)
                 if (requested_page == Utils::Menu::Page::TaikoTuneAllDrums) {
                     // Start sequential mode
                     all_drums_mode_active = true;
                     current_drum_index = 0;
-                    
+
                     // Show splash screen first
                     TaikoTuneMessage splash_msg{
                         .command = TaikoTuneCommand::ShowSplash,
@@ -541,10 +554,10 @@ int main() {
                         .pass_number = 0
                     };
                     queue_try_add(&taikotune_command_queue, &splash_msg);
-                    
+
                     // Wait for splash screen (3 seconds)
                     sleep_ms(3000);
-                    
+
                     // Set initial pass to 1
                     TaikoTuneMessage pass_msg{
                         .command = TaikoTuneCommand::SetPass,
@@ -552,10 +565,10 @@ int main() {
                         .pass_number = 1
                     };
                     queue_try_add(&taikotune_command_queue, &pass_msg);
-                    
+
                     // Now start with first drum (Ka Left)
                     drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-                    
+
                     // Tell core 1 to show the analysis screen
                     TaikoTuneMessage show_msg{
                         .command = TaikoTuneCommand::ShowAnalysisScreen,
@@ -566,11 +579,11 @@ int main() {
                 } else {
                     // Single drum mode
                     all_drums_mode_active = false;
-                    
+
                     // Determine which pad based on current page
                     Peripherals::Drum::Id pad_id;
                     bool valid_page = true;
-                    
+
                     switch (requested_page) {
                         case Utils::Menu::Page::TaikoTuneKaLeft:
                             pad_id = Peripherals::Drum::Id::KA_LEFT;
@@ -588,11 +601,11 @@ int main() {
                             valid_page = false;
                             break;
                     }
-                    
+
                     if (valid_page) {
                         // Start the analysis on core 0
                         drum.startTaikoTuneAnalysis(pad_id);
-                        
+
                         // Tell core 1 to show the analysis screen
                         TaikoTuneMessage show_msg{
                             .command = TaikoTuneCommand::ShowAnalysisScreen,
@@ -603,7 +616,7 @@ int main() {
                     }
                 }
             }
-            
+
             // Check menu.active() again BEFORE sending display state
             // If menu just closed during update(), don't send state
             if (menu.active()) {
@@ -616,35 +629,35 @@ int main() {
 
                 ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
-                
+
                 // Apply settings changes NOW, when menu closes
                 readSettings();
-                
+
                 // CRITICAL FIX FOR SECOND ENTRY FREEZE: Manually reset the hotkey state machine
-                // This prevents the lingering 'was_held=true' flag from instantly re-activating 
+                // This prevents the lingering 'was_held=true' flag from instantly re-activating
                 // the menu or causing the internal button logic to see a pre-held button.
-                resetHotkeyState(); 
-                
+                resetHotkeyState();
+
                 // The menu's own deactivate() now handles m_buttons.reset()
             }
-            
+
             // CRITICAL: Clear all input state after menu processing
             // This prevents held buttons from carrying over to next frame
             input_state.releaseAll();
         }
-        
+
         // Menu just closed during update() - no special handling needed
         if (was_menu_active && !menu.active()) {
             // The menu's deactivate() already handles cleanup
         }
-        
+
         // Check for special inputs when menu is NOT active
         if (!menu.active()) {
             if (checkHoldStart()) {
                 // HOLD START DETECTED - Launch All 4 Drums calibration instantly!
                 all_drums_mode_active = true;
                 current_drum_index = 0;
-                
+
                 // Show splash screen first
                 TaikoTuneMessage splash_msg{
                     .command = TaikoTuneCommand::ShowSplash,
@@ -652,10 +665,10 @@ int main() {
                     .pass_number = 0
                 };
                 queue_try_add(&taikotune_command_queue, &splash_msg);
-                
+
                 // Wait for splash screen (3 seconds)
                 sleep_ms(3000);
-                
+
                 // Set initial pass to 1
                 TaikoTuneMessage pass_msg{
                     .command = TaikoTuneCommand::SetPass,
@@ -663,10 +676,10 @@ int main() {
                     .pass_number = 1
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
-                
+
                 // Start with first drum (Ka Left)
                 drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-                
+
                 // Tell core 1 to show the analysis screen
                 TaikoTuneMessage show_msg{
                     .command = TaikoTuneCommand::ShowAnalysisScreen,
@@ -674,7 +687,7 @@ int main() {
                     .pass_number = 0
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
-                
+
             } else if (checkHoldSelect()) {
                 // HOLD SELECT DETECTED - Open menu
                 menu.activate();
