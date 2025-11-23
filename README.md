@@ -1,5 +1,5 @@
 <div align="center">
-<img src="images/Pictures/mainlogo.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
+<img src="images/Pictures/mainlogo.png" width="100%">
 </div>
 
 ---
@@ -30,16 +30,16 @@
 ## **1: Project Overview**
 
 <div align="center">
-<img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finishedfront.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finishedboxclose.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finishedleftside.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finishedbackside.jpg" width="350px">
 </div>
 
 Welcome to **KillerQ's OuchiTaiko Project** - A comprehensive Arcade Controller Build Guide.
@@ -163,7 +163,7 @@ This guide assumes you have access to the following:
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 <div align="center">
-<img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/schematic.jpg" width="350px">
 </div>
 
 📸 **Photo Documentation Note:** Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. The installation process is identical.
@@ -202,7 +202,7 @@ Mount OLED Display on the **top center** of the FRONT face.
 - Solder in place
 
 <div align="center">
-<img src="images/Pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/oledmount.jpg" width="350px">
 </div>
 
 **OLED pins** (will be wired in Step 7):
@@ -212,7 +212,7 @@ Mount OLED Display on the **top center** of the FRONT face.
 - SDA (Row A, hole 17)
 
 <div align="center">
-<img src="images/Pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/oledback.jpg" width="350px">
 </div>
 
 ---
@@ -227,7 +227,7 @@ Mount OLED Display on the **top center** of the FRONT face.
 The table below specifies exact FRONT face hole positions. These align with the control box openings.
 
 <div align="center">
-<img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/buttonsall.jpg" width="350px">
 </div>
 
 **Button Position Reference (FRONT face):**
@@ -258,7 +258,7 @@ The table below specifies exact FRONT face hole positions. These align with the 
 4. Verify alignment matches reference photos
 
 <div align="center">
-<img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/buttonback.jpg" width="350px">
 </div>
 
 **CRITICAL - Prevent 2 existing Signal Shorts:**
@@ -268,10 +268,10 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 - **UP/DOWN buttons**
 
 <div align="center">
-<img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drill1.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drill2.jpg" width="350px">
 </div>
 
 **Quick Fix (30 seconds per pair):**
@@ -287,10 +287,10 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 **Flip board to BACK face.** All remaining steps use BACK face coordinates.
 
 <div align="center">
-<img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/socket.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/socketandboard.jpg" width="350px">
 </div>
 
 **XIAO Placement:**
@@ -325,10 +325,10 @@ Each of the 4 drum sensors requires identical protection circuitry (diode + capa
 2. Place cathode (striped end) into GND rail hole directly below (don't solder yet)
 
 <div align="center">
-<img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/diodes.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/protectionbelow.jpg" width="350px">
 </div>
 
 3. **Capacitor:** Place either leg of 0.47µF capacitor into same hole as diode anode (don't solder yet)
@@ -336,16 +336,16 @@ Each of the 4 drum sensors requires identical protection circuitry (diode + capa
 4. Place other leg into same GND rail hole as the diode cathode (don't solder yet)
 
 <div align="center">
-<img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/doubleprotection.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/protectionbelow2.jpg" width="350px">
 </div>
 
 5. **Solder:** Now solder the combined diode + capacitor legs together. This saves space and keeps things clean.
 
 <div align="center">
-<img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/protectionbeneath.jpg" width="350px">
 </div>
 
 ---
@@ -353,7 +353,7 @@ Each of the 4 drum sensors requires identical protection circuitry (diode + capa
 ### **Step 5: Connect Button Grounds (BACK face)**
 
 <div align="center">
-<img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/buttongrounds.jpg" width="350px">
 </div>
 
 - Connect one leg of each button (ground leg) to GND rail
@@ -369,7 +369,7 @@ Each of the 4 drum sensors requires identical protection circuitry (diode + capa
 3. The double row of pins on top remains empty (for button signal connections later)
 
 <div align="center">
-<img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/expandersolder.jpg" width="350px">
 </div>
 
 ---
@@ -381,7 +381,7 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 **Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
 
 <div align="center">
-<img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/expanderterminals.jpg" width="350px">
 </div>
 
 **Make these 4 connections underneath:**
@@ -394,7 +394,7 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 | SDA | Row A, hole 14 | Row A, hole 17 | I²C Data to display |
 
 <div align="center">
-<img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/sdasclunderexpander.jpg" width="350px">
 </div>
 
 **Now mount MCP23017:**
@@ -404,7 +404,7 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 - Solder these header pins to the circuit board
 
 <div align="center">
-<img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/expanderterminalsfirst.jpg" width="350px">
 </div>
 
 ---
@@ -434,7 +434,7 @@ Connect I²C between XIAO and MCP23017.
 - XIAO SCL → MCP23017 SCL → Display SCL (all connected)
 
 <div align="center">
-<img src="images/Pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/powercomms.jpg" width="350px">
 </div>
 
 ---
@@ -450,19 +450,19 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 4. **Order:** Start with Row A pins (top), then Row B pins
 
 <div align="center">
-<img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/shortwire.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wirestand.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wiresharedrow.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/firstwire.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/secondwire.jpg" width="350px">
 </div>
 
 **Complete Button Wiring Map:**
@@ -504,7 +504,7 @@ Place two 4-pin screw terminal blocks on BACK face.
 - Leave one hole space between this block and the GND block
 
 <div align="center">
-<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/terminals3.jpg" width="350px">
 </div>
 
 **Label the signal block ports:**
@@ -520,10 +520,10 @@ Place two 4-pin screw terminal blocks on BACK face.
 Connect terminal block signal pins to XIAO analog pins.
 
 <div align="center">
-<img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/onesignalwire.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drumsignalwires2.jpg" width="350px">
 </div>
 
 **Wiring Map:**
@@ -583,7 +583,7 @@ Sand down any rough edges from cutting to ensure pieces fit together well during
 Use **Wood Glue** to glue the two identical rear base plates together. Clamp securely or weigh down and let dry for several hours.
 
 <div align="center">
-<img src="images/Pictures/baseplate.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/baseplate.jpg" width="350px">
 </div>
 
 ---
@@ -607,7 +607,7 @@ Apply wood glue to the underside of the top Don plate and to the topside of the 
 💡 **Note:** Ignore the 4 smaller holes in photo - your version will be different and only have 2 holes.
 
 <div align="center">
-<img src="images/Pictures/kaholes.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kaholes.jpg" width="350px">
 </div>
 
 ---
@@ -617,7 +617,7 @@ Apply wood glue to the underside of the top Don plate and to the topside of the 
 Use a router or at least sand down the top sharp outer curved edge of the **Ka rim faces**. This helps prevent stick damage. Do not smooth the inside edges, just the outside curve.
 
 <div align="center">
-<img src="images/Pictures/kafront.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kafront.jpg" width="350px">
 </div>
 
 ---
@@ -627,7 +627,7 @@ Use a router or at least sand down the top sharp outer curved edge of the **Ka r
 Using an **8mm** diameter drill bit, locate the 14 pre-cut **6mm** holes where the rubber grommets will go. Drill straight down into those 6mm holes and turn them into new **8mm wide x 11mm deep** holes. Mark your drill bit at 11mm with tape.
 
 <div align="center">
-<img src="images/Pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kahole.jpg" width="350px">
 </div>
 
 ---
@@ -637,7 +637,7 @@ Using an **8mm** diameter drill bit, locate the 14 pre-cut **6mm** holes where t
 Chamfer the inner rim of each 8mm hole so that the angled head of the threaded inserts will tighten down flush. This can be done with a sharp screwdriver or knife.
 
 <div align="center">
-<img src="images/Pictures/kagrommetout.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kagrommetout.png" width="350px">
 </div>
 
 ---
@@ -647,10 +647,10 @@ Chamfer the inner rim of each 8mm hole so that the angled head of the threaded i
 Screw in the **14 individual M6 threaded wood inserts** into the corresponding holes until flush. Add **Superglue** to the outside of threads to help permanently secure them to wood.
 
 <div align="center">
-<img src="images/Pictures/kagrommettool.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kagrommettool.png" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/kagrommetin.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/kagrommetin.png" width="350px">
 </div>
 
 ---
@@ -662,7 +662,7 @@ Using a small hammer or rubber mallet, tap two M3 threaded inserts into the hole
 💡 **Note:** Your orientation will be different - this is just an example showing the sensor housing next to a threaded insert.
 
 <div align="center">
-<img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/threadedinserts.png" width="350px">
 </div>
 
 ---
@@ -674,7 +674,7 @@ Using a small hammer or rubber mallet, tap two M3 threaded inserts into the hole
 Cut the head off of a **20mm M6 nylon bolt**.
 
 <div align="center">
-<img src="images/Pictures/nyloncut.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/nyloncut.png" width="350px">
 </div>
 
 ---
@@ -690,10 +690,10 @@ Apply one drop or less of **Loctite** to threads on the inside of the rubber iso
 Screw one end of the headless bolt into isolator until it stops.
 
 <div align="center">
-<img src="images/Pictures/isolatorgrommetside.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/isolatorgrommetside.png" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/grommetmeasure.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/grommetmeasure.png" width="350px">
 </div>
 
 ---
@@ -711,7 +711,7 @@ Screw the nylon bolt of the rubber grommet assembly into the threaded insert in 
 **Repeat these steps for the remaining 13 holes.**
 
 <div align="center">
-<img src="images/Pictures/grommetinstalled.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/grommetinstalled.png" width="350px">
 </div>
 
 ---
@@ -749,7 +749,7 @@ Cut four **12mm neoprene discs** using the SVG template.
 Place several drops of **Superglue** into the raised center ring in the bottom shell. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/sensorandhousing.jpg" width="350px">
 </div>
 
 ---
@@ -769,7 +769,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 💡 **Tip:** Use your multimeter in Continuity mode to check which terminal is which.
 
 <div align="center">
-<img src="images/Pictures/trssolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/trssolder.jpg" width="350px">
 </div>
 
 ---
@@ -781,7 +781,7 @@ Take the *other* end of the stripped wire, and solder:
 - **Black** wire to outer brass ring
 
 <div align="center">
-<img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/sensorsolder.jpg" width="350px">
 </div>
 
 ---
@@ -793,7 +793,7 @@ Add several drops of **Superglue** onto the top surface of neoprene. Center the 
 💡 **Note:** Pic varies slightly from your version - this was an earlier version.
 
 <div align="center">
-<img src="images/Pictures/sensorinhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/sensorinhousing.jpg" width="350px">
 </div>
 
 ---
@@ -803,7 +803,7 @@ Add several drops of **Superglue** onto the top surface of neoprene. Center the 
 Add a drop of **Superglue** to the strain relief channel below the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/sensorholding.jpg" width="350px">
 </div>
 
 ---
@@ -815,7 +815,7 @@ Mount your 4 completed housings to the underside of drum faces using **2 M3x8mm 
 Tighten snug so the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
 <div align="center">
-<img src="images/Pictures/housinginsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/housinginsert.jpg" width="350px">
 </div>
 
 ---
@@ -827,7 +827,7 @@ Tighten snug so the sensor housing is firmly pressed against the wood - but don'
 Place your **speaker bracket** against the backside of your rear base plate so it is centered. Mark the 4 holes in the speaker bracket that you will use to mount it.
 
 <div align="center">
-<img src="images/Pictures/speakerbracket.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/speakerbracket.jpg" width="350px">
 </div>
 
 ---
@@ -837,7 +837,7 @@ Place your **speaker bracket** against the backside of your rear base plate so i
 Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
 <div align="center">
-<img src="images/Pictures/bracketholes.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/bracketholes.jpg" width="350px">
 </div>
 
 ---
@@ -847,7 +847,7 @@ Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**
 Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate so they protrude from the rear to attach the speaker mounting plate.
 
 <div align="center">
-<img src="images/Pictures/bracketbolts.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/bracketbolts.jpg" width="350px">
 </div>
 
 ---
@@ -857,7 +857,7 @@ Feed **4x M6x16 bolts** with washers through these mounting holes on baseplate s
 Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**.
 
 <div align="center">
-<img src="images/Pictures/bracketconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/bracketconnected.jpg" width="350px">
 </div>
 
 ---
@@ -867,7 +867,7 @@ Attach adjustable speaker mount to the speaker bracket, secure with **M6 knobs**
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes. It will only fit one way. Secure the drum faces against the baseplate by screwing the **M6 knobs** onto the exposed bolts. Tighten a bit more than finger-tight.
 
 <div align="center">
-<img src="images/Pictures/boltsthrough1.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/boltsthrough1.jpg" width="350px">
 </div>
 
 ---
@@ -877,7 +877,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 Route the sensor wires through the nearest opening so they hang out of the back of the Drum.
 
 <div align="center">
-<img src="images/Pictures/wireroute.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wireroute.jpg" width="350px">
 </div>
 
 ---
@@ -887,10 +887,10 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them. You will have one set of Barrel Mounts on each side of the drum.
 
 <div align="center">
-<img src="images/Pictures/couplersempty.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersempty.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/couplersmounted.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersmounted.jpg" width="350px">
 </div>
 
 ---
@@ -900,10 +900,10 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 Connect the ends of the **3.5mm TRS male Drum sensors** to the top of barrel couplers, and then also connect your short, coiled 3.5mm extension cables. The wires should connect cleanly from left to right.
 
 <div align="center">
-<img src="images/Pictures/couplersconnected.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/couplersconnected.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/shortcables.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/shortcables.jpg" width="350px">
 </div>
 
 ---
@@ -921,7 +921,7 @@ You're almost there! If you built the board to the exact specifications in this 
 #### **Print the Enclosure**
 
 <div align="center">
-<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/printer.jpg" width="350px">
 </div>
 
 Using the free .STL files, print the control box base and lid using these settings:
@@ -934,19 +934,19 @@ Using the free .STL files, print the control box base and lid using these settin
 #### **Add TRS Terminal Jacks & USB Coupler**
 
 <div align="center">
-<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/trsports.jpg" width="350px">
 </div>
 
 Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way through until they stop. Use a small amount of hot glue to secure the jacks.
 
 <div align="center">
-<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/usb.jpg" width="350px">
 </div>
 
 Place the USB coupler in the bottom opening in the base. Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box. Use hot glue to secure.
 
 <div align="center">
-<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/trsandusb.jpg" width="350px">
 </div>
 
 ---
@@ -954,25 +954,25 @@ Place the USB coupler in the bottom opening in the base. Orient the coupler so t
 #### **Mount The Circuit To The Enclosure Lid**
 
 <div align="center">
-<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/grommetstages.jpg" width="350px">
 </div>
 
 Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid. Make sure the smooth lip of the grommet is facing down.
 
 <div align="center">
-<img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/grommetin.jpg" width="350px">
 </div>
 
 Using the included soldering iron heat insert tip, gently press the inserts into the standoffs until the top of the insert is flush. Be sure the insert remains vertical.
 
 <div align="center">
-<img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/buttonsfit.jpg" width="350px">
 </div>
 
 Place the circuit board face with buttons and display through the holes in the lid. Everything should align perfectly.
 
 <div align="center">
-<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/terminals1.jpg" width="350px">
 </div>
 
 Using 4 M4x4mm bolts, attach the circuit board to the standoffs. Tighten snug.
@@ -982,13 +982,13 @@ Using 4 M4x4mm bolts, attach the circuit board to the standoffs. Tighten snug.
 #### **Attach Lid and Box Hinges**
 
 <div align="center">
-<img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/hinge.jpg" width="350px">
 </div>
 
 The hinges on the box were designed to be fastened using standard 1.75mm filament as opposed to a metal hinge pin.
 
 <div align="center">
-<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/filamentinsert.jpg" width="350px">
 </div>
 
 Cut off a small section of filament that is just long enough to fit through each set of three hinge sections. Cut the end at an angle, and gently yet firmly feed it all the way through all 3 sections. Cut each end flush. Repeat for the other hinge.
@@ -1002,7 +1002,7 @@ For a cleaner look, push a few millimeters of the filament out of one end, cut i
 #### **Create the Wires**
 
 <div align="center">
-<img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/ribboncable.jpg" width="350px">
 </div>
 
 From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths approximately 215mm each. Crimp the ends using 22 AWG wire ferrules.
@@ -1012,13 +1012,13 @@ From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths approximately 215mm 
 #### **Connect The Ground Wires**
 
 <div align="center">
-<img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/newgndterminal.jpg" width="350px">
 </div>
 
 Connect the 4 wires on one end of one set of ribbon wire to the green GND terminal block on the circuit board.
 
 <div align="center">
-<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/trswires.jpg" width="350px">
 </div>
 
 Connect the opposite end to the GND terminal in each of the 4 TRS jacks. There is no specific order for the GND wires.
@@ -1028,10 +1028,10 @@ Connect the opposite end to the GND terminal in each of the 4 TRS jacks. There i
 #### **Connect The Signal Wires**
 
 <div align="center">
-<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/signalterminalnumbers.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/newsignalterminal.jpg" width="350px">
 </div>
 
 Connect the 4 wires on one end of the other set of ribbon wire to the blue SIGNAL terminal block on the circuit board.
@@ -1053,13 +1053,13 @@ Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C couple
 **This is how the final, wired product should look:**
 
 <div align="center">
-<img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/allwires.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/finalbox.jpg" width="350px">
 </div>
 <div align="center">
-<img src="images/Pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/closedbox.jpg" width="350px">
 </div>
 
 ---
@@ -1069,7 +1069,7 @@ Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C couple
 #### **Mount Drum to speaker stand**
 
 <div align="center">
-<img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/wirerouteold.png" width="350px">
 </div>
 
 Mount the angled speaker bracket to the speaker stand.
@@ -1097,7 +1097,7 @@ If that isn't an option, you can use a towel, blanket, large mouse pad, thin foa
 💡 **Pro Tip:** You can adjust the Drum Thresholds to make it perform how you want regardless of Drum cover.
 
 <div align="center">
-<img src="images/Pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/drumcover.jpg" width="350px">
 </div>
 
 ---
@@ -1322,14 +1322,97 @@ This defines how long a hit is "held" before the drum accepts another.
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
 <div align="center">
-<img src="images/Pictures/downloadimage.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/downloadimage.png" width="350px">
 </div>
 
-💾 Here are the files referenced throughout the guide:
+### **📦 Complete File Packages**
 
-- [Download all SVG and STL Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
-- [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
-- [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+Download these complete archives for convenience:
+
+| Package | Size | Description | Link |
+|---------|------|-------------|------|
+| **STL & SVG Files** | 944 KB | All 3D printing files and laser cutting templates | [Download ZIP](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip) |
+| **Firmware Flash Files** | 10 KB | Board wipe and firmware files | [Download ZIP](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip) |
+| **Circuit Schematic** | TBD | Detailed wiring diagram (PDF) | [Download PDF](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf) |
+
+---
+
+### **🖨️ 3D Printing Files (STL)**
+
+Print these files using PLA filament. Settings vary by part (see guide sections for details).
+
+| File | Quantity | Purpose | Settings | Link |
+|------|----------|---------|----------|------|
+| **Sensor Housing** | 4 sets | Piezo sensor mount with suspension | 0.2mm layers, 40% Gyroid, supports auto | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Housing.stl) |
+| **Control Box Base** | 1 | Main enclosure bottom with port cutouts | 0.2mm layers, 20% Gyroid, supports auto | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Base.stl) |
+| **Control Box Lid** | 1 | Enclosure top with button/display holes | 0.2mm layers, 20% Gyroid, supports auto | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Lid.stl) |
+| **TRS Barrel Mount** | 2 | Cable connector holder | 0.2mm layers, 20% infill | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20TRS%20Barrel%20Connector%20Mount.stl) |
+| **Bachi Stick Holder** | 1 (optional) | Drumstick storage clip | 0.2mm layers, 20% infill | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Bachi%20Stick%20Holder.stl) |
+
+💡 **Note:** Each "Sensor Housing" consists of a top and bottom piece - print 4 complete sets (8 pieces total).
+
+---
+
+### **✂️ Laser Cutting Files (SVG)**
+
+Cut from 6mm cabinet-grade MDF. Verify scale before cutting - all mounting holes should measure exactly 6mm diameter.
+
+| File | Description | Link |
+|------|-------------|------|
+| **All Laser SVG Files** | Complete drum face plates, base plate, and neoprene disc template | [Download SVG](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20all%20Laser%20SVG%20Files.svg) |
+| **LightBurn Project** | Pre-configured LightBurn project file (optional) | [Download LBRN2](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20SVG%20LightBurn%20Project%20File.lbrn2) |
+
+**SVG Contains:**
+- 2x Left Ka face plates (top + bottom)
+- 2x Right Ka face plates (top + bottom)
+- 2x Left Don face plates (top + bottom)
+- 2x Right Don face plates (top + bottom)
+- 1x Rear base plate (cut 2x, glue together)
+- 4x 12mm neoprene disc cutting template
+
+---
+
+### **💾 Firmware Files**
+
+Flash these files to your XIAO RP2040 board using drag-and-drop (see Section 7).
+
+| File | Purpose | When to Use | Link |
+|------|---------|-------------|------|
+| **universal_flash_nuke.uf2** | Board wipe/reset | Flash TWICE before uploading firmware | [Download](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2) |
+| **KillerQsOuchiTaikoFirmware.uf2** | Main controller firmware | Flash after wiping board | **⚠️ Coming Soon** |
+
+⚠️ **Important:** The main firmware file is currently being prepared for release. Check back soon or build from source in the `OuchiTaikoProject-main` folder.
+
+---
+
+### **📄 Documentation**
+
+| File | Description | Link |
+|------|-------------|------|
+| **Circuit Schematic PDF** | Full wiring diagram and component connections | **⚠️ In Progress** |
+| **Schematic JPG** | Circuit diagram image (current version) | [View Image](https://ouchitaikoproject.github.io/OuchiTaikoProject/images/Pictures/schematic.jpg) |
+
+---
+
+### **🔧 Advanced Users - Source Code**
+
+For developers who want to modify the firmware:
+
+- **Full Source Repository**: Located in `OuchiTaikoProject-main/` folder
+- **Build Requirements**: CMake, ARM GCC toolchain, Pico SDK
+- **Base Project**: [DonCon2040 by ravinrabbid](https://github.com/ravinrabbid/DonCon2040) (MIT License)
+- **HID Components**: [HIDtaiko by kasasiki3](https://github.com/kasasiki3/HIDtaiko) (Apache 2.0 License)
+
+---
+
+### **📝 File Usage Quick Reference**
+
+| Build Stage | Files Needed |
+|-------------|--------------|
+| **Section 5: Build the Drum** | All STL files (sensor housings), All SVG files (drum plates) |
+| **Section 6: Control Box** | Control Box Base STL, Control Box Lid STL, TRS Barrel Mount STL |
+| **Section 7: Flash Firmware** | universal_flash_nuke.uf2, KillerQsOuchiTaikoFirmware.uf2 |
+| **Reference During Build** | Circuit Schematic PDF |
 
 ---
 
