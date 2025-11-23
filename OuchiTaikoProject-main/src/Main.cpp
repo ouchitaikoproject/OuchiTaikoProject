@@ -447,10 +447,11 @@ int main() {
                     // closing the menu during the results display.
                     queue_try_remove(&controller_input_queue, nullptr);
 
-                    // Normal 3 second delay for results screen
-                    sleep_ms(3000);
+                    // CRITICAL: Sleep for 2.5 seconds (SHORTER than Display's 3-second timeout)
+                    // This shows results to user, but wakes BEFORE Display switches to Menu.
+                    // Then we start next drum, Display detects new mode, shows analysis screen.
+                    sleep_ms(2500);
 
-                    // CRITICAL: Start next drum analysis (this also resets state from ShowingResults)
                     // Update pass number for display (1 or 2)
                     uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                     TaikoTuneMessage pass_msg{
