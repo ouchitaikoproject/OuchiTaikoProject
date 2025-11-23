@@ -431,7 +431,12 @@ int main() {
             current_drum_index++;
 
             if (current_drum_index < 8) {
-                // More drums to go - start next one IMMEDIATELY (no sleep!)
+                // More drums to go - start next one IMMEDIATELY
+
+                // CRITICAL: Must start DRUM analysis BEFORE sending Display command
+                // Otherwise Drum stays in ShowingResults and Display can't transition
+                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
+
                 // Check if we just finished Pass 1
                 if (current_drum_index == 4) {
                     TaikoTuneMessage transition_msg{
@@ -452,9 +457,7 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &pass_msg);
 
-                // Start next drum immediately - results from this drum are already saved
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-
+                // Now tell Display to show analysis screen (Drum is already analyzing!)
                 TaikoTuneMessage show_msg{
                     .command = TaikoTuneCommand::ShowAnalysisScreen,
                     .pad_id = drum_sequence[current_drum_index],
