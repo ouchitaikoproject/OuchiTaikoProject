@@ -1317,7 +1317,9 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
-💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+💾 **Download the firmware files:**
+- [OuchiTaiko Firmware v2.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoFirmware_v2.0.uf2)
+- [Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)
 
 ---
 
@@ -1337,7 +1339,7 @@ To do this, drag the `universal_flash_nuke.uf2` to the root of the removable dri
 
 ### **Step 3: Drag the Firmware File To The Board to Flash It**
 
-Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
+Drag `KillerQsOuchiTaikoFirmware_v2.0.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
 You're ready for calibration and testing!
 
