@@ -418,9 +418,10 @@ int main() {
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
             settings_store->store();
             readSettings();
-            
+
             // Check if we're in All 4 Drums mode and need to continue to next drum
             if (all_drums_mode_active) {
+                // ALL 4 DRUMS MODE: Continue to next drum
                 current_drum_index++;
                 
                 if (current_drum_index < 8) {  // Changed from 4 to 8 for double-pass
@@ -448,7 +449,8 @@ int main() {
 
                     // Normal 3 second delay for results screen
                     sleep_ms(3000);
-                    
+
+                    // CRITICAL: Start next drum analysis (this also resets state from ShowingResults)
                     // Update pass number for display (1 or 2)
                     uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                     TaikoTuneMessage pass_msg{
@@ -491,7 +493,23 @@ int main() {
                         queue_add_blocking(&control_queue, &ctrl_message);
                     }
                     // CRITICAL FIX: Ensure hotkey is reset after all drums finish
-                    resetHotkeyState(); 
+                    resetHotkeyState();
+                }
+            } else {
+                // SINGLE DRUM MODE: Just show results for 3 seconds, then return to menu
+                sleep_ms(3000);
+
+                // Return to menu (if we came from menu) or idle (if from hotkey)
+                if (menu.active()) {
+                    TaikoTuneMessage exit_msg{
+                        .command = TaikoTuneCommand::ExitAnalysisScreen,
+                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
+                        .pass_number = 0
+                    };
+                    queue_try_add(&taikotune_command_queue, &exit_msg);
+                } else {
+                    ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
+                    queue_add_blocking(&control_queue, &ctrl_message);
                 }
             }
         }
