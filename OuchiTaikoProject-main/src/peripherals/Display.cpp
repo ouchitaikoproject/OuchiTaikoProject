@@ -922,10 +922,18 @@ void Display::drawTaikoTuneAnalysisScreen() {
 
 void Display::drawTaikoTuneResultsScreen() {
     if (!m_drum) return;
-    
+
     const auto& tt_state = m_drum->getTaikoTuneState();
+
+    // CRITICAL FIX: Check if Drum state changed (All 4 Drums mode started next drum)
+    // If Drum is no longer in ShowingResults, exit immediately and let update() show correct screen
+    if (tt_state.current_mode != Drum::TaikoTuneState::Mode::ShowingResults) {
+        m_state = State::TaikoTuneAnalysis;  // Switch to analysis screen
+        return;
+    }
+
     const auto& rec = tt_state.recommendations.at(tt_state.current_pad);
-    
+
     uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_taikotune_results_start;
     if (elapsed >= RESULTS_DISPLAY_MS) {
         m_state = State::Menu;
