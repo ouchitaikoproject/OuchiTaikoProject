@@ -363,21 +363,22 @@ int main() {
         bool currently_showing_results = (tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults);
 
         // CRITICAL: Handle ShowingResults state for All 4 Drums mode
-        // If we're in All 4 Drums mode and showing results, immediately start next drum
-        // This prevents Display's autonomous timeout from showing Menu while menu is inactive
-        if (all_drums_mode_active && currently_showing_results && !last_analysis_active) {
-            // Results just appeared - start next drum immediately
+        // Direct detection - no reliance on just_finished transitions
+        if (all_drums_mode_active && currently_showing_results && last_analysis_active) {
+            // JUST entered ShowingResults from Analyzing
+            // Save thresholds immediately
+            settings_store->setTriggerThresholds(drum.getCurrentThresholds());
+            settings_store->store();
+            readSettings();
+
             current_drum_index++;
 
             if (current_drum_index < 8) {
-                // Save thresholds first
-                settings_store->setTriggerThresholds(drum.getCurrentThresholds());
-                settings_store->store();
-                readSettings();
+                // Show results for 2.5 seconds before continuing
+                sleep_ms(2500);
 
                 // Check if we just finished Pass 1 (drum index 3 → 4)
                 if (current_drum_index == 4) {
-                    // Show transition screen between passes
                     TaikoTuneMessage transition_msg{
                         .command = TaikoTuneCommand::ShowPassTransition,
                         .pad_id = Peripherals::Drum::Id::KA_LEFT,
@@ -387,7 +388,7 @@ int main() {
                     sleep_ms(3000);
                 }
 
-                // Start next drum (this will reset Drum state from ShowingResults to Analyzing)
+                // Start next drum
                 uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
                 TaikoTuneMessage pass_msg{
                     .command = TaikoTuneCommand::SetPass,
@@ -405,8 +406,10 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
             } else {
-                // All 8 drums done - let Display show results, then it will auto-return to menu
+                // All 8 drums complete - show final results then return
+                sleep_ms(2500);
                 all_drums_mode_active = false;
+                resetHotkeyState();
             }
         }
 
@@ -462,90 +465,9 @@ int main() {
         }
 
         if (just_finished) {
-            // Analysis just completed - threshold was already auto-applied in Drum::finishTaikoTuneAnalysis()
-            // Now save to flash
-            settings_store->setTriggerThresholds(drum.getCurrentThresholds());
-            settings_store->store();
-            readSettings();
-
-            // Check if we're in All 4 Drums mode and need to continue to next drum
-            if (all_drums_mode_active) {
-                // ALL 4 DRUMS MODE: Continue to next drum
-                current_drum_index++;
-                
-                if (current_drum_index < 8) {  // Changed from 4 to 8 for double-pass
-                    // Check if we just finished Pass 1 (drum index 3 → 4)
-                    if (current_drum_index == 4) {
-                        // Show transition screen between passes
-                        TaikoTuneMessage transition_msg{
-                            .command = TaikoTuneCommand::ShowPassTransition,
-                            .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                            .pass_number = 0
-                        };
-                        queue_try_add(&taikotune_command_queue, &transition_msg);
-
-                        // Clear spurious inputs before transition screen display
-                        queue_try_remove(&controller_input_queue, nullptr);
-
-                        // Wait for transition screen (3 seconds)
-                        sleep_ms(3000);
-                    }
-                    
-                    // CRITICAL FIX: Clear controller input queue to discard any spurious inputs
-                    // that accumulated during analysis. This prevents EMI/stale data from
-                    // closing the menu during the results display.
-                    queue_try_remove(&controller_input_queue, nullptr);
-
-                    // CRITICAL: Sleep for 2.5 seconds (SHORTER than Display's 3-second timeout)
-                    // This shows results to user, but wakes BEFORE Display switches to Menu.
-                    // Then we start next drum, Display detects new mode, shows analysis screen.
-                    sleep_ms(2500);
-
-                    // Update pass number for display (1 or 2)
-                    uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
-                    TaikoTuneMessage pass_msg{
-                        .command = TaikoTuneCommand::SetPass,
-                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                        .pass_number = pass_number
-                    };
-                    queue_try_add(&taikotune_command_queue, &pass_msg);
-                    
-                    // Start next drum
-                    drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index]);
-                    
-                    // Tell core 1 to show the analysis screen
-                    TaikoTuneMessage show_msg{
-                        .command = TaikoTuneCommand::ShowAnalysisScreen,
-                        .pad_id = drum_sequence[current_drum_index],
-                        .pass_number = 0
-                    };
-                    queue_try_add(&taikotune_command_queue, &show_msg);
-                } else {
-                    // All 8 drums completed (both passes done)
-                    // Wait 3 seconds so user can see the 8th drum's results
-                    sleep_ms(3000);
-                    
-                    // Now exit - check if menu was active
-                    all_drums_mode_active = false;
-                    current_drum_index = 0;
-                    
-                    if (menu.active()) {
-                        // We came from menu, go back to menu
-                        TaikoTuneMessage exit_msg{
-                            .command = TaikoTuneCommand::ExitAnalysisScreen,
-                            .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                            .pass_number = 0
-                        };
-                        queue_try_add(&taikotune_command_queue, &exit_msg);
-                    } else {
-                        // We came from triple-tap, go back to idle
-                        ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
-                        queue_add_blocking(&control_queue, &ctrl_message);
-                    }
-                    // CRITICAL FIX: Ensure hotkey is reset after all drums finish
-                    resetHotkeyState();
-                }
-            } else {
+            // NOTE: All 4 Drums mode is now handled by the direct ShowingResults detection above (line 367)
+            // This block only handles SINGLE DRUM mode
+            if (!all_drums_mode_active) {
                 // SINGLE DRUM MODE: Just show results for 3 seconds, then return to menu
                 sleep_ms(3000);
 
