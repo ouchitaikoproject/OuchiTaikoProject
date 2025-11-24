@@ -25,7 +25,7 @@ endif()
 
 include(${USERHOME}/.pico-sdk/sdk/${sdkVersion}/pico_sdk_init.cmake)
 
-project(OuchiTaikoProject VERSION 0.39.0)
+project(OuchiTaikoProject VERSION 1.0.0)
 
 set(PICO_USE_FASTEST_SUPPORTED_CLOCK 1)
 
