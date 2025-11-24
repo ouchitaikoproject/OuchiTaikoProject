@@ -13,6 +13,7 @@
 
 ## **Table of Contents**
 - [1: Project Overview](#1-project-overview)
+  - [Ouchi Originals: What Makes This Different](#-ouchi-originals-what-makes-this-different)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
 - [4: Build the Circuit](#4-build-the-circuit)
@@ -60,6 +61,89 @@ Completing the OuchiTaiko Project will leave you with a pioneering adaptive drum
 Instead of complex analog circuits with operational amplifiers and custom PCBs, this design uses custom-designed **Adaptive Baseline Software Intelligence (ABSI)** to achieve superior performance through elegant simplicity.
 
 All you need is your enthusiasm and some basic soldering and woodworking skills. The components linked in this guide create a perfectly functional controller when used together. Feel free to substitute compatible alternatives if you find cheaper options that achieve the same results.
+
+---
+
+## 🔥 **Ouchi Originals: What Makes This Different**
+
+**OuchiTaiko isn't just another DIY drum controller—it's a complete reimagining of what's possible with open-source hardware.**
+
+### **World-First Two-Pass Bidirectional Crosstalk Detection**
+
+**The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing those piezo sensors to register false "ghost hits" (crosstalk). This ruins gameplay accuracy, especially during intense sections with hard hits.
+
+**Traditional Approaches:**
+- Manual threshold tweaking in code—requires recompilation and trial-and-error
+- Simple adjustable parameters that you guess-and-check
+- Physical modifications: adding foam between clamps or increasing pad spacing
+- Accepting some level of crosstalk as an inherent limitation
+
+**OuchiTaiko's Innovation (Firmware v2.0):**
+
+Our **All 4 Drums Auto-Calibration** mode uses a revolutionary two-pass system that analyzes crosstalk from **BOTH directions**:
+
+**Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right
+*Records interference from left neighbors*
+
+**Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left
+*Records interference from right neighbors*
+
+**Result:** Each drum's threshold uses the **MAXIMUM crosstalk detected from both passes**, accounting for mechanical coupling from ALL adjacent drums.
+
+**Why This Matters:**
+- ✅ **Eliminates ghost hits** from frame vibrations
+- ✅ **Zero manual tweaking** - fully automated detection and compensation
+- ✅ **Arcade-level accuracy** - play at any intensity without false triggers
+- ✅ **World-first implementation** - automated bidirectional crosstalk analysis
+
+This bidirectional analysis ensures flawless performance even during the hardest hits that cause maximum frame resonance.
+
+### **Adaptive Baseline Software Intelligence (ABSI)**
+
+Unlike complex analog circuits with op-amps and custom PCBs, OuchiTaiko achieves **superior performance through elegant software:**
+
+- **Automatic sensitivity adjustment** based on environmental noise
+- **Velocity-sensing triggers** for authentic Big Note scoring (hit harder = full points)
+- **Dynamic baseline tracking** adapts to temperature, humidity, and mounting changes
+- **Zero calibration drift** over time
+
+**First time available in ANY home arcade controller.**
+
+### **Custom Arcade Sensor Suspension**
+
+The drum trigger sensors use **custom-designed suspension mounting** that precisely mimics Japanese arcade machines—**first time available to the public.**
+
+This isn't just cosmetic: proper sensor suspension is critical for:
+- Consistent velocity response across the drum surface
+- Accurate Big Note detection
+- Long-term durability under heavy play
+
+### **Complete Standalone Testing**
+
+**No PC required** for setup or troubleshooting:
+- OLED display shows real-time hit feedback with animated drum icons
+- Visual confirmation of all 14 navigation buttons
+- Live streak counter and controller mode display
+- Instant verification that everything is wired correctly
+
+### **Why OuchiTaiko Over Alternatives**
+
+| Feature | OuchiTaiko | DonCon2040 | ITAIKO | Roland V-Drums |
+|---------|------------|------------|--------|----------------|
+| **Automated Crosstalk Detection** | ✅ Two-Pass Bidirectional | ❌ Manual Only | ❌ None | ⚠️ Manual Parameter |
+| **ABSI Adaptive Sensitivity** | ✅ Yes | ❌ No | ❌ No | ❌ No |
+| **Arcade Sensor Suspension** | ✅ Custom Design | ❌ Generic | ❌ Generic | ✅ Proprietary |
+| **Big Note Velocity Detection** | ✅ Yes | ❌ No | ⚠️ Limited | ✅ Yes |
+| **Standalone Testing (No PC)** | ✅ Full OLED System | ⚠️ Basic | ❌ None | ✅ Module Display |
+| **14 Controller Modes** | ✅ Yes | ⚠️ 6 Modes | ⚠️ Limited | ❌ MIDI Only |
+| **Cost** | ~$150 DIY | ~$100 DIY | ~$120 DIY | $800-2000+ |
+| **Open Source** | ✅ Yes | ✅ Yes | ⚠️ Partial | ❌ Proprietary |
+
+*OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding advanced features while maintaining the open-source spirit.*
+
+**Bottom line:** Professional-grade performance with innovations not found in commercial controllers costing 10x more.
+
+---
 
 ### **What You'll Build: Next-Generation Features**
 
@@ -132,7 +216,7 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
 | 2    | GODIYMODULES MCP23017 I2C expander Board                     | 1    | [Link](https://a.co/d/iBEbs4b) |
 | 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
-| 4    | 0.47µF/470nF Ceramic Capacitors                              | 4    | [Link](https://a.co/d/8XWar8W) |
+| 4    | 0.1µF/100nF Ceramic Capacitors                               | 4    | [Link](https://a.co/d/cG1cxOQ) |
 | 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
 | 6    | 3.5mm TRS male Plugs w/ standard ends                        | 4    | [Link](https://a.co/d/414YG9z) |
 | 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
@@ -393,7 +477,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-3. **Capacitor:** Place either leg of 0.47µF capacitor into same hole as diode anode (do not solder yet)
+3. **Capacitor:** Place either leg of 0.1µF capacitor into same hole as diode anode (do not solder yet)
 
 4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
    
@@ -1232,7 +1316,9 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
-💾 [Download the two flash files in the .zip archive](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+💾 **Download the firmware files:**
+- [OuchiTaiko Firmware v2.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoFirmware_v2.0.uf2)
+- [Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)
 
 ---
 
@@ -1252,7 +1338,7 @@ To do this, drag the `universal_flash_nuke.uf2` to the root of the removable dri
 
 ### **Step 3: Drag the Firmware File To The Board to Flash It**
 
-Drag `KillerQsOuchiTaikoFirmware.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
+Drag `KillerQsOuchiTaikoFirmware_v2.0.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
 You're ready for calibration and testing!
 
@@ -1489,13 +1575,48 @@ There you have it - You've just built a professional controller circuit with ada
 <img src="images/Pictures/downloadimage.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-💾 Here are the files referenced throughout the guide for quick reference:
+💾 **All files needed to complete your OuchiTaiko build:**
 
-- Download all SVG and STL Files (see Section 9: Files & Downloads)
+### **🔧 Firmware Files**
 
-- [Download PDF file of the Circuit Schematic](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectCircuitSchematic.pdf)
+**[⬇️ OuchiTaiko Firmware v2.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoFirmware_v2.0.uf2)**
+*Main controller firmware with two-pass bidirectional crosstalk detection*
+- Drag-and-drop to XIAO RP2040 after flashing nuke file
+- Includes ABSI adaptive sensitivity and all 14 controller modes
+- See GitHub Releases for full changelog and version history
 
-- [Download the Firmware File + Nuke File](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectFlashFiles.zip)
+**[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)**
+*Wipes the RP2040 flash memory before installing firmware*
+- Flash this FIRST (once per board, or when troubleshooting)
+- Board will reboot automatically, then drag firmware .uf2
+
+### **📐 3D Printing & Laser Cutting Files**
+
+**[⬇️ All STL & SVG Files (ZIP)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)**
+*Complete bundle of all manufacturing files*
+
+**Individual Files:**
+- [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Bachi%20Stick%20Holder.stl) - Drumstick storage mount
+- [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Housing.stl) - **Print 4x** for drum sensors
+- [TRS Barrel Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20TRS%20Barrel%20Connector%20Mount.stl) - Cable connector mount
+- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Base.stl) - Electronics enclosure
+- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Lid.stl) - Lid with button/display cutouts
+- [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20all%20Laser%20SVG%20Files.svg) - Drum face plates and base templates
+- [LightBurn Project File (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20SVG%20LightBurn%20Project%20File.lbrn2) - Pre-configured for laser cutting
+
+**3D Print Settings:**
+- Material: PLA filament
+- Layer height: 0.2mm
+- Infill: 40% Gyroid (sensor housings) or 20% (control box)
+
+**Laser Cutting:**
+- Verify 6mm mounting holes are correct size before cutting
+- Neoprene disc template included in main SVG file
+
+### **🔌 Circuit Schematic**
+
+**[⬇️ Circuit Schematic (JPG)](https://ouchitaikoproject.github.io/OuchiTaikoProject/images/Pictures/schematic.jpg)**
+*Complete wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons*
 
 ---
 
@@ -1651,9 +1772,9 @@ Without these two projects, none of this would have been possible.
 
 Credit to 'Gadgetoid' on GitHub for his [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke) file that helps clean things up between flashes.
 
-Credit to Dork Design (https://www.printables.com/@DorkDesign) as well for creating the ultimate customizeable box resource. I tried so many different methods and systems for creating my custom controller, and the Dork Design system worked the very first time I tried it.  Accept no immitation!  Check their page out, they have other awesome creations as well. 
+Credit to Dork Design (https://www.printables.com/@DorkDesign) as well for creating the ultimate customizeable box resource. I tried so many different methods and systems for creating my custom controller, and the Dork Design system worked the very first time I tried it. Accept no immitation! Check their page out, they have other awesome creations as well.
 
-I want to thank Discord user 'Allspice.' Who wanted to help test the product before release. He said he had only basic soldering skills, yet he was able to successfully build the entire circuit from scratch as well as the drum! He was also the biggest push behind me formatting a proper project guide!
+I want to thank Discord user 'Allspice.' I discovered a random message from him in my inbox one day asking if he could help test my Taiko Project when I was finished creating it. He said he had only basic soldering skills, yet he was able to successfully build the entire circuit from scratch as well as the drum! Even more importantly, he helped shape this how-to guide that you are reading right now.
 
 I also want to take a moment to mention a few, more general resources that were invaluable for me during this entire process. These are great if you ever want to go down the rabbit hole of the world of Taiko no Tatsujin modding or Custom Controller creation - with these assets at your disposal, you have the power to create anything imaginable:
 

@@ -1,1 +1,100 @@
+# Backup and temporary folders
 Backup/
+NOT NEEDED/
+ORIGINALPRECCHANGE/
+.claude/
+.vscode/
+.idea/
+
+# Old structure (cleaned up)
+OuchiTaikoProject-main/
+
+# Internal documentation
+RELEASE_PREPARATION_SUMMARY.md
+*Copy.md
+
+# Build artifacts
+build/
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.su
+*.d
+*.a
+*.lib
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+.Python
+*.so
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# Embedded systems specific
+*.elf
+*.bin
+*.hex
+*.uf2
+*.map
+*.lst
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Secrets and credentials
+*.env
+.env
+credentials.json
+secrets.json
+*.pem
+*.key
+*.p12
+
+# Archives (optional - uncomment if you don't want to track ZIPs)
+# *.zip
+# *.tar
+# *.gz
+# *.rar
+# *.7z
+
+# Test files
+test/
+tests/
+*.test
