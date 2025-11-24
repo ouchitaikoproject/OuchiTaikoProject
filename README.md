@@ -6,8 +6,7 @@
 
 <div align="center">
 *In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
-
-
+</div>
 
 ---
 
