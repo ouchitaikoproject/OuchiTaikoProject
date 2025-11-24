@@ -1813,7 +1813,7 @@ Without these two projects, none of this would have been possible.
 
 Credit to 'Gadgetoid' on GitHub for his [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke) file that helps clean things up between flashes.
 
-Credit also goes to the creative minds over at [Boxes.py](https://boxes.hackerspace-bamberg.de/) as well for creating the ultimate box-creating resource. It offers endless ideas and guides on how to make enclosure boxes for pretty much anything - especially projects like this.
+Credit to Dork Design (https://www.printables.com/@DorkDesign) as well for creating the ultimate customizeable box resource. I tried so many different methods and systems for creating my custom controller, and the Dork Design system worked the very first time I tried it. Accept no immitation! Check their page out, they have other awesome creations as well.
 
 I want to thank Discord user 'Allspice.' I discovered a random message from him in my inbox one day asking if he could help test my Taiko Project when I was finished creating it. He said he had only basic soldering skills, yet he was able to successfully build the entire circuit from scratch as well as the drum! Even more importantly, he helped shape this how-to guide that you are reading right now.
 
