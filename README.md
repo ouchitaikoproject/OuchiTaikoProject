@@ -22,7 +22,6 @@
 - [7: Flash The Firmware](#7-flash-the-firmware)
 - [8: Calibration & Settings](#8-calibration--settings)
 - [9: Files & Downloads](#9-files--downloads)
-- [Firmware v2.0 Changelog](#firmware-v20-changelog)
 - [10: Basic Troubleshooting](#10-basic-troubleshooting)
 - [11: Menu Tree Structure/Quick Reference](#11-menu-system-reference)
 - [12: About](#12-about)
@@ -1584,7 +1583,7 @@ There you have it - You've just built a professional controller circuit with ada
 *Main controller firmware with two-pass bidirectional crosstalk detection*
 - Drag-and-drop to XIAO RP2040 after flashing nuke file
 - Includes ABSI adaptive sensitivity and all 14 controller modes
-- See [Firmware v2.0 Changelog](#firmware-v20-changelog) for full feature list
+- See GitHub Releases for full changelog and version history
 
 **[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)**
 *Wipes the RP2040 flash memory before installing firmware*
@@ -1618,46 +1617,6 @@ There you have it - You've just built a professional controller circuit with ada
 
 **[⬇️ Circuit Schematic (JPG)](https://ouchitaikoproject.github.io/OuchiTaikoProject/images/Pictures/schematic.jpg)**
 *Complete wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons*
-
----
-
-## **Firmware v2.0 Changelog**
-
-<div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
-### **🎉 Major Features (November 2025)**
-
-**🔥 World-First Two-Pass Bidirectional Crosstalk Detection**
-- **All 4 Drums Auto-Calibration** now analyzes each drum TWICE (forward + reverse pass)
-- Pass 1 records crosstalk from left neighbors, Pass 2 from right neighbors
-- Final thresholds use MAXIMUM crosstalk from both directions
-- Eliminates ghost hits from frame vibrations during hard play
-- Fully automated - zero manual tweaking required
-
-**⚡ Enhanced Calibration UX**
-- Results display for 2.5 seconds between drums (visible threshold values)
-- Context-aware messages: "Next drum starting..." vs "Returning to menu..."
-- Fixed phase transition timing - proper countdown for all drums
-- Completion screen: "All Drums Complete! All Thresholds Saved"
-- Smooth transitions throughout entire 8-drum sequence
-
-**🎯 Bug Fixes**
-- Fixed "All 4 Drums" mode freeze bug (Display now checks drum state during countdown)
-- Fixed Ka-Right (first drum of Pass 2) missing countdown
-- Fixed screen glitch between Phase 1 and Phase 2 transitions
-- Fixed threshold application - Pass 2 now properly compares with Pass 1 data
-
-**📊 Technical Improvements**
-- Pass tracking in TaikoTuneState (current_pass, pass1_max_crosstalk)
-- Smart reset logic preserves Pass 1 data when starting Pass 2
-- Drum.cpp comparison algorithm uses std::max for bidirectional crosstalk
-- Main.cpp passes correct pass number (1 or 2) to analysis engine
-
-### **Previous Versions**
-
-**v1.6** - All 4 Drums calibration mode with double-pass sequencing
-**v1.5** - ABSI adaptive baseline intelligence
-**v1.0** - Initial public release based on DonCon2040
 
 ---
 
