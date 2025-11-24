@@ -281,14 +281,25 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map
         m_pads.at(id).addToBuffer(value, m_config.debounce_delay_ms);
     }
 
-    input_state.drum.don_left.raw = m_pads.at(Id::DON_LEFT).getMaxValueInBuffer();
-    input_state.drum.ka_left.raw = m_pads.at(Id::KA_LEFT).getMaxValueInBuffer();
-    input_state.drum.don_right.raw = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
-    input_state.drum.ka_right.raw = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
+    // Scale 12-bit raw values (0-4095) to 16-bit (0-65535) for analog output
+    const auto raw_to_uint16 = [](uint16_t raw) {
+        return ((raw << 4) & 0xFFF0) | ((raw >> 8) & 0x000F);
+    };
+
+    // Set .analog (not .raw) with proper scaling
+    input_state.drum.don_left.analog = raw_to_uint16(m_pads.at(Id::DON_LEFT).getMaxValueInBuffer());
+    input_state.drum.ka_left.analog = raw_to_uint16(m_pads.at(Id::KA_LEFT).getMaxValueInBuffer());
+    input_state.drum.don_right.analog = raw_to_uint16(m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer());
+    input_state.drum.ka_right.analog = raw_to_uint16(m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer());
 }
 
 void Drum::updateInputState(Utils::InputState &input_state) {
     const auto raw_values = readInputs();
+
+    input_state.drum.don_left.raw = raw_values.at(Id::DON_LEFT);
+    input_state.drum.don_right.raw = raw_values.at(Id::DON_RIGHT);
+    input_state.drum.ka_left.raw = raw_values.at(Id::KA_LEFT);
+    input_state.drum.ka_right.raw = raw_values.at(Id::KA_RIGHT);
 
     if (m_taikotune_state.isActive()) {
         updateTaikoTuneAnalysis(raw_values);
