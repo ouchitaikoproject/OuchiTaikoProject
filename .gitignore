@@ -1,8 +1,17 @@
 # Backup and temporary folders
 Backup/
 NOT NEEDED/
+ORIGINALPRECCHANGE/
+.claude/
 .vscode/
 .idea/
+
+# Old structure (cleaned up)
+OuchiTaikoProject-main/
+
+# Internal documentation
+RELEASE_PREPARATION_SUMMARY.md
+*Copy.md
 
 # Build artifacts
 build/
