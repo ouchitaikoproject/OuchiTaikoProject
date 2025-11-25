@@ -165,21 +165,6 @@ Calibrate and test your entire system with just USB power—see exactly what's h
 
 ---
 
-### **📊 Why OuchiTaiko Over Alternatives**
-
-| Feature | OuchiTaiko | DonCon2040 | ITAIKO | Roland V-Drums |
-|---------|------------|------------|--------|----------------|
-| **Automated Crosstalk Detection** | ✅ Two-Pass Bidirectional | ❌ Manual Only | ❌ None | ⚠️ Manual Parameter |
-| **ABSI Adaptive Sensitivity** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **Arcade Sensor Suspension** | ✅ Custom Design | ❌ Generic | ❌ Generic | ✅ Proprietary |
-| **Big Note Velocity Detection** | ✅ Yes | ❌ No | ⚠️ Limited | ✅ Yes |
-| **PS4 Always-On (No Auth Chip)** | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
-| **Standalone Testing (No PC)** | ✅ Full OLED System | ⚠️ Basic | ❌ None | ✅ Module Display |
-| **Controller Modes** | ✅ 14 Modes | ⚠️ 6 Modes | ⚠️ Limited | ❌ MIDI Only |
-| **Zero Coding Required** | ✅ Yes | ⚠️ Some Required | ⚠️ Some Required | ✅ Yes |
-| **Cost** | ~$150 DIY | ~$100 DIY | ~$120 DIY | $800-2000+ |
-| **Open Source** | ✅ Yes | ✅ Yes | ⚠️ Partial | ❌ Proprietary |
-
 *OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding professional features while maintaining the open-source spirit.*
 
 ### 🎥 Demo Videos
