@@ -12,7 +12,7 @@
 
 ## **Table of Contents**
 - [1: Project Overview](#1-project-overview)
-  - [Ouchi Originals: What Makes This Different](#-ouchi-originals-what-makes-this-different)
+  - [What Makes OuchiTaiko Different](#-what-makes-ouchitaiko-different-professional-features-zero-coding-required)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
 - [4: Build the Circuit](#4-build-the-circuit)
