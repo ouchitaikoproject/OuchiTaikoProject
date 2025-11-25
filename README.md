@@ -125,23 +125,6 @@ This isn't just cosmetic: proper sensor suspension is critical for:
 - Live streak counter and controller mode display
 - Instant verification that everything is wired correctly
 
-### **Why OuchiTaiko Over Alternatives**
-
-| Feature | OuchiTaiko | DonCon2040 | ITAIKO | Roland V-Drums |
-|---------|------------|------------|--------|----------------|
-| **Automated Crosstalk Detection** | ✅ Two-Pass Bidirectional | ❌ Manual Only | ❌ None | ⚠️ Manual Parameter |
-| **ABSI Adaptive Sensitivity** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **Arcade Sensor Suspension** | ✅ Custom Design | ❌ Generic | ❌ Generic | ✅ Proprietary |
-| **Big Note Velocity Detection** | ✅ Yes | ❌ No | ⚠️ Limited | ✅ Yes |
-| **Standalone Testing (No PC)** | ✅ Full OLED System | ⚠️ Basic | ❌ None | ✅ Module Display |
-| **14 Controller Modes** | ✅ Yes | ⚠️ 6 Modes | ⚠️ Limited | ❌ MIDI Only |
-| **Cost** | ~$150 DIY | ~$100 DIY | ~$120 DIY | $800-2000+ |
-| **Open Source** | ✅ Yes | ✅ Yes | ⚠️ Partial | ❌ Proprietary |
-
-*OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding advanced features while maintaining the open-source spirit.*
-
-**Bottom line:** Professional-grade performance with innovations not found in commercial controllers costing 10x more.
-
 ---
 
 ### **What You'll Build: Next-Generation Features**
