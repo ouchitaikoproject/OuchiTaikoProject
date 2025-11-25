@@ -1,6 +1,7 @@
 # Backup and temporary folders
 Backup/
 NOT NEEDED/
+PRIVATE_NOTES/
 .vscode/
 .idea/
 
