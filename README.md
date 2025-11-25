@@ -118,15 +118,6 @@ This isn't cosmetic: proper sensor suspension ensures:
 
 #### **PS4 Always-On Mode (No Authentication Hardware Required)**
 
-**The PS4 Problem:** Most DIY controllers require expensive authentication chips or complex workarounds to work with PS4 consoles.
-
-**OuchiTaiko's Solution:** Built-in **PS4 Always-On mode** that maintains constant connection without:
-- ❌ Hardware authentication keys
-- ❌ Modifying firmware code
-- ❌ Recompiling or programming knowledge
-
-Simply enable PS4 mode from the menu—**that's it.** No soldering extra chips, no coding, no complexity.
-
 ---
 
 ### **🎮 Complete Hardware & Features**
