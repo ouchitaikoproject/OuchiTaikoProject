@@ -12,7 +12,7 @@
 
 ## **Table of Contents**
 - [1: Project Overview](#1-project-overview)
-  - [Ouchi Originals: What Makes This Different](#-ouchi-originals-what-makes-this-different)
+  - [What Makes OuchiTaiko Different](#-what-makes-ouchitaiko-different-professional-features-zero-coding-required)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
 - [4: Build the Circuit](#4-build-the-circuit)
@@ -63,41 +63,40 @@ All you need is your enthusiasm and some basic soldering and woodworking skills.
 
 ---
 
-## 🔥 **Ouchi Originals: What Makes This Different**
+## 🔥 **What Makes OuchiTaiko Different: Professional Features, Zero Coding Required**
 
-**OuchiTaiko isn't just another DIY drum controller—it's a complete reimagining of what's possible with open-source hardware.**
+**OuchiTaiko isn't just another DIY drum controller—it's a complete reimagining of what's possible with open-source hardware. Professional arcade-grade performance with innovations not found in commercial controllers costing 10x more.**
 
-### **World-First Two-Pass Bidirectional Crosstalk Detection**
+You'll build a professional arcade-scale Taiko drum controller with world-first innovations and true plug-and-play simplicity—**no programming or coding skills required.**
 
-**The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing those piezo sensors to register false "ghost hits" (crosstalk). This ruins gameplay accuracy, especially during intense sections with hard hits.
+---
+
+### **🎯 World-First Innovations**
+
+#### **Two-Pass Bidirectional Crosstalk Detection**
+
+**The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing false "ghost hits" (crosstalk) that ruin gameplay accuracy.
 
 **Traditional Approaches:**
-- Manual threshold tweaking in code—requires recompilation and trial-and-error
-- Simple adjustable parameters that you guess-and-check
-- Physical modifications: adding foam between clamps or increasing pad spacing
-- Accepting some level of crosstalk as an inherent limitation
+- Manual threshold tweaking in code (requires recompilation and trial-and-error)
+- Physical modifications (foam padding, increased spacing)
+- Accepting crosstalk as an inherent limitation
 
-**OuchiTaiko's Innovation (Firmware v2.0):**
+**OuchiTaiko's Solution:**
 
-Our **All 4 Drums Auto-Calibration** mode uses a revolutionary two-pass system that analyzes crosstalk from **BOTH directions**:
+Our **All 4 Drums Auto-Calibration** mode uses a revolutionary two-pass system analyzing crosstalk from **BOTH directions**:
 
-**Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right
-*Records interference from left neighbors*
+- **Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right *(records left-neighbor interference)*
+- **Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left *(records right-neighbor interference)*
 
-**Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left
-*Records interference from right neighbors*
+**Result:** Each drum's threshold uses the **MAXIMUM crosstalk** from both passes, accounting for mechanical coupling from ALL adjacent drums.
 
-**Result:** Each drum's threshold uses the **MAXIMUM crosstalk detected from both passes**, accounting for mechanical coupling from ALL adjacent drums.
+✅ **Eliminates ghost hits** from frame vibrations
+✅ **Zero manual tweaking** - fully automated
+✅ **Arcade-level accuracy** at any intensity
+✅ **World-first implementation**
 
-**Why This Matters:**
-- ✅ **Eliminates ghost hits** from frame vibrations
-- ✅ **Zero manual tweaking** - fully automated detection and compensation
-- ✅ **Arcade-level accuracy** - play at any intensity without false triggers
-- ✅ **World-first implementation** - automated bidirectional crosstalk analysis
-
-This bidirectional analysis ensures flawless performance even during the hardest hits that cause maximum frame resonance.
-
-### **Adaptive Baseline Software Intelligence (ABSI)**
+#### **Adaptive Baseline Software Intelligence (ABSI)**
 
 Unlike complex analog circuits with op-amps and custom PCBs, OuchiTaiko achieves **superior performance through elegant software:**
 
@@ -108,56 +107,39 @@ Unlike complex analog circuits with op-amps and custom PCBs, OuchiTaiko achieves
 
 **First time available in ANY home arcade controller.**
 
-### **Custom Arcade Sensor Suspension**
+#### **Custom Arcade Sensor Suspension**
 
-The drum trigger sensors use **custom-designed suspension mounting** that precisely mimics Japanese arcade machines—**first time available to the public.**
+Drum trigger sensors use **custom-designed suspension mounting** that precisely mimics Japanese arcade machines—**first time available to the public.**
 
-This isn't just cosmetic: proper sensor suspension is critical for:
+This isn't cosmetic: proper sensor suspension ensures:
 - Consistent velocity response across the drum surface
 - Accurate Big Note detection
 - Long-term durability under heavy play
 
-### **Complete Standalone Testing**
-
-**No PC required** for setup or troubleshooting:
-- OLED display shows real-time hit feedback with animated drum icons
-- Visual confirmation of all 14 navigation buttons
-- Live streak counter and controller mode display
-- Instant verification that everything is wired correctly
+#### **PS4 Always-On Mode (No Authentication Hardware Required)**
 
 ---
 
-### **What You'll Build: Next-Generation Features**
+### **🎮 Complete Hardware & Features**
 
-You will construct a professional arcade-scale Taiko drum controller engineered for premium performance and maximum compatibility, featuring:
+#### **Standalone Testing & Display**
 
-**Performance & Design**
+**No PC required** for setup, calibration, or troubleshooting:
+- **OLED display** with real-time hit feedback and animated drum icons
+- **Visual confirmation** of all 14 navigation buttons
+- **Live stats:** Streak counter, controller mode, menu hints
+- **Instant verification** that everything is wired correctly
+
+Calibrate and test your entire system with just USB power—see exactly what's happening before you ever plug into a console or PC.
+
+#### **Professional Hardware**
 
 - **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
-- **Custom Arcade Sensors:** Drum trigger sensors with custom-designed suspension mounting that precisely mimics Japanese arcade machines (a first time available to the Public)
-- **Adaptive Baseline Software Technology (ABSI):** Custom-designed, velocity-sensing triggers for automatic sensitivity adjustment (a first for any home arcade controller) as well as authentic scoring by the option of hitting Big Notes *harder* for full points - 
-- **Taiko-Tune™ Auto-Calibration System:** Revolutionary automatic drum calibration system (see Section 8 for details)
-- **Zero Coding or Programming Skills Required:** Simply Drag-and-drop my completed firmware for instant use and simple setup
-
-**Hardware & Connectivity**
-
-**OLED Display:** On-the-fly mode selection, settings, calibration, and real-time hit feedback
-
-**COMPLETE STANDALONE TESTING:**
-
-- **No PC Required:** Calibrate and test entire system with just USB power
-- **Visual drum feedback:** 4 animated icons (Left Ka, Left Don, Right Don, Right Ka) react to hits
-- **Button mapping confirmation:** Real-time indicators verify all 14 navigation buttons and button naming/labeling
-- **Live stats:** Streak counter, controller mode, menu hints
-- Instant confirmation that everything is wired correctly
-
-**HARDWARE:**
-
 - **14 Game Navigation Buttons:** Full in-game navigation regardless of game version
 - **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
-- **Performance:** Rivals high-end manufactured controllers and commercial Arcade units
+- **Arcade-Grade Performance:** Rivals commercial controllers costing $800-2000+
 
-**14 Input Modes for Maximum Compatibility**
+#### **14 Input Modes for Maximum Compatibility**
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
@@ -173,6 +155,17 @@ You will construct a professional arcade-scale Taiko drum controller engineered 
 - Analog Player 2 (XInput)(Compatible with TaikoArcadeLoader)
 - MIDI Controller
 - Debug Mode
+
+#### **Zero Coding or Programming Required**
+
+- **Drag-and-drop firmware** for instant setup
+- **On-screen menus** for all settings and calibration
+- **Automatic updates** without recompiling
+- **No technical knowledge needed**—if you can follow instructions and use a soldering iron, you can build this
+
+---
+
+*OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding professional features while maintaining the open-source spirit.*
 
 ### 🎥 Demo Videos
 
