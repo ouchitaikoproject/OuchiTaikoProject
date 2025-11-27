@@ -222,83 +222,77 @@ int main() {
         select_menu_was_held = false;
     };
     
-    // Triple-tap SELECT for menu
-    const auto checkTripleTapSelect = [&input_state]() {
-        static uint8_t tap_count = 0;
-        static uint32_t last_tap_time = 0;
-        static bool was_pressed_last_frame = false;
-        static bool waiting_for_release = false;
-        static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
+    // Hold SELECT for menu (1 second hold) with debouncing
+    const auto checkHoldSelect = [&input_state]() {
+        static uint32_t select_hold_start = 0;
+        static bool was_held = false;
+        static uint8_t press_count = 0;  // Debounce counter
+        static const uint32_t HOLD_DURATION_MS = 1000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
-            waiting_for_release = false;
-        }
+        if (select_pressed) {
+            press_count++;
 
-        // Detect button press (rising edge) - but only if we're not waiting for release
-        if (select_pressed && !was_pressed_last_frame && !waiting_for_release) {
-            tap_count++;
-            last_tap_time = current_time;
-            waiting_for_release = true;  // Must release before next tap counts
+            // Start timer once we've seen button pressed for multiple frames (debounced)
+            if (press_count >= DEBOUNCE_THRESHOLD && select_hold_start == 0) {
+                select_hold_start = current_time;
+                was_held = false;
+            }
 
-            if (tap_count >= 3) {
-                tap_count = 0;
-                waiting_for_release = false;
-                was_pressed_last_frame = select_pressed;
+            // Check if hold duration met
+            if (select_hold_start != 0 && !was_held && (current_time - select_hold_start) >= HOLD_DURATION_MS) {
+                was_held = true;
+                press_count = 0;
+                select_hold_start = 0;
                 return true;
             }
+        } else {
+            // Button released - reset everything
+            press_count = 0;
+            select_hold_start = 0;
+            was_held = false;
         }
 
-        // Detect button release
-        if (!select_pressed && was_pressed_last_frame) {
-            waiting_for_release = false;  // Ready for next tap
-        }
-
-        was_pressed_last_frame = select_pressed;
         return false;
     };
     
-    // Triple-tap START for All 4 Drums calibration
-    const auto checkTripleTapStart = [&input_state]() {
-        static uint8_t tap_count = 0;
-        static uint32_t last_tap_time = 0;
-        static bool was_pressed_last_frame = false;
-        static bool waiting_for_release = false;
-        static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
+    // Hold START for All 4 Drums calibration (1 second hold) with debouncing
+    const auto checkHoldStart = [&input_state]() {
+        static uint32_t start_hold_start = 0;
+        static bool was_held = false;
+        static uint8_t press_count = 0;  // Debounce counter
+        static const uint32_t HOLD_DURATION_MS = 1000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
-            waiting_for_release = false;
-        }
+        if (start_pressed) {
+            press_count++;
 
-        // Detect button press (rising edge) - but only if we're not waiting for release
-        if (start_pressed && !was_pressed_last_frame && !waiting_for_release) {
-            tap_count++;
-            last_tap_time = current_time;
-            waiting_for_release = true;  // Must release before next tap counts
+            // Start timer once we've seen button pressed for multiple frames (debounced)
+            if (press_count >= DEBOUNCE_THRESHOLD && start_hold_start == 0) {
+                start_hold_start = current_time;
+                was_held = false;
+            }
 
-            if (tap_count >= 3) {
-                tap_count = 0;
-                waiting_for_release = false;
-                was_pressed_last_frame = start_pressed;
+            // Check if hold duration met
+            if (start_hold_start != 0 && !was_held && (current_time - start_hold_start) >= HOLD_DURATION_MS) {
+                was_held = true;
+                press_count = 0;
+                start_hold_start = 0;
                 return true;
             }
+        } else {
+            // Button released - reset everything
+            press_count = 0;
+            start_hold_start = 0;
+            was_held = false;
         }
 
-        // Detect button release
-        if (!start_pressed && was_pressed_last_frame) {
-            waiting_for_release = false;  // Ready for next tap
-        }
-
-        was_pressed_last_frame = start_pressed;
         return false;
     };
 
@@ -732,8 +726,8 @@ int main() {
         
         // Check for special inputs when menu is NOT active
         if (!menu.active()) {
-            if (checkTripleTapStart()) {
-                // TRIPLE-TAP START DETECTED - Launch All 4 Drums calibration instantly!
+            if (checkHoldStart()) {
+                // HOLD START DETECTED - Launch All 4 Drums calibration instantly!
                 all_drums_mode_active = true;
                 current_drum_index = 0;
                 last_processed_drum_index = 255;  // Reset guard
@@ -771,8 +765,8 @@ int main() {
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
 
-            } else if (checkTripleTapSelect()) {
-                // TRIPLE-TAP SELECT DETECTED - Open menu
+            } else if (checkHoldSelect()) {
+                // HOLD SELECT DETECTED - Open menu
                 menu.activate();
 
                 ControlMessage ctrl_message{.command = ControlCommand::EnterMenu, .data = {}};
