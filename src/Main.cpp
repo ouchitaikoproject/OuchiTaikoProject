@@ -555,6 +555,12 @@ int main() {
             // CRITICAL: Menu needs edge detection to prevent fast scrolling
             // Only pass button presses on rising edges (first frame pressed)
             static Utils::InputState::Controller last_menu_controller = {};
+
+            // Reset edge detection when first entering menu to prevent stale state
+            if (!was_menu_active) {
+                last_menu_controller = input_state.controller;
+            }
+
             Utils::InputState::Controller menu_controller = {};
 
             // Copy only newly pressed buttons (rising edges)
