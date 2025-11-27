@@ -227,32 +227,35 @@ int main() {
         static uint8_t tap_count = 0;
         static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
+        static bool waiting_for_release = false;
         static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
 
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Detect button press (rising edge)
-        if (select_pressed && !was_pressed_last_frame) {
-            // Check if this tap is within the time window
-            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-                // Too slow - reset counter
-                tap_count = 0;
-            }
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+            waiting_for_release = false;
+        }
 
+        // Detect button press (rising edge) - but only if we're not waiting for release
+        if (select_pressed && !was_pressed_last_frame && !waiting_for_release) {
             tap_count++;
             last_tap_time = current_time;
+            waiting_for_release = true;  // Must release before next tap counts
 
             if (tap_count >= 3) {
-                tap_count = 0;  // Reset for next triple-tap
+                tap_count = 0;
+                waiting_for_release = false;
                 was_pressed_last_frame = select_pressed;
                 return true;
             }
         }
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
+        // Detect button release
+        if (!select_pressed && was_pressed_last_frame) {
+            waiting_for_release = false;  // Ready for next tap
         }
 
         was_pressed_last_frame = select_pressed;
@@ -264,32 +267,35 @@ int main() {
         static uint8_t tap_count = 0;
         static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
+        static bool waiting_for_release = false;
         static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
 
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Detect button press (rising edge)
-        if (start_pressed && !was_pressed_last_frame) {
-            // Check if this tap is within the time window
-            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-                // Too slow - reset counter
-                tap_count = 0;
-            }
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+            waiting_for_release = false;
+        }
 
+        // Detect button press (rising edge) - but only if we're not waiting for release
+        if (start_pressed && !was_pressed_last_frame && !waiting_for_release) {
             tap_count++;
             last_tap_time = current_time;
+            waiting_for_release = true;  // Must release before next tap counts
 
             if (tap_count >= 3) {
-                tap_count = 0;  // Reset for next triple-tap
+                tap_count = 0;
+                waiting_for_release = false;
                 was_pressed_last_frame = start_pressed;
                 return true;
             }
         }
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
+        // Detect button release
+        if (!start_pressed && was_pressed_last_frame) {
+            waiting_for_release = false;  // Ready for next tap
         }
 
         was_pressed_last_frame = start_pressed;
@@ -362,14 +368,11 @@ int main() {
 
     while (true) {
         drum.updateInputState(input_state);
-        
-        // CRITICAL: Clear stale controller data if queue is empty
-        // queue_try_remove returns false if queue is empty, leaving old data
-        // This causes rapid menu scrolling from repeated button presses
-        if (!queue_try_remove(&controller_input_queue, &input_state.controller)) {
-            // Queue was empty - clear controller state to prevent stale data
-            input_state.controller = {};
-        }
+
+        // CRITICAL: Always try to get fresh controller data
+        // If queue is empty, keep last known state - edge detection in menu handles repeats
+        // Don't clear stale data as it creates false rising edges
+        queue_try_remove(&controller_input_queue, &input_state.controller);
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
@@ -547,9 +550,67 @@ int main() {
 
         // Track menu state BEFORE processing to detect transitions
         bool was_menu_active = menu.active();
-        
+
         if (menu.active()) {
-            menu.update(input_state.controller);
+            // CRITICAL: Menu needs edge detection to prevent fast scrolling
+            // Only pass button presses on rising edges (first frame pressed)
+            static Utils::InputState::Controller last_menu_controller = {};
+
+            // Reset edge detection when first entering menu to prevent stale state
+            if (!was_menu_active) {
+                last_menu_controller = input_state.controller;
+            }
+
+            Utils::InputState::Controller menu_controller = {};
+
+            // Copy only newly pressed buttons (rising edges)
+            #define EDGE_DETECT_BTN(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
+            #define EDGE_DETECT_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn && !last_menu_controller.dpad.btn
+
+            EDGE_DETECT_BTN(north);
+            EDGE_DETECT_BTN(east);
+            EDGE_DETECT_BTN(south);
+            EDGE_DETECT_BTN(west);
+            EDGE_DETECT_BTN(l);
+            EDGE_DETECT_BTN(r);
+            EDGE_DETECT_BTN(select);
+            EDGE_DETECT_BTN(start);
+            EDGE_DETECT_BTN(home);
+            EDGE_DETECT_BTN(share);
+            EDGE_DETECT_DPAD(up);
+            EDGE_DETECT_DPAD(down);
+            EDGE_DETECT_DPAD(left);
+            EDGE_DETECT_DPAD(right);
+
+            #undef EDGE_DETECT_BTN
+            #undef EDGE_DETECT_DPAD
+
+            // CRITICAL: Rate limiting - only allow menu actions every 200ms
+            // Prevents rapid scrolling from button bounce or fast state changes
+            static uint32_t last_menu_input_time = 0;
+            const uint32_t MENU_INPUT_DELAY_MS = 200;
+            uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+            // Check if any button was pressed (has any input to send)
+            bool has_input = menu_controller.buttons.north || menu_controller.buttons.south ||
+                           menu_controller.buttons.east || menu_controller.buttons.west ||
+                           menu_controller.buttons.l || menu_controller.buttons.r ||
+                           menu_controller.buttons.select || menu_controller.buttons.start ||
+                           menu_controller.buttons.home || menu_controller.buttons.share ||
+                           menu_controller.dpad.up || menu_controller.dpad.down ||
+                           menu_controller.dpad.left || menu_controller.dpad.right;
+
+            // Only send input if enough time has passed since last input
+            if (has_input && (current_time - last_menu_input_time) >= MENU_INPUT_DELAY_MS) {
+                menu.update(menu_controller);
+                last_menu_input_time = current_time;
+            } else if (!has_input) {
+                // No input - send empty state to keep menu responsive
+                menu.update(menu_controller);
+            }
+
+            // Save current state for next frame's edge detection
+            last_menu_controller = input_state.controller;
             
             // Check if Taiko-Tune start was requested
             if (menu.isTaikoTuneStartRequested()) {
