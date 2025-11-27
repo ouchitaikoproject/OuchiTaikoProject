@@ -370,7 +370,6 @@ int main() {
             // Queue was empty - clear controller state to prevent stale data
             input_state.controller = {};
         }
-
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
