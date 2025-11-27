@@ -560,9 +560,38 @@ int main() {
 
         // Track menu state BEFORE processing to detect transitions
         bool was_menu_active = menu.active();
-        
+
         if (menu.active()) {
-            menu.update(input_state.controller);
+            // CRITICAL: Menu needs edge detection to prevent fast scrolling
+            // Only pass button presses on rising edges (first frame pressed)
+            static Utils::InputState::Controller last_menu_controller = {};
+            Utils::InputState::Controller menu_controller = {};
+
+            // Copy only newly pressed buttons (rising edges)
+            #define EDGE_DETECT(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
+
+            EDGE_DETECT(north);
+            EDGE_DETECT(east);
+            EDGE_DETECT(south);
+            EDGE_DETECT(west);
+            EDGE_DETECT(l);
+            EDGE_DETECT(r);
+            EDGE_DETECT(select);
+            EDGE_DETECT(start);
+            EDGE_DETECT(home);
+            EDGE_DETECT(share);
+            EDGE_DETECT(up);
+            EDGE_DETECT(down);
+            EDGE_DETECT(left);
+            EDGE_DETECT(right);
+
+            #undef EDGE_DETECT
+
+            // Update menu with edge-detected input
+            menu.update(menu_controller);
+
+            // Save current state for next frame's edge detection
+            last_menu_controller = input_state.controller;
             
             // Check if Taiko-Tune start was requested
             if (menu.isTaikoTuneStartRequested()) {
