@@ -360,7 +360,7 @@ int main() {
         // CRITICAL: Always wait for fresh controller data
         // queue_try_remove can fail and leave stale data in input_state.controller
         // This causes menu freeze on second entry because buttons are "stuck"
-        queue_remove_blocking(&controller_input_queue, &input_state.controller);
+    queue_try_remove(&controller_input_queue, &input_state.controller);
 
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
