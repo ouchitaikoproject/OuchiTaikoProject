@@ -369,20 +369,10 @@ int main() {
     while (true) {
         drum.updateInputState(input_state);
 
-        // CRITICAL: Track controller data freshness to prevent stale button states
-        static uint32_t last_controller_update = 0;
-        static const uint32_t CONTROLLER_STALE_MS = 100;  // Clear after 100ms of no updates
-        uint32_t current_time = to_ms_since_boot(get_absolute_time());
-
-        if (queue_try_remove(&controller_input_queue, &input_state.controller)) {
-            // Got fresh data - update timestamp
-            last_controller_update = current_time;
-        } else if ((current_time - last_controller_update) > CONTROLLER_STALE_MS) {
-            // Data is too stale - clear it to prevent repeated button presses
-            input_state.controller = {};
-            last_controller_update = current_time;
-        }
-        // Otherwise: keep last known state (queue temporarily empty but data is recent)
+        // CRITICAL: Always try to get fresh controller data
+        // If queue is empty, keep last known state - edge detection in menu handles repeats
+        // Don't clear stale data as it creates false rising edges
+        queue_try_remove(&controller_input_queue, &input_state.controller);
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
