@@ -714,7 +714,7 @@ Continue to Section 5 to build the drum.
 
 #### **C1. Cut all MDF wood pieces per SVG templates**
 
-💾 [File packet located here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+💾 [SVG Template packet located here](#9-files--downloads)
 
 Use your Laser or CNC machine to cut out all of the parts in template files.
 
@@ -880,7 +880,7 @@ This metal bolt will go through the matching holes in the drum baseplate in a la
 
 #### **F1. Print The Sensor Housings**
 
-💾 [Files are in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+💾 [Sensor Housing files are in the file packet here](#9-files--downloads)
 
 Print 4 complete sets of Sensor Housings (each set has a top and bottom).
 
@@ -900,7 +900,7 @@ Use **PLA filament**.
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
-💾 [Template found in the file packet here](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)
+💾 [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
 
 ---
 
@@ -1047,6 +1047,8 @@ Route the sensor wires through the nearest opening so they hang out of the back 
 
 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in pictures, and then place the couplers in them. You will have one set of Barrel Mounts on each side of the drum.
 
+💾 [Barrrel Mount Files are in the file packet here](#9-files--downloads)
+
 <div align="center">
 <img src="images/Pictures/couplersempty.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -1089,7 +1091,9 @@ If you built the board to the exact specifications in my guide, you'll be able t
 <img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Using the free .STL files provided HERE, print the control box base and lid using the following settings:
+💾 [Controller Enclosure Files are in the file packet here](#9-files--downloads)
+
+Print the control box base and lid using the following settings:
 
 --Layer Height: .20mm
 
@@ -1287,8 +1291,8 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
 💾 **Download the firmware files:**
-- [OuchiTaiko Firmware v2.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoFirmware_v2.0.uf2)
-- [Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)
+- [OuchiTaiko Firmware v1.0](#9-files--downloads)
+- [Flash Nuke (Board Wipe)](#9-files--downloads)
 
 ---
 
@@ -1549,30 +1553,30 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **🔧 Firmware Files**
 
-**[⬇️ OuchiTaiko Firmware v2.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoFirmware_v2.0.uf2)**
+**[⬇️ OuchiTaiko Firmware v1.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaikoProject.uf2)**
 *Main controller firmware with two-pass bidirectional crosstalk detection*
 - Drag-and-drop to XIAO RP2040 after flashing nuke file
 - Includes ABSI adaptive sensitivity and all 14 controller modes
 - See GitHub Releases for full changelog and version history
 
-**[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/universal_flash_nuke.uf2)**
+**[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/Universal-Flash-Nuke.uf2)**
 *Wipes the RP2040 flash memory before installing firmware*
 - Flash this FIRST (once per board, or when troubleshooting)
 - Board will reboot automatically, then drag firmware .uf2
 
 ### **📐 3D Printing & Laser Cutting Files**
 
-**[⬇️ All STL & SVG Files (ZIP)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/KillerQsOuchiTaikoProjectSTLandSVGFiles.zip)**
+**[⬇️ All STL & SVG Files (ZIP)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Download-Files.zip)**
 *Complete bundle of all manufacturing files*
 
 **Individual Files:**
-- [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Bachi%20Stick%20Holder.stl) - Drumstick storage mount
-- [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20Housing.stl) - **Print 4x** for drum sensors
-- [TRS Barrel Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20-%20TRS%20Barrel%20Connector%20Mount.stl) - Cable connector mount
-- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Base.stl) - Electronics enclosure
-- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20Control%20Box%20Lid.stl) - Lid with button/display cutouts
-- [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20all%20Laser%20SVG%20Files.svg) - Drum face plates and base templates
-- [LightBurn Project File (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko%20Project%20SVG%20LightBurn%20Project%20File.lbrn2) - Pre-configured for laser cutting
+- [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Bachi-Stick-Holder.stl) - Drumstick storage mount
+- [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Housing.stl) - **Print 4x** for drum sensors
+- [TRS Barrel Connector Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-TRS-Barrel-Connector-Mount.stl) - Cable connector mount
+- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Base.stl) - Electronics enclosure
+- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Lid.stl) - Lid with button/display cutouts
+- [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Laser-SVG-Files.svg) - Drum face plates and base templates
+- [LightBurn Project File (If you use LightBurn) (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-SVG-LightBurn-Project-File.lbrn2) - Pre-configured for laser cutting
 
 **3D Print Settings:**
 - Material: PLA filament
