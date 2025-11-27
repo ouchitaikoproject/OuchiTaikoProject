@@ -227,32 +227,35 @@ int main() {
         static uint8_t tap_count = 0;
         static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
+        static bool waiting_for_release = false;
         static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
 
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Detect button press (rising edge)
-        if (select_pressed && !was_pressed_last_frame) {
-            // Check if this tap is within the time window
-            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-                // Too slow - reset counter
-                tap_count = 0;
-            }
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+            waiting_for_release = false;
+        }
 
+        // Detect button press (rising edge) - but only if we're not waiting for release
+        if (select_pressed && !was_pressed_last_frame && !waiting_for_release) {
             tap_count++;
             last_tap_time = current_time;
+            waiting_for_release = true;  // Must release before next tap counts
 
             if (tap_count >= 3) {
-                tap_count = 0;  // Reset for next triple-tap
+                tap_count = 0;
+                waiting_for_release = false;
                 was_pressed_last_frame = select_pressed;
                 return true;
             }
         }
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
+        // Detect button release
+        if (!select_pressed && was_pressed_last_frame) {
+            waiting_for_release = false;  // Ready for next tap
         }
 
         was_pressed_last_frame = select_pressed;
@@ -264,32 +267,35 @@ int main() {
         static uint8_t tap_count = 0;
         static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
+        static bool waiting_for_release = false;
         static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
 
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // Detect button press (rising edge)
-        if (start_pressed && !was_pressed_last_frame) {
-            // Check if this tap is within the time window
-            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-                // Too slow - reset counter
-                tap_count = 0;
-            }
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+            waiting_for_release = false;
+        }
 
+        // Detect button press (rising edge) - but only if we're not waiting for release
+        if (start_pressed && !was_pressed_last_frame && !waiting_for_release) {
             tap_count++;
             last_tap_time = current_time;
+            waiting_for_release = true;  // Must release before next tap counts
 
             if (tap_count >= 3) {
-                tap_count = 0;  // Reset for next triple-tap
+                tap_count = 0;
+                waiting_for_release = false;
                 was_pressed_last_frame = start_pressed;
                 return true;
             }
         }
 
-        // Reset if window expires
-        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
-            tap_count = 0;
+        // Detect button release
+        if (!start_pressed && was_pressed_last_frame) {
+            waiting_for_release = false;  // Ready for next tap
         }
 
         was_pressed_last_frame = start_pressed;
@@ -362,14 +368,21 @@ int main() {
 
     while (true) {
         drum.updateInputState(input_state);
-        
-        // CRITICAL: Clear stale controller data if queue is empty
-        // queue_try_remove returns false if queue is empty, leaving old data
-        // This causes rapid menu scrolling from repeated button presses
-        if (!queue_try_remove(&controller_input_queue, &input_state.controller)) {
-            // Queue was empty - clear controller state to prevent stale data
+
+        // CRITICAL: Track controller data freshness to prevent stale button states
+        static uint32_t last_controller_update = 0;
+        static const uint32_t CONTROLLER_STALE_MS = 100;  // Clear after 100ms of no updates
+        uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+        if (queue_try_remove(&controller_input_queue, &input_state.controller)) {
+            // Got fresh data - update timestamp
+            last_controller_update = current_time;
+        } else if ((current_time - last_controller_update) > CONTROLLER_STALE_MS) {
+            // Data is too stale - clear it to prevent repeated button presses
             input_state.controller = {};
+            last_controller_update = current_time;
         }
+        // Otherwise: keep last known state (queue temporarily empty but data is recent)
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
