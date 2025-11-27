@@ -222,70 +222,76 @@ int main() {
         select_menu_was_held = false;
     };
     
-    // Hold SELECT for menu (1 second CONTINUOUS hold)
-    const auto checkHoldSelect = [&input_state]() {
-        static uint32_t select_hold_start = 0;
-        static bool was_held = false;
+    // Triple-tap SELECT for menu
+    const auto checkTripleTapSelect = [&input_state]() {
+        static uint8_t tap_count = 0;
+        static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
-        static const uint32_t HOLD_DURATION_MS = 1000;
-        
+        static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
+
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
-        
-        // CRITICAL: If button was released since last frame, reset the timer
-        if (!select_pressed && was_pressed_last_frame) {
-            select_hold_start = 0;
-            was_held = false;
-        }
-        
-        if (select_pressed) {
-            if (select_hold_start == 0) {
-                select_hold_start = current_time;
-                was_held = false;
-            } else if (!was_held && (current_time - select_hold_start) >= HOLD_DURATION_MS) {
-                was_held = true;
+
+        // Detect button press (rising edge)
+        if (select_pressed && !was_pressed_last_frame) {
+            // Check if this tap is within the time window
+            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+                // Too slow - reset counter
+                tap_count = 0;
+            }
+
+            tap_count++;
+            last_tap_time = current_time;
+
+            if (tap_count >= 3) {
+                tap_count = 0;  // Reset for next triple-tap
                 was_pressed_last_frame = select_pressed;
                 return true;
             }
-        } else {
-            select_hold_start = 0;
-            was_held = false;
         }
-        
+
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+        }
+
         was_pressed_last_frame = select_pressed;
         return false;
     };
     
-    // Hold START for All 4 Drums calibration (1 second CONTINUOUS hold)
-    const auto checkHoldStart = [&input_state]() {
-        static uint32_t start_hold_start = 0;
-        static bool was_held = false;
+    // Triple-tap START for All 4 Drums calibration
+    const auto checkTripleTapStart = [&input_state]() {
+        static uint8_t tap_count = 0;
+        static uint32_t last_tap_time = 0;
         static bool was_pressed_last_frame = false;
-        static const uint32_t HOLD_DURATION_MS = 1000;
-        
+        static const uint32_t TAP_WINDOW_MS = 500;  // 500ms window for triple-tap
+
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
-        
-        // CRITICAL: If button was released since last frame, reset the timer
-        if (!start_pressed && was_pressed_last_frame) {
-            start_hold_start = 0;
-            was_held = false;
-        }
-        
-        if (start_pressed) {
-            if (start_hold_start == 0) {
-                start_hold_start = current_time;
-                was_held = false;
-            } else if (!was_held && (current_time - start_hold_start) >= HOLD_DURATION_MS) {
-                was_held = true;
+
+        // Detect button press (rising edge)
+        if (start_pressed && !was_pressed_last_frame) {
+            // Check if this tap is within the time window
+            if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+                // Too slow - reset counter
+                tap_count = 0;
+            }
+
+            tap_count++;
+            last_tap_time = current_time;
+
+            if (tap_count >= 3) {
+                tap_count = 0;  // Reset for next triple-tap
                 was_pressed_last_frame = start_pressed;
                 return true;
             }
-        } else {
-            start_hold_start = 0;
-            was_held = false;
         }
-        
+
+        // Reset if window expires
+        if (tap_count > 0 && (current_time - last_tap_time) > TAP_WINDOW_MS) {
+            tap_count = 0;
+        }
+
         was_pressed_last_frame = start_pressed;
         return false;
     };
@@ -665,8 +671,8 @@ if (!queue_try_remove(&controller_input_queue, &input_state.controller)) {
         
         // Check for special inputs when menu is NOT active
         if (!menu.active()) {
-            if (checkHoldStart()) {
-                // HOLD START DETECTED - Launch All 4 Drums calibration instantly!
+            if (checkTripleTapStart()) {
+                // TRIPLE-TAP START DETECTED - Launch All 4 Drums calibration instantly!
                 all_drums_mode_active = true;
                 current_drum_index = 0;
                 last_processed_drum_index = 255;  // Reset guard
@@ -703,9 +709,9 @@ if (!queue_try_remove(&controller_input_queue, &input_state.controller)) {
                     .pass_number = 0
                 };
                 queue_try_add(&taikotune_command_queue, &show_msg);
-                
-            } else if (checkHoldSelect()) {
-                // HOLD SELECT DETECTED - Open menu
+
+            } else if (checkTripleTapSelect()) {
+                // TRIPLE-TAP SELECT DETECTED - Open menu
                 menu.activate();
 
                 ControlMessage ctrl_message{.command = ControlCommand::EnterMenu, .data = {}};
