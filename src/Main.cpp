@@ -222,71 +222,77 @@ int main() {
         select_menu_was_held = false;
     };
     
-    // Hold SELECT for menu (1 second hold)
+    // Hold SELECT for menu (1 second hold) with debouncing
     const auto checkHoldSelect = [&input_state]() {
         static uint32_t select_hold_start = 0;
         static bool was_held = false;
-        static bool was_pressed_last_frame = false;
+        static uint8_t press_count = 0;  // Debounce counter
         static const uint32_t HOLD_DURATION_MS = 1000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
         bool select_pressed = input_state.controller.buttons.select;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // If button was released, reset the timer
-        if (!select_pressed && was_pressed_last_frame) {
-            select_hold_start = 0;
-            was_held = false;
-        }
-
         if (select_pressed) {
-            if (select_hold_start == 0) {
+            press_count++;
+
+            // Start timer once we've seen button pressed for multiple frames (debounced)
+            if (press_count >= DEBOUNCE_THRESHOLD && select_hold_start == 0) {
                 select_hold_start = current_time;
                 was_held = false;
-            } else if (!was_held && (current_time - select_hold_start) >= HOLD_DURATION_MS) {
+            }
+
+            // Check if hold duration met
+            if (select_hold_start != 0 && !was_held && (current_time - select_hold_start) >= HOLD_DURATION_MS) {
                 was_held = true;
-                was_pressed_last_frame = select_pressed;
+                press_count = 0;
+                select_hold_start = 0;
                 return true;
             }
         } else {
+            // Button released - reset everything
+            press_count = 0;
             select_hold_start = 0;
             was_held = false;
         }
 
-        was_pressed_last_frame = select_pressed;
         return false;
     };
     
-    // Hold START for All 4 Drums calibration (1 second hold)
+    // Hold START for All 4 Drums calibration (1 second hold) with debouncing
     const auto checkHoldStart = [&input_state]() {
         static uint32_t start_hold_start = 0;
         static bool was_held = false;
-        static bool was_pressed_last_frame = false;
+        static uint8_t press_count = 0;  // Debounce counter
         static const uint32_t HOLD_DURATION_MS = 1000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
         bool start_pressed = input_state.controller.buttons.start;
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-        // If button was released, reset the timer
-        if (!start_pressed && was_pressed_last_frame) {
-            start_hold_start = 0;
-            was_held = false;
-        }
-
         if (start_pressed) {
-            if (start_hold_start == 0) {
+            press_count++;
+
+            // Start timer once we've seen button pressed for multiple frames (debounced)
+            if (press_count >= DEBOUNCE_THRESHOLD && start_hold_start == 0) {
                 start_hold_start = current_time;
                 was_held = false;
-            } else if (!was_held && (current_time - start_hold_start) >= HOLD_DURATION_MS) {
+            }
+
+            // Check if hold duration met
+            if (start_hold_start != 0 && !was_held && (current_time - start_hold_start) >= HOLD_DURATION_MS) {
                 was_held = true;
-                was_pressed_last_frame = start_pressed;
+                press_count = 0;
+                start_hold_start = 0;
                 return true;
             }
         } else {
+            // Button released - reset everything
+            press_count = 0;
             start_hold_start = 0;
             was_held = false;
         }
 
-        was_pressed_last_frame = start_pressed;
         return false;
     };
 
