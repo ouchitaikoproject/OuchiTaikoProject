@@ -1551,46 +1551,38 @@ There you have it - You've just built a professional controller circuit with ada
 
 💾 **All files needed to complete your OuchiTaiko build:**
 
-### **🔧 Firmware Files**
+---
 
-**[⬇️ OuchiTaiko Firmware v1.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaikoProject.uf2)**
-*Main controller firmware with two-pass bidirectional crosstalk detection*
-- Drag-and-drop to XIAO RP2040 after flashing nuke file
-- Includes ABSI adaptive sensitivity and all 14 controller modes
-- See GitHub Releases for full changelog and version history
+### **Firmware Files**
 
-**[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/Universal-Flash-Nuke.uf2)**
-*Wipes the RP2040 flash memory before installing firmware*
-- Flash this FIRST (once per board, or when troubleshooting)
-- Board will reboot automatically, then drag firmware .uf2
+**[⬇️ OuchiTaiko Firmware v1.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaikoProject.uf2)**  
+Main controller firmware
 
-### **📐 3D Printing & Laser Cutting Files**
+**[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/Universal-Flash-Nuke.uf2)**  
+Fully Wipes RP2040 flash memory between Flashing- flash this firstevery time before installing firmware
 
-**[⬇️ All STL & SVG Files (ZIP)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Download-Files.zip)**
-*Complete bundle of all manufacturing files*
+---
+
+### **3D Printing & Laser Cutting Files**
+
+**[⬇️ All STL & SVG Files (ZIP)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Download-Files.zip)**  
+Complete bundle of all manufacturing files
 
 **Individual Files:**
-- [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Bachi-Stick-Holder.stl) - Drumstick storage mount
-- [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Housing.stl) - **Print 4x** for drum sensors
-- [TRS Barrel Connector Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-TRS-Barrel-Connector-Mount.stl) - Cable connector mount
-- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Base.stl) - Electronics enclosure
-- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Lid.stl) - Lid with button/display cutouts
-- [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Laser-SVG-Files.svg) - Drum face plates and base templates
-- [LightBurn Project File (If you use LightBurn) (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-SVG-LightBurn-Project-File.lbrn2) - Pre-configured for laser cutting
+- [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Bachi-Stick-Holder.stl)
+- [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Housing.stl) - Print 4x
+- [TRS Barrel Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-TRS-Barrel-Connector-Mount.stl)
+- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Base.stl)
+- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Lid.stl)
+- [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Laser-SVG-Files.svg)
+- [LightBurn Project File (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-SVG-LightBurn-Project-File.lbrn2)
 
-**3D Print Settings:**
-- Material: PLA filament
-- Layer height: 0.2mm
-- Infill: 40% Gyroid (sensor housings) or 20% (control box)
+---
 
-**Laser Cutting:**
-- Verify 6mm mounting holes are correct size before cutting
-- Neoprene disc template included in main SVG file
+### **Circuit Schematic**
 
-### **🔌 Circuit Schematic**
-
-**[⬇️ Circuit Schematic (JPG)](https://ouchitaikoproject.github.io/OuchiTaikoProject/images/Pictures/schematic.jpg)**
-*Complete wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons*
+**[⬇️ Circuit Schematic (JPG)](https://ouchitaikoproject.github.io/OuchiTaikoProject/images/Pictures/schematic.jpg)**  
+Complete circuit wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons
 
 ---
 
