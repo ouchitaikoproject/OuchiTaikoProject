@@ -357,11 +357,13 @@ int main() {
     while (true) {
         drum.updateInputState(input_state);
         
-        // CRITICAL: Always wait for fresh controller data
-        // queue_try_remove can fail and leave stale data in input_state.controller
-        // This causes menu freeze on second entry because buttons are "stuck"
-    queue_try_remove(&controller_input_queue, &input_state.controller);
-
+      // CRITICAL: Always wait for fresh controller data
+// queue_try_remove can fail and leave stale data in input_state.controller
+// This causes menu freeze on second entry because buttons are "stuck"
+// Clear controller state first to prevent stale data
+if (!queue_try_remove(&controller_input_queue, &input_state.controller)) {
+    input_state.controller = {};
+}
         // Check for B button press to cancel analysis
         const auto& tt_state = drum.getTaikoTuneState();
         bool current_analysis_active = tt_state.isActive();
