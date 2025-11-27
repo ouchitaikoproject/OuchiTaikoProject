@@ -1559,7 +1559,7 @@ There you have it - You've just built a professional controller circuit with ada
 Main controller firmware
 
 **[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/Universal-Flash-Nuke.uf2)**  
-Fully Wipes RP2040 flash memory between Flashing- flash this firstevery time before installing firmware
+Fully Wipes RP2040 flash memory between Flashing- flash this first every time before installing firmware
 
 ---
 
