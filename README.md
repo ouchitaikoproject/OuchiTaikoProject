@@ -275,15 +275,34 @@ The ElectroCookie protoboard has **shared rows** where multiple holes are electr
 
 ---
 
-### **IMPORTANT: Board Orientation**
+**When this guide specifies a hole location** (e.g., "Row D, hole 5"), you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location.
+
+---
+
+### **IMPORTANT: Board Orientation & Labeling**
 
 This protoboard has **row letters and numbers printed on both sides**.
 
-- **FRONT face** = Display and buttons side (use the rows and hole numbers on the front face when placing the display and button placement for Steps 1-2)
-- **BACK face** = XIAO, MCP23017, and screw terminals side (use the rows and hole numbers on the BACK face when referencing Steps 3-12)
+- **FRONT face** = Display and buttons side (use for Steps 1-2)
+- **BACK face** = XIAO, MCP23017, and screw terminals side (use for Steps 3-12)
+
+**⚠️ CRITICAL - Manufacturing Variance:**
+
+Due to manufacturing variations within ElectroCookie production batches, **some boards have reversed row labeling between front and back sides**. On affected boards, what appears as "Row A" on the FRONT may appear as "Row J" on the BACK (and vice versa).
+
+**Before you begin:** Check your specific board's labeling on both sides. When this guide specifies a hole location (e.g., "Row D, hole 5"), **always use the row letter/number printed on the side you're currently working on**, not the opposite side.
+
+**Example:** If the guide says to place a component in "Row E, hole 12" on the BACK face:
+1. Flip to the BACK face
+2. Locate the "Row E" label printed on the BACK (ignore what the front says)
+3. Count to hole 12 in that row
+4. Place your component
 
 Always verify which side you're working on before placing components.
 
+---
+
+### **Step 1: Mount OLED Display (FRONT face)**
 ---
 
 ### **Step 1: Mount OLED Display (FRONT face)**
