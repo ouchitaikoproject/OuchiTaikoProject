@@ -1,3 +1,54 @@
+<div align="center">
+<img src="images/Pictures/mainlogo.png" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
+</div>
+
+---
+
+<div align="center">
+*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
+</div>
+
+---
+
+## **Table of Contents**
+- [1: Project Overview](#1-project-overview)
+  - [What Makes OuchiTaiko Different](#-what-makes-ouchitaiko-different-professional-features-zero-coding-required)
+- [2: Parts List for Electronics](#2-parts-list-for-electronics)
+- [3: Parts List for Hardware](#3-parts-list-for-hardware)
+- [4: Build the Circuit](#4-build-the-circuit)
+- [5: Build the Drum](#5-build-the-drum)
+- [6: Control Box](#6-control-box)
+- [7: Flash The Firmware](#7-flash-the-firmware)
+- [8: Calibration & Settings](#8-calibration--settings)
+- [9: Files & Downloads](#9-files--downloads)
+- [10: Basic Troubleshooting](#10-basic-troubleshooting)
+- [11: Menu Tree Structure/Quick Reference](#11-menu-system-reference)
+- [12: About](#12-about)
+- [13: Copyright Information](#13-copyright-information)
+
+---
+
+## **1: Project Overview**
+
+#### The Finished Build - You'll be building and creating this entire setup:
+
+<div align="center">
+<img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<div align="center">
+<img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
 Hi, I'm KillerQ. Welcome to the **OuchiTaiko Project** - an open-source build guide for a professional arcade-grade Taiko drum controller.
 
 This guide represents 8 months of research and development, addressing the limited availability and high cost of commercial units. Using **Adaptive Baseline Software Intelligence (ABSI)**, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or custom PCBs.
