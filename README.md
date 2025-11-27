@@ -275,10 +275,6 @@ The ElectroCookie protoboard has **shared rows** where multiple holes are electr
 
 ---
 
-**When this guide specifies a hole location** (e.g., "Row D, hole 5"), you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location.
-
----
-
 ### **IMPORTANT: Board Orientation & Labeling**
 
 This protoboard has **row letters and numbers printed on both sides**.
@@ -300,9 +296,6 @@ Due to manufacturing variations within ElectroCookie production batches, **some 
 
 Always verify which side you're working on before placing components.
 
----
-
-### **Step 1: Mount OLED Display (FRONT face)**
 ---
 
 ### **Step 1: Mount OLED Display (FRONT face)**
