@@ -10,60 +10,100 @@ All you need is basic soldering and woodworking skills. The components linked in
 
 ### **World-First Innovations**
 
-**Two-Pass Bidirectional Crosstalk Detection**
+#### **Two-Pass Bidirectional Crosstalk Detection**
 
-When you strike one drum, vibrations can travel through the frame to neighboring drums, causing false "ghost hits." The **All 4 Drums Auto-Calibration** mode uses a two-pass system analyzing crosstalk from both directions:
+**The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing false "ghost hits" (crosstalk) that ruin gameplay accuracy.
 
-- **Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right
-- **Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left
+**Traditional Approaches:**
+- Manual threshold tweaking in code (requires recompilation and trial-and-error)
+- Physical modifications (foam padding, increased spacing)
+- Accepting crosstalk as an inherent limitation
 
-Each drum's threshold uses the maximum crosstalk from both passes, eliminating ghost hits with zero manual tweaking required.
+**OuchiTaiko's Solution:**
 
-**Adaptive Baseline Software Intelligence (ABSI)**
+The **All 4 Drums Auto-Calibration** mode uses a two-pass system analyzing crosstalk from **BOTH directions**:
 
-- Automatic sensitivity adjustment based on environmental noise
-- Velocity-sensing for Big Note detection (hit harder = full points)
-- Dynamic baseline tracking adapts to temperature, humidity, and mounting changes
-- Zero calibration drift over time
+- **Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right *(records left-neighbor interference)*
+- **Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left *(records right-neighbor interference)*
 
-**Custom Arcade Sensor Suspension**
+**Result:** Each drum's threshold uses the **MAXIMUM crosstalk** from both passes, accounting for mechanical coupling from ALL adjacent drums.
 
-Suspension mounting system that mimics Japanese arcade machines, ensuring consistent velocity response, accurate Big Note detection, and long-term durability.
+✅ **Eliminates ghost hits** from frame vibrations  
+✅ **Zero manual tweaking** - fully automated  
+✅ **Arcade-level accuracy** at any intensity
 
----
+#### **Adaptive Baseline Software Intelligence (ABSI)**
 
-### **Complete Hardware & Features**
+Achieves superior performance through elegant software:
 
-**Standalone Testing & Display**
-- OLED display with real-time hit feedback and animated drum icons
-- Visual confirmation of all 14 navigation buttons
-- Live stats: Streak counter, controller mode, menu hints
-- No PC required for setup and calibration
+- **Automatic sensitivity adjustment** based on environmental noise
+- **Velocity-sensing triggers** for authentic Big Note scoring (hit harder = full points)
+- **Dynamic baseline tracking** adapts to temperature, humidity, and mounting changes
+- **Zero calibration drift** over time
 
-**Professional Hardware**
-- 4 Velocity-Sensitive Zones with enhanced false-trigger isolation
-- 14 Game Navigation Buttons for full in-game control
-- Professional mounting via adjustable angled speaker stand
-- PS4 Always-On Mode (no authentication hardware required)
+#### **Custom Arcade Sensor Suspension**
 
-**14 Input Modes for Maximum Compatibility**
+Drum trigger sensors use **custom-designed suspension mounting** that precisely mimics Japanese arcade machines.
 
-Nintendo Switch Tatacon | Nintendo Switch Pro | Sony PS3 Dualshock3 | Sony PS4 Tatacon | Sony PS4 Dualshock4 (PC/Steam) | Keyboard Player 1 | Keyboard Player 2 | Microsoft Xbox 360 (XInput) | Android (XInput) | iOS (XInput) | Analog Player 1 (XInput) | Analog Player 2 (XInput) | MIDI Controller | Debug Mode
-
-**Zero Coding Required**
-- Drag-and-drop firmware installation
-- On-screen menus for all settings and calibration
-- No programming knowledge needed
+Proper sensor suspension ensures:
+- Consistent velocity response across the drum surface
+- Accurate Big Note detection
+- Long-term durability under heavy play
 
 ---
 
-*Built on the foundations of DonCon2040 and HIDtaiko*
+### **🎮 Complete Hardware & Features**
+
+#### **Standalone Testing & Display**
+
+**No PC required** for setup, calibration, or troubleshooting:
+- **OLED display** with real-time hit feedback and animated drum icons
+- **Visual confirmation** of all 14 navigation buttons
+- **Live stats:** Streak counter, controller mode, menu hints
+- **Instant verification** that everything is wired correctly
+
+Calibrate and test your entire system with just USB power—see exactly what's happening before you ever plug into a console or PC.
+
+#### **Professional Hardware**
+
+- **4 Velocity-Sensitive Zones:** Enhanced mechanical and electronic false-trigger isolation
+- **14 Game Navigation Buttons:** Full in-game navigation regardless of game version
+- **Professional Mounting:** Optimal hardware stabilization via adjustable, angled speaker stand
+- **PS4 Always-On Mode:** No authentication hardware required
+
+#### **14 Input Modes for Maximum Compatibility**
+
+- Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
+- Nintendo Switch Pro Controller
+- Sony PS3 Dualshock3
+- Sony PS4 Tatacon Drum (HORI PS4-095 Taiko Drum)
+- Sony PS4 Dualshock4 (PC/Steam only)
+- Keyboard Player 1
+- Keyboard Player 2
+- Microsoft Xbox Xbox360 (XInput)(Compatible with TaikoArcadeLoader)
+- Android (XInput)
+- iOS (XInput)
+- Analog Player 1 (XInput)(Compatible with TaikoArcadeLoader)
+- Analog Player 2 (XInput)(Compatible with TaikoArcadeLoader)
+- MIDI Controller
+- Debug Mode
+
+#### **Zero Coding or Programming Required**
+
+- **Drag-and-drop firmware** for instant setup
+- **On-screen menus** for all settings and calibration
+- **Automatic updates** without recompiling
+- **No technical knowledge needed**—if you can follow instructions and use a soldering iron, you can build this
+
+---
+
+*OuchiTaiko builds upon the excellent foundation of DonCon2040 and HIDtaiko, adding professional features while maintaining the open-source spirit.*
 
 ### 🎥 Demo Videos
 
 - [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
-- [Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
-- [Roll Polling Rate](https://youtu.be/wEw9HbGcR-s)
+- [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
+- [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
 ---
