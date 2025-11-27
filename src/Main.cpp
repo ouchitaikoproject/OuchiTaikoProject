@@ -568,24 +568,26 @@ int main() {
             Utils::InputState::Controller menu_controller = {};
 
             // Copy only newly pressed buttons (rising edges)
-            #define EDGE_DETECT(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
+            #define EDGE_DETECT_BTN(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
+            #define EDGE_DETECT_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn && !last_menu_controller.dpad.btn
 
-            EDGE_DETECT(north);
-            EDGE_DETECT(east);
-            EDGE_DETECT(south);
-            EDGE_DETECT(west);
-            EDGE_DETECT(l);
-            EDGE_DETECT(r);
-            EDGE_DETECT(select);
-            EDGE_DETECT(start);
-            EDGE_DETECT(home);
-            EDGE_DETECT(share);
-            EDGE_DETECT(up);
-            EDGE_DETECT(down);
-            EDGE_DETECT(left);
-            EDGE_DETECT(right);
+            EDGE_DETECT_BTN(north);
+            EDGE_DETECT_BTN(east);
+            EDGE_DETECT_BTN(south);
+            EDGE_DETECT_BTN(west);
+            EDGE_DETECT_BTN(l);
+            EDGE_DETECT_BTN(r);
+            EDGE_DETECT_BTN(select);
+            EDGE_DETECT_BTN(start);
+            EDGE_DETECT_BTN(home);
+            EDGE_DETECT_BTN(share);
+            EDGE_DETECT_DPAD(up);
+            EDGE_DETECT_DPAD(down);
+            EDGE_DETECT_DPAD(left);
+            EDGE_DETECT_DPAD(right);
 
-            #undef EDGE_DETECT
+            #undef EDGE_DETECT_BTN
+            #undef EDGE_DETECT_DPAD
 
             // Update menu with edge-detected input
             menu.update(menu_controller);
