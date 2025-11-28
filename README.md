@@ -997,10 +997,6 @@ Place your **speaker bracket** against the backside of your rear base plate so t
 
 Remove the speaker plate and drill your 4 marked holes using a **6mm drill bit**.
 
-<div align="center">
-<img src="images/Pictures/bracketholes.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
 ---
 
 #### **H3. Install mounting bolts**
