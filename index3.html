@@ -19,7 +19,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: #000;
             background: #f5f5f5;
         }
         
@@ -67,20 +67,21 @@
             align-self: flex-start;
         }
         
-        /* Cool Click Boxes like DIYLC */
+        /* Cool Click Boxes - Black and Light Blue Only */
         .click-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3498db;
             border-radius: 8px;
             padding: 25px;
             margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
             transition: all 0.3s;
         }
         
         .click-box:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            background: #2980b9;
         }
         
         .click-box h3 {
@@ -91,7 +92,7 @@
         }
         
         .click-box p {
-            color: rgba(255,255,255,0.9);
+            color: white;
             font-size: 0.9em;
             margin-bottom: 15px;
             line-height: 1.5;
@@ -101,7 +102,7 @@
             display: inline-block;
             padding: 10px 25px;
             background: white;
-            color: #667eea;
+            color: #000;
             text-decoration: none;
             border-radius: 5px;
             font-weight: 600;
@@ -111,23 +112,6 @@
         .click-box a:hover {
             background: #f0f0f0;
             transform: scale(1.05);
-        }
-        
-        /* Alternative box style */
-        .click-box.alt {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .click-box.alt a {
-            color: #f5576c;
-        }
-        
-        .click-box.dark {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .click-box.dark a {
-            color: #4facfe;
         }
         
         /* Regular nav for other links */
@@ -142,7 +126,7 @@
         .sidebar h3 {
             font-size: 0.85em;
             text-transform: uppercase;
-            color: #7f8c8d;
+            color: #000;
             margin-bottom: 15px;
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -181,7 +165,7 @@
         
         /* Download Buttons */
         .download-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3498db;
             color: white;
             padding: 30px;
             border-radius: 8px;
@@ -201,7 +185,7 @@
             display: inline-block;
             padding: 12px 30px;
             background: white;
-            color: #667eea;
+            color: #000;
             text-decoration: none;
             border-radius: 5px;
             font-weight: 600;
@@ -230,7 +214,7 @@
         }
         
         h2 {
-            color: #2c3e50;
+            color: #000;
             font-size: 1.8em;
             margin-bottom: 15px;
             padding-bottom: 10px;
@@ -238,14 +222,14 @@
         }
         
         h3 {
-            color: #34495e;
+            color: #000;
             font-size: 1.3em;
             margin: 25px 0 15px;
         }
         
         p {
             margin-bottom: 15px;
-            color: #555;
+            color: #000;
         }
         
         /* Feature List */
@@ -260,11 +244,11 @@
             background: #f8f9fa;
             padding: 20px;
             border-radius: 6px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #3498db;
         }
         
         .feature h4 {
-            color: #667eea;
+            color: #000;
             margin-bottom: 8px;
             font-size: 1.1em;
         }
@@ -272,19 +256,24 @@
         .feature p {
             margin: 0;
             font-size: 0.95em;
+            color: #000;
         }
         
         /* Highlights */
         .highlight-box {
-            background: #fff9e6;
-            border-left: 4px solid #f39c12;
+            background: #e3f2fd;
+            border-left: 4px solid #3498db;
             padding: 20px;
             margin: 20px 0;
             border-radius: 4px;
         }
         
         .highlight-box strong {
-            color: #e67e22;
+            color: #000;
+        }
+        
+        .highlight-box p {
+            color: #000;
         }
         
         /* Images - Equal Size Gallery */
@@ -375,11 +364,11 @@
         
         ul:not(.sidebar ul) li {
             margin-bottom: 8px;
-            color: #555;
+            color: #000;
         }
         
         strong {
-            color: #2c3e50;
+            color: #000;
         }
         
         /* Code/Technical */
@@ -537,7 +526,7 @@
             <section style="text-align: center; padding: 40px 20px; background: #f8f9fa; border-radius: 8px;">
                 <h2>Ready to Build?</h2>
                 <p style="font-size: 1.1em; margin-bottom: 25px;">Join the community and start your OuchiTaiko journey today!</p>
-                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" class="btn" style="color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">View Full Build Guide on GitHub</a>
+                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" class="btn" style="color: white; background: #3498db;">View Full Build Guide on GitHub</a>
             </section>
         </main>
 
@@ -545,21 +534,21 @@
         <aside class="sidebar">
             <!-- Click Box 1 - Download -->
             <div class="click-box">
-                <h3>📥 Get the Latest</h3>
+                <h3>📥 GET THE LATEST</h3>
                 <p>Download firmware, STL files, and complete documentation</p>
                 <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject/releases/latest" target="_blank">Latest Release</a>
             </div>
             
             <!-- Click Box 2 - GitHub -->
-            <div class="click-box alt">
-                <h3>💻 View Source</h3>
+            <div class="click-box">
+                <h3>💻 VIEW SOURCE</h3>
                 <p>Explore the code, contribute, and report issues</p>
                 <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" target="_blank">GitHub Repo</a>
             </div>
             
             <!-- Click Box 3 - Community -->
-            <div class="click-box dark">
-                <h3>🎮 Join Community</h3>
+            <div class="click-box">
+                <h3>🎮 JOIN COMMUNITY</h3>
                 <p>Get help, share builds, and connect with other builders</p>
                 <a href="https://discord.com/invite/HFm37aA5zr" target="_blank">Discord Server</a>
             </div>
