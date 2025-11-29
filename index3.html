@@ -23,61 +23,30 @@
             background: #f5f5f5;
         }
         
-        /* Header with Animated Gradient */
+        /* Header - Solid color like DIYLC */
         header {
-            background: linear-gradient(135deg, 
-                #667eea 0%, 
-                #764ba2 25%, 
-                #f093fb 50%, 
-                #4facfe 75%, 
-                #667eea 100%);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background: #2c3e50;
             color: white;
             padding: 30px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        /* Dark overlay for better text readability */
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.35);
-            pointer-events: none;
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            position: relative;
-            z-index: 1;
         }
         
         h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
-            letter-spacing: -0.5px;
+            font-size: 2.2em;
+            font-weight: 300;
+            margin-bottom: 8px;
         }
         
         .tagline {
-            font-size: 1.05em;
-            opacity: 1;
+            font-size: 0.95em;
+            opacity: 0.9;
             font-style: italic;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
         
         /* Main Layout */
@@ -89,15 +58,79 @@
             padding: 30px 20px;
         }
         
-        /* Sidebar */
+        /* Sidebar - Now on RIGHT */
         .sidebar {
-            width: 240px;
+            width: 280px;
             flex-shrink: 0;
             position: sticky;
             top: 20px;
             align-self: flex-start;
         }
         
+        /* Cool Click Boxes like DIYLC */
+        .click-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .click-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .click-box h3 {
+            color: white;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .click-box p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .click-box a {
+            display: inline-block;
+            padding: 10px 25px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .click-box a:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+        
+        /* Alternative box style */
+        .click-box.alt {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .click-box.alt a {
+            color: #f5576c;
+        }
+        
+        .click-box.dark {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .click-box.dark a {
+            color: #4facfe;
+        }
+        
+        /* Regular nav for other links */
         .sidebar nav {
             background: white;
             border-radius: 8px;
@@ -368,32 +401,6 @@
     </header>
 
     <div class="container">
-        <!-- Sidebar Navigation (hidden on mobile) -->
-        <aside class="sidebar">
-            <nav>
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#downloads">Downloads</a></li>
-                    <li><a href="#introduction">Introduction</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#videos">Demo Videos</a></li>
-                    <li><a href="#build">Build Guide</a></li>
-                    <li><a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" target="_blank">GitHub Repository</a></li>
-                    <li><a href="#about">About & Credits</a></li>
-                </ul>
-            </nav>
-            
-            <nav>
-                <h3>External Links</h3>
-                <ul>
-                    <li><a href="https://github.com/ouchitaikoproject/OuchiTaikoProject/releases/latest" target="_blank">Latest Release</a></li>
-                    <li><a href="https://github.com/ouchitaikoproject/OuchiTaikoProject/issues" target="_blank">Report Issues</a></li>
-                    <li><a href="https://discord.com/invite/HFm37aA5zr" target="_blank">Discord Community</a></li>
-                    <li><a href="https://www.ouchitaiko.com" target="_blank">Official Website</a></li>
-                </ul>
-            </nav>
-        </aside>
-
         <!-- Main Content -->
         <main class="main-content">
             <!-- Download Section -->
@@ -533,6 +540,42 @@
                 <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" class="btn" style="color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">View Full Build Guide on GitHub</a>
             </section>
         </main>
+
+        <!-- Sidebar on RIGHT with Cool Click Boxes -->
+        <aside class="sidebar">
+            <!-- Click Box 1 - Download -->
+            <div class="click-box">
+                <h3>📥 Get the Latest</h3>
+                <p>Download firmware, STL files, and complete documentation</p>
+                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject/releases/latest" target="_blank">Latest Release</a>
+            </div>
+            
+            <!-- Click Box 2 - GitHub -->
+            <div class="click-box alt">
+                <h3>💻 View Source</h3>
+                <p>Explore the code, contribute, and report issues</p>
+                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" target="_blank">GitHub Repo</a>
+            </div>
+            
+            <!-- Click Box 3 - Community -->
+            <div class="click-box dark">
+                <h3>🎮 Join Community</h3>
+                <p>Get help, share builds, and connect with other builders</p>
+                <a href="https://discord.com/invite/HFm37aA5zr" target="_blank">Discord Server</a>
+            </div>
+            
+            <!-- Regular nav for other links -->
+            <nav>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#videos">Demo Videos</a></li>
+                    <li><a href="#build">Build Guide</a></li>
+                    <li><a href="#about">About & Credits</a></li>
+                </ul>
+            </nav>
+        </aside>
     </div>
 
     <footer>
