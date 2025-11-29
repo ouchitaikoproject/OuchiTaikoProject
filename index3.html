@@ -23,30 +23,42 @@
             background: #f5f5f5;
         }
         
-        /* Header - Solid color like DIYLC */
+        /* Simple Clean Header */
         header {
-            background: #2c3e50;
-            color: white;
-            padding: 30px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white;
+            border-bottom: 3px solid #3498db;
+            padding: 15px 0;
         }
         
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         h1 {
-            font-size: 2.2em;
-            font-weight: 300;
-            margin-bottom: 8px;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #000;
         }
         
-        .tagline {
-            font-size: 0.95em;
-            opacity: 0.9;
-            font-style: italic;
+        .header-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .header-links a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .header-links a:hover {
+            color: #2980b9;
         }
         
         /* Main Layout */
@@ -294,16 +306,17 @@
         
         /* Footer */
         footer {
-            background: #2c3e50;
-            color: white;
+            background: white;
+            border-top: 3px solid #3498db;
+            color: #000;
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px;
             margin-top: 50px;
         }
         
         footer p {
             margin: 5px 0;
-            color: rgba(255,255,255,0.8);
+            color: #000;
         }
         
         footer a {
@@ -317,6 +330,17 @@
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .header-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
             .container {
                 flex-direction: column;
             }
@@ -333,7 +357,7 @@
             }
             
             h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
             }
             
             h2 {
@@ -385,7 +409,12 @@
     <header>
         <div class="header-content">
             <h1>OuchiTaiko Project</h1>
-            <p class="tagline">In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents bringing the authentic Taiko experience from the Arcade into your own space.</p>
+            <div class="header-links">
+                <a href="#introduction">About</a>
+                <a href="#features">Features</a>
+                <a href="#build">Build Guide</a>
+                <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" target="_blank">GitHub</a>
+            </div>
         </div>
     </header>
 
@@ -405,6 +434,8 @@
             <!-- Introduction -->
             <section id="introduction">
                 <h2>Introduction</h2>
+                <p><em>In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents bringing the authentic Taiko experience from the Arcade into your own space.</em></p>
+                
                 <p>Hi, I'm <strong>KillerQ</strong>. Welcome to the <strong>OuchiTaiko Project</strong> - an open-source build guide for a professional arcade-grade Taiko drum controller.</p>
                 
                 <p>This guide represents 8 months of research and development, addressing the limited availability and high cost of commercial units. Using <strong>Adaptive Baseline Software Intelligence (ABSI)</strong>, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or custom PCBs.</p>
@@ -515,7 +546,7 @@
                 <ul>
                     <li><a href="https://discord.com/invite/HFm37aA5zr" target="_blank">Taiko no Tatsujin Modding! Discord</a></li>
                     <li><a href="https://discord.com/invite/P4CpVHrR" target="_blank">Cons&Stuff :) Discord</a></li>
-                    <li><a href="https://discord.com/invite/openstickcommunity-1049366310389289001" target="_blank">OpenStick Community - GP2040-ce Project</a></li>
+                    <li><a href="https://discord.com/invite/openstickcommunity-1049366310389289001" target="_blank">OpenStink Community - GP2040-ce Project</a></li>
                 </ul>
 
                 <h3>License</h3>
