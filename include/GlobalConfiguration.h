@@ -32,10 +32,10 @@ const I2c i2c_config = {
 const Peripherals::Drum::Config drum_config = {
     .trigger_thresholds =
         {
-            .don_left = 55,
-            .ka_left = 70,
-            .don_right = 55,
-            .ka_right = 70,
+            .don_left = 75,
+            .ka_left = 95,
+            .don_right = 75,
+            .ka_right = 95,
         },
     .big_hit_enable = false,
     .big_hit_threshold = 2000,

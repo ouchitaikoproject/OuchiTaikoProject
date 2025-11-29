@@ -595,10 +595,10 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::DoResetThresholds: {
         // Reset all thresholds to factory defaults (50 for all drums)
         Peripherals::Drum::Config::Thresholds default_thresholds = {
-            .don_left = 50,
-            .ka_left = 50,
-            .don_right = 50,
-            .ka_right = 50,
+            .don_left = 75,
+            .ka_left = 95,
+            .don_right = 75,
+            .ka_right = 95,
         };
         m_store->setTriggerThresholds(default_thresholds);
         // Confirmation screen will be shown by Main.cpp which monitors menu state
