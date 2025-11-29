@@ -238,6 +238,7 @@ This guide assumes you have access to the following:
 | 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
 | 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
 | 16   | Spring-Loaded Phone Holder with Gooseneck Arm                | 1    | [Link](https://a.co/d/fRja2H6)                               |
+| 17   | **Optional: 3mm sheet of Steel or Aluminum Metal (more details in Build Section) | 1    | [Link](https://a.co/d/4ECCLMY)                               |
 
 </div>
 
@@ -810,7 +811,33 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 
 ---
 
-#### **D7. Install M3 threaded inserts**
+#### **D7. Install Metal Plates (Recommended for Arcade Feel)**
+
+**Optional:** If not using metal plates, skip to Step D8.
+
+The aluminum or steel plates replicate the authentic arcade drum response and rigidity. While they require careful cutting/drilling, they dramatically improve the playing experience.
+
+**What you'll need:**
+- 2x Metal plates (3mm aluminum or steel - see Parts List)
+- Drill with metal bits
+- Metal files for deburring
+- Safety glasses
+- Cutting tools (angle grinder, metal bandsaw, or professional cutting service)
+
+**Installation Steps:**
+
+💡 **[PLACEHOLDER - Add your detailed steps and photos here]**
+
+1. [Your cutting instructions]
+2. [Your drilling instructions]  
+3. [Your mounting instructions]
+4. [Your finishing steps]
+
+💡 **Tip:** Metal plates add significant weight and stiffness to the drum faces, making them feel closer to arcade machines.
+
+---
+
+#### **D8. Install M3 threaded inserts**
 
 Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
 
