@@ -811,7 +811,7 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 
 ---
 
-#### **D7. Cut and Install Metal Plates (Recommended for True Arcade Feel)**
+#### **D7. Cut and Drill the Metal Plates (Recommended for True Arcade Feel)**
 
 **Note:** If not using metal plates, skip to Step D8.
 
@@ -821,7 +821,7 @@ The aluminum or steel plates replicate the authentic arcade drum response by add
 
 **Prepare the Metal Plates:**
 
-1. Using the "Metal Plate" template, cut out all 4 metal pieces (2 Ka, 2 Don) and file away any burrs on the edges.
+1. Using the provided "Metal Plate" template, cut out all 4 metal pieces (2 Ka, 2 Don) and file away any burrs on the edges.
 
 2. Cut the 2 large 60mm center holes in each Don plate using a saw or 60mm hole saw bit.
 
@@ -832,10 +832,9 @@ The aluminum or steel plates replicate the authentic arcade drum response by add
 **Install Threaded Inserts into Metal Ka Plates:**
 
 5. Using a hammer, gently tap **4 × M3×3mm threaded inserts** into the Ka metal plates (2 inserts per Ka plate). Tap until flush with the metal surface.
+5. The 2 Don plates do not need threaded inserts installed into the metal plate - their sensor housings will mount directly to the wood that's exposed by a large cutout - explained in Step D8.
 
-**Note:** The metal plates will be sandwiched between the rubber grommets and wood during Step E5. The 2 Don plates do not need threaded inserts - their sensors will mount directly to the wood in Step D8.
-
-
+**Note:** These metal plates cutouts  will be sandwiched ***between*** the rubber grommets and wood during Step E5. 
 
 
 ---
@@ -863,7 +862,7 @@ Using a hammer or rubber mallet, tap **two M3×3mm threaded inserts** into the t
 
 ---
 
-### **5.3: Install the Rubber Isolators**
+### **5.3: Assemble  the Rubber Isolators**
 
 #### **E1. Cut nylon bolt head**
 
@@ -911,17 +910,12 @@ Screw the nylon bolt of the rubber grommet assembly into the threaded insert in 
 <div align="center">
 <img src="images/Pictures/metalcompress2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 <div align="center">
 <img src="images/Pictures/metalcompress.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-<div align="center">
-<img src="images/Pictures/allmetal.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
 
 
-
-💡 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Part G later in the guide).
+💡 **Note:** Don't attach the Faceplates to the Baseplate just yet,you must attach the sensor housing first in the next step.
 
 ---
 
