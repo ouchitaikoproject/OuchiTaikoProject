@@ -836,7 +836,7 @@ The aluminum or steel plates replicate the authentic arcade drum response by add
 **Note:** The metal plates will be sandwiched between the rubber grommets and wood during Step E5. The 2 Don plates do not need threaded inserts - their sensors will mount directly to the wood in Step D8.
 
 
-   
+
 
 ---
 
@@ -1309,18 +1309,15 @@ Mount the angled speaker bracket to the speaker stand.
 </div>
 #### **K1. Mount Control Box and Connect Signal Wires**
 
+<div align="center">
+<img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the Control Box.
 
 
----
 
-#### **K2. Adjust height/angle**
-
-Adjust height/angle for playing comfort.
-
----
-
-#### **K3. Add drum cover**
+#### **K2. Add drum cover**
 
 Add your Drum cover, skin, towel, padding, or whichever you have. As my dimensions for the drum in this project are exactly the same as the Arcade Drum, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
@@ -1332,7 +1329,19 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 <img src="images/Pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+
+
+#### **K3. Adjust height/angle for Comfort**
+
+
+
+<div align="center">
+<img src="images/Pictures/angle.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 ---
+
+
 
 ## **7: Flash The Firmware**
 
