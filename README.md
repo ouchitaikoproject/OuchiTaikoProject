@@ -223,6 +223,7 @@ This guide assumes you have access to the following:
 | #    | Item                                                         | Qty  | Product Link                                                 |
 | ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
 | 1    | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 2    | 3mm sheet of Steel or Aluminum Metal (more details in Build Section) | 1    | [Link](https://a.co/d/dhoU3Oz)                               |
 | 2    | Strong Wood Glue                                             | 1    | [Link](https://a.co/d/1uKv6cR)                               |
 | 3    | M3x8mm bolts                                                 | 8    | [Link](https://a.co/d/52Q8UtD)                               |
 | 4    | M3x5mm threaded inserts                                      | 8    | [Link](https://a.co/d/bKB6OpW)                               |
@@ -238,7 +239,6 @@ This guide assumes you have access to the following:
 | 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
 | 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
 | 16   | Spring-Loaded Phone Holder with Gooseneck Arm                | 1    | [Link](https://a.co/d/fRja2H6)                               |
-| 17   | **Optional: 3mm sheet of Steel or Aluminum Metal (more details in Build Section) | 1    | [Link](https://a.co/d/4ECCLMY)                               |
 
 </div>
 
@@ -811,37 +811,33 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 
 ---
 
-#### **D7. Install Metal Plates (Recommended for Arcade Feel)**
+#### **D7. Install Metal Plates (Recommended for True Arcade Feel and Experience)**
 
-**Optional:** If not using metal plates, skip to Step D8.
+(**Note:** If not using metal plates, skip to Step D8.)
 
-The aluminum or steel plates replicate the authentic arcade drum response and rigidity. While they require careful cutting/drilling, they dramatically improve the playing experience.
+The aluminum or steel plates replicate the authentic arcade drum feeling by adding weight and rigidity that controbutes to the over all responsiveness. While they require slightly more difficult cutting/drilling, they dramatically improve the playing experience.
 
-**What you'll need:**
-- 2x Metal plates (3mm aluminum or steel - see Parts List)
-- Drill with metal bits
-- Metal files for deburring
-- Safety glasses
-- Cutting tools (angle grinder, metal bandsaw, or professional cutting service)
+💾 [SVG Template packet located here](#9-files--downloads)
 
-**Installation Steps:**
+**Cut the Metal:**
 
-💡 **[PLACEHOLDER - Add your detailed steps and photos here]**
+1. Using the "Metal Plate" template from the above link, cut the 4 pieces out and file away any burrs on the edges.  You will also use a saw to cut the 2 large 60mm holes in the center of the Metal Don sections.  You can use a 60mm metal hole say bit if you're comfortable enough using it.
 
-1. [Your cutting instructions]
-2. [Your drilling instructions]  
-3. [Your mounting instructions]
-4. [Your finishing steps]
+2. Use a drill to make the 14 x 6mm holes for the bolts to pass through where designated
 
-💡 **Tip:** Metal plates add significant weight and stiffness to the drum faces, making them feel closer to arcade machines.
+3. Use a drill to make the 4 x 3mm holes threaded inserts in the 2 metal Ka pieces. 
+
+   1. Note: If using the Metal Plates, you do not need to drill the threaded insert holes into the wood for the threaded inserts, as the housings will attach to the metal.  If you already drilled the holes into the wood, that's perfectly fine, just ignore them.
+
+4. Using a hammer, gently tap the 4 x 3mm threaded inserts in - there are 2 in each Ka Piece.  Since you did this step, you can skip the next Step, D8 as it's designated for people who aren't using the metal plates.
+
+   
 
 ---
 
 #### **D8. Install M3 threaded inserts**
 
 Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
-
-💡 **Note:** Your orientation will be different, this is just an example showing the sensor housing next to a threaded insert.
 
 <div align="center">
 <img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
@@ -872,11 +868,9 @@ Apply one drop or less of **Loctite** to threads on the inside of the rubber iso
 Screw one end of the headless bolt into isolator until it stops.
 
 <div align="center">
-<img src="images/Pictures/isolatorgrommetside.png" width="350px" style="display: block; margin: 0 auto;">
-</div>
-<div align="center">
 <img src="images/Pictures/grommetmeasure.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
 
 ---
 
@@ -888,15 +882,26 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 #### **E5. Install isolator/bolt assemblies**
 
-Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.
+Screw the nylon bolt of the rubber grommet assembly into the threaded insert in the bottom of the drum faces - finger-tighten until flush.  **If you are using the metal plates, you will simply place the metal pieces on the wood, and it will fasted in between the rubber grommet and the wood - photo at end of this step)**
 
 **Repeat steps E1-E5 for the remaining 13 similar holes.**
 
-This metal bolt will go through the matching holes in the drum baseplate in a later step.
+<div align="center">
+<img src="images/Pictures/grommetinstalled2.png" width="350px" style="display: block; margin: 0 auto;">
+</div>
 
 <div align="center">
-<img src="images/Pictures/grommetinstalled.png" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/Pictures/metalcompress2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+<div align="center">
+<img src="images/Pictures/metalcompress.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+<div align="center">
+<img src="images/Pictures/allmetal.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
 
 💡 **Note:** You will be directed to complete the rest of drum assembly after sensors are installed (end of Part G later in the guide).
 
@@ -1004,6 +1009,11 @@ Here's a photo of one housing right before it's screwed into the threaded insert
 <div align="center">
 <img src="images/Pictures/housinginsert.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+<div align="center">
+<img src="images/Pictures/allmetal.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 
 ---
 
