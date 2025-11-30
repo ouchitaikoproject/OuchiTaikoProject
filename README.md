@@ -825,11 +825,11 @@ The aluminum or steel plates replicate the authentic arcade drum feeling by addi
 
 2. Use a drill to make the 14 x 6mm holes for the bolts to pass through where designated
 
-3. Use a drill to make the 4 x 3mm holes threaded inserts in the 2 metal Ka pieces. 
+3. Use a 5mm drill bit to drill 2x 5mm holes in each of the Metal Ka pieces. These 5mm holes are where the M3x3mm threadeed inserts will go.
 
-   1. Note: If using the Metal Plates, you do not need to drill the threaded insert holes into the wood for the threaded inserts, as the housings will attach to the metal.  If you already drilled the holes into the wood, that's perfectly fine, just ignore them.
+   1. Note: Since the sensors will mount to your metal plate, you no longer need to drill the threaded insert holes into the wood for the threaded inserts.  If you already drilled the holes into the wood, that's perfectly fine, just ignore them.
 
-4. Using a hammer, gently tap the 4 x 3mm threaded inserts in - there are 2 in each Ka Piece.  Since you did this step, you can skip the next Step, D8 as it's designated for people who aren't using the metal plates.
+4. Using a hammer, gently tap 4 x M3xmm threaded inserts in - there are 2 in each Ka Piece.  Since you just completes this step, you can skip the next Step (D8) as it's for people who aren't using the metal plates.
 
    
 
@@ -837,7 +837,9 @@ The aluminum or steel plates replicate the authentic arcade drum feeling by addi
 
 #### **D8. Install M3 threaded inserts**
 
-Using a small hammer or rubber mallet, tap two M3 threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
+(**Note:** If you are not using the metal plates from the previous step, you will need to install your threaded inserts for the 2 Ka bottom plates directly into the wood in this step.)
+
+Using a hammer or rubber mallet, tap two M3x3mm threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
 
 <div align="center">
 <img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
