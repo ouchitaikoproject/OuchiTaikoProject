@@ -811,35 +811,51 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 
 ---
 
-#### **D7. Install Metal Plates (Recommended for True Arcade Feel and Experience)**
+#### **D7. Cut and Install Metal Plates (Recommended for True Arcade Feel)**
 
-(**Note:** If not using metal plates, skip to Step D8.)
+**Note:** If not using metal plates, skip to Step D8.
 
-The aluminum or steel plates replicate the authentic arcade drum feeling by adding weight and rigidity that controbutes to the over all responsiveness. While they require slightly more difficult cutting/drilling, they dramatically improve the playing experience.
+The aluminum or steel plates replicate the authentic arcade drum response by adding weight and rigidity that dramatically improves overall responsiveness. While they require more precise cutting and drilling, they provide the true arcade experience.
 
 💾 [SVG Template packet located here](#9-files--downloads)
 
-**Cut the Metal:**
+**Prepare the Metal Plates:**
 
-1. Using the "Metal Plate" template from the above link, cut the 4 pieces out and file away any burrs on the edges.  You will also use a saw to cut the 2 large 60mm holes in the center of the Metal Don sections.  You can use a 60mm metal hole say bit if you're comfortable enough using it.
+1. Using the "Metal Plate" template, cut out all 4 metal pieces (2 Ka, 2 Don) and file away any burrs on the edges.
 
-2. Use a drill to make the 14 x 6mm holes for the bolts to pass through where designated
+2. Cut the 2 large 60mm center holes in each Don plate using a saw or 60mm hole saw bit.
 
-3. Use a 5mm drill bit to drill 2x 5mm holes in each of the Metal Ka pieces. These 5mm holes are where the M3x3mm threadeed inserts will go.
+3. Drill **14 × 6mm holes** for the rubber grommet bolts to pass through (these align with the wooden faceplate holes).
 
-   1. Note: Since the sensors will mount to your metal plate, you no longer need to drill the threaded insert holes into the wood for the threaded inserts.  If you already drilled the holes into the wood, that's perfectly fine, just ignore them.
+4. Drill **4 × 5mm holes** in the 2 Ka plates only (2 holes per Ka plate) - these are for the M3 threaded inserts that will hold the sensor housings.
 
-4. Using a hammer, gently tap 4 x M3xmm threaded inserts in - there are 2 in each Ka Piece.  Since you just completes this step, you can skip the next Step (D8) as it's for people who aren't using the metal plates.
+**Install Threaded Inserts into Metal Ka Plates:**
+
+5. Using a hammer, gently tap **4 × M3×3mm threaded inserts** into the Ka metal plates (2 inserts per Ka plate). Tap until flush with the metal surface.
+
+**Note:** The metal plates will be sandwiched between the rubber grommets and wood during Step E5. The 2 Don plates do not need threaded inserts - their sensors will mount directly to the wood in Step D8.
+
 
    
 
 ---
 
-#### **D8. Install M3 threaded inserts**
+#### **D8. Install M3 threaded inserts into wooden faceplates**
 
-(**Note:** If you are not using the metal plates from the previous step, you will need to install your threaded inserts for the 2 Ka bottom plates directly into the wood in this step.)
+Each faceplate has **2 holes on the underside** where sensor housings will mount using M3 threaded inserts.
 
-Using a hammer or rubber mallet, tap two M3x3mm threaded inserts into the holes on the underside of each of the 4 faceplates. 8 inserts total. Be sure to tap them flush to the wood - add Superglue to *outside* of threads to help permanently secure to the wood. These threaded inserts are where the sensor housings will mount later on.
+**Determine which faceplates need inserts:**
+
+**If you installed metal plates in Step D7:**
+- The 2 Ka metal plates already have inserts installed
+- Install inserts into the **2 Don wooden faceplates only** (4 inserts total)
+
+**If you did NOT use metal plates:**
+- Install inserts into **all 4 wooden faceplates** (8 inserts total)
+
+**Installation:**
+
+Using a hammer or rubber mallet, tap **two M3×3mm threaded inserts** into the two holes on the underside of each applicable wooden faceplate. Tap until flush with the wood surface. Add Superglue to the *outside* of the threads to permanently secure them.
 
 <div align="center">
 <img src="images/Pictures/threadedinserts.png" width="350px" style="display: block; margin: 0 auto;">
