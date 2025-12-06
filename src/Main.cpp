@@ -361,7 +361,7 @@ int main() {
     };
 
     while (true) {
-        drum.updateInputState(input_state);
+        drum.updateInputState(input_state, mode);
 
         // CRITICAL: Always try to get fresh controller data
         // If queue is empty, keep last known state - edge detection in menu handles repeats

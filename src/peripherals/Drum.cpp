@@ -326,14 +326,22 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map
     input_state.drum.ka_right.analog = m_pads.at(Id::KA_RIGHT).getAnalog(m_config.analog_gain);
 }
 
-void Drum::updateInputState(Utils::InputState &input_state) {
+void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode) {
     const auto raw_values = readInputs();
 
     if (m_taikotune_state.isActive()) {
         updateTaikoTuneAnalysis(raw_values);
     }
 
-    updateDigitalInputState(input_state, raw_values);
+    // In Xbox 360 Analog modes, skip digital threshold checking entirely
+    // This prevents .triggered from being set, forcing the game to read only analog values
+    const bool is_analog_mode = (usb_mode == USB_MODE_XBOX360_ANALOG_P1) ||
+                                (usb_mode == USB_MODE_XBOX360_ANALOG_P2);
+
+    if (!is_analog_mode) {
+        updateDigitalInputState(input_state, raw_values);
+    }
+
     updateAnalogInputState(input_state, raw_values);
 }
 
