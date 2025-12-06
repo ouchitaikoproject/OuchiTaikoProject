@@ -42,6 +42,26 @@ const Peripherals::Drum::Config drum_config = {
     .debounce_delay_ms = 25,
     .roll_counter_timeout_ms = 500,
     .enable_simultap = false,
+
+    // ============================================================================
+    // ANALOG MODE GAIN MULTIPLIER
+    // ============================================================================
+    // This multiplier compensates for missing OpAmp amplification circuit.
+    //
+    // ** CHANGE THIS VALUE ** to adjust analog mode sensitivity:
+    //   - 1.0 = No gain (direct piezo output)
+    //   - 2.0-3.0 = Typical for hybrid circuits without OpAmp
+    //   - 4.0-5.0 = Higher gain for very weak piezos or testing upper limits
+    //   - 8.0+ = Maximum gain (may cause clipping/overflow)
+    //
+    // Usable range: 1.0 to 8.0
+    // Recommended starting value: 4.0
+    //
+    // After changing this value, reflash firmware and test in-game to find
+    // the optimal setting for your hardware.
+    .analog_gain = 4.0,
+    // ============================================================================
+
     .adc_channels =
         {
             .don_left = 1,

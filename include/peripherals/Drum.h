@@ -62,6 +62,7 @@ class Drum {
         uint16_t debounce_delay_ms;
         uint32_t roll_counter_timeout_ms;
         bool enable_simultap;
+        float analog_gain;  // Analog mode gain multiplier (compensates for missing OpAmp circuit)
         AdcChannels adc_channels;
         std::variant<InternalAdc, ExternalAdc> adc_config;
     };
@@ -236,7 +237,7 @@ class Drum {
 
         void addToBuffer(uint16_t value, uint16_t debounce_delay);
         [[nodiscard]] uint16_t getMaxValueInBuffer() const;
-        [[nodiscard]] uint16_t getAnalog() const;
+        [[nodiscard]] uint16_t getAnalog(float gain = 1.0) const;
     };
 
     class RollCounter {
