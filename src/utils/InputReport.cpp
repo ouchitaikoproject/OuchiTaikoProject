@@ -222,9 +222,7 @@ usb_report_t InputReport::getXinputAnalogReport(const InputState &state, InputRe
     int16_t y = 0;
 
     auto map_to_axis = [](uint16_t raw) {
-     int32_t scaled = raw * 64;  // Amplify the signal (v6.6 diagnostic)
-        if (scaled > 32767) scaled = 32767;  // Clamp to int16_t max
-        return (int16_t)scaled;
+        return (int16_t)(raw >> 1);
     };
 
     if (drum.ka_left.analog > drum.don_left.analog) {

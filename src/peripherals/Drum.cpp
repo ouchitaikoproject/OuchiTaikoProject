@@ -108,6 +108,16 @@ uint16_t Drum::Pad::getMaxValueInBuffer() const {
     return std::max_element(m_buffer.begin(), m_buffer.end())->value;
 }
 
+uint16_t Drum::Pad::getAnalog() const {
+    // Transform 12-bit ADC value (0-4095) to 16-bit range (0-65535)
+    const auto raw_to_uint16 = [](uint16_t raw) {
+        return ((raw << 4) & 0xFFF0) | ((raw >> 8) & 0x000F);
+    };
+
+    uint16_t max_value = getMaxValueInBuffer();
+    return raw_to_uint16(max_value);
+}
+
 Drum::RollCounter::RollCounter(uint32_t timeout_ms) : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {};
 
 void Drum::RollCounter::reset() {
@@ -286,10 +296,10 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map
     input_state.drum.don_right.raw = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
     input_state.drum.ka_right.raw = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
 
-    input_state.drum.don_left.analog = m_pads.at(Id::DON_LEFT).getMaxValueInBuffer();
-    input_state.drum.ka_left.analog = m_pads.at(Id::KA_LEFT).getMaxValueInBuffer();
-    input_state.drum.don_right.analog = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
-    input_state.drum.ka_right.analog = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
+    input_state.drum.don_left.analog = m_pads.at(Id::DON_LEFT).getAnalog();
+    input_state.drum.ka_left.analog = m_pads.at(Id::KA_LEFT).getAnalog();
+    input_state.drum.don_right.analog = m_pads.at(Id::DON_RIGHT).getAnalog();
+    input_state.drum.ka_right.analog = m_pads.at(Id::KA_RIGHT).getAnalog();
 }
 
 void Drum::updateInputState(Utils::InputState &input_state) {
