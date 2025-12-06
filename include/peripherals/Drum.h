@@ -235,6 +235,7 @@ class Drum {
 
         void addToBuffer(uint16_t value, uint16_t debounce_delay);
         [[nodiscard]] uint16_t getMaxValueInBuffer() const;
+        [[nodiscard]] uint16_t getAnalog() const;
     };
 
     class RollCounter {
