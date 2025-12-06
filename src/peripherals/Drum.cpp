@@ -285,6 +285,11 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map
     input_state.drum.ka_left.raw = m_pads.at(Id::KA_LEFT).getMaxValueInBuffer();
     input_state.drum.don_right.raw = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
     input_state.drum.ka_right.raw = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
+
+    input_state.drum.don_left.analog = m_pads.at(Id::DON_LEFT).getMaxValueInBuffer();
+    input_state.drum.ka_left.analog = m_pads.at(Id::KA_LEFT).getMaxValueInBuffer();
+    input_state.drum.don_right.analog = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
+    input_state.drum.ka_right.analog = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
 }
 
 void Drum::updateInputState(Utils::InputState &input_state) {
