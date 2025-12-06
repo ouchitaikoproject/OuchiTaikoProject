@@ -79,7 +79,7 @@ std::array<uint16_t, 4> Drum::ExternalAdc::read() {
     return Mcp3204Dma::take_maximums(); 
 }
 
-Drum::Pad::Pad(const uint8_t channel) : m_channel(channel), m_last_change(0), m_active(false){};
+Drum::Pad::Pad(const uint8_t channel) : m_channel(channel), m_last_change(0), m_active(false), m_baseline(300){};
 
 void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
     if (state != m_active) {
@@ -99,6 +99,13 @@ void Drum::Pad::addToBuffer(uint16_t value, uint16_t debounce_delay) {
     }
 
     m_buffer.push_back({value, now});
+
+    // Update adaptive baseline (same logic as InternalAdc)
+    if (value < 20) {
+        m_baseline = (m_baseline * 7 + value) / 8;
+    } else if (value < 100) {
+        m_baseline = (m_baseline * 31 + value) / 32;
+    }
 }
 
 uint16_t Drum::Pad::getMaxValueInBuffer() const {
@@ -115,7 +122,16 @@ uint16_t Drum::Pad::getAnalog() const {
     };
 
     uint16_t max_value = getMaxValueInBuffer();
-    return raw_to_uint16(max_value);
+
+    // Subtract adaptive baseline and clamp to 0 if below baseline
+    uint16_t baseline_subtracted;
+    if (max_value > m_baseline) {
+        baseline_subtracted = max_value - m_baseline;
+    } else {
+        baseline_subtracted = 0;
+    }
+
+    return raw_to_uint16(baseline_subtracted);
 }
 
 Drum::RollCounter::RollCounter(uint32_t timeout_ms) : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {};

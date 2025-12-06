@@ -225,6 +225,7 @@ class Drum {
         uint32_t m_last_change;
         bool m_active;
         std::deque<BufferEntry> m_buffer;
+        uint16_t m_baseline;
 
       public:
         Pad(const uint8_t channel);
