@@ -4,6 +4,7 @@
 #define PERIPHERALS_DRUM_H_
 
 #include "utils/InputState.h"
+#include "usb/device_driver.h"
 
 #include "hardware/spi.h"
 #include "pico/time.h"
