@@ -296,7 +296,7 @@ class Drum {
   public:
     Drum(const Config &config);
 
-    void updateInputState(Utils::InputState &input_state);
+    void updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode = USB_MODE_SWITCH_TATACON);
 
     void setDebounceDelay(uint16_t delay);
     void setTriggerThresholds(const Config::Thresholds &thresholds);
