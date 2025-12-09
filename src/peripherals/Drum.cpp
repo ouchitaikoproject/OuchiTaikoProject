@@ -131,15 +131,18 @@ uint16_t Drum::Pad::getAnalog(float gain) const {
         baseline_subtracted = 0;
     }
 
-    // Apply gain multiplier (compensates for missing OpAmp circuit)
-    uint32_t gained_value = static_cast<uint32_t>(baseline_subtracted * gain);
+    // Bit-shift FIRST to get full 16-bit range
+    uint32_t value_16bit = raw_to_uint16(baseline_subtracted);
 
-    // Clamp to 12-bit max to prevent overflow before bit-shifting
-    if (gained_value > 4095) {
-        gained_value = 4095;
+    // Apply gain multiplier (compensates for missing OpAmp circuit)
+    uint32_t gained_value = static_cast<uint32_t>(value_16bit * gain);
+
+    // Clamp to 16-bit max to prevent overflow
+    if (gained_value > 65535) {
+        gained_value = 65535;
     }
 
-    return raw_to_uint16(static_cast<uint16_t>(gained_value));
+    return static_cast<uint16_t>(gained_value);
 }
 
 Drum::RollCounter::RollCounter(uint32_t timeout_ms) : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {};
