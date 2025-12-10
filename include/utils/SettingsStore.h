@@ -29,10 +29,12 @@ class SettingsStore {
         bool big_hit_enable;
         uint16_t big_hit_threshold;
         bool enable_simultap;
+        Peripherals::Drum::PerformanceProfile performance_profile;
 
         std::array<uint8_t, m_store_size - sizeof(uint8_t) - sizeof(uint8_t) - sizeof(usb_mode_t) -
                                 sizeof(Peripherals::Drum::Config::Thresholds) - sizeof(uint8_t) - sizeof(bool) -
-                                sizeof(uint16_t) - sizeof(bool) - sizeof(uint16_t) - sizeof(bool)>
+                                sizeof(uint16_t) - sizeof(bool) - sizeof(uint16_t) - sizeof(bool) -
+                                sizeof(Peripherals::Drum::PerformanceProfile)>
             _padding;
     };
     static_assert(sizeof(Storecache) == m_store_size);
@@ -75,6 +77,9 @@ class SettingsStore {
 
     void setSimulTap(bool enable);
     [[nodiscard]] bool getSimulTap() const;
+
+    void setPerformanceProfile(Peripherals::Drum::PerformanceProfile profile);
+    [[nodiscard]] Peripherals::Drum::PerformanceProfile getPerformanceProfile() const;
 
     void scheduleReboot(bool bootsel = false);
 

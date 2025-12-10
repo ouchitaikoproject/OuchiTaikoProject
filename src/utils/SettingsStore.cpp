@@ -35,6 +35,7 @@ SettingsStore::SettingsStore()
                      .big_hit_enable = Config::Default::drum_config.big_hit_enable,
                      .big_hit_threshold = Config::Default::drum_config.big_hit_threshold,
                      .enable_simultap = Config::Default::drum_config.enable_simultap,
+                     .performance_profile = Config::Default::drum_config.performance_profile,
                      ._padding = {}}) {
     uint32_t current_page = m_flash_offset + m_flash_size - m_store_size;
     bool found_valid = false;
@@ -131,6 +132,17 @@ void SettingsStore::setSimulTap(const bool enable) {
     }
 }
 bool SettingsStore::getSimulTap() const { return m_store_cache.enable_simultap; }
+
+void SettingsStore::setPerformanceProfile(Peripherals::Drum::PerformanceProfile profile) {
+    if (m_store_cache.performance_profile != profile) {
+        m_store_cache.performance_profile = profile;
+        m_dirty = true;
+    }
+}
+
+Peripherals::Drum::PerformanceProfile SettingsStore::getPerformanceProfile() const {
+    return m_store_cache.performance_profile;
+}
 
 void SettingsStore::store() {
     bool force_write = (m_scheduled_reboot != RebootType::None);

@@ -41,6 +41,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
      {Menu::Descriptor::Type::Menu,
       "Drum\nSettings",
       {{"Drum\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholds},
+       {"Performance\nProfile", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile},
        {"Big Hit\nArcade Mode", Menu::Descriptor::Action::GotoPageDrumBigHitArcade},
        {"SimulTap\nMode", Menu::Descriptor::Action::GotoPageSimulTap},
        {"Hold\nTime", Menu::Descriptor::Action::GotoPageDrumDebounceDelay}},
@@ -136,6 +137,14 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "Hit Hold Time (ms)",
       {{"", Menu::Descriptor::Action::SetDrumDebounceDelay}},
       UINT8_MAX}},
+
+    {Menu::Page::DrumPerformanceProfile,
+     {Menu::Descriptor::Type::Selection,
+      "Performance\nProfile",
+      {{"Standard\n(25ms Safe)", Menu::Descriptor::Action::SetPerformanceProfile},
+       {"Competitive\n(12ms Fast)", Menu::Descriptor::Action::SetPerformanceProfile},
+       {"EXTREME\n(8ms 120rps)", Menu::Descriptor::Action::SetPerformanceProfile}},
+      0}},
 
     {Menu::Page::DrumTriggerThresholdKaLeft,
      {Menu::Descriptor::Type::Value,
@@ -289,6 +298,8 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         return static_cast<uint16_t>(m_store->getUsbMode());
     case Page::DrumDebounceDelay:
         return m_store->getDebounceDelay();
+    case Page::DrumPerformanceProfile:
+        return static_cast<uint16_t>(m_store->getPerformanceProfile());
     case Page::DrumTriggerThresholdKaLeft:
         return m_store->getTriggerThresholds().ka_left;
     case Page::DrumTriggerThresholdDonLeft:
@@ -480,6 +491,9 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageDrumDebounceDelay:
         gotoPage(Page::DrumDebounceDelay);
         break;
+    case Descriptor::Action::GotoPageDrumPerformanceProfile:
+        gotoPage(Page::DrumPerformanceProfile);
+        break;
     case Descriptor::Action::GotoPageDrumTriggerThresholdKaLeft:
         gotoPage(Page::DrumTriggerThresholdKaLeft);
         break;
@@ -527,6 +541,9 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::SetDrumDebounceDelay:
         m_store->setDebounceDelay(value);
+        break;
+    case Descriptor::Action::SetPerformanceProfile:
+        m_store->setPerformanceProfile(static_cast<Peripherals::Drum::PerformanceProfile>(value));
         break;
     case Descriptor::Action::SetBigHitEnable:
         // Handle Big Hit Arcade Mode preset selections
