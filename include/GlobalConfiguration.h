@@ -62,6 +62,21 @@ const Peripherals::Drum::Config drum_config = {
     .analog_gain = 4.0,
     // ============================================================================
 
+    // ============================================================================
+    // PERFORMANCE PROFILE (1000Hz USB Polling Optimization)
+    // ============================================================================
+    // Controls velocity-based smart triggering for ultra-low latency:
+    //   - STANDARD: 25ms debounce, time-based only (safe default, no false triggers)
+    //   - COMPETITIVE: 12ms debounce with velocity filtering (~83 hits/sec capable)
+    //   - EXTREME: 8ms debounce with aggressive filtering (120 hits/sec capable)
+    //
+    // EXTREME mode enables 120 rolls/second capability by using velocity rise rate
+    // analysis to distinguish real hits from drum bounce/resonance.
+    //
+    // Recommended: Start with STANDARD, upgrade to COMPETITIVE/EXTREME for competitive play
+    .performance_profile = Peripherals::Drum::PerformanceProfile::STANDARD,
+    // ============================================================================
+
     .adc_channels =
         {
             .don_left = 1,

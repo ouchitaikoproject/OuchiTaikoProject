@@ -28,6 +28,12 @@ class Drum {
         KA_RIGHT,
     };
 
+    enum class PerformanceProfile {
+        STANDARD,      // 25ms debounce, time-based only (current behavior)
+        COMPETITIVE,   // 12ms debounce with velocity-aware filtering
+        EXTREME,       // 8ms debounce with aggressive velocity filtering (120 rolls/sec capable)
+    };
+
     struct Config {
         struct Thresholds {
             uint16_t don_left;
@@ -64,6 +70,7 @@ class Drum {
         uint32_t roll_counter_timeout_ms;
         bool enable_simultap;
         float analog_gain;  // Analog mode gain multiplier (compensates for missing OpAmp circuit)
+        PerformanceProfile performance_profile;  // Performance mode for low-latency triggering
         AdcChannels adc_channels;
         std::variant<InternalAdc, ExternalAdc> adc_config;
     };
@@ -216,7 +223,7 @@ class Drum {
         struct BufferEntry {
             uint16_t value;
             uint32_t timestamp;
-            
+
             // Comparison operator for std::max_element
             bool operator<(const BufferEntry& other) const {
                 return value < other.value;
@@ -229,12 +236,15 @@ class Drum {
         std::deque<BufferEntry> m_buffer;
         uint16_t m_baseline;
 
+        // Calculate velocity rise rate (dV/dt) to detect real hits vs bounce
+        [[nodiscard]] bool hasSharpVelocityRise(uint16_t current_value) const;
+
       public:
         Pad(const uint8_t channel);
 
         [[nodiscard]] uint8_t getChannel() const { return m_channel; };
         [[nodiscard]] bool getState() const { return m_active; };
-        void setState(const bool state, const uint16_t debounce_delay);
+        void setState(const bool state, const uint16_t debounce_delay, PerformanceProfile profile = PerformanceProfile::STANDARD);
 
         void addToBuffer(uint16_t value, uint16_t debounce_delay);
         [[nodiscard]] uint16_t getMaxValueInBuffer() const;
@@ -304,6 +314,8 @@ class Drum {
     void setBigHitEnable(bool enable);
     void setBigHitThreshold(uint16_t threshold);
     void setSimulTap(bool enable);
+    void setPerformanceProfile(PerformanceProfile profile);
+    [[nodiscard]] PerformanceProfile getPerformanceProfile() const { return m_config.performance_profile; }
     
     // Taiko-Tune V2 public interface
     void startTaikoTuneAnalysis(Id pad, uint8_t pass = 1);
