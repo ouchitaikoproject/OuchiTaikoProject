@@ -20,7 +20,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 
     {Menu::Page::DeviceMode,
      {Menu::Descriptor::Type::Selection,
-      "Controller\nMode",
+      "Device\nMode",
       {{"Nintendo Swtch\nTatacon Drum", Menu::Descriptor::Action::SetUsbMode},
        {"Nintendo Swtch\nPro Controller", Menu::Descriptor::Action::SetUsbMode},
        {"Sony PS3\nDualshock3", Menu::Descriptor::Action::SetUsbMode},
@@ -226,7 +226,7 @@ Menu::Buttons::Buttons()
 
 void Menu::Buttons::update(const InputState::Controller &controller_state) {
     // SIMPLIFIED: Pure edge detection - press once, fire once
-    // No repeat functionality at all
+    // No repeat funactionality at all
     auto handle_button = [](State &button_state, bool input_state) {
         if (input_state && button_state.repeat == State::Repeat::Idle) {
             // Button just pressed (was idle, now pressed)
