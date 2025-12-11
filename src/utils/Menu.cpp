@@ -381,6 +381,9 @@ void Menu::gotoParent(bool do_restore) {
         case Page::DrumDebounceDelay:
             m_store->setDebounceDelay(current_state.original_value);
             break;
+        case Page::DrumPerformanceProfile:
+            m_store->setPerformanceProfile(static_cast<Peripherals::Drum::PerformanceProfile>(current_state.original_value));
+            break;
         case Page::DrumTriggerThresholdKaLeft: {
             auto thresholds = m_store->getTriggerThresholds();
             thresholds.ka_left = current_state.original_value;

@@ -512,8 +512,8 @@ void Display::drawIdleScreen() {
     
     bool select_currently_pressed = m_input_state.controller.buttons.select;
     bool start_currently_pressed = m_input_state.controller.buttons.start;
-    uint32_t current_time = to_ms_since_boot(get_absolute_time());
-    
+    // current_time already declared above for roll rate calculation
+
     // Track hold times
     if (select_currently_pressed && !select_was_pressed) {
         select_hold_time = current_time;
