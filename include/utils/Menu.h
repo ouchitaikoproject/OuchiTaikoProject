@@ -27,6 +27,7 @@ class Menu {
         Bootsel,
 
         DrumDebounceDelay,
+        DrumPerformanceProfile,
         DrumTriggerThresholds,
         DrumTriggerThresholdsManual,
         DrumTriggerThresholdsAuto,
@@ -85,6 +86,7 @@ class Menu {
             GotoPageBootsel,
 
             GotoPageDrumDebounceDelay,
+            GotoPageDrumPerformanceProfile,
             GotoPageDrumBigHitArcade,
             GotoPageDrumBigHitEnable,
             GotoPageDrumTriggerThresholds,
@@ -114,6 +116,7 @@ class Menu {
             SetUsbMode,
 
             SetDrumDebounceDelay,
+            SetPerformanceProfile,
 
             SetBigHitEnable,
 

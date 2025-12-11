@@ -312,6 +312,7 @@ int main() {
         drum.setBigHitEnable(settings_store->getBigHitEnable());
         drum.setBigHitThreshold(settings_store->getBigHitThreshold());
         drum.setSimulTap(settings_store->getSimulTap());
+        drum.setPerformanceProfile(settings_store->getPerformanceProfile());
     };
 
     Utils::Menu menu(settings_store);

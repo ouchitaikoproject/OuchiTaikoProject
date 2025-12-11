@@ -421,12 +421,46 @@ void Display::drawIdleScreen() {
     // Option 2: Left-align "Streak:" label, right-align number
     const char* streak_label = "Streak: ";
     ssd1306_draw_string(&m_display, 2, 16, 1, streak_label);
-    
+
     // Right-align the number at a fixed position (reserve space for 3 digits)
     std::string roll_number = std::to_string(m_input_state.drum.current_roll);
     int number_width = roll_number.length() * 6;
     int number_x = 62 - number_width;  // Right-align at x=62
     ssd1306_draw_string(&m_display, number_x, 16, 1, roll_number.c_str());
+
+    // Calculate and display roll rate (rolls/second)
+    static uint32_t last_roll_count = 0;
+    static uint32_t last_roll_time = 0;
+    static uint16_t displayed_roll_rate = 0;  // Smoothed roll rate for display
+
+    uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+    // Update roll rate when roll count changes
+    if (m_input_state.drum.current_roll > last_roll_count && m_input_state.drum.current_roll > 1) {
+        uint32_t time_delta = current_time - last_roll_time;
+        if (time_delta > 0) {
+            // Calculate rolls per second: (1000ms / time_per_hit)
+            // Each roll increment represents one hit, so rate = 1000 / time_delta
+            uint16_t instant_rate = 1000 / time_delta;
+            // Smooth the displayed value to reduce jitter
+            displayed_roll_rate = (displayed_roll_rate * 3 + instant_rate) / 4;
+        }
+        last_roll_time = current_time;
+    }
+    last_roll_count = m_input_state.drum.current_roll;
+
+    // Reset displayed rate if no hits for 1 second
+    if (current_time - last_roll_time > 1000) {
+        displayed_roll_rate = 0;
+    }
+
+    // Display roll rate below streak
+    const char* rate_label = "Rate: ";
+    ssd1306_draw_string(&m_display, 2, 24, 1, rate_label);
+    std::string rate_string = std::to_string(displayed_roll_rate) + "/s";
+    int rate_width = rate_string.length() * 6;
+    int rate_x = 62 - rate_width;
+    ssd1306_draw_string(&m_display, rate_x, 24, 1, rate_string.c_str());
 
     // Detect hits (rising edge)
     bool ka_left_hit = m_input_state.drum.ka_left.triggered && !m_last_ka_left;
@@ -478,8 +512,8 @@ void Display::drawIdleScreen() {
     
     bool select_currently_pressed = m_input_state.controller.buttons.select;
     bool start_currently_pressed = m_input_state.controller.buttons.start;
-    uint32_t current_time = to_ms_since_boot(get_absolute_time());
-    
+    // current_time already declared above for roll rate calculation
+
     // Track hold times
     if (select_currently_pressed && !select_was_pressed) {
         select_hold_time = current_time;

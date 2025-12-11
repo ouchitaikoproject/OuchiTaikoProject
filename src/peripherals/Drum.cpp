@@ -81,10 +81,70 @@ std::array<uint16_t, 4> Drum::ExternalAdc::read() {
 
 Drum::Pad::Pad(const uint8_t channel) : m_channel(channel), m_last_change(0), m_active(false), m_baseline(300){};
 
-void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
+bool Drum::Pad::hasSharpVelocityRise(uint16_t current_value) const {
+    // Need at least 2 samples to calculate rise rate
+    if (m_buffer.size() < 2) {
+        return false;  // Not enough data, assume sharp (allow hit)
+    }
+
+    // Get the most recent samples to calculate dV/dt
+    const BufferEntry& latest = m_buffer.back();
+    const BufferEntry& previous = m_buffer[m_buffer.size() - 2];
+
+    uint32_t time_delta = latest.timestamp - previous.timestamp;
+
+    // Avoid division by zero
+    if (time_delta == 0) {
+        return true;  // Same timestamp, assume sharp
+    }
+
+    int32_t value_delta = static_cast<int32_t>(current_value) - static_cast<int32_t>(previous.value);
+
+    // Calculate rise rate: dV/dt (value change per millisecond)
+    // Real hits have sharp spikes: typically > 50 units/ms
+    // Bounce/resonance has slow rise: typically < 20 units/ms
+    float rise_rate = static_cast<float>(value_delta) / static_cast<float>(time_delta);
+
+    // Thresholds for sharp rise detection:
+    // - EXTREME mode: 30 units/ms (very aggressive, allows fast rolls)
+    // - COMPETITIVE mode: 20 units/ms (balanced)
+    // - STANDARD mode: Not used (pure time-based)
+    constexpr float SHARP_RISE_THRESHOLD = 20.0f;
+
+    return rise_rate >= SHARP_RISE_THRESHOLD;
+}
+
+void Drum::Pad::setState(const bool state, const uint16_t debounce_delay, PerformanceProfile profile) {
     if (state != m_active) {
         const uint32_t now = to_ms_since_boot(get_absolute_time());
-        if ((now - m_last_change) >= debounce_delay) {
+        uint32_t time_since_change = now - m_last_change;
+
+        // STANDARD mode: Pure time-based debounce (original behavior)
+        if (profile == PerformanceProfile::STANDARD) {
+            if (time_since_change >= debounce_delay) {
+                m_active = state;
+                m_last_change = now;
+            }
+            return;
+        }
+
+        // COMPETITIVE & EXTREME modes: Velocity-aware smart triggering
+        // Get effective debounce time based on profile
+        uint16_t min_debounce_time;
+        if (profile == PerformanceProfile::EXTREME) {
+            min_debounce_time = 8;  // 120 hits/sec capable
+        } else {  // COMPETITIVE
+            min_debounce_time = 12;  // ~83 hits/sec capable
+        }
+
+        // Allow state change if EITHER:
+        // 1. Full debounce time has elapsed (safe fallback), OR
+        // 2. Minimum time has passed AND velocity rise is sharp (real hit detected)
+        bool safe_time_elapsed = time_since_change >= debounce_delay;
+        bool min_time_and_sharp = (time_since_change >= min_debounce_time) &&
+                                  (state && hasSharpVelocityRise(getMaxValueInBuffer()));
+
+        if (safe_time_elapsed || min_time_and_sharp) {
             m_active = state;
             m_last_change = now;
         }
@@ -254,21 +314,21 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
     zero_if_not_within_twin(filtered_raw_values, Id::KA_LEFT, Id::KA_RIGHT);
 
     for (const auto &entry : filtered_raw_values) {
-        m_pads.at(entry.first).setState(entry.second != 0, m_config.debounce_delay_ms);
+        m_pads.at(entry.first).setState(entry.second != 0, m_config.debounce_delay_ms, m_config.performance_profile);
     }
 
     if (m_config.big_hit_enable) {
         if (raw_values.at(Id::DON_LEFT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::DON_RIGHT).setState(true, m_config.debounce_delay_ms);
+            m_pads.at(Id::DON_RIGHT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
         }
         if (raw_values.at(Id::DON_RIGHT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::DON_LEFT).setState(true, m_config.debounce_delay_ms);
+            m_pads.at(Id::DON_LEFT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
         }
         if (raw_values.at(Id::KA_LEFT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::KA_RIGHT).setState(true, m_config.debounce_delay_ms);
+            m_pads.at(Id::KA_RIGHT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
         }
         if (raw_values.at(Id::KA_RIGHT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::KA_LEFT).setState(true, m_config.debounce_delay_ms);
+            m_pads.at(Id::KA_LEFT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
         }
     }
 
@@ -292,14 +352,14 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
                                        !(input_state.drum.ka_left.triggered || input_state.drum.ka_right.triggered);
 
             if (ka_was_first) {
-                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms);
-                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms);
+                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             } else if (don_was_first) {
-                m_pads.at(Id::KA_LEFT).setState(false, m_config.debounce_delay_ms);
-                m_pads.at(Id::KA_RIGHT).setState(false, m_config.debounce_delay_ms);
+                m_pads.at(Id::KA_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+                m_pads.at(Id::KA_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             } else {
-                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms);
-                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms);
+                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             }
         }
     }
@@ -357,6 +417,8 @@ void Drum::setBigHitEnable(bool enable) { m_config.big_hit_enable = enable; }
 void Drum::setBigHitThreshold(uint16_t threshold) { m_config.big_hit_threshold = threshold; }
 
 void Drum::setSimulTap(bool enable) { m_config.enable_simultap = enable; }
+
+void Drum::setPerformanceProfile(PerformanceProfile profile) { m_config.performance_profile = profile; }
 
 // ============================================================================
 // TAIKO-TUNE V2 IMPLEMENTATION (AUTOMATED MODE WITH COUNTDOWN & NOISE SAMPLING)
