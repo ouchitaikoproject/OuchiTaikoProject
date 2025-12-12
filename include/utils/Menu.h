@@ -20,8 +20,8 @@ class Menu {
         Main,
 
         DeviceMode,
-        Drum,
-        Led,
+        DrumTuning,
+        Advanced,
         About,
         Reset,
         Bootsel,
@@ -35,7 +35,7 @@ class Menu {
         DrumBigHitArcade,
         DrumBigHitEnable,
         SimulTap,
-        
+
         // Taiko-Tune pages
         TaikoTuneKaLeft,
         TaikoTuneDonLeft,
@@ -52,7 +52,6 @@ class Menu {
         DrumBigHitThreshold,
 
         LedBrightness,
-        LedEnablePlayerColor,
 
         BootselMsg,
         RebootMsg,
@@ -79,8 +78,8 @@ class Menu {
             GotoParent,
 
             GotoPageDeviceMode,
-            GotoPageDrum,
-            GotoPageLed,
+            GotoPageDrumTuning,
+            GotoPageAdvanced,
             GotoPageAbout,
             GotoPageReset,
             GotoPageBootsel,
@@ -95,7 +94,7 @@ class Menu {
             GotoPageDrumTriggerThresholdsReset,
             GotoPageDrumBigHitThreshold,
             GotoPageSimulTap,
-            
+
             // Taiko-Tune actions
             GotoPageTaikoTuneKaLeft,
             GotoPageTaikoTuneDonLeft,
@@ -111,7 +110,6 @@ class Menu {
             GotoPageDrumTriggerThresholdKaRight,
 
             GotoPageLedBrightness,
-            GotoPageLedEnablePlayerColor,
 
             SetUsbMode,
 
@@ -128,7 +126,6 @@ class Menu {
             SetDrumBigHitThreshold,
 
             SetLedBrightness,
-            SetLedEnablePlayerColor,
 
             SetSimulTap,
 
