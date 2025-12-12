@@ -7,20 +7,24 @@
 namespace OuchiTaiko::Utils {
 
 const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
+    // NEW MAIN MENU - 8 items (Hybrid structure)
     {Menu::Page::Main,
      {Menu::Descriptor::Type::Menu,
-      "Settings",
-      {{"Controller\nModes", Menu::Descriptor::Action::GotoPageDeviceMode},
-       {"Drum\nSettings", Menu::Descriptor::Action::GotoPageDrum},
-       {"LED\nSettings", Menu::Descriptor::Action::GotoPageLed},
+      "Main Menu",
+      {{"Controller\nMode", Menu::Descriptor::Action::GotoPageDeviceMode},
+       {"Auto-Tune\nAll Drums", Menu::Descriptor::Action::GotoPageTaikoTuneAllDrums},
+       {"Drum\nTuning", Menu::Descriptor::Action::GotoPageDrumTuning},
+       {"LED\nBrightness", Menu::Descriptor::Action::GotoPageLedBrightness},
+       {"Advanced", Menu::Descriptor::Action::GotoPageAdvanced},
        {"About", Menu::Descriptor::Action::GotoPageAbout},
-       {"Reset", Menu::Descriptor::Action::GotoPageReset},
+       {"Reset\nSettings", Menu::Descriptor::Action::GotoPageReset},
        {"USB Flash\nMode", Menu::Descriptor::Action::GotoPageBootsel}},
       0}},
 
+    // Controller Mode (unchanged)
     {Menu::Page::DeviceMode,
      {Menu::Descriptor::Type::Selection,
-      "Device\nMode",
+      "Controller\nMode",
       {{"Nintendo Swtch\nTatacon Drum", Menu::Descriptor::Action::SetUsbMode},
        {"Nintendo Swtch\nPro Controller", Menu::Descriptor::Action::SetUsbMode},
        {"Sony PS3\nDualshock3", Menu::Descriptor::Action::SetUsbMode},
@@ -37,24 +41,27 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Debug\nMode", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
-    {Menu::Page::Drum,
+    // NEW: Drum Tuning submenu (4 items)
+    {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
-      "Drum\nSettings",
-      {{"Drum\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholds},
+      "Drum\nTuning",
+      {{"Tune\nSingle Pad", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsAuto},
        {"Performance\nProfile", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile},
-       {"Big Hit\nArcade Mode", Menu::Descriptor::Action::GotoPageDrumBigHitArcade},
-       {"SimulTap\nMode", Menu::Descriptor::Action::GotoPageSimulTap},
-       {"Hold\nTime", Menu::Descriptor::Action::GotoPageDrumDebounceDelay}},
+       {"Big Hit\nMode", Menu::Descriptor::Action::GotoPageDrumBigHitArcade},
+       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
       0}},
 
-    {Menu::Page::DrumTriggerThresholds,
+    // NEW: Advanced submenu (4 items - rarely used)
+    {Menu::Page::Advanced,
      {Menu::Descriptor::Type::Menu,
-      "Thresholds",
-      {{"Auto\nTaiko-Tune", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsAuto},
-       {"Manual\nPad Adjust", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
+      "Advanced",
+      {{"Hold Time\n(Debounce)", Menu::Descriptor::Action::GotoPageDrumDebounceDelay},
+       {"SimulTap\nMode", Menu::Descriptor::Action::GotoPageSimulTap},
+       {"Custom Big\nHit Value", Menu::Descriptor::Action::GotoPageDrumBigHitThreshold},
        {"Reset\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsReset}},
       0}},
 
+    // Thresholds - Manual submenu (unchanged)
     {Menu::Page::DrumTriggerThresholdsManual,
      {Menu::Descriptor::Type::Menu,
       "Manual\nAdjust",
@@ -64,22 +71,24 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Right Ka", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdKaRight}},
       0}},
 
+    // Thresholds - Auto/TaikoTune submenu (unchanged)
     {Menu::Page::DrumTriggerThresholdsAuto,
      {Menu::Descriptor::Type::Menu,
-      "Auto\nTaiko-Tune",
-      {{"Analyze All\n4 Drums", Menu::Descriptor::Action::GotoPageTaikoTuneAllDrums},
-       {"Analyze\nLeft Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaLeft},
-       {"Analyze\nLeft Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonLeft},
-       {"Analyze\nRight Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonRight},
-       {"Analyze\nRight Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaRight}},
+      "Tune\nSingle Pad",
+      {{"Left Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaLeft},
+       {"Left Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonLeft},
+       {"Right Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonRight},
+       {"Right Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaRight}},
       0}},
 
+    // Reset Thresholds confirmation (unchanged)
     {Menu::Page::DrumTriggerThresholdsReset,
-    {Menu::Descriptor::Type::Toggle,
-     "Reset\nAll?",
-     {{"Yes / No", Menu::Descriptor::Action::DoResetThresholds}},
-     0}},
+     {Menu::Descriptor::Type::Toggle,
+      "Reset All\nThresholds?",
+      {{"Yes / No", Menu::Descriptor::Action::DoResetThresholds}},
+      0}},
 
+    // Big Hit Mode (unchanged)
     {Menu::Page::DrumBigHitArcade,
      {Menu::Descriptor::Type::Selection,
       "Big Hit Mode",
@@ -90,39 +99,41 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Custom...", Menu::Descriptor::Action::GotoPageDrumBigHitThreshold}},
       0}},
 
+    // SimulTap Mode (unchanged)
     {Menu::Page::SimulTap,
      {Menu::Descriptor::Type::Toggle,
-      "SimulTap\nMode",
+      "SimulTap\n(Don+Ka)",
       {{"", Menu::Descriptor::Action::SetSimulTap}},
       0}},
 
+    // TaikoTune pages (unchanged)
     {Menu::Page::TaikoTuneKaLeft,
      {Menu::Descriptor::Type::Selection,
-      "Analyzing L-Ka",
+      "Tune L-Ka",
       {{"Start Analysis?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
       0}},
 
     {Menu::Page::TaikoTuneDonLeft,
      {Menu::Descriptor::Type::Selection,
-      "Analyzing L-Don",
+      "Tune L-Don",
       {{"Start Analysis?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
       0}},
 
     {Menu::Page::TaikoTuneDonRight,
      {Menu::Descriptor::Type::Selection,
-      "Analyzing R-Don",
+      "Tune R-Don",
       {{"Start Analysis?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
       0}},
 
     {Menu::Page::TaikoTuneKaRight,
      {Menu::Descriptor::Type::Selection,
-      "Analyzing R-Ka",
+      "Tune R-Ka",
       {{"Start Analysis?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
       0}},
 
     {Menu::Page::TaikoTuneAllDrums,
      {Menu::Descriptor::Type::Selection,
-      "All 4 Drums",
+      "Auto-Tune\nAll 4 Drums",
       {{"Start Analysis?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
       0}},
 
@@ -132,9 +143,10 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"Auto-Applied", Menu::Descriptor::Action::None}},
       0}},
 
+    // Value adjustments (unchanged)
     {Menu::Page::DrumDebounceDelay,
      {Menu::Descriptor::Type::Value,
-      "Hit Hold Time (ms)",
+      "Hold Time (ms)",
       {{"", Menu::Descriptor::Action::SetDrumDebounceDelay}},
       UINT8_MAX}},
 
@@ -148,85 +160,77 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 
     {Menu::Page::DrumTriggerThresholdKaLeft,
      {Menu::Descriptor::Type::Value,
-      "Trigger Lvl L. Ka",
+      "Trigger L. Ka",
       {{"", Menu::Descriptor::Action::SetDrumTriggerThresholdKaLeft}},
       4095}},
 
     {Menu::Page::DrumTriggerThresholdDonLeft,
      {Menu::Descriptor::Type::Value,
-      "Trigger Lvl L. Don",
+      "Trigger L. Don",
       {{"", Menu::Descriptor::Action::SetDrumTriggerThresholdDonLeft}},
       4095}},
 
     {Menu::Page::DrumTriggerThresholdDonRight,
      {Menu::Descriptor::Type::Value,
-      "Trigger Lvl R. Don",
+      "Trigger R. Don",
       {{"", Menu::Descriptor::Action::SetDrumTriggerThresholdDonRight}},
       4095}},
 
     {Menu::Page::DrumTriggerThresholdKaRight,
      {Menu::Descriptor::Type::Value,
-      "Trigger Lvl R. Ka",
+      "Trigger R. Ka",
       {{"", Menu::Descriptor::Action::SetDrumTriggerThresholdKaRight}},
       4095}},
 
     {Menu::Page::DrumBigHitThreshold,
      {Menu::Descriptor::Type::Value,
-      "Big Hit Threshold",
+      "Big Hit\nThreshold",
       {{"", Menu::Descriptor::Action::SetDrumBigHitThreshold}},
       4095}},
 
-    {Menu::Page::Led,
-     {Menu::Descriptor::Type::Menu,
-      "LED\nSettings",
-      {{"Brightness", Menu::Descriptor::Action::GotoPageLedBrightness},
-       {"Player\nColor", Menu::Descriptor::Action::GotoPageLedEnablePlayerColor}},
-      0}},
-
+    // LED Brightness - NOW DIRECT (no submenu!)
     {Menu::Page::LedBrightness,
      {Menu::Descriptor::Type::Value,
       "LED\nBrightness",
       {{"", Menu::Descriptor::Action::SetLedBrightness}},
       UINT8_MAX}},
 
-    {Menu::Page::LedEnablePlayerColor,
+    // Reset confirmation (unchanged)
+    {Menu::Page::Reset,
      {Menu::Descriptor::Type::Toggle,
-      "Player\nColor (PS4)",
-      {{"", Menu::Descriptor::Action::SetLedEnablePlayerColor}},
+      "Reset All\nSettings?",
+      {{"Yes / No", Menu::Descriptor::Action::DoReset}},
       0}},
 
-   {Menu::Page::Reset,
-    {Menu::Descriptor::Type::Toggle,
-     "Reset\nSettings?",
-     {{"Yes / No", Menu::Descriptor::Action::DoReset}},
-     0}},
-
+    // Bootsel confirmation (unchanged)
     {Menu::Page::Bootsel,
      {Menu::Descriptor::Type::Toggle,
-      "Reboot\nto Flash",
+      "Reboot to\nFlash Mode?",
       {{"Yes / No", Menu::Descriptor::Action::DoRebootToBootsel}},
       0}},
 
+    // About (firmware version changed to "Menu")
     {Menu::Page::About,
      {Menu::Descriptor::Type::Selection,
       "About",
-      {{"OuchiTaiko Project\nby KillerQ", Menu::Descriptor::Action::None},
-       {"Full Guide & Info:\nouchitaiko.com", Menu::Descriptor::Action::None},
-       {"Hybrid v11.0\nDecember 2025", Menu::Descriptor::Action::None},
-       {"Based on:\nDonCon2040 (MIT)", Menu::Descriptor::Action::None},
-       {"& HIDtaiko\n(Apache 2.0)", Menu::Descriptor::Action::None}},
+      {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
+       {"Guide:\nouchitaiko.com", Menu::Descriptor::Action::None},
+       {"Firmware:\nMenu", Menu::Descriptor::Action::None},
+       {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
+       {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
-      
+
+    // Reboot messages (unchanged)
     {Menu::Page::BootselMsg,
      {Menu::Descriptor::Type::RebootCountdown,
-      "Entering Bootloader",
-        {{"Countdown", Menu::Descriptor::Action::None}},
-  0}},
+      "Bootloader",
+      {{"Countdown", Menu::Descriptor::Action::None}},
+      0}},
 
     {Menu::Page::RebootMsg,
      {Menu::Descriptor::Type::RebootCountdown,
-      "Applying Changes...",
-      {{"Reboot Countdown", Menu::Descriptor::Action::None}},
+      "Rebooting...",
+      {{"Countdown", Menu::Descriptor::Action::None}},
       0}},
 };
 
@@ -314,12 +318,11 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         return static_cast<uint16_t>(m_store->getBigHitEnable());
     case Page::LedBrightness:
         return m_store->getLedBrightness();
-    case Page::LedEnablePlayerColor:
-        return static_cast<uint16_t>(m_store->getLedEnablePlayerColor());
     case Page::SimulTap:
         return static_cast<uint16_t>(m_store->getSimulTap());
     case Page::Main:
-    case Page::Drum:
+    case Page::DrumTuning:
+    case Page::Advanced:
     case Page::DrumTriggerThresholds:
     case Page::DrumTriggerThresholdsManual:
     case Page::DrumTriggerThresholdsAuto:
@@ -328,7 +331,7 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         // Return selection index based on current settings
         bool enabled = m_store->getBigHitEnable();
         uint16_t threshold = m_store->getBigHitThreshold();
-        
+
         if (!enabled) {
             return 0;  // Off
         } else if (threshold == 2000) {
@@ -341,7 +344,6 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
             return 4;  // Custom (any other value)
         }
     }
-    case Page::Led:
     case Page::About:
     case Page::Reset:
     case Page::Bootsel:
@@ -413,20 +415,17 @@ void Menu::gotoParent(bool do_restore) {
         case Page::LedBrightness:
             m_store->setLedBrightness(current_state.original_value);
             break;
-        case Page::LedEnablePlayerColor:
-            m_store->setLedEnablePlayerColor(static_cast<bool>(current_state.original_value));
-            break;
         case Page::SimulTap:
             m_store->setSimulTap(static_cast<bool>(current_state.original_value));
             break;
         case Page::Main:
-        case Page::Drum:
+        case Page::DrumTuning:
+        case Page::Advanced:
         case Page::DrumTriggerThresholds:
         case Page::DrumTriggerThresholdsManual:
         case Page::DrumTriggerThresholdsAuto:
         case Page::DrumTriggerThresholdsReset:
         case Page::DrumBigHitArcade:
-        case Page::Led:
         case Page::About:
         case Page::Reset:
         case Page::Bootsel:
@@ -455,8 +454,11 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageDeviceMode:
         gotoPage(Page::DeviceMode);
         break;
-    case Descriptor::Action::GotoPageDrum:
-        gotoPage(Page::Drum);
+    case Descriptor::Action::GotoPageDrumTuning:
+        gotoPage(Page::DrumTuning);
+        break;
+    case Descriptor::Action::GotoPageAdvanced:
+        gotoPage(Page::Advanced);
         break;
     case Descriptor::Action::GotoPageDrumBigHitArcade:
         gotoPage(Page::DrumBigHitArcade);
@@ -478,9 +480,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::GotoPageDrumBigHitThreshold:
         gotoPage(Page::DrumBigHitThreshold);
-        break;
-    case Descriptor::Action::GotoPageLed:
-        gotoPage(Page::Led);
         break;
     case Descriptor::Action::GotoPageAbout:
         gotoPage(Page::About);
@@ -511,9 +510,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::GotoPageLedBrightness:
         gotoPage(Page::LedBrightness);
-        break;
-    case Descriptor::Action::GotoPageLedEnablePlayerColor:
-        gotoPage(Page::LedEnablePlayerColor);
         break;
     case Descriptor::Action::GotoPageSimulTap:
         gotoPage(Page::SimulTap);
@@ -596,9 +592,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::SetLedBrightness:
         m_store->setLedBrightness(value);
-        break;
-    case Descriptor::Action::SetLedEnablePlayerColor:
-        m_store->setLedEnablePlayerColor(static_cast<bool>(value));
         break;
     case Descriptor::Action::SetSimulTap:
         m_store->setSimulTap(static_cast<bool>(value));
