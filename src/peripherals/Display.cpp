@@ -901,22 +901,25 @@ void Display::drawTaikoTuneAnalysisScreen() {
     }
     
     if (!tt_state.countdown_complete) {
-        std::string analyzing = "Analyzing " + pad_name;
-        int analyzing_x = (128 - analyzing.length() * 6) / 2;
-        ssd1306_draw_string(&m_display, analyzing_x, 14, 1, analyzing.c_str());
-        
+        // Top line: "Wait X sec - Calibrating"
         uint8_t countdown = tt_state.getCountdownRemaining();
-        std::string countdown_str = std::to_string(countdown);
-        int countdown_x = (128 - countdown_str.length() * 12) / 2;
-        ssd1306_draw_string(&m_display, countdown_x, 28, 2, countdown_str.c_str());
-        
-        std::string noise_msg = "Noise: " + std::to_string(tt_state.max_noise_level);
-        int noise_x = (128 - noise_msg.length() * 6) / 2;
-        ssd1306_draw_string(&m_display, noise_x, 46, 1, noise_msg.c_str());
-        
-        const char* bottom_msg = "Don't Touch Drums Yet";
-        int bottom_x = (128 - strlen(bottom_msg) * 6) / 2;
-        ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom_msg);
+        std::string top_msg = "Wait " + std::to_string(countdown) + " sec - Calibrating";
+        int top_x = (128 - top_msg.length() * 6) / 2;
+        ssd1306_draw_string(&m_display, top_x, 14, 1, top_msg.c_str());
+
+        // Big warning text (2 lines, size 2 font)
+        const char* line1 = "DON'T HIT";
+        int line1_x = (128 - strlen(line1) * 12) / 2;
+        ssd1306_draw_string(&m_display, line1_x, 20, 2, line1);
+
+        const char* line2 = "DRUM YET";
+        int line2_x = (128 - strlen(line2) * 12) / 2;
+        ssd1306_draw_string(&m_display, line2_x, 36, 2, line2);
+
+        // Bottom line: "Pass X/2  |  Noise: XX"
+        std::string bottom_msg = "Pass " + std::to_string(m_current_pass) + "/2  |  Noise: " + std::to_string(tt_state.max_noise_level);
+        int bottom_x = (128 - bottom_msg.length() * 6) / 2;
+        ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom_msg.c_str());
         
     } else {
         std::string analyzing = "Analyzing " + pad_name;
