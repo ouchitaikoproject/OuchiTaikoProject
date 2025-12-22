@@ -209,13 +209,13 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"Yes / No", Menu::Descriptor::Action::DoRebootToBootsel}},
       0}},
 
-    // About (firmware version 8.0 - Clean build: BIG menu + crosstalk fix)
+    // About (firmware version 9.0 - Confirmed baseline with crosstalk fix)
     {Menu::Page::About,
      {Menu::Descriptor::Type::Selection,
       "About",
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"Guide:\nouchitaiko.com", Menu::Descriptor::Action::None},
-       {"Firmware:\nv8.0", Menu::Descriptor::Action::None},
+       {"Firmware:\nv9.0", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
