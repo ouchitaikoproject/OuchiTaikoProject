@@ -313,6 +313,28 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
     zero_if_not_within_twin(filtered_raw_values, Id::DON_LEFT, Id::DON_RIGHT);
     zero_if_not_within_twin(filtered_raw_values, Id::KA_LEFT, Id::KA_RIGHT);
 
+    // VALUE-BASED DON vs KA CROSSTALK SUPPRESSION (from original DonCon2040)
+    // When SimulTap is OFF, prevent don and ka from triggering simultaneously
+    // by comparing their maximum RAW values and suppressing the weaker one
+    // This handles simultaneous hits from crosstalk that the timing-based filter can't catch
+    if (!m_config.enable_simultap) {
+        uint16_t max_don = std::max(filtered_raw_values.at(Id::DON_LEFT), filtered_raw_values.at(Id::DON_RIGHT));
+        uint16_t max_ka = std::max(filtered_raw_values.at(Id::KA_LEFT), filtered_raw_values.at(Id::KA_RIGHT));
+
+        if (max_don > 0 && max_ka > 0) {
+            // Both don and ka are active - suppress the weaker one
+            if (max_don > max_ka) {
+                // Don is stronger - suppress ka (likely crosstalk from don hit)
+                filtered_raw_values.at(Id::KA_LEFT) = 0;
+                filtered_raw_values.at(Id::KA_RIGHT) = 0;
+            } else {
+                // Ka is stronger - suppress don (likely crosstalk from ka hit)
+                filtered_raw_values.at(Id::DON_LEFT) = 0;
+                filtered_raw_values.at(Id::DON_RIGHT) = 0;
+            }
+        }
+    }
+
     for (const auto &entry : filtered_raw_values) {
         m_pads.at(entry.first).setState(entry.second != 0, m_config.debounce_delay_ms, m_config.performance_profile);
     }

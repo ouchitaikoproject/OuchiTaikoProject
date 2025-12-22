@@ -223,7 +223,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "About",
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
-       {"Firmware:\nv11.0", Menu::Descriptor::Action::None},
+       {"Firmware:\nv12.0", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
