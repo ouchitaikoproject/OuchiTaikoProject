@@ -534,15 +534,18 @@ void Drum::finishTaikoTuneAnalysis() {
     uint16_t max_crosstalk = 0;
     for (const auto& [other_pad, data] : m_taikotune_state.crosstalk_data) {
         if (other_pad == target_pad) continue;
-        
-        uint16_t avg_crosstalk = 0;
+
+        // Find PEAK crosstalk value (not average) to detect sparse but severe crosstalk
+        // Example: If 10 of 60 hits have crosstalk=250, we need to detect 250, not avg=42
+        uint16_t peak_crosstalk = 0;
         for (uint16_t val : data) {
-            avg_crosstalk += val;
+            if (val > peak_crosstalk) {
+                peak_crosstalk = val;
+            }
         }
-        avg_crosstalk /= 60;  // Changed to 60 for TARGET_HITS
-        
-        if (avg_crosstalk > max_crosstalk) {
-            max_crosstalk = avg_crosstalk;
+
+        if (peak_crosstalk > max_crosstalk) {
+            max_crosstalk = peak_crosstalk;
         }
     }
 
