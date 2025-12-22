@@ -313,6 +313,27 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
     zero_if_not_within_twin(filtered_raw_values, Id::DON_LEFT, Id::DON_RIGHT);
     zero_if_not_within_twin(filtered_raw_values, Id::KA_LEFT, Id::KA_RIGHT);
 
+    // DON vs KA crosstalk suppression (from original DonCon2040)
+    // When SimulTap is OFF, prevent don and ka from triggering simultaneously
+    // by comparing their maximum values and suppressing the weaker one
+    if (!m_config.enable_simultap) {
+        uint16_t max_don = std::max(filtered_raw_values.at(Id::DON_LEFT), filtered_raw_values.at(Id::DON_RIGHT));
+        uint16_t max_ka = std::max(filtered_raw_values.at(Id::KA_LEFT), filtered_raw_values.at(Id::KA_RIGHT));
+
+        if (max_don > 0 && max_ka > 0) {
+            // Both don and ka are active - suppress the weaker one
+            if (max_don > max_ka) {
+                // Don is stronger - suppress ka
+                filtered_raw_values.at(Id::KA_LEFT) = 0;
+                filtered_raw_values.at(Id::KA_RIGHT) = 0;
+            } else {
+                // Ka is stronger - suppress don
+                filtered_raw_values.at(Id::DON_LEFT) = 0;
+                filtered_raw_values.at(Id::DON_RIGHT) = 0;
+            }
+        }
+    }
+
     for (const auto &entry : filtered_raw_values) {
         m_pads.at(entry.first).setState(entry.second != 0, m_config.debounce_delay_ms, m_config.performance_profile);
     }
@@ -341,28 +362,9 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
         m_roll_counter.addHit();
     }
 
-    if (!m_config.enable_simultap) {
-        const bool ka_active = m_pads.at(Id::KA_LEFT).getState() || m_pads.at(Id::KA_RIGHT).getState();
-        const bool don_active = m_pads.at(Id::DON_LEFT).getState() || m_pads.at(Id::DON_RIGHT).getState();
-
-        if (ka_active && don_active) {
-            const bool ka_was_first = (input_state.drum.ka_left.triggered || input_state.drum.ka_right.triggered) &&
-                                      !(input_state.drum.don_left.triggered || input_state.drum.don_right.triggered);
-            const bool don_was_first = (input_state.drum.don_left.triggered || input_state.drum.don_right.triggered) &&
-                                       !(input_state.drum.ka_left.triggered || input_state.drum.ka_right.triggered);
-
-            if (ka_was_first) {
-                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-            } else if (don_was_first) {
-                m_pads.at(Id::KA_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-                m_pads.at(Id::KA_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-            } else {
-                m_pads.at(Id::DON_LEFT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-                m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
-            }
-        }
-    }
+    // Note: Don vs Ka crosstalk suppression is now handled earlier (line 316-335)
+    // by comparing raw signal strengths before setState, which is more effective
+    // than the old approach of checking previous frame state
 
     input_state.drum.don_left.triggered = m_pads.at(Id::DON_LEFT).getState();
     input_state.drum.ka_left.triggered = m_pads.at(Id::KA_LEFT).getState();
