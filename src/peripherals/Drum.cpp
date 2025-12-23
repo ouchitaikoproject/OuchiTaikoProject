@@ -294,24 +294,35 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
         filtered_raw_values[entry.first] = (entry.second > threshold) ? entry.second : 0;
     }
 
-    const auto resolve_twin_pads = [&](Id a, Id b) {
-        if (filtered_raw_values.at(a) == 0 && filtered_raw_values.at(b) == 0) {
+    const auto is_over_threshold = [&](Id target) {
+        return (raw_values.at(target) > get_threshold(target));
+    };
+
+    const auto resolve_twin_pads = [&](Id left, Id right) {
+        // If neither pad is over threshold, set both to false
+        if (!is_over_threshold(left) && !is_over_threshold(right)) {
+            m_pads.at(left).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+            m_pads.at(right).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             return;
         }
 
-        if (filtered_raw_values.at(a) > filtered_raw_values.at(b)) {
-            if (filtered_raw_values.at(b) < (filtered_raw_values.at(a) >> 1)) {
-                m_pads.at(b).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+        // Trigger twin pad if within 50% of hit strength to allow
+        // simultaneous hits while still rejecting unintended double hits.
+        if (raw_values.at(left) > raw_values.at(right)) {
+            m_pads.at(left).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
+
+            if (raw_values.at(right) > (raw_values.at(left) >> 1)) {
+                m_pads.at(right).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
             } else {
-                m_pads.at(a).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-                m_pads.at(b).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
+                m_pads.at(right).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             }
         } else {
-            if (filtered_raw_values.at(a) < (filtered_raw_values.at(b) >> 1)) {
-                m_pads.at(a).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
+            m_pads.at(right).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
+
+            if (raw_values.at(left) > (raw_values.at(right) >> 1)) {
+                m_pads.at(left).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
             } else {
-                m_pads.at(a).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-                m_pads.at(b).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
+                m_pads.at(left).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
             }
         }
     };
