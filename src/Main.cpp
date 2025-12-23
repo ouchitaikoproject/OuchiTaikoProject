@@ -148,33 +148,23 @@ void core1_task() {
             display.setMenuState(menu_display_msg);
         }
         
-        // Handle commands from core 0 - UPDATED for double-pass
-        if (queue_try_remove(&taikotune_command_queue, &taikotune_msg)) {
-            switch (taikotune_msg.command) {
-            case TaikoTuneCommand::ShowAnalysisScreen:
-                display.showTaikoTuneAnalysis();
-                break;
-            case TaikoTuneCommand::ExitAnalysisScreen:
-                display.showMenu();
-                break;
-            case TaikoTuneCommand::ShowCancelled:
-                display.showTaikoTuneCancelled();
-                break;
-            case TaikoTuneCommand::ShowSplash:
-                display.showTaikoTuneAllDrumsSplash();
-                break;
-            case TaikoTuneCommand::ShowPassTransition:
-                display.showTaikoTunePassTransition();
-                break;
-            case TaikoTuneCommand::SetPass:
-                display.setCurrentPass(taikotune_msg.pass_number);
-                break;
-            case TaikoTuneCommand::ShowComplete:
-                display.showTaikoTuneComplete();
-                break;
-            default:
-                break;
+        // Handle Tantrum calibration display updates
+        // Check if Tantrum is active and show appropriate screen
+        static bool was_tantrum_active = false;
+        if (drum_ptr && drum_ptr->isTantrumActive()) {
+            const auto& tantrum_state = drum_ptr->getTantrumState();
+
+            // Show initial screen when Tantrum first becomes active
+            if (!was_tantrum_active) {
+                display.showTantrumCountdown();
+                was_tantrum_active = true;
             }
+
+            // The draw functions in Display will auto-transition between states
+            // based on the current TantrumState mode
+        } else if (was_tantrum_active) {
+            // Tantrum just finished - display will have auto-returned to menu
+            was_tantrum_active = false;
         }
         
         if (queue_try_remove(&auth_challenge_queue, auth_challenge.data())) {
@@ -341,9 +331,10 @@ int main() {
 
     uint32_t ps4_auth_start_time = 0;
     
-    // Taiko-Tune state tracking for auto-save and sequential mode
+    // Tantrum calibration state tracking for auto-save
     bool last_analysis_active = false;
-    
+
+    /* OLD TaikoTune variables - no longer needed
     // All 4 Drums sequential mode state - UPDATED for double-pass (8 drums)
     bool all_drums_mode_active = false;
     uint8_t current_drum_index = 0;
@@ -360,6 +351,7 @@ int main() {
         Peripherals::Drum::Id::DON_LEFT,
         Peripherals::Drum::Id::KA_LEFT
     };
+    */
 
     while (true) {
         drum.updateInputState(input_state, mode);
@@ -368,22 +360,42 @@ int main() {
         // If queue is empty, keep last known state - edge detection in menu handles repeats
         // Don't clear stale data as it creates false rising edges
         queue_try_remove(&controller_input_queue, &input_state.controller);
-        // Check for B button press to cancel analysis
-        const auto& tt_state = drum.getTaikoTuneState();
-        bool current_analysis_active = tt_state.isActive();
 
-        if (current_analysis_active && input_state.controller.buttons.south) {
-            drum.cancelTaikoTuneAnalysis();
+        // Check for B button press to cancel Tantrum calibration
+        const auto& tantrum_state = drum.getTantrumState();
+        bool tantrum_active = tantrum_state.isActive();
+
+        if (tantrum_active && input_state.controller.buttons.south) {
+            drum.cancelTaikoTantrum();
+            // Return to menu
+            if (menu.active()) {
+                ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
+                queue_add_blocking(&control_queue, &ctrl_message);
+            }
         }
-        
-        // Detect cancellation: went from active to inactive WITHOUT entering ShowingResults
-        bool just_cancelled = last_analysis_active && !current_analysis_active && 
-                              tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::Inactive;
-        
-        // Detect completion: went from active to inactive AND entered ShowingResults
-        bool just_finished = last_analysis_active && !current_analysis_active && 
-                             tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults;
 
+        // Detect Tantrum completion: finished showing results, apply thresholds and save
+        bool just_finished_tantrum = last_analysis_active && !tantrum_active &&
+                                     (tantrum_state.current_mode == Peripherals::Drum::TantrumState::Mode::ShowingResults ||
+                                      tantrum_state.current_mode == Peripherals::Drum::TantrumState::Mode::Inactive);
+
+        // Handle Tantrum completion: apply thresholds and save
+        if (just_finished_tantrum) {
+            // Apply the calculated thresholds
+            drum.applyTantrumRecommendations();
+
+            // Save to persistent storage
+            settings_store->setTriggerThresholds(drum.getCurrentThresholds());
+            settings_store->store();
+            readSettings();
+
+            // The display will auto-return to menu after showing results for 5 seconds
+        }
+
+        last_analysis_active = tantrum_active;
+
+        // OLD TaikoTune code below - to be removed
+        /*
         if (just_cancelled) {
             // Analysis was cancelled - clean up state
             if (all_drums_mode_active) {
@@ -524,8 +536,9 @@ int main() {
             }
         }
 
-        last_analysis_active = current_analysis_active;
-        
+        */
+        // END OLD TaikoTune code
+
         const auto drum_message = input_state.drum;
 
         if ((mode == USB_MODE_PS4_TATACON || mode == USB_MODE_DUALSHOCK4) && !menu.active()) {
@@ -607,10 +620,26 @@ int main() {
             // Save current state for next frame's edge detection
             last_menu_controller = input_state.controller;
             
-            // Check if Taiko-Tune start was requested
+            // Check if Tantrum calibration start was requested
+            if (menu.isTantrumStartRequested()) {
+                // Start Tantrum calibration on Core 0
+                drum.startTaikoTantrum();
+
+                // Exit menu and show Tantrum countdown screen on Core 1
+                ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
+                queue_add_blocking(&control_queue, &ctrl_message);
+
+                // Brief delay to let display state update
+                sleep_ms(100);
+
+                // Core 1's display.update() will automatically show the Tantrum screens
+                // based on the Drum's TantrumState (countdown → recording → results)
+            }
+
+            /* OLD TaikoTune menu handler - commented out
             if (menu.isTaikoTuneStartRequested()) {
                 auto requested_page = menu.getTaikoTuneRequestedPage();
-                
+
                 // Check if this is "All 4 Drums" mode (double-pass)
                 if (requested_page == Utils::Menu::Page::TaikoTuneAllDrums) {
                     // Start sequential mode
@@ -690,7 +719,8 @@ int main() {
                     }
                 }
             }
-            
+            */ // END OLD TaikoTune menu handler
+
             // Check menu.active() again BEFORE sending display state
             // If menu just closed during update(), don't send state
             if (menu.active()) {
@@ -728,44 +758,16 @@ int main() {
         // Check for special inputs when menu is NOT active
         if (!menu.active()) {
             if (checkHoldStart()) {
-                // HOLD START DETECTED - Launch All 4 Drums calibration instantly!
-                all_drums_mode_active = true;
-                current_drum_index = 0;
-                last_processed_drum_index = 255;  // Reset guard
-                
-                // Show splash screen first
-                TaikoTuneMessage splash_msg{
-                    .command = TaikoTuneCommand::ShowSplash,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &splash_msg);
+                // HOLD START DETECTED - Launch Tantrum calibration instantly!
+                drum.startTaikoTantrum();
 
-                // Clear spurious inputs before splash screen display
+                // Brief delay to let state update
+                sleep_ms(100);
+
+                // Display will automatically show countdown screen based on Drum's state
+
+                // Clear spurious inputs
                 queue_try_remove(&controller_input_queue, nullptr);
-
-                // Wait for splash screen (3 seconds)
-                sleep_ms(3000);
-                
-                // Set initial pass to 1
-                TaikoTuneMessage pass_msg{
-                    .command = TaikoTuneCommand::SetPass,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = 1
-                };
-                queue_try_add(&taikotune_command_queue, &pass_msg);
-
-                // Start with first drum (Ka Left) - Pass 1
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], 1);
-                
-                // Tell core 1 to show the analysis screen
-                TaikoTuneMessage show_msg{
-                    .command = TaikoTuneCommand::ShowAnalysisScreen,
-                    .pad_id = drum_sequence[current_drum_index],
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &show_msg);
-
             } else if (checkHoldSelect()) {
                 // HOLD SELECT DETECTED - Open menu
                 menu.activate();
