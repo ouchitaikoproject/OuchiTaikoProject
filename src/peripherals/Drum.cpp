@@ -398,8 +398,8 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map
 void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode) {
     const auto raw_values = readInputs();
 
-    if (m_taikotune_state.isActive()) {
-        updateTaikoTuneAnalysis(raw_values);
+    if (m_tantrum_state.isActive()) {
+        updateTaikoTantrum(raw_values);
     }
 
     // In Xbox 360 Analog modes, skip digital threshold checking entirely
@@ -427,211 +427,128 @@ void Drum::setSimulTap(bool enable) { m_config.enable_simultap = enable; }
 void Drum::setPerformanceProfile(PerformanceProfile profile) { m_config.performance_profile = profile; }
 
 // ============================================================================
-// TAIKO-TUNE V2 IMPLEMENTATION (AUTOMATED MODE WITH COUNTDOWN & NOISE SAMPLING)
+// TAIKO TANTRUM CALIBRATION - Stress test for worst-case crosstalk
 // ============================================================================
 
-void Drum::startTaikoTuneAnalysis(Id pad, uint8_t pass) {
-    // Backup current thresholds before starting analysis (only on Pass 1)
-    if (pass == 1) {
-        m_taikotune_state.backup_thresholds = m_config.trigger_thresholds;
-    }
-    m_taikotune_state.startAnalysis(pad, pass);
+void Drum::startTaikoTantrum() {
+    m_tantrum_state.startCountdown();
 }
 
-void Drum::updateTaikoTuneAnalysis(const std::map<Id, uint16_t> &raw_values) {
-    if (!m_taikotune_state.isActive()) {
+void Drum::updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values) {
+    if (!m_tantrum_state.isActive()) {
         return;
     }
-    
-    // Check if cancelled
-    if (m_taikotune_state.cancelled) {
-        return;
-    }
-    
+
     uint32_t now = to_ms_since_boot(get_absolute_time());
-    
-    // PHASE 1: Countdown - Sample noise levels
-    if (!m_taikotune_state.countdown_complete) {
-        uint32_t elapsed = now - m_taikotune_state.countdown_start;
-        
-        // Track maximum noise during countdown
-        Id target_pad = m_taikotune_state.current_pad;
-        uint16_t current_value = raw_values.at(target_pad);
-        if (current_value > m_taikotune_state.max_noise_level) {
-            m_taikotune_state.max_noise_level = current_value;
-        }
-        
-        // Check if countdown finished
-        if (elapsed >= TaikoTuneState::COUNTDOWN_DURATION_MS) {
-            m_taikotune_state.countdown_complete = true;
+
+    // COUNTDOWN PHASE: Transition to recording when countdown expires
+    if (m_tantrum_state.current_mode == TantrumState::Mode::Countdown) {
+        uint32_t elapsed = now - m_tantrum_state.countdown_start;
+        if (elapsed >= TantrumState::COUNTDOWN_DURATION_MS) {
+            m_tantrum_state.startRecording();
         }
         return;
     }
-    
-    // PHASE 2: Analysis - Record hits using SMART threshold independent of user settings
-    Id target_pad = m_taikotune_state.current_pad;
-    uint16_t target_velocity = raw_values.at(target_pad);
-    
-    // SMART DETECTION: Use noise floor + safety margin, ignoring potentially wrong user settings
-    // This ensures we capture real hits even if user has threshold set to 1 or 999
-    uint16_t analysis_threshold = m_taikotune_state.max_noise_level + 30;
-    
-    // Ensure minimum threshold (in case noise sampling was too low)
-    if (analysis_threshold < 40) {
-        analysis_threshold = 40;
-    }
-    
-    static uint32_t last_hit_time = 0;
-    static const uint32_t HIT_COOLDOWN_MS = 100;
-    
-    // Detect hits using our smart threshold (NOT user's potentially broken setting)
-    if (target_velocity > analysis_threshold && (now - last_hit_time) > HIT_COOLDOWN_MS) {
-        m_taikotune_state.histograms[target_pad].recordHit(target_velocity);
-        
-        for (const auto& [pad_id, velocity] : raw_values) {
-            if (pad_id != target_pad) {
-                uint16_t idx = m_taikotune_state.hits_collected;
-                if (idx < 60) {  // Changed to 60 for TARGET_HITS
-                    m_taikotune_state.crosstalk_data[pad_id][idx] = velocity;
+
+    // RECORDING PHASE: Track maximum hits and crosstalk
+    if (m_tantrum_state.current_mode == TantrumState::Mode::Recording) {
+        uint32_t elapsed = now - m_tantrum_state.recording_start;
+
+        // Check if recording finished
+        if (elapsed >= TantrumState::RECORDING_DURATION_MS) {
+            finishTaikoTantrum();
+            return;
+        }
+
+        // Find which sensor has the strongest signal
+        Id strongest_sensor = Id::DON_LEFT;
+        uint16_t max_value = 0;
+        for (const auto& [sensor_id, value] : raw_values) {
+            if (value > max_value) {
+                max_value = value;
+                strongest_sensor = sensor_id;
+            }
+        }
+
+        // Only process if strongest sensor is above minimum hit strength
+        if (max_value < TantrumState::MIN_HIT_STRENGTH) {
+            return;
+        }
+
+        // Hit cooldown to prevent noise spikes from being counted as separate hits
+        static uint32_t last_hit_time = 0;
+        if ((now - last_hit_time) < TantrumState::HIT_COOLDOWN_MS) {
+            return;
+        }
+
+        // Record this as a hit
+        last_hit_time = now;
+        m_tantrum_state.total_hits_detected++;
+
+        // Track maximum value for the strongest sensor (intentional hit)
+        if (max_value > m_tantrum_state.max_hit_value[strongest_sensor]) {
+            m_tantrum_state.max_hit_value[strongest_sensor] = max_value;
+        }
+
+        // Track maximum crosstalk for all OTHER sensors (unintentional activation)
+        for (const auto& [sensor_id, value] : raw_values) {
+            if (sensor_id != strongest_sensor) {
+                if (value > m_tantrum_state.max_crosstalk_to[sensor_id]) {
+                    m_tantrum_state.max_crosstalk_to[sensor_id] = value;
                 }
             }
         }
-        
-        m_taikotune_state.hits_collected++;
-        last_hit_time = now;
-    }
-    
-    if (m_taikotune_state.isComplete()) {
-        finishTaikoTuneAnalysis();
     }
 }
 
-void Drum::finishTaikoTuneAnalysis() {
-    // Check if cancelled before finishing
-    if (m_taikotune_state.cancelled) {
+void Drum::finishTaikoTantrum() {
+    m_tantrum_state.current_mode = TantrumState::Mode::ShowingResults;
+
+    // VALIDATION: Check that user hit hard enough on all sensors
+    bool all_sensors_hit = true;
+    for (auto id : {Id::DON_LEFT, Id::DON_RIGHT, Id::KA_LEFT, Id::KA_RIGHT}) {
+        if (m_tantrum_state.max_hit_value[id] < TantrumState::MIN_ACCEPTABLE_MAX) {
+            all_sensors_hit = false;
+            break;
+        }
+    }
+
+    if (!all_sensors_hit) {
+        m_tantrum_state.current_mode = TantrumState::Mode::NeedsRedo;
+        m_tantrum_state.needs_redo = true;
+        m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";
         return;
     }
-    
-    Id target_pad = m_taikotune_state.current_pad;
-    const auto& histogram = m_taikotune_state.histograms[target_pad];
-    
-    TaikoTuneState::Recommendation rec;
-    
-    uint16_t avg_velocity = histogram.getAverage();
-    uint16_t current_threshold = 0;
-    
-    switch (target_pad) {
-        case Id::KA_LEFT: current_threshold = m_config.trigger_thresholds.ka_left; break;
-        case Id::DON_LEFT: current_threshold = m_config.trigger_thresholds.don_left; break;
-        case Id::DON_RIGHT: current_threshold = m_config.trigger_thresholds.don_right; break;
-        case Id::KA_RIGHT: current_threshold = m_config.trigger_thresholds.ka_right; break;
-    }
-    
-    uint16_t hits_above_threshold = 0;
-    for (size_t i = 0; i < histogram.bins.size(); i++) {
-        uint16_t bin_min = i * VelocityHistogram::BIN_SIZE;
-        if (bin_min >= current_threshold) {
-            hits_above_threshold += histogram.bins[i];
+
+    // CALCULATE THRESHOLDS: Maximum crosstalk + safety margin
+    for (auto id : {Id::DON_LEFT, Id::DON_RIGHT, Id::KA_LEFT, Id::KA_RIGHT}) {
+        uint16_t max_crosstalk = m_tantrum_state.max_crosstalk_to[id];
+        uint16_t safe_threshold = max_crosstalk + TantrumState::SAFETY_MARGIN;
+
+        m_tantrum_state.recommended_thresholds[id] = safe_threshold;
+
+        // CROSSTALK WARNING: Check if crosstalk is >50% of hit strength
+        uint16_t max_hit = m_tantrum_state.max_hit_value[id];
+        float crosstalk_ratio = static_cast<float>(max_crosstalk) / static_cast<float>(max_hit);
+        if (crosstalk_ratio > TantrumState::MAX_CROSSTALK_RATIO) {
+            m_tantrum_state.high_crosstalk_warning = true;
         }
     }
-    
-    float trigger_rate = (float)hits_above_threshold / histogram.total_hits;
-    
-    uint16_t max_crosstalk = 0;
-    for (const auto& [other_pad, data] : m_taikotune_state.crosstalk_data) {
-        if (other_pad == target_pad) continue;
-
-        // Find PEAK crosstalk value (not average) to detect sparse but severe crosstalk
-        // Example: If 10 of 60 hits have crosstalk=250, we need to detect 250, not avg=42
-        uint16_t peak_crosstalk = 0;
-        for (uint16_t val : data) {
-            if (val > peak_crosstalk) {
-                peak_crosstalk = val;
-            }
-        }
-
-        if (peak_crosstalk > max_crosstalk) {
-            max_crosstalk = peak_crosstalk;
-        }
-    }
-
-    // TWO-PASS CROSSTALK DETECTION: Compare Pass 1 vs Pass 2
-    if (m_taikotune_state.current_pass == 1) {
-        // Pass 1: Store crosstalk for later comparison with Pass 2
-        m_taikotune_state.pass1_max_crosstalk[target_pad] = max_crosstalk;
-    } else if (m_taikotune_state.current_pass == 2) {
-        // Pass 2: Compare with Pass 1 and use MAXIMUM (bidirectional crosstalk)
-        if (m_taikotune_state.pass1_max_crosstalk.count(target_pad) > 0) {
-            uint16_t pass1_crosstalk = m_taikotune_state.pass1_max_crosstalk[target_pad];
-            max_crosstalk = std::max(max_crosstalk, pass1_crosstalk);
-        }
-    }
-
-    rec.crosstalk_level = max_crosstalk;
-
-    // Calculate safe minimum threshold (noise floor + safety margin)
-    uint16_t safe_minimum = m_taikotune_state.max_noise_level + 20;
-    
-    // Calculate new threshold (cast to uint16_t for type consistency)
-    if (trigger_rate < 0.70) {
-        rec.needs_adjustment = true;
-        uint16_t calculated = (avg_velocity > 30) ? (avg_velocity - 30) : 0;
-        rec.suggested_threshold = (calculated > safe_minimum) ? calculated : safe_minimum;
-        rec.message = "Threshold too HIGH\nLower to: " + std::to_string(rec.suggested_threshold);
-    } else if (trigger_rate > 0.95 || current_threshold < max_crosstalk + 20) {
-        rec.needs_adjustment = true;
-        uint16_t calc1 = (avg_velocity > 20) ? (avg_velocity - 20) : 0;
-        uint16_t calc2 = max_crosstalk + 20;
-        rec.suggested_threshold = calc1;
-        if (calc2 > rec.suggested_threshold) rec.suggested_threshold = calc2;
-        if (safe_minimum > rec.suggested_threshold) rec.suggested_threshold = safe_minimum;
-        rec.message = "Threshold too LOW\nRaise to: " + std::to_string(rec.suggested_threshold);
-    } else {
-        rec.needs_adjustment = false;
-        rec.suggested_threshold = current_threshold;
-        rec.message = "Perfect!\nNo adjustment needed";
-    }
-    
-    if (max_crosstalk > 30) {
-        rec.message += "\n\nCross-talk: " + std::to_string(max_crosstalk);
-    }
-    
-    m_taikotune_state.recommendations[target_pad] = rec;
-    
-    applyTaikoTuneRecommendation(target_pad);
-    
-    m_taikotune_state.current_mode = TaikoTuneState::Mode::ShowingResults;
 }
 
-void Drum::cancelTaikoTuneAnalysis() {
-    // Restore backed up thresholds
-    m_config.trigger_thresholds = m_taikotune_state.backup_thresholds;
-    
-    // Mark as cancelled and reset
-    m_taikotune_state.cancel();
+void Drum::cancelTaikoTantrum() {
+    m_tantrum_state.reset();
 }
 
-void Drum::applyTaikoTuneRecommendation(Id pad) {
-    const auto& rec = m_taikotune_state.recommendations[pad];
-    
-    if (!rec.needs_adjustment) {
+void Drum::applyTantrumRecommendations() {
+    if (m_tantrum_state.recommended_thresholds.empty()) {
         return;
     }
-    
-    switch (pad) {
-        case Id::KA_LEFT:
-            m_config.trigger_thresholds.ka_left = rec.suggested_threshold;
-            break;
-        case Id::DON_LEFT:
-            m_config.trigger_thresholds.don_left = rec.suggested_threshold;
-            break;
-        case Id::DON_RIGHT:
-            m_config.trigger_thresholds.don_right = rec.suggested_threshold;
-            break;
-        case Id::KA_RIGHT:
-            m_config.trigger_thresholds.ka_right = rec.suggested_threshold;
-            break;
-    }
+
+    m_config.trigger_thresholds.don_left = m_tantrum_state.recommended_thresholds[Id::DON_LEFT];
+    m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[Id::DON_RIGHT];
+    m_config.trigger_thresholds.ka_left = m_tantrum_state.recommended_thresholds[Id::KA_LEFT];
+    m_config.trigger_thresholds.ka_right = m_tantrum_state.recommended_thresholds[Id::KA_RIGHT];
 }
 
 } // namespace OuchiTaiko::Peripherals

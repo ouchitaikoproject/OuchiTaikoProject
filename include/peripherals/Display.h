@@ -31,12 +31,10 @@ class Display {
         BootSplash,
         Idle,
         Menu,
-        TaikoTuneAnalysis,
-        TaikoTuneResults,
-        TaikoTuneCancelled,
-        TaikoTuneAllDrumsSplash,
-        TaikoTunePassTransition,
-        TaikoTuneComplete,
+        TantrumCountdown,
+        TantrumRecording,
+        TantrumResults,
+        TantrumNeedsRedo,
         RebootCountdown
     };
 
@@ -66,26 +64,15 @@ class Display {
     bool m_last_don_right = false;
     bool m_last_ka_right = false;
 
-    // Taiko-Tune: Reference to drum for accessing analysis state
+    // Taiko Tantrum: Reference to drum for accessing calibration state
     Drum *m_drum{nullptr};
 
     // Timer for auto-transitioning screens
-    uint32_t m_taikotune_results_start{0};
-    static constexpr uint32_t RESULTS_DISPLAY_MS = 3000;
-    
-    uint32_t m_taikotune_cancelled_start{0};
-    static constexpr uint32_t CANCELLED_DISPLAY_MS = 2000;
-    
-    uint32_t m_taikotune_splash_start{0};
-    static constexpr uint32_t SPLASH_DISPLAY_MS = 3000;
-    
-    uint32_t m_taikotune_transition_start{0};
-    static constexpr uint32_t TRANSITION_DISPLAY_MS = 3000;
+    uint32_t m_tantrum_results_start{0};
+    static constexpr uint32_t TANTRUM_RESULTS_DISPLAY_MS = 5000;
 
-    uint32_t m_taikotune_complete_start{0};
-    static constexpr uint32_t COMPLETE_DISPLAY_MS = 5000;
-
-    uint8_t m_current_pass{1};
+    uint32_t m_tantrum_needsredo_start{0};
+    static constexpr uint32_t TANTRUM_NEEDSREDO_DISPLAY_MS = 5000;
 
     // Burst circle animation
     struct Ring {
@@ -119,13 +106,11 @@ class Display {
     void drawMenuScreen();
     void drawNavigationBar(const Utils::Menu::Descriptor &descriptor);
     
-    // Taiko-Tune display functions
-    void drawTaikoTuneAnalysisScreen();
-    void drawTaikoTuneResultsScreen();
-    void drawTaikoTuneCancelledScreen();
-    void drawTaikoTuneAllDrumsSplashScreen();
-    void drawTaikoTunePassTransitionScreen();
-    void drawTaikoTuneCompleteScreen();
+    // Taiko Tantrum display functions
+    void drawTantrumCountdownScreen();
+    void drawTantrumRecordingScreen();
+    void drawTantrumResultsScreen();
+    void drawTantrumNeedsRedoScreen();
     
     // Reboot countdown display function
     void drawRebootCountdown();
@@ -150,17 +135,15 @@ class Display {
 
     void setMenuState(const Utils::Menu::State &menu_state);
     
-    // Taiko-Tune integration
+    // Taiko Tantrum integration
     void setDrumReference(Drum *drum);
-    void setCurrentPass(uint8_t pass_number);
 
     void showIdle();
     void showMenu();
-    void showTaikoTuneAnalysis();
-    void showTaikoTuneCancelled();
-    void showTaikoTuneAllDrumsSplash();
-    void showTaikoTunePassTransition();
-    void showTaikoTuneComplete();
+    void showTantrumCountdown();
+    void showTantrumRecording();
+    void showTantrumResults();
+    void showTantrumNeedsRedo();
     void showRebootCountdown();
 
     void update();

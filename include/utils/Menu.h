@@ -37,13 +37,8 @@ class Menu {
         DrumBigHitEnable,
         SimulTap,
 
-        // Taiko-Tune pages
-        TaikoTuneKaLeft,
-        TaikoTuneDonLeft,
-        TaikoTuneDonRight,
-        TaikoTuneKaRight,
-        TaikoTuneAllDrums,
-        TaikoTuneResults,
+        // Taiko Tantrum calibration
+        TaikoTantrum,
 
         DrumTriggerThresholdKaLeft,
         DrumTriggerThresholdDonLeft,
@@ -97,14 +92,9 @@ class Menu {
             GotoPageDrumBigHitThreshold,
             GotoPageSimulTap,
 
-            // Taiko-Tune actions
-            GotoPageTaikoTuneKaLeft,
-            GotoPageTaikoTuneDonLeft,
-            GotoPageTaikoTuneDonRight,
-            GotoPageTaikoTuneKaRight,
-            GotoPageTaikoTuneAllDrums,
-            StartTaikoTuneAnalysis,
-            ApplyTaikoTuneRecommendation,
+            // Taiko Tantrum calibration actions
+            GotoPageTaikoTantrum,
+            StartTaikoTantrum,
 
             GotoPageDrumTriggerThresholdKaLeft,
             GotoPageDrumTriggerThresholdDonLeft,
@@ -176,8 +166,7 @@ class Menu {
     std::shared_ptr<SettingsStore> m_store;
     Buttons m_buttons;
     bool m_active{false};
-    bool m_taikotune_start_requested{false};
-    Page m_taikotune_requested_page{Page::Main};
+    bool m_tantrum_start_requested{false};
     
     // NEW: Ignore inputs for first few frames after activation
     uint8_t m_ignore_input_frames{0};
@@ -203,8 +192,7 @@ class Menu {
     void update(const InputState::Controller &controller_state);
     [[nodiscard]] bool active() const;
     [[nodiscard]] State getState() const;
-    [[nodiscard]] bool isTaikoTuneStartRequested();
-    [[nodiscard]] Page getTaikoTuneRequestedPage() const;
+    [[nodiscard]] bool isTantrumStartRequested();
 };
 } // namespace OuchiTaiko::Utils
 

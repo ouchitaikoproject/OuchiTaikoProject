@@ -201,30 +201,23 @@ void Display::setDrumReference(Drum *drum) { m_drum = drum; }
 
 void Display::showIdle() { m_state = State::Idle; }
 void Display::showMenu() { m_state = State::Menu; }
-void Display::showTaikoTuneAnalysis() { m_state = State::TaikoTuneAnalysis; }
 
-void Display::showTaikoTuneCancelled() {
-    m_taikotune_cancelled_start = to_ms_since_boot(get_absolute_time());
-    m_state = State::TaikoTuneCancelled;
+void Display::showTantrumCountdown() {
+    m_state = State::TantrumCountdown;
 }
 
-void Display::showTaikoTuneAllDrumsSplash() {
-    m_taikotune_splash_start = to_ms_since_boot(get_absolute_time());
-    m_state = State::TaikoTuneAllDrumsSplash;
+void Display::showTantrumRecording() {
+    m_state = State::TantrumRecording;
 }
 
-void Display::showTaikoTunePassTransition() {
-    m_taikotune_transition_start = to_ms_since_boot(get_absolute_time());
-    m_state = State::TaikoTunePassTransition;
+void Display::showTantrumResults() {
+    m_tantrum_results_start = to_ms_since_boot(get_absolute_time());
+    m_state = State::TantrumResults;
 }
 
-void Display::showTaikoTuneComplete() {
-    m_taikotune_complete_start = to_ms_since_boot(get_absolute_time());
-    m_state = State::TaikoTuneComplete;
-}
-
-void Display::setCurrentPass(uint8_t pass_number) {
-    m_current_pass = pass_number;
+void Display::showTantrumNeedsRedo() {
+    m_tantrum_needsredo_start = to_ms_since_boot(get_absolute_time());
+    m_state = State::TantrumNeedsRedo;
 }
 
 void Display::showRebootCountdown() {
@@ -869,253 +862,196 @@ void Display::drawRebootCountdown() {
     }
 }
 
-void Display::drawTaikoTuneAnalysisScreen() {
-    if (!m_drum) return;
-    
-    const auto& tt_state = m_drum->getTaikoTuneState();
-    
-    if (tt_state.current_mode == Drum::TaikoTuneState::Mode::ShowingResults) {
-        m_state = State::TaikoTuneResults;
-        m_taikotune_results_start = to_ms_since_boot(get_absolute_time());
-        return;
-    }
-    
-    // Show pass indicator
-    std::string header;
-    if (m_current_pass == 1) {
-        header = "Pass 1 of 2 (This Way -->)";
-    } else {
-        header = "Pass 2 of 2 (Opposite <--)";
-    }
-    int header_x = (128 - header.length() * 6) / 2;
-    ssd1306_draw_string(&m_display, header_x, 0, 1, header.c_str());
-    
-    ssd1306_draw_line(&m_display, 0, 10, 127, 10);
-    
-    std::string pad_name;
-    switch (tt_state.current_pad) {
-        case Drum::Id::KA_LEFT: pad_name = "Ka-Left"; break;
-        case Drum::Id::DON_LEFT: pad_name = "Don-Left"; break;
-        case Drum::Id::DON_RIGHT: pad_name = "Don-Right"; break;
-        case Drum::Id::KA_RIGHT: pad_name = "Ka-Right"; break;
-    }
-    
-    if (!tt_state.countdown_complete) {
-        // Top line: "Wait X sec - Calibrating"
-        uint8_t countdown = tt_state.getCountdownRemaining();
-        std::string top_msg = "Wait " + std::to_string(countdown) + " sec - Calibrating";
-        int top_x = (128 - top_msg.length() * 6) / 2;
-        ssd1306_draw_string(&m_display, top_x, 14, 1, top_msg.c_str());
+// ============================================================================
+// TAIKO TANTRUM CALIBRATION SCREENS
+// ============================================================================
 
-        // Big warning text (2 lines, size 2 font)
-        const char* line1 = "DON'T HIT";
-        int line1_x = (128 - strlen(line1) * 12) / 2;
-        ssd1306_draw_string(&m_display, line1_x, 20, 2, line1);
-
-        const char* line2 = "DRUM YET";
-        int line2_x = (128 - strlen(line2) * 12) / 2;
-        ssd1306_draw_string(&m_display, line2_x, 36, 2, line2);
-
-        // Bottom line: "Pass X/2  |  Noise: XX"
-        std::string bottom_msg = "Pass " + std::to_string(m_current_pass) + "/2  |  Noise: " + std::to_string(tt_state.max_noise_level);
-        int bottom_x = (128 - bottom_msg.length() * 6) / 2;
-        ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom_msg.c_str());
-        
-    } else {
-        std::string analyzing = "Analyzing " + pad_name;
-        int analyzing_x = (128 - analyzing.length() * 6) / 2;
-        ssd1306_draw_string(&m_display, analyzing_x, 14, 1, analyzing.c_str());
-        
-        const char* instruction = "Hit Naturally to 100%";
-        int instruction_x = (128 - strlen(instruction) * 6) / 2;
-        ssd1306_draw_string(&m_display, instruction_x, 26, 1, instruction);
-        
-        const int BAR_X = 10;
-        const int BAR_Y = 36;
-        const int BAR_WIDTH = 88;
-        const int BAR_HEIGHT = 10;
-        
-        ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X + BAR_WIDTH, BAR_Y);
-        ssd1306_draw_line(&m_display, BAR_X, BAR_Y + BAR_HEIGHT, BAR_X + BAR_WIDTH, BAR_Y + BAR_HEIGHT);
-        ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X, BAR_Y + BAR_HEIGHT);
-        ssd1306_draw_line(&m_display, BAR_X + BAR_WIDTH, BAR_Y, BAR_X + BAR_WIDTH, BAR_Y + BAR_HEIGHT);
-        
-        uint16_t percentage = (tt_state.hits_collected * 100) / Drum::TaikoTuneState::TARGET_HITS;
-        if (percentage > 100) percentage = 100;
-        
-        int fill_width = (percentage * (BAR_WIDTH - 4)) / 100;
-        if (fill_width > 0) {
-            for (int y = BAR_Y + 2; y < BAR_Y + BAR_HEIGHT - 1; y++) {
-                for (int x = BAR_X + 2; x < BAR_X + 2 + fill_width; x++) {
-                    ssd1306_draw_pixel(&m_display, x, y);
-                }
-            }
-        }
-        
-        std::string percent_str = std::to_string(percentage) + "%";
-        ssd1306_draw_string(&m_display, BAR_X + BAR_WIDTH + 6, BAR_Y + 1, 1, percent_str.c_str());
-        
-        const char* bottom_msg = "Press B to Cancel";
-        int bottom_x = (128 - strlen(bottom_msg) * 6) / 2;
-        ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom_msg);
-    }
-}
-
-void Display::drawTaikoTuneResultsScreen() {
+void Display::drawTantrumCountdownScreen() {
     if (!m_drum) return;
 
-    const auto& tt_state = m_drum->getTaikoTuneState();
+    const auto& tantrum_state = m_drum->getTantrumState();
 
-    // CRITICAL FIX: Check if Drum state changed (All 4 Drums mode started next drum)
-    // If Drum is no longer in ShowingResults, exit immediately and let update() show correct screen
-    if (tt_state.current_mode != Drum::TaikoTuneState::Mode::ShowingResults) {
-        m_state = State::TaikoTuneAnalysis;  // Switch to analysis screen
+    // Auto-transition to recording when countdown expires
+    if (tantrum_state.current_mode == Drum::TantrumState::Mode::Recording) {
+        m_state = State::TantrumRecording;
         return;
     }
 
-    const auto& rec = tt_state.recommendations.at(tt_state.current_pad);
-
-    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_taikotune_results_start;
-    if (elapsed >= RESULTS_DISPLAY_MS) {
-        m_state = State::Menu;
-        return;
-    }
-    
-    const char* header = "Complete!";
-    int header_x = (128 - strlen(header) * 12) / 2;
-    ssd1306_draw_string(&m_display, header_x, 8, 2, header);
-    
-    std::string pad_name;
-    switch (tt_state.current_pad) {
-        case Drum::Id::KA_LEFT: pad_name = "Ka-Left"; break;
-        case Drum::Id::DON_LEFT: pad_name = "Don-Left"; break;
-        case Drum::Id::DON_RIGHT: pad_name = "Don-Right"; break;
-        case Drum::Id::KA_RIGHT: pad_name = "Ka-Right"; break;
-    }
-    
-    std::string msg1 = pad_name + " threshold";
-    int msg1_x = (128 - msg1.length() * 6) / 2;
-    ssd1306_draw_string(&m_display, msg1_x, 30, 1, msg1.c_str());
-    
-    std::string msg2 = "adjusted to: " + std::to_string(rec.suggested_threshold);
-    int msg2_x = (128 - msg2.length() * 6) / 2;
-    ssd1306_draw_string(&m_display, msg2_x, 40, 1, msg2.c_str());
-
-    // Context-aware bottom message
-    const char* bottom = (m_current_pass >= 1) ? "Next drum starting..." : "Returning to menu...";
-    int bottom_x = (128 - strlen(bottom) * 6) / 2;
-    ssd1306_draw_string(&m_display, bottom_x, 56, 1, bottom);
-}
-
-void Display::drawTaikoTuneAllDrumsSplashScreen() {
-    // Auto-transition after 3 seconds
-    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_taikotune_splash_start;
-    if (elapsed >= SPLASH_DISPLAY_MS) {
-        m_state = State::TaikoTuneAnalysis;
-        return;
-    }
-    
     // Title
-    const char* line1 = "All 4 Drums Mode";
+    const char* header = "Tantrum Cal";
+    int header_x = (128 - strlen(header) * 12) / 2;
+    ssd1306_draw_string(&m_display, header_x, 4, 2, header);
+
+    ssd1306_draw_line(&m_display, 0, 22, 127, 22);
+
+    // Countdown number (large)
+    uint32_t seconds = tantrum_state.getSecondsRemaining();
+    std::string countdown_str = std::to_string(seconds);
+    int countdown_x = (128 - countdown_str.length() * 12) / 2;
+    ssd1306_draw_string(&m_display, countdown_x, 28, 2, countdown_str.c_str());
+
+    // Warning message
+    const char* warning = "DON'T HIT YET";
+    int warning_x = (128 - strlen(warning) * 6) / 2;
+    ssd1306_draw_string(&m_display, warning_x, 48, 1, warning);
+}
+
+void Display::drawTantrumRecordingScreen() {
+    if (!m_drum) return;
+
+    const auto& tantrum_state = m_drum->getTantrumState();
+
+    // Auto-transition when recording finishes
+    if (tantrum_state.current_mode == Drum::TantrumState::Mode::ShowingResults) {
+        showTantrumResults();
+        return;
+    }
+    if (tantrum_state.current_mode == Drum::TantrumState::Mode::NeedsRedo) {
+        showTantrumNeedsRedo();
+        return;
+    }
+
+    // Title
+    const char* header = "Recording...";
+    int header_x = (128 - strlen(header) * 6) / 2;
+    ssd1306_draw_string(&m_display, header_x, 0, 1, header.c_str());
+
+    ssd1306_draw_line(&m_display, 0, 10, 127, 10);
+
+    // Instructions (size 1 font, centered)
+    const char* line1 = "Hit all pads as";
     int line1_x = (128 - strlen(line1) * 6) / 2;
-    ssd1306_draw_string(&m_display, line1_x, 4, 1, line1);
-    
-    ssd1306_draw_line(&m_display, 10, 14, 117, 14);
-    
-    // Pass info
-    const char* line2 = "PASS 1: This Way -->";
+    ssd1306_draw_string(&m_display, line1_x, 14, 1, line1);
+
+    const char* line2 = "hard as in-game, as";
     int line2_x = (128 - strlen(line2) * 6) / 2;
-    ssd1306_draw_string(&m_display, line2_x, 20, 1, line2);
-    
-    const char* line3 = "PASS 2: Opposite <--";
+    ssd1306_draw_string(&m_display, line2_x, 22, 1, line2);
+
+    const char* line3 = "fast as possible,";
     int line3_x = (128 - strlen(line3) * 6) / 2;
     ssd1306_draw_string(&m_display, line3_x, 30, 1, line3);
-    
-    ssd1306_draw_line(&m_display, 10, 40, 117, 40);
-    
-    // Stats
-    const char* line4 = "The Screens Will Tell";
+
+    const char* line4 = "random patterns";
     int line4_x = (128 - strlen(line4) * 6) / 2;
-    ssd1306_draw_string(&m_display, line4_x, 46, 1, line4);
-    
-    const char* line5 = "Which Drums To Hit";
-    int line5_x = (128 - strlen(line5) * 6) / 2;
-    ssd1306_draw_string(&m_display, line5_x, 56, 1, line5);
+    ssd1306_draw_string(&m_display, line4_x, 38, 1, line4);
+
+    // Progress bar
+    const int BAR_X = 10;
+    const int BAR_Y = 48;
+    const int BAR_WIDTH = 88;
+    const int BAR_HEIGHT = 8;
+
+    ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X + BAR_WIDTH, BAR_Y);
+    ssd1306_draw_line(&m_display, BAR_X, BAR_Y + BAR_HEIGHT, BAR_X + BAR_WIDTH, BAR_Y + BAR_HEIGHT);
+    ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X, BAR_Y + BAR_HEIGHT);
+    ssd1306_draw_line(&m_display, BAR_X + BAR_WIDTH, BAR_Y, BAR_X + BAR_WIDTH, BAR_Y + BAR_HEIGHT);
+
+    float progress = tantrum_state.getProgress();
+    int fill_width = (int)(progress * (BAR_WIDTH - 4));
+
+    if (fill_width > 0) {
+        for (int y = BAR_Y + 2; y < BAR_Y + BAR_HEIGHT - 1; y++) {
+            for (int x = BAR_X + 2; x < BAR_X + 2 + fill_width; x++) {
+                ssd1306_draw_pixel(&m_display, x, y);
+            }
+        }
+    }
+
+    // Time remaining
+    uint32_t seconds = tantrum_state.getSecondsRemaining();
+    std::string time_str = std::to_string(seconds) + "s";
+    ssd1306_draw_string(&m_display, BAR_X + BAR_WIDTH + 4, BAR_Y, 1, time_str.c_str());
 }
 
-void Display::drawTaikoTuneCancelledScreen() {
-    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_taikotune_cancelled_start;
-    if (elapsed >= CANCELLED_DISPLAY_MS) {
+void Display::drawTantrumResultsScreen() {
+    if (!m_drum) return;
+
+    const auto& tantrum_state = m_drum->getTantrumState();
+
+    // Auto-transition after 5 seconds
+    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_tantrum_results_start;
+    if (elapsed >= TANTRUM_RESULTS_DISPLAY_MS) {
         m_state = State::Menu;
         return;
     }
-    
+
     // Title
-    const char* header = "Cancelled";
+    const char* header = "Complete!";
     int header_x = (128 - strlen(header) * 12) / 2;
-    ssd1306_draw_string(&m_display, header_x, 16, 2, header);
-    
-    // Message
-    const char* msg = "Analysis stopped";
-    int msg_x = (128 - strlen(msg) * 6) / 2;
-    ssd1306_draw_string(&m_display, msg_x, 36, 1, msg);
-    
-    const char* msg2 = "Thresholds restored";
-    int msg2_x = (128 - strlen(msg2) * 6) / 2;
-    ssd1306_draw_string(&m_display, msg2_x, 46, 1, msg2);
+    ssd1306_draw_string(&m_display, header_x, 4, 2, header);
+
+    ssd1306_draw_line(&m_display, 0, 22, 127, 22);
+
+    // Show calculated thresholds (size 1 font)
+    const auto& thresholds = tantrum_state.recommended_thresholds;
+
+    std::string line1 = "DL:" + std::to_string(thresholds.at(Drum::Id::DON_LEFT)) +
+                        " DR:" + std::to_string(thresholds.at(Drum::Id::DON_RIGHT));
+    int line1_x = (128 - line1.length() * 6) / 2;
+    ssd1306_draw_string(&m_display, line1_x, 26, 1, line1.c_str());
+
+    std::string line2 = "KL:" + std::to_string(thresholds.at(Drum::Id::KA_LEFT)) +
+                        " KR:" + std::to_string(thresholds.at(Drum::Id::KA_RIGHT));
+    int line2_x = (128 - line2.length() * 6) / 2;
+    ssd1306_draw_string(&m_display, line2_x, 36, 1, line2.c_str());
+
+    // Crosstalk warning if needed
+    if (tantrum_state.high_crosstalk_warning) {
+        const char* warning1 = "High crosstalk!";
+        int warning1_x = (128 - strlen(warning1) * 6) / 2;
+        ssd1306_draw_string(&m_display, warning1_x, 46, 1, warning1);
+
+        const char* warning2 = "Check pad mounting";
+        int warning2_x = (128 - strlen(warning2) * 6) / 2;
+        ssd1306_draw_string(&m_display, warning2_x, 54, 1, warning2);
+    } else {
+        const char* success = "Thresholds applied!";
+        int success_x = (128 - strlen(success) * 6) / 2;
+        ssd1306_draw_string(&m_display, success_x, 50, 1, success);
+    }
 }
 
-void Display::drawTaikoTunePassTransitionScreen() {
-    // Auto-transition after 3 seconds
-    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_taikotune_transition_start;
-    if (elapsed >= TRANSITION_DISPLAY_MS) {
-        m_state = State::TaikoTuneAnalysis;
+void Display::drawTantrumNeedsRedoScreen() {
+    if (!m_drum) return;
+
+    const auto& tantrum_state = m_drum->getTantrumState();
+
+    // Auto-transition after 5 seconds
+    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_tantrum_needsredo_start;
+    if (elapsed >= TANTRUM_NEEDSREDO_DISPLAY_MS) {
+        m_state = State::Menu;
         return;
     }
-    
-    // Title
-    const char* line1 = "Pass 1 Complete!";
-    int line1_x = (128 - strlen(line1) * 12) / 2;
-    ssd1306_draw_string(&m_display, line1_x, 8, 2, line1);
-    
-    ssd1306_draw_line(&m_display, 10, 28, 117, 28);
-    
-    // Instructions
-    const char* line2 = "Starting Pass 2";
-    int line2_x = (128 - strlen(line2) * 6) / 2;
-    ssd1306_draw_string(&m_display, line2_x, 34, 1, line2);
-    
-    const char* line3 = "(Opposite Direction)";
-    int line3_x = (128 - strlen(line3) * 6) / 2;
-    ssd1306_draw_string(&m_display, line3_x, 44, 1, line3);
-    
-    const char* line4 = "Don't Touch Drums Yet";
-    int line4_x = (128 - strlen(line4) * 6) / 2;
-    ssd1306_draw_string(&m_display, line4_x, 56, 1, line4);
-}
-
-void Display::drawTaikoTuneCompleteScreen() {
-    // Display doesn't auto-transition - Main.cpp handles timeout and exit
 
     // Title
-    const char* line1 = "All Drums";
-    int line1_x = (128 - strlen(line1) * 12) / 2;
-    ssd1306_draw_string(&m_display, line1_x, 4, 2, line1);
+    const char* header = "Redo Needed";
+    int header_x = (128 - strlen(header) * 12) / 2;
+    ssd1306_draw_string(&m_display, header_x, 8, 2, header);
 
-    const char* line2 = "Complete!";
-    int line2_x = (128 - strlen(line2) * 12) / 2;
-    ssd1306_draw_string(&m_display, line2_x, 20, 2, line2);
+    ssd1306_draw_line(&m_display, 0, 26, 127, 26);
 
-    ssd1306_draw_line(&m_display, 10, 38, 117, 38);
+    // Show error message
+    std::string error_msg = tantrum_state.redo_reason;
 
-    // Success message
-    const char* line3 = "All Thresholds Saved";
-    int line3_x = (128 - strlen(line3) * 6) / 2;
-    ssd1306_draw_string(&m_display, line3_x, 44, 1, line3);
+    // Split error message by newlines
+    size_t newline_pos = error_msg.find('\n');
+    if (newline_pos != std::string::npos) {
+        std::string line1 = error_msg.substr(0, newline_pos);
+        std::string line2 = error_msg.substr(newline_pos + 1);
 
-    const char* line4 = "Returning to menu...";
-    int line4_x = (128 - strlen(line4) * 6) / 2;
-    ssd1306_draw_string(&m_display, line4_x, 56, 1, line4);
+        int line1_x = (128 - line1.length() * 6) / 2;
+        ssd1306_draw_string(&m_display, line1_x, 32, 1, line1.c_str());
+
+        int line2_x = (128 - line2.length() * 6) / 2;
+        ssd1306_draw_string(&m_display, line2_x, 42, 1, line2.c_str());
+    } else {
+        int msg_x = (128 - error_msg.length() * 6) / 2;
+        ssd1306_draw_string(&m_display, msg_x, 36, 1, error_msg.c_str());
+    }
+
+    const char* retry = "Try again";
+    int retry_x = (128 - strlen(retry) * 6) / 2;
+    ssd1306_draw_string(&m_display, retry_x, 54, 1, retry);
 }
 
 // ==========================================================
@@ -1230,23 +1166,17 @@ void Display::update() {
     case State::Menu:
         drawMenuScreen();
         break;
-    case State::TaikoTuneAnalysis:
-        drawTaikoTuneAnalysisScreen();
+    case State::TantrumCountdown:
+        drawTantrumCountdownScreen();
         break;
-    case State::TaikoTuneResults:
-        drawTaikoTuneResultsScreen();
+    case State::TantrumRecording:
+        drawTantrumRecordingScreen();
         break;
-    case State::TaikoTuneAllDrumsSplash:
-        drawTaikoTuneAllDrumsSplashScreen();
+    case State::TantrumResults:
+        drawTantrumResultsScreen();
         break;
-    case State::TaikoTuneCancelled:
-        drawTaikoTuneCancelledScreen();
-        break;
-    case State::TaikoTunePassTransition:
-        drawTaikoTunePassTransitionScreen();
-        break;
-    case State::TaikoTuneComplete:
-        drawTaikoTuneCompleteScreen();
+    case State::TantrumNeedsRedo:
+        drawTantrumNeedsRedoScreen();
         break;
     case State::RebootCountdown:
         drawRebootCountdown();

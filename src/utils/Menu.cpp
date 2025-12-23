@@ -40,12 +40,11 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Debug\nMode", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
-    // Drum Tuning submenu (3 items) - Pure tuning
+    // Drum Tuning submenu (2 items) - Pure tuning
     {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
       "Drum\nTuning",
-      {{"Auto-Tune\nAll Drums", Menu::Descriptor::Action::GotoPageTaikoTuneAllDrums},
-       {"Auto-Tune\nSingle Pad", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsAuto},
+      {{"Tantrum\nCalibration", Menu::Descriptor::Action::GotoPageTaikoTantrum},
        {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
       0}},    // NEW: Gameplay Mode Mods submenu (4 items)
     {Menu::Page::Gameplay,
@@ -77,16 +76,6 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Right Ka", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdKaRight}},
       0}},
 
-    // Thresholds - Auto/TaikoTune submenu (unchanged)
-    {Menu::Page::DrumTriggerThresholdsAuto,
-     {Menu::Descriptor::Type::Menu,
-      "Auto-Tune\nSingle Pad",
-      {{"Left Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaLeft},
-       {"Left Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonLeft},
-       {"Right Don", Menu::Descriptor::Action::GotoPageTaikoTuneDonRight},
-       {"Right Ka", Menu::Descriptor::Action::GotoPageTaikoTuneKaRight}},
-      0}},
-
     // Reset Thresholds confirmation (unchanged)
     {Menu::Page::DrumTriggerThresholdsReset,
      {Menu::Descriptor::Type::Toggle,
@@ -112,41 +101,11 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"", Menu::Descriptor::Action::SetSimulTap}},
       0}},
 
-    // TaikoTune pages (unchanged)
-    {Menu::Page::TaikoTuneKaLeft,
+    // Taiko Tantrum Calibration
+    {Menu::Page::TaikoTantrum,
      {Menu::Descriptor::Type::Selection,
-      "Tune L-Ka",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
-      0}},
-
-    {Menu::Page::TaikoTuneDonLeft,
-     {Menu::Descriptor::Type::Selection,
-      "Tune L-Don",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
-      0}},
-
-    {Menu::Page::TaikoTuneDonRight,
-     {Menu::Descriptor::Type::Selection,
-      "Tune R-Don",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
-      0}},
-
-    {Menu::Page::TaikoTuneKaRight,
-     {Menu::Descriptor::Type::Selection,
-      "Tune R-Ka",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
-      0}},
-
-    {Menu::Page::TaikoTuneAllDrums,
-     {Menu::Descriptor::Type::Selection,
-      "Auto-Tune\nAll 4 Drums",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTuneAnalysis}},
-      0}},
-
-    {Menu::Page::TaikoTuneResults,
-     {Menu::Descriptor::Type::RebootInfo,
-      "Results",
-      {{"Applied!", Menu::Descriptor::Action::None}},
+      "Tantrum Cal",
+      {{"Continue?", Menu::Descriptor::Action::StartTaikoTantrum}},
       0}},
 
     // Value adjustments (unchanged)
@@ -223,7 +182,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "About",
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
-       {"Firmware:\nv14.0", Menu::Descriptor::Action::None},
+       {"Firmware:\nv15.0", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
@@ -441,12 +400,7 @@ void Menu::gotoParent(bool do_restore) {
         case Page::Bootsel:
         case Page::BootselMsg:
         case Page::RebootMsg:
-        case Page::TaikoTuneKaLeft:
-        case Page::TaikoTuneDonLeft:
-        case Page::TaikoTuneDonRight:
-        case Page::TaikoTuneKaRight:
-        case Page::TaikoTuneAllDrums:
-        case Page::TaikoTuneResults:
+        case Page::TaikoTantrum:
             break;
         }
     }
@@ -527,26 +481,11 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageSimulTap:
         gotoPage(Page::SimulTap);
         break;
-    case Descriptor::Action::GotoPageTaikoTuneKaLeft:
-        gotoPage(Page::TaikoTuneKaLeft);
+    case Descriptor::Action::GotoPageTaikoTantrum:
+        gotoPage(Page::TaikoTantrum);
         break;
-    case Descriptor::Action::GotoPageTaikoTuneDonLeft:
-        gotoPage(Page::TaikoTuneDonLeft);
-        break;
-    case Descriptor::Action::GotoPageTaikoTuneDonRight:
-        gotoPage(Page::TaikoTuneDonRight);
-        break;
-    case Descriptor::Action::GotoPageTaikoTuneKaRight:
-        gotoPage(Page::TaikoTuneKaRight);
-        break;
-    case Descriptor::Action::GotoPageTaikoTuneAllDrums:
-        gotoPage(Page::TaikoTuneAllDrums);
-        break;
-    case Descriptor::Action::StartTaikoTuneAnalysis:
+    case Descriptor::Action::StartTaikoTantrum:
         // This action is flagged and handled in Main.cpp - don't do anything here
-        break;
-    case Descriptor::Action::ApplyTaikoTuneRecommendation:
-        // This will be handled by the main loop
         break;
     case Descriptor::Action::SetUsbMode:
         m_store->setUsbMode(static_cast<usb_mode_t>(value));
@@ -807,17 +746,11 @@ void Menu::update(const InputState::Controller &controller_state) {
             break;
         case Descriptor::Type::Selection:
             // Check if this is a Taiko-Tune page before normal handling
-            if (current_state.page == Page::TaikoTuneKaLeft ||
-                current_state.page == Page::TaikoTuneDonLeft ||
-                current_state.page == Page::TaikoTuneDonRight ||
-                current_state.page == Page::TaikoTuneKaRight ||
-                current_state.page == Page::TaikoTuneAllDrums) {
-                // Store which page was confirmed for Main.cpp to check
-                m_taikotune_requested_page = current_state.page;
+            if (current_state.page == Page::TaikoTantrum) {
                 // Don't go to parent - stay on this page
-                // The analysis start will be handled by Main.cpp
+                // The calibration start will be handled by Main.cpp
                 // Just flag that confirm was pressed
-                m_taikotune_start_requested = true;
+                m_tantrum_start_requested = true;
             } else if (current_state.page == Page::DeviceMode && 
                 current_state.selected_value != current_state.original_value) {
                 m_store->setUsbMode(static_cast<usb_mode_t>(current_state.selected_value));
@@ -860,14 +793,10 @@ bool Menu::active() const { return m_active; }
 
 Menu::State Menu::getState() const { return m_state_stack.top(); }
 
-bool Menu::isTaikoTuneStartRequested() {
-    bool result = m_taikotune_start_requested;
-    m_taikotune_start_requested = false; // Clear flag after reading
+bool Menu::isTantrumStartRequested() {
+    bool result = m_tantrum_start_requested;
+    m_tantrum_start_requested = false; // Clear flag after reading
     return result;
-}
-
-Menu::Page Menu::getTaikoTuneRequestedPage() const {
-    return m_taikotune_requested_page;
 }
 
 } // namespace OuchiTaiko::Utils
