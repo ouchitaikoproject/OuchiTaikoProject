@@ -914,7 +914,7 @@ void Display::drawTantrumRecordingScreen() {
     // Title
     const char* header = "Recording...";
     int header_x = (128 - strlen(header) * 6) / 2;
-    ssd1306_draw_string(&m_display, header_x, 0, 1, header.c_str());
+    ssd1306_draw_string(&m_display, header_x, 0, 1, header);
 
     ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 

@@ -317,12 +317,7 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
     case Page::Bootsel:
     case Page::BootselMsg:
     case Page::RebootMsg:
-    case Page::TaikoTuneKaLeft:
-    case Page::TaikoTuneDonLeft:
-    case Page::TaikoTuneDonRight:
-    case Page::TaikoTuneKaRight:
-    case Page::TaikoTuneAllDrums:
-    case Page::TaikoTuneResults:
+    case Page::TaikoTantrum:
         break;
     }
 

@@ -97,7 +97,6 @@ void core1_task() {
     Utils::InputState input_state;
     Utils::Menu::State menu_display_msg{};
     ControlMessage control_msg{};
-    TaikoTuneMessage taikotune_msg{};
 
     // Receive drum pointer from core 0
     Peripherals::Drum *drum_ptr = nullptr;
@@ -152,8 +151,6 @@ void core1_task() {
         // Check if Tantrum is active and show appropriate screen
         static bool was_tantrum_active = false;
         if (drum_ptr && drum_ptr->isTantrumActive()) {
-            const auto& tantrum_state = drum_ptr->getTantrumState();
-
             // Show initial screen when Tantrum first becomes active
             if (!was_tantrum_active) {
                 display.showTantrumCountdown();
