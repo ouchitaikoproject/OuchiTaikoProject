@@ -34,7 +34,6 @@ SettingsStore::SettingsStore()
                      .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
                      .big_hit_enable = Config::Default::drum_config.big_hit_enable,
                      .big_hit_threshold = Config::Default::drum_config.big_hit_threshold,
-                     .enable_simultap = Config::Default::drum_config.enable_simultap,
                      .performance_profile = Config::Default::drum_config.performance_profile,
                      ._padding = {}}) {
     uint32_t current_page = m_flash_offset + m_flash_size - m_store_size;
@@ -124,14 +123,6 @@ void SettingsStore::setDebounceDelay(const uint16_t delay) {
     }
 }
 uint16_t SettingsStore::getDebounceDelay() const { return m_store_cache.debounce_delay; }
-
-void SettingsStore::setSimulTap(const bool enable) {
-    if (m_store_cache.enable_simultap != enable) {
-        m_store_cache.enable_simultap = enable;
-        m_dirty = true;
-    }
-}
-bool SettingsStore::getSimulTap() const { return m_store_cache.enable_simultap; }
 
 void SettingsStore::setPerformanceProfile(Peripherals::Drum::PerformanceProfile profile) {
     if (m_store_cache.performance_profile != profile) {

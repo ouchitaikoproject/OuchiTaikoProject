@@ -68,7 +68,6 @@ class Drum {
         uint16_t big_hit_threshold;
         uint16_t debounce_delay_ms;
         uint32_t roll_counter_timeout_ms;
-        bool enable_simultap;
         float analog_gain;  // Analog mode gain multiplier (compensates for missing OpAmp circuit)
         PerformanceProfile performance_profile;  // Performance mode for low-latency triggering
         AdcChannels adc_channels;
@@ -267,7 +266,6 @@ class Drum {
     void setTriggerThresholds(const Config::Thresholds &thresholds);
     void setBigHitEnable(bool enable);
     void setBigHitThreshold(uint16_t threshold);
-    void setSimulTap(bool enable);
     void setPerformanceProfile(PerformanceProfile profile);
     [[nodiscard]] PerformanceProfile getPerformanceProfile() const { return m_config.performance_profile; }
 

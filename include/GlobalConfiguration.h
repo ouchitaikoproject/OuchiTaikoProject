@@ -41,7 +41,6 @@ const Peripherals::Drum::Config drum_config = {
     .big_hit_threshold = 2000,
     .debounce_delay_ms = 25,
     .roll_counter_timeout_ms = 500,
-    .enable_simultap = false,
 
     // ============================================================================
     // ANALOG MODE GAIN MULTIPLIER

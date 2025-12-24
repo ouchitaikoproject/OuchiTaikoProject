@@ -37,9 +37,6 @@ queue_t auth_signed_challenge_queue;
 // Queue for sending drum pointer to core 1
 queue_t drum_reference_queue;
 
-// Queue for Taiko-Tune commands from core 1 to core 0
-queue_t taikotune_command_queue;
-
 enum class ControlCommand : uint8_t {
     SetUsbMode,
     SetPlayerLed,
@@ -58,24 +55,6 @@ struct ControlMessage {
         bool led_enable_player_color;
         char mode_name[32];  // For Big Hit Mode confirmation
     } data;
-};
-
-// Taiko-Tune V2 command structure - UPDATED for double-pass
-enum class TaikoTuneCommand : uint8_t {
-    StartAnalysis,
-    ShowAnalysisScreen,
-    ExitAnalysisScreen,
-    ShowCancelled,        // NEW: Show cancelled screen
-    ShowSplash,           // NEW: Show initial splash screen
-    ShowPassTransition,   // NEW: Show transition between passes
-    SetPass,              // NEW: Set current pass number (1 or 2)
-    ShowComplete,         // NEW: Show completion screen
-};
-
-struct TaikoTuneMessage {
-    TaikoTuneCommand command;
-    Peripherals::Drum::Id pad_id;
-    uint8_t pass_number;  // For SetPass command
 };
 
 void core1_task() {
@@ -187,10 +166,7 @@ int main() {
     queue_init(&controller_input_queue, sizeof(Utils::InputState::Controller), 1);
     queue_init(&auth_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&auth_signed_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
-    
-    // Initialize Taiko-Tune queues
     queue_init(&drum_reference_queue, sizeof(Peripherals::Drum*), 1);
-    queue_init(&taikotune_command_queue, sizeof(TaikoTuneMessage), 1);
 
     stdio_init_all();
 
@@ -298,7 +274,6 @@ int main() {
         drum.setTriggerThresholds(settings_store->getTriggerThresholds());
         drum.setBigHitEnable(settings_store->getBigHitEnable());
         drum.setBigHitThreshold(settings_store->getBigHitThreshold());
-        drum.setSimulTap(settings_store->getSimulTap());
         drum.setPerformanceProfile(settings_store->getPerformanceProfile());
     };
 
@@ -330,25 +305,6 @@ int main() {
     
     // Tantrum calibration state tracking for auto-save
     bool last_analysis_active = false;
-
-    /* OLD TaikoTune variables - no longer needed
-    // All 4 Drums sequential mode state - UPDATED for double-pass (8 drums)
-    bool all_drums_mode_active = false;
-    uint8_t current_drum_index = 0;
-    uint8_t last_processed_drum_index = 255;  // Guard against duplicate processing
-    const Peripherals::Drum::Id drum_sequence[8] = {
-        // PASS 1: Forward (Left to Right)
-        Peripherals::Drum::Id::KA_LEFT,
-        Peripherals::Drum::Id::DON_LEFT,
-        Peripherals::Drum::Id::DON_RIGHT,
-        Peripherals::Drum::Id::KA_RIGHT,
-        // PASS 2: Reverse (Right to Left) - for perfect crosstalk compensation
-        Peripherals::Drum::Id::KA_RIGHT,
-        Peripherals::Drum::Id::DON_RIGHT,
-        Peripherals::Drum::Id::DON_LEFT,
-        Peripherals::Drum::Id::KA_LEFT
-    };
-    */
 
     while (true) {
         drum.updateInputState(input_state, mode);
@@ -390,151 +346,6 @@ int main() {
         }
 
         last_analysis_active = tantrum_active;
-
-        // OLD TaikoTune code below - to be removed
-        /*
-        if (just_cancelled) {
-            // Analysis was cancelled - clean up state
-            if (all_drums_mode_active) {
-                all_drums_mode_active = false;
-                current_drum_index = 0;
-            }
-            
-            // Restore backed up thresholds
-            readSettings();
-            
-            // Show cancelled screen for 2 seconds
-            TaikoTuneMessage cancelled_msg{
-                .command = TaikoTuneCommand::ShowCancelled,
-                .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                .pass_number = 0
-            };
-            queue_try_add(&taikotune_command_queue, &cancelled_msg);
-            
-            // Wait for cancelled screen
-            sleep_ms(2000);
-            
-            // Check if we came from menu or triple-tap
-            if (menu.active()) {
-                // Came from menu - stay in menu, just exit the analysis screen back to menu
-                TaikoTuneMessage exit_msg{
-                    .command = TaikoTuneCommand::ExitAnalysisScreen,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &exit_msg);
-            } else {
-                // Came from triple-tap - go back to idle
-                ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
-                queue_add_blocking(&control_queue, &ctrl_message);
-            }
-            // CRITICAL FIX: Ensure hotkey is reset if analysis was cancelled outside the menu
-            resetHotkeyState(); 
-        }
-
-        // CRITICAL: All 4 Drums mode - skip results display, go straight to next drum!
-        // This completely bypasses the Display's autonomous timeout issue
-        // SIMPLIFIED: Check ONLY mode flags, no transition detection
-        if (all_drums_mode_active &&
-            tt_state.current_mode == Peripherals::Drum::TaikoTuneState::Mode::ShowingResults &&
-            current_drum_index != last_processed_drum_index) {
-            // Just completed a drum we haven't processed yet
-            // Mark as processed to prevent duplicate handling
-            last_processed_drum_index = current_drum_index;
-
-            // Save thresholds immediately
-            settings_store->setTriggerThresholds(drum.getCurrentThresholds());
-            settings_store->store();
-            readSettings();
-
-            // UX: Display results for 2.5 seconds so user can see the threshold value
-            // Screen shows "Next drum starting..." so they know it's not frozen
-            sleep_ms(2500);
-
-            current_drum_index++;
-
-            if (current_drum_index < 8) {
-                // More drums to go - check if we need to show pass transition first
-
-                // CRITICAL FIX: Show pass transition BEFORE starting next drum
-                // This ensures user sees the transition screen and next drum has proper countdown
-                if (current_drum_index == 4) {
-                    // Just finished Pass 1 (drums 0-3), about to start Pass 2 (drums 4-7)
-                    TaikoTuneMessage transition_msg{
-                        .command = TaikoTuneCommand::ShowPassTransition,
-                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                        .pass_number = 0
-                    };
-                    queue_try_add(&taikotune_command_queue, &transition_msg);
-                    sleep_ms(3000);  // Display transition screen for 3 seconds
-                }
-
-                // Update pass number for display
-                uint8_t pass_number = (current_drum_index < 4) ? 1 : 2;
-                TaikoTuneMessage pass_msg{
-                    .command = TaikoTuneCommand::SetPass,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = pass_number
-                };
-                queue_try_add(&taikotune_command_queue, &pass_msg);
-
-                // Now start the next drum analysis WITH PASS NUMBER for two-pass crosstalk detection
-                drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], pass_number);
-
-                // Brief delay to let state change propagate to Core 1
-                sleep_ms(100);
-
-                // Tell Display to show analysis screen
-                TaikoTuneMessage show_msg{
-                    .command = TaikoTuneCommand::ShowAnalysisScreen,
-                    .pad_id = drum_sequence[current_drum_index],
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &show_msg);
-            } else {
-                // All 8 drums complete! Show completion screen
-                TaikoTuneMessage complete_msg{
-                    .command = TaikoTuneCommand::ShowComplete,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &complete_msg);
-                sleep_ms(5000);  // Show completion screen for 5 seconds
-
-                // Then exit back to idle (we used START shortcut, not menu)
-                all_drums_mode_active = false;
-                current_drum_index = 0;
-                resetHotkeyState();
-
-                // Go back to idle screen
-                ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
-                queue_add_blocking(&control_queue, &ctrl_message);
-            }
-        } else if (just_finished && !all_drums_mode_active) {
-            // SINGLE DRUM MODE ONLY (All 4 Drums handled above)
-            // Save thresholds to flash
-            settings_store->setTriggerThresholds(drum.getCurrentThresholds());
-            settings_store->store();
-            readSettings();
-
-            // Show results, then return to menu
-            sleep_ms(3000);
-
-            if (menu.active()) {
-                TaikoTuneMessage exit_msg{
-                    .command = TaikoTuneCommand::ExitAnalysisScreen,
-                    .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                    .pass_number = 0
-                };
-                queue_try_add(&taikotune_command_queue, &exit_msg);
-            } else {
-                ControlMessage ctrl_message{.command = ControlCommand::ExitMenu, .data = {}};
-                queue_add_blocking(&control_queue, &ctrl_message);
-            }
-        }
-
-        */
-        // END OLD TaikoTune code
 
         const auto drum_message = input_state.drum;
 
@@ -632,91 +443,6 @@ int main() {
                 // Core 1's display.update() will automatically show the Tantrum screens
                 // based on the Drum's TantrumState (countdown → recording → results)
             }
-
-            /* OLD TaikoTune menu handler - commented out
-            if (menu.isTaikoTuneStartRequested()) {
-                auto requested_page = menu.getTaikoTuneRequestedPage();
-
-                // Check if this is "All 4 Drums" mode (double-pass)
-                if (requested_page == Utils::Menu::Page::TaikoTuneAllDrums) {
-                    // Start sequential mode
-                    all_drums_mode_active = true;
-                    current_drum_index = 0;
-                    last_processed_drum_index = 255;  // Reset guard
-                    
-                    // Show splash screen first
-                    TaikoTuneMessage splash_msg{
-                        .command = TaikoTuneCommand::ShowSplash,
-                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                        .pass_number = 0
-                    };
-                    queue_try_add(&taikotune_command_queue, &splash_msg);
-
-                    // Clear spurious inputs before splash screen display
-                    queue_try_remove(&controller_input_queue, nullptr);
-
-                    // Wait for splash screen (3 seconds)
-                    sleep_ms(3000);
-                    
-                    // Set initial pass to 1
-                    TaikoTuneMessage pass_msg{
-                        .command = TaikoTuneCommand::SetPass,
-                        .pad_id = Peripherals::Drum::Id::KA_LEFT,
-                        .pass_number = 1
-                    };
-                    queue_try_add(&taikotune_command_queue, &pass_msg);
-
-                    // Now start with first drum (Ka Left) - Pass 1
-                    drum.startTaikoTuneAnalysis(drum_sequence[current_drum_index], 1);
-                    
-                    // Tell core 1 to show the analysis screen
-                    TaikoTuneMessage show_msg{
-                        .command = TaikoTuneCommand::ShowAnalysisScreen,
-                        .pad_id = drum_sequence[current_drum_index],
-                        .pass_number = 0
-                    };
-                    queue_try_add(&taikotune_command_queue, &show_msg);
-                } else {
-                    // Single drum mode
-                    all_drums_mode_active = false;
-                    
-                    // Determine which pad based on current page
-                    Peripherals::Drum::Id pad_id;
-                    bool valid_page = true;
-                    
-                    switch (requested_page) {
-                        case Utils::Menu::Page::TaikoTuneKaLeft:
-                            pad_id = Peripherals::Drum::Id::KA_LEFT;
-                            break;
-                        case Utils::Menu::Page::TaikoTuneDonLeft:
-                            pad_id = Peripherals::Drum::Id::DON_LEFT;
-                            break;
-                        case Utils::Menu::Page::TaikoTuneDonRight:
-                            pad_id = Peripherals::Drum::Id::DON_RIGHT;
-                            break;
-                        case Utils::Menu::Page::TaikoTuneKaRight:
-                            pad_id = Peripherals::Drum::Id::KA_RIGHT;
-                            break;
-                        default:
-                            valid_page = false;
-                            break;
-                    }
-                    
-                    if (valid_page) {
-                        // Start the analysis on core 0
-                        drum.startTaikoTuneAnalysis(pad_id);
-                        
-                        // Tell core 1 to show the analysis screen
-                        TaikoTuneMessage show_msg{
-                            .command = TaikoTuneCommand::ShowAnalysisScreen,
-                            .pad_id = pad_id,
-                            .pass_number = 0
-                        };
-                        queue_try_add(&taikotune_command_queue, &show_msg);
-                    }
-                }
-            }
-            */ // END OLD TaikoTune menu handler
 
             // Check menu.active() again BEFORE sending display state
             // If menu just closed during update(), don't send state

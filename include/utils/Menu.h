@@ -35,7 +35,6 @@ class Menu {
         DrumTriggerThresholdsReset,
         DrumBigHitArcade,
         DrumBigHitEnable,
-        SimulTap,
 
         // Taiko Tantrum calibration
         TaikoTantrum,
@@ -90,7 +89,6 @@ class Menu {
             GotoPageDrumTriggerThresholdsAuto,
             GotoPageDrumTriggerThresholdsReset,
             GotoPageDrumBigHitThreshold,
-            GotoPageSimulTap,
 
             // Taiko Tantrum calibration actions
             GotoPageTaikoTantrum,
@@ -118,8 +116,6 @@ class Menu {
             SetDrumBigHitThreshold,
 
             SetLedBrightness,
-
-            SetSimulTap,
 
             DoReset,
             DoRebootToBootsel,

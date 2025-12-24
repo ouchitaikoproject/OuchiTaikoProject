@@ -28,12 +28,11 @@ class SettingsStore {
         uint16_t debounce_delay;
         bool big_hit_enable;
         uint16_t big_hit_threshold;
-        bool enable_simultap;
         Peripherals::Drum::PerformanceProfile performance_profile;
 
         std::array<uint8_t, m_store_size - sizeof(uint8_t) - sizeof(uint8_t) - sizeof(usb_mode_t) -
                                 sizeof(Peripherals::Drum::Config::Thresholds) - sizeof(uint8_t) - sizeof(bool) -
-                                sizeof(uint16_t) - sizeof(bool) - sizeof(uint16_t) - sizeof(bool) -
+                                sizeof(uint16_t) - sizeof(bool) - sizeof(uint16_t) -
                                 sizeof(Peripherals::Drum::PerformanceProfile)>
             _padding;
     };
@@ -74,9 +73,6 @@ class SettingsStore {
 
     void setDebounceDelay(uint16_t delay);
     [[nodiscard]] uint16_t getDebounceDelay() const;
-
-    void setSimulTap(bool enable);
-    [[nodiscard]] bool getSimulTap() const;
 
     void setPerformanceProfile(Peripherals::Drum::PerformanceProfile profile);
     [[nodiscard]] Peripherals::Drum::PerformanceProfile getPerformanceProfile() const;

@@ -52,8 +52,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "Gameplay\nMode Mods",
       {{"Big Hit\nMode", Menu::Descriptor::Action::GotoPageDrumBigHitArcade},
        {"Custom Big\nHit Value", Menu::Descriptor::Action::GotoPageDrumBigHitThreshold},
-       {"Poll Rate\nProfile", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile},
-       {"SimulTap\nMode", Menu::Descriptor::Action::GotoPageSimulTap}},
+       {"Poll Rate\nProfile", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile}},
       0}},
 
 
@@ -92,13 +91,6 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Med (2.5K)", Menu::Descriptor::Action::SetBigHitEnable},
        {"Heavy (3K)", Menu::Descriptor::Action::SetBigHitEnable},
        {"Custom...", Menu::Descriptor::Action::GotoPageDrumBigHitThreshold}},
-      0}},
-
-    // SimulTap Mode (unchanged)
-    {Menu::Page::SimulTap,
-     {Menu::Descriptor::Type::Toggle,
-      "SimulTap\n(Don+Ka)",
-      {{"", Menu::Descriptor::Action::SetSimulTap}},
       0}},
 
     // Taiko Tantrum Calibration
@@ -285,8 +277,6 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         return static_cast<uint16_t>(m_store->getBigHitEnable());
     case Page::LedBrightness:
         return m_store->getLedBrightness();
-    case Page::SimulTap:
-        return static_cast<uint16_t>(m_store->getSimulTap());
     case Page::Main:
     case Page::DrumTuning:
     case Page::Gameplay:
@@ -377,9 +367,6 @@ void Menu::gotoParent(bool do_restore) {
             break;
         case Page::LedBrightness:
             m_store->setLedBrightness(current_state.original_value);
-            break;
-        case Page::SimulTap:
-            m_store->setSimulTap(static_cast<bool>(current_state.original_value));
             break;
         case Page::Main:
         case Page::DrumTuning:
@@ -473,9 +460,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageLedBrightness:
         gotoPage(Page::LedBrightness);
         break;
-    case Descriptor::Action::GotoPageSimulTap:
-        gotoPage(Page::SimulTap);
-        break;
     case Descriptor::Action::GotoPageTaikoTantrum:
         gotoPage(Page::TaikoTantrum);
         break;
@@ -539,9 +523,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::SetLedBrightness:
         m_store->setLedBrightness(value);
-        break;
-    case Descriptor::Action::SetSimulTap:
-        m_store->setSimulTap(static_cast<bool>(value));
         break;
     case Descriptor::Action::DoReset:
         m_store->reset();

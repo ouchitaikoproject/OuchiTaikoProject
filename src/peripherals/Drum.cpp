@@ -272,9 +272,6 @@ std::map<Drum::Id, uint16_t> Drum::readInputs() {
 }
 
 void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::map<Drum::Id, uint16_t> &raw_values) {
-    
-    std::map<Id, uint16_t> filtered_raw_values;
-
     const auto get_threshold = [&](Id target) {
         switch (target) {
         case Id::DON_LEFT:
@@ -288,11 +285,6 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
         }
         return (uint16_t)0;
     };
-
-    for (const auto &entry : raw_values) {
-        uint16_t threshold = get_threshold(entry.first);
-        filtered_raw_values[entry.first] = (entry.second > threshold) ? entry.second : 0;
-    }
 
     const auto is_over_threshold = [&](Id target) {
         return (raw_values.at(target) > get_threshold(target));
@@ -421,8 +413,6 @@ void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config
 void Drum::setBigHitEnable(bool enable) { m_config.big_hit_enable = enable; }
 
 void Drum::setBigHitThreshold(uint16_t threshold) { m_config.big_hit_threshold = threshold; }
-
-void Drum::setSimulTap(bool enable) { m_config.enable_simultap = enable; }
 
 void Drum::setPerformanceProfile(PerformanceProfile profile) { m_config.performance_profile = profile; }
 
