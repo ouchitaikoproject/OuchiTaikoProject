@@ -634,12 +634,104 @@ void Display::drawMenuScreen() {
     case Utils::Menu::Descriptor::Type::RebootCountdown:
         showRebootCountdown();
         return;
+    case Utils::Menu::Descriptor::Type::UnifiedThresholds:
+        // Special handling for unified threshold page with live animations
+        break;
     case Utils::Menu::Descriptor::Type::Value:
         break;
     }
 
     // Draw separator line below header
     ssd1306_draw_line(&m_display, 0, 10, 127, 10);
+
+    // UNIFIED THRESHOLDS SCREEN (all 4 thresholds + live drum animations)
+    if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::UnifiedThresholds && m_drum != nullptr) {
+        const auto& thresholds = m_drum->getCurrentThresholds();
+
+        // Display thresholds in 2-column layout at top
+        // Format: "L.Ka:350  R.Ka:350" (row 1 at y=12)
+        //         "L.Don:200 R.Don:200" (row 2 at y=20)
+
+        char ka_row[25], don_row[25];
+        snprintf(ka_row, sizeof(ka_row), "L.Ka:%-3u  R.Ka:%-3u",
+                 thresholds.ka_left, thresholds.ka_right);
+        snprintf(don_row, sizeof(don_row), "L.Don:%-3u R.Don:%-3u",
+                 thresholds.don_left, thresholds.don_right);
+
+        // Draw threshold values with selection indicator
+        // Format with cursor showing currently selected threshold
+        // Selection: 0=KaL, 1=DonL, 2=DonR, 3=KaR
+
+        const char* cursor = ">";
+
+        // Ka row (y=12)
+        char ka_left[12], ka_right[12];
+        snprintf(ka_left, sizeof(ka_left), "%sL.Ka:%-3u",
+                 m_menu_state.selected_value == 0 ? cursor : " ",
+                 thresholds.ka_left);
+        snprintf(ka_right, sizeof(ka_right), "%sR.Ka:%-3u",
+                 m_menu_state.selected_value == 3 ? cursor : " ",
+                 thresholds.ka_right);
+
+        ssd1306_draw_string(&m_display, 0, 12, 1, ka_left);
+        ssd1306_draw_string(&m_display, 64, 12, 1, ka_right);
+
+        // Don row (y=20)
+        char don_left[12], don_right[12];
+        snprintf(don_left, sizeof(don_left), "%sL.Don:%-3u",
+                 m_menu_state.selected_value == 1 ? cursor : " ",
+                 thresholds.don_left);
+        snprintf(don_right, sizeof(don_right), "%sR.Don:%-3u",
+                 m_menu_state.selected_value == 2 ? cursor : " ",
+                 thresholds.don_right);
+
+        ssd1306_draw_string(&m_display, 0, 20, 1, don_left);
+        ssd1306_draw_string(&m_display, 64, 20, 1, don_right);
+
+        // Draw live drum animations at the bottom (same as idle screen)
+        // Drum centers are at y=43 (defined in Display.h)
+
+        // Detect hits (rising edge) and activate rings
+        bool ka_left_hit = m_input_state.drum.ka_left.triggered && !m_last_ka_left;
+        bool don_left_hit = m_input_state.drum.don_left.triggered && !m_last_don_left;
+        bool don_right_hit = m_input_state.drum.don_right.triggered && !m_last_don_right;
+        bool ka_right_hit = m_input_state.drum.ka_right.triggered && !m_last_ka_right;
+
+        if (ka_left_hit) activateRing(0);
+        if (don_left_hit) activateRing(1);
+        if (don_right_hit) activateRing(2);
+        if (ka_right_hit) activateRing(3);
+
+        // Update last state
+        m_last_ka_left = m_input_state.drum.ka_left.triggered;
+        m_last_don_left = m_input_state.drum.don_left.triggered;
+        m_last_don_right = m_input_state.drum.don_right.triggered;
+        m_last_ka_right = m_input_state.drum.ka_right.triggered;
+
+        // Update and draw burst animations
+        updateRings();
+        drawRings();
+
+        // Draw static center dots for each drum (3x3 centered)
+        for (int i = 0; i < 4; i++) {
+            uint8_t x = DRUM_CENTERS[i][0];
+            uint8_t y = DRUM_CENTERS[i][1];
+            // Draw a 3x3 pixel dot (centered on x, y)
+            ssd1306_draw_pixel(&m_display, x - 1, y - 1);
+            ssd1306_draw_pixel(&m_display, x, y - 1);
+            ssd1306_draw_pixel(&m_display, x + 1, y - 1);
+            ssd1306_draw_pixel(&m_display, x - 1, y);
+            ssd1306_draw_pixel(&m_display, x, y);
+            ssd1306_draw_pixel(&m_display, x + 1, y);
+            ssd1306_draw_pixel(&m_display, x - 1, y + 1);
+            ssd1306_draw_pixel(&m_display, x, y + 1);
+            ssd1306_draw_pixel(&m_display, x + 1, y + 1);
+        }
+
+        // Draw navigation bar
+        drawNavigationBar(descriptor_it->second);
+        return;  // Early return, don't render normal menu content
+    }
 
     // VALUE SLIDER SCREEN (unchanged from original)
     if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::Value) {

@@ -67,6 +67,7 @@ class Menu {
             Toggle,
             RebootInfo,
             RebootCountdown,  // NEW: For countdown screen
+            UnifiedThresholds,  // NEW: For unified threshold tuning page
         };
 
         enum class Action : uint8_t {
@@ -171,9 +172,12 @@ class Menu {
     static constexpr uint8_t IGNORE_FRAMES_ON_ACTIVATE = 10;  // Ignore first 10 frames (~160ms)
 
     std::stack<State> m_state_stack{{{.page = Page::Main, .selected_value = 0, .original_value = 0}}};
-    
+
     // NEW: Wait for ALL buttons to be released before processing any input
     bool m_waiting_for_button_release{false};
+
+    // Unified threshold page: Store original values for cancel operation
+    Peripherals::Drum::Config::Thresholds m_unified_thresholds_original{};
 
     uint16_t getCurrentValue(Page page);
     void gotoPage(Page page);
