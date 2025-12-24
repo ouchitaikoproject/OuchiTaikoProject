@@ -105,10 +105,10 @@ class Drum {
 
         // Timing constants
         static constexpr uint32_t COUNTDOWN_DURATION_MS = 3000;     // 3 second countdown
-        static constexpr uint32_t RECORDING_DURATION_MS = 20000;    // 20 second recording (doubled for comfort)
+        static constexpr uint32_t RECORDING_DURATION_MS = 15000;    // 15 second recording (sufficient for worst-case)
         static constexpr uint16_t MIN_HIT_STRENGTH = 150;           // Minimum to count as hit
         static constexpr uint16_t MIN_ACCEPTABLE_MAX = 300;         // User must hit at least this hard
-        static constexpr uint16_t SAFETY_MARGIN = 100;              // Added above crosstalk
+        static constexpr uint16_t SAFETY_MARGIN = 150;              // Added above crosstalk (increased from 100)
         static constexpr float MAX_CROSSTALK_RATIO = 0.5f;          // Warn if >50% of hit
         static constexpr uint32_t HIT_COOLDOWN_MS = 50;             // 50ms between hits (20/sec max)
 

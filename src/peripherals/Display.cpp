@@ -713,8 +713,29 @@ void Display::drawMenuScreen() {
             break;
         }
         
+        // Special handling for DrumTriggerThresholdsView - display all four thresholds
+        if (m_menu_state.page == Utils::Menu::Page::DrumTriggerThresholdsView && m_drum != nullptr) {
+            const auto& thresholds = m_drum->getCurrentThresholds();
+
+            // Format threshold values as strings
+            char line1[20], line2[20], line3[20], line4[20];
+            snprintf(line1, sizeof(line1), "L.Ka:%4u", thresholds.ka_left);
+            snprintf(line2, sizeof(line2), "L.Don:%3u", thresholds.don_left);
+            snprintf(line3, sizeof(line3), "R.Don:%3u", thresholds.don_right);
+            snprintf(line4, sizeof(line4), "R.Ka:%4u", thresholds.ka_right);
+
+            // Draw all four lines (size 1 font, 6x8 pixels per char)
+            int line_height = 10;
+            int start_y = 18;
+            int text_x = (128 - (10 * 6)) / 2;  // Center 10-char lines
+
+            ssd1306_draw_string(&m_display, text_x, start_y + (0 * line_height), 1, line1);
+            ssd1306_draw_string(&m_display, text_x, start_y + (1 * line_height), 1, line2);
+            ssd1306_draw_string(&m_display, text_x, start_y + (2 * line_height), 1, line3);
+            ssd1306_draw_string(&m_display, text_x, start_y + (3 * line_height), 1, line4);
+        }
         // Special handling for RebootInfo pages with multiple lines (size 1 font)
-        if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::RebootInfo) {
+        else if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::RebootInfo) {
             std::vector<std::string> lines;
             size_t start = 0;
             size_t newline_pos;

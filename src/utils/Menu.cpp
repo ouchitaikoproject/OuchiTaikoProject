@@ -40,12 +40,13 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Debug\nMode", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
-    // Drum Tuning submenu (2 items) - Pure tuning
+    // Drum Tuning submenu (3 items) - Pure tuning
     {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
       "Drum\nTuning",
       {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
-       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
+       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
+       {"View\nCurrent", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsView}},
       0}},    // Gameplay Mods submenu (2 items)
     {Menu::Page::Gameplay,
      {Menu::Descriptor::Type::Menu,
@@ -113,6 +114,16 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Normal\n(12ms)", Menu::Descriptor::Action::SetPerformanceProfile},
        {"EXTREME\n(8ms)", Menu::Descriptor::Action::SetPerformanceProfile}},
       1}},  // Default to option 1 (Normal)
+
+    // View Current Thresholds (read-only display - values shown via custom display code)
+    {Menu::Page::DrumTriggerThresholdsView,
+     {Menu::Descriptor::Type::Selection,
+      "Current\nThresholds",
+      {{"KL", Menu::Descriptor::Action::None},
+       {"DL", Menu::Descriptor::Action::None},
+       {"DR", Menu::Descriptor::Action::None},
+       {"KR", Menu::Descriptor::Action::None}},
+      0}},
 
     {Menu::Page::DrumTriggerThresholdKaLeft,
      {Menu::Descriptor::Type::Value,
@@ -276,6 +287,9 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         return static_cast<uint16_t>(m_store->getBigHitEnable());
     case Page::LedBrightness:
         return m_store->getLedBrightness();
+    case Page::DrumTriggerThresholdsView:
+        // Display-only page, return 0 (will be handled by custom display)
+        return 0;
     case Page::Main:
     case Page::DrumTuning:
     case Page::Gameplay:
@@ -375,6 +389,7 @@ void Menu::gotoParent(bool do_restore) {
         case Page::DrumTriggerThresholdsManual:
         case Page::DrumTriggerThresholdsAuto:
         case Page::DrumTriggerThresholdsReset:
+        case Page::DrumTriggerThresholdsView:
         case Page::DrumBigHitArcade:
         case Page::About:
         case Page::Reset:
@@ -425,6 +440,9 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::GotoPageDrumTriggerThresholdsReset:
         gotoPage(Page::DrumTriggerThresholdsReset);
+        break;
+    case Descriptor::Action::GotoPageDrumTriggerThresholdsView:
+        gotoPage(Page::DrumTriggerThresholdsView);
         break;
     case Descriptor::Action::GotoPageDrumBigHitThreshold:
         gotoPage(Page::DrumBigHitThreshold);
