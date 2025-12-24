@@ -13,11 +13,11 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "Main Menu",
       {{"Controller\nMode", Menu::Descriptor::Action::GotoPageDeviceMode},
        {"Drum\nTuning", Menu::Descriptor::Action::GotoPageDrumTuning},
-       {"Gameplay\nMode Mods", Menu::Descriptor::Action::GotoPageGameplay},
+       {"Gameplay\nMods", Menu::Descriptor::Action::GotoPageGameplay},
        {"Advanced", Menu::Descriptor::Action::GotoPageAdvanced},
-       {"About", Menu::Descriptor::Action::GotoPageAbout},
        {"Reset\nSettings", Menu::Descriptor::Action::GotoPageReset},
-       {"USB Flash\nMode", Menu::Descriptor::Action::GotoPageBootsel}},
+       {"USB Flash\nMode", Menu::Descriptor::Action::GotoPageBootsel},
+       {"About", Menu::Descriptor::Action::GotoPageAbout}},
       0}},
 
     // Controller Mode (unchanged)
