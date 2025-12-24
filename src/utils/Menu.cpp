@@ -44,15 +44,14 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
     {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
       "Drum\nTuning",
-      {{"Calibrate\nDrum", Menu::Descriptor::Action::GotoPageTaikoTantrum},
+      {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
        {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
-      0}},    // NEW: Gameplay Mode Mods submenu (4 items)
+      0}},    // Gameplay Mods submenu (2 items)
     {Menu::Page::Gameplay,
      {Menu::Descriptor::Type::Menu,
-      "Gameplay\nMode Mods",
+      "Gameplay\nMods",
       {{"Big Hit\nMode", Menu::Descriptor::Action::GotoPageDrumBigHitArcade},
-       {"Custom Big\nHit Value", Menu::Descriptor::Action::GotoPageDrumBigHitThreshold},
-       {"Poll Rate\nProfile", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile}},
+       {"Fast Roll\nMode", Menu::Descriptor::Action::GotoPageDrumPerformanceProfile}},
       0}},
 
 
@@ -109,11 +108,11 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 
     {Menu::Page::DrumPerformanceProfile,
      {Menu::Descriptor::Type::Selection,
-      "Performance:",
-      {{"Standard\n(25ms)", Menu::Descriptor::Action::SetPerformanceProfile},
-       {"Fast\n(12ms)", Menu::Descriptor::Action::SetPerformanceProfile},
+      "Fast Roll\nMode",
+      {{"Safe\n(25ms)", Menu::Descriptor::Action::SetPerformanceProfile},
+       {"Normal\n(12ms)", Menu::Descriptor::Action::SetPerformanceProfile},
        {"EXTREME\n(8ms)", Menu::Descriptor::Action::SetPerformanceProfile}},
-      0}},
+      1}},  // Default to option 1 (Normal)
 
     {Menu::Page::DrumTriggerThresholdKaLeft,
      {Menu::Descriptor::Type::Value,

@@ -72,8 +72,9 @@ const Peripherals::Drum::Config drum_config = {
     // EXTREME mode enables 120 rolls/second capability by using velocity rise rate
     // analysis to distinguish real hits from drum bounce/resonance.
     //
-    // Recommended: Start with STANDARD, upgrade to COMPETITIVE/EXTREME for competitive play
-    .performance_profile = Peripherals::Drum::PerformanceProfile::STANDARD,
+    // UI Mapping: Safe=STANDARD, Normal=COMPETITIVE, EXTREME=EXTREME
+    // Default: Normal (COMPETITIVE) - recommended for most users
+    .performance_profile = Peripherals::Drum::PerformanceProfile::COMPETITIVE,
     // ============================================================================
 
     .adc_channels =
