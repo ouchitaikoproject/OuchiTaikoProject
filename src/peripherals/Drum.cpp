@@ -159,13 +159,7 @@ void Drum::Pad::addToBuffer(uint16_t value, uint16_t debounce_delay) {
     }
 
     m_buffer.push_back({value, now});
-
-    // Update adaptive baseline (same logic as InternalAdc)
-    if (value < 20) {
-        m_baseline = (m_baseline * 7 + value) / 8;
-    } else if (value < 100) {
-        m_baseline = (m_baseline * 31 + value) / 32;
-    }
+    // Baseline tracking removed - ADC layer already handles baseline subtraction
 }
 
 uint16_t Drum::Pad::getMaxValueInBuffer() const {
@@ -182,17 +176,10 @@ uint16_t Drum::Pad::getAnalog(float gain) const {
     };
 
     uint16_t max_value = getMaxValueInBuffer();
-
-    // Subtract adaptive baseline and clamp to 0 if below baseline
-    uint16_t baseline_subtracted;
-    if (max_value > m_baseline) {
-        baseline_subtracted = max_value - m_baseline;
-    } else {
-        baseline_subtracted = 0;
-    }
+    // ADC layer already handles baseline subtraction, no need to subtract again
 
     // Bit-shift FIRST to get full 16-bit range
-    uint32_t value_16bit = raw_to_uint16(baseline_subtracted);
+    uint32_t value_16bit = raw_to_uint16(max_value);
 
     // Apply gain multiplier (compensates for missing OpAmp circuit)
     uint32_t gained_value = static_cast<uint32_t>(value_16bit * gain);
@@ -272,22 +259,24 @@ std::map<Drum::Id, uint16_t> Drum::readInputs() {
 }
 
 void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::map<Drum::Id, uint16_t> &raw_values) {
-    const auto get_threshold = [&](Id target) {
-        switch (target) {
-        case Id::DON_LEFT:
-            return m_config.trigger_thresholds.don_left;
-        case Id::DON_RIGHT:
-            return m_config.trigger_thresholds.don_right;
-        case Id::KA_LEFT:
-            return m_config.trigger_thresholds.ka_left;
-        case Id::KA_RIGHT:
-            return m_config.trigger_thresholds.ka_right;
-        }
-        return (uint16_t)0;
-    };
+    // Pre-compute thresholds to avoid lambda call overhead
+    const uint16_t threshold_don_left = m_config.trigger_thresholds.don_left;
+    const uint16_t threshold_don_right = m_config.trigger_thresholds.don_right;
+    const uint16_t threshold_ka_left = m_config.trigger_thresholds.ka_left;
+    const uint16_t threshold_ka_right = m_config.trigger_thresholds.ka_right;
 
     const auto is_over_threshold = [&](Id target) {
-        return (raw_values.at(target) > get_threshold(target));
+        switch (target) {
+        case Id::DON_LEFT:
+            return raw_values.at(target) > threshold_don_left;
+        case Id::DON_RIGHT:
+            return raw_values.at(target) > threshold_don_right;
+        case Id::KA_LEFT:
+            return raw_values.at(target) > threshold_ka_left;
+        case Id::KA_RIGHT:
+            return raw_values.at(target) > threshold_ka_right;
+        }
+        return false;
     };
 
     const auto resolve_twin_pads = [&](Id left, Id right) {
@@ -338,19 +327,17 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ma
         m_pads.at(Id::DON_RIGHT).setState(false, m_config.debounce_delay_ms, m_config.performance_profile);
     }
 
+    // Big Hit Mode: Trigger twin pad when one side exceeds threshold
     if (m_config.big_hit_enable) {
-        if (raw_values.at(Id::DON_LEFT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::DON_RIGHT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-        }
-        if (raw_values.at(Id::DON_RIGHT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::DON_LEFT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-        }
-        if (raw_values.at(Id::KA_LEFT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::KA_RIGHT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-        }
-        if (raw_values.at(Id::KA_RIGHT) > m_config.big_hit_threshold) {
-            m_pads.at(Id::KA_LEFT).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
-        }
+        const auto trigger_twin_on_big_hit = [&](Id source, Id twin) {
+            if (raw_values.at(source) > m_config.big_hit_threshold) {
+                m_pads.at(twin).setState(true, m_config.debounce_delay_ms, m_config.performance_profile);
+            }
+        };
+        trigger_twin_on_big_hit(Id::DON_LEFT, Id::DON_RIGHT);
+        trigger_twin_on_big_hit(Id::DON_RIGHT, Id::DON_LEFT);
+        trigger_twin_on_big_hit(Id::KA_LEFT, Id::KA_RIGHT);
+        trigger_twin_on_big_hit(Id::KA_RIGHT, Id::KA_LEFT);
     }
 
     bool don_left_rising = !input_state.drum.don_left.triggered && m_pads.at(Id::DON_LEFT).getState();
@@ -466,13 +453,12 @@ void Drum::updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values) {
         }
 
         // Hit cooldown to prevent noise spikes from being counted as separate hits
-        static uint32_t last_hit_time = 0;
-        if ((now - last_hit_time) < TantrumState::HIT_COOLDOWN_MS) {
+        if ((now - m_tantrum_state.last_hit_time) < TantrumState::HIT_COOLDOWN_MS) {
             return;
         }
 
         // Record this as a hit
-        last_hit_time = now;
+        m_tantrum_state.last_hit_time = now;
         m_tantrum_state.total_hits_detected++;
 
         // Track maximum value for the strongest sensor (intentional hit)

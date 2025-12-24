@@ -90,6 +90,7 @@ class Drum {
         Mode current_mode{Mode::Inactive};
         uint32_t countdown_start{0};
         uint32_t recording_start{0};
+        uint32_t last_hit_time{0};  // For hit cooldown tracking
 
         // Per-sensor tracking
         std::map<Id, uint16_t> max_hit_value;       // Highest value seen on this sensor
@@ -137,6 +138,7 @@ class Drum {
         void startRecording() {
             current_mode = Mode::Recording;
             recording_start = to_ms_since_boot(get_absolute_time());
+            last_hit_time = 0;  // Reset hit cooldown timer
         }
 
         [[nodiscard]] bool isActive() const {
