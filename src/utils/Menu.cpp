@@ -44,7 +44,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
     {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
       "Drum\nTuning",
-      {{"Tantrum\nCalibration", Menu::Descriptor::Action::GotoPageTaikoTantrum},
+      {{"Calibrate\nDrum", Menu::Descriptor::Action::GotoPageTaikoTantrum},
        {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
       0}},    // NEW: Gameplay Mode Mods submenu (4 items)
     {Menu::Page::Gameplay,
@@ -96,7 +96,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
     // Taiko Tantrum Calibration
     {Menu::Page::TaikoTantrum,
      {Menu::Descriptor::Type::Selection,
-      "Tantrum Cal",
+      "Calibrate\nDrum",
       {{"Continue?", Menu::Descriptor::Action::StartTaikoTantrum}},
       0}},
 

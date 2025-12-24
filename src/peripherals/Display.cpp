@@ -878,7 +878,7 @@ void Display::drawTantrumCountdownScreen() {
     }
 
     // Title
-    const char* header = "Tantrum Cal";
+    const char* header = "CALIBRATE";
     int header_x = (128 - strlen(header) * 12) / 2;
     ssd1306_draw_string(&m_display, header_x, 4, 2, header);
 
@@ -976,7 +976,7 @@ void Display::drawTantrumResultsScreen() {
     }
 
     // Title
-    const char* header = "Complete!";
+    const char* header = "CALIBRATE!";
     int header_x = (128 - strlen(header) * 12) / 2;
     ssd1306_draw_string(&m_display, header_x, 4, 2, header);
 
