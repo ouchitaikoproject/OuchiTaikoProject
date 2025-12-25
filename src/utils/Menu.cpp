@@ -223,8 +223,8 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
     };
 
     // Repeat handler (for Left/Right on Value/UnifiedThresholds pages only)
-    auto handle_button_repeat = [current_time, REPEAT_INITIAL_DELAY_MS, REPEAT_INTERVAL_MS]
-                                (State &button_state, bool input_state) {
+    // Note: constexpr values used directly, only capture runtime variable
+    auto handle_button_repeat = [current_time](State &button_state, bool input_state) {
         if (input_state) {
             if (button_state.repeat == State::Repeat::Idle) {
                 // Button just pressed - fire immediately and start delay timer
