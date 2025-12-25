@@ -40,13 +40,12 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Debug\nMode", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
-    // Drum Tuning submenu (3 items) - Pure tuning
+    // Drum Tuning submenu (2 items) - Pure tuning
     {Menu::Page::DrumTuning,
      {Menu::Descriptor::Type::Menu,
       "Drum\nTuning",
       {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
-       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
-       {"View\nCurrent", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsView}},
+       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
       0}},    // Gameplay Mods submenu (2 items)
     {Menu::Page::Gameplay,
      {Menu::Descriptor::Type::Menu,
@@ -114,16 +113,6 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Normal\n(12ms)", Menu::Descriptor::Action::SetPerformanceProfile},
        {"EXTREME\n(8ms)", Menu::Descriptor::Action::SetPerformanceProfile}},
       1}},  // Default to option 1 (Normal)
-
-    // View Current Thresholds (read-only display - values shown via custom display code)
-    {Menu::Page::DrumTriggerThresholdsView,
-     {Menu::Descriptor::Type::Selection,
-      "Current\nThresholds",
-      {{"KL", Menu::Descriptor::Action::None},
-       {"DL", Menu::Descriptor::Action::None},
-       {"DR", Menu::Descriptor::Action::None},
-       {"KR", Menu::Descriptor::Action::None}},
-      0}},
 
     {Menu::Page::DrumTriggerThresholdKaLeft,
      {Menu::Descriptor::Type::Value,
@@ -206,14 +195,23 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 Menu::Buttons::Buttons()
     : m_states({{Id::Up, {}}, {Id::Down, {}}, {Id::Left, {}}, {Id::Right, {}}, {Id::Confirm, {}}, {Id::Back, {}}}) {}
 
-void Menu::Buttons::update(const InputState::Controller &controller_state) {
-    // SIMPLIFIED: Pure edge detection - press once, fire once
-    // No repeat funactionality at all
-    auto handle_button = [](State &button_state, bool input_state) {
+void Menu::Buttons::update(const InputState::Controller &controller_state, Descriptor::Type page_type) {
+    // Repeat timing constants (only for Value/UnifiedThresholds pages)
+    static constexpr uint32_t REPEAT_INITIAL_DELAY_MS = 500;  // 500ms before repeat starts
+    static constexpr uint32_t REPEAT_INTERVAL_MS = 100;       // 100ms between repeats
+
+    uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+    // Enable repeat ONLY for Left/Right on Value or UnifiedThresholds pages
+    bool enable_repeat = (page_type == Descriptor::Type::Value ||
+                         page_type == Descriptor::Type::UnifiedThresholds);
+
+    // Edge-detect handler (for most buttons and page types)
+    auto handle_button_edge = [](State &button_state, bool input_state) {
         if (input_state && button_state.repeat == State::Repeat::Idle) {
             // Button just pressed (was idle, now pressed)
             button_state.pressed = true;
-            button_state.repeat = State::Repeat::RepeatDelay; // Mark as "held" to prevent re-trigger
+            button_state.repeat = State::Repeat::RepeatDelay;
         } else if (!input_state) {
             // Button released - reset to idle
             button_state.pressed = false;
@@ -224,12 +222,58 @@ void Menu::Buttons::update(const InputState::Controller &controller_state) {
         }
     };
 
-    handle_button(m_states.at(Id::Up), controller_state.dpad.up);
-    handle_button(m_states.at(Id::Down), controller_state.dpad.down);
-    handle_button(m_states.at(Id::Left), controller_state.dpad.left);
-    handle_button(m_states.at(Id::Right), controller_state.dpad.right);
-    handle_button(m_states.at(Id::Confirm), controller_state.buttons.east);
-    handle_button(m_states.at(Id::Back), controller_state.buttons.south);
+    // Repeat handler (for Left/Right on Value/UnifiedThresholds pages only)
+    auto handle_button_repeat = [current_time, REPEAT_INITIAL_DELAY_MS, REPEAT_INTERVAL_MS]
+                                (State &button_state, bool input_state) {
+        if (input_state) {
+            if (button_state.repeat == State::Repeat::Idle) {
+                // Button just pressed - fire immediately and start delay timer
+                button_state.pressed = true;
+                button_state.repeat = State::Repeat::RepeatDelay;
+                button_state.pressed_since = current_time;
+                button_state.last_repeat = 0;
+            } else if (button_state.repeat == State::Repeat::RepeatDelay) {
+                // Waiting for initial delay
+                if (current_time - button_state.pressed_since >= REPEAT_INITIAL_DELAY_MS) {
+                    // Initial delay elapsed - start repeating
+                    button_state.pressed = true;
+                    button_state.repeat = State::Repeat::Repeat;
+                    button_state.last_repeat = current_time;
+                } else {
+                    button_state.pressed = false;
+                }
+            } else if (button_state.repeat == State::Repeat::Repeat) {
+                // Repeating - check if interval elapsed
+                if (current_time - button_state.last_repeat >= REPEAT_INTERVAL_MS) {
+                    button_state.pressed = true;
+                    button_state.last_repeat = current_time;
+                } else {
+                    button_state.pressed = false;
+                }
+            }
+        } else {
+            // Button released - reset to idle
+            button_state.pressed = false;
+            button_state.repeat = State::Repeat::Idle;
+            button_state.pressed_since = 0;
+            button_state.last_repeat = 0;
+        }
+    };
+
+    // Handle each button based on whether repeat is enabled
+    handle_button_edge(m_states.at(Id::Up), controller_state.dpad.up);
+    handle_button_edge(m_states.at(Id::Down), controller_state.dpad.down);
+
+    if (enable_repeat) {
+        handle_button_repeat(m_states.at(Id::Left), controller_state.dpad.left);
+        handle_button_repeat(m_states.at(Id::Right), controller_state.dpad.right);
+    } else {
+        handle_button_edge(m_states.at(Id::Left), controller_state.dpad.left);
+        handle_button_edge(m_states.at(Id::Right), controller_state.dpad.right);
+    }
+
+    handle_button_edge(m_states.at(Id::Confirm), controller_state.buttons.east);
+    handle_button_edge(m_states.at(Id::Back), controller_state.buttons.south);
 }
 
 bool Menu::Buttons::getPressed(Id id) const { return m_states.at(id).pressed; }
@@ -287,9 +331,6 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
         return static_cast<uint16_t>(m_store->getBigHitEnable());
     case Page::LedBrightness:
         return m_store->getLedBrightness();
-    case Page::DrumTriggerThresholdsView:
-        // Display-only page, return 0 (will be handled by custom display)
-        return 0;
     case Page::DrumTriggerThresholdsManual:
         // Unified threshold page: Start with first threshold (KaLeft) selected
         return 0;
@@ -396,7 +437,6 @@ void Menu::gotoParent(bool do_restore) {
         case Page::DrumTriggerThresholdsManual:
         case Page::DrumTriggerThresholdsAuto:
         case Page::DrumTriggerThresholdsReset:
-        case Page::DrumTriggerThresholdsView:
         case Page::DrumBigHitArcade:
         case Page::About:
         case Page::Reset:
@@ -447,9 +487,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         break;
     case Descriptor::Action::GotoPageDrumTriggerThresholdsReset:
         gotoPage(Page::DrumTriggerThresholdsReset);
-        break;
-    case Descriptor::Action::GotoPageDrumTriggerThresholdsView:
-        gotoPage(Page::DrumTriggerThresholdsView);
         break;
     case Descriptor::Action::GotoPageDrumBigHitThreshold:
         gotoPage(Page::DrumBigHitThreshold);
@@ -573,8 +610,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
 }
 
 void Menu::update(const InputState::Controller &controller_state) {
-    m_buttons.update(controller_state);
-
     State &current_state = m_state_stack.top();
 
     auto descriptor_it = descriptors.find(current_state.page);
@@ -582,6 +617,9 @@ void Menu::update(const InputState::Controller &controller_state) {
         assert(false);
         return;
     }
+
+    // Update buttons with page type to enable repeat for Value/UnifiedThresholds
+    m_buttons.update(controller_state, descriptor_it->second.type);
 
     // RebootInfo pages should just deactivate menu and let the store handle reboot
     if (descriptor_it->second.type == Descriptor::Type::RebootInfo) {
@@ -634,7 +672,7 @@ void Menu::update(const InputState::Controller &controller_state) {
             }
             break;
         case Descriptor::Type::UnifiedThresholds: {
-            // LEFT = decrease the currently selected threshold value
+            // LEFT = decrease the currently selected threshold value by 1 (hold to repeat)
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
             switch (current_state.selected_value) {
@@ -692,7 +730,7 @@ void Menu::update(const InputState::Controller &controller_state) {
             }
             break;
         case Descriptor::Type::UnifiedThresholds: {
-            // RIGHT = increase the currently selected threshold value
+            // RIGHT = increase the currently selected threshold value by 1 (hold to repeat)
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
             switch (current_state.selected_value) {
@@ -701,7 +739,7 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 2: selected_threshold = &thresholds.don_right; break;
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
-            if (selected_threshold && *selected_threshold < 1000) {  // Max threshold value
+            if (selected_threshold && *selected_threshold < 4095) {  // 12-bit ADC max
                 (*selected_threshold)++;
                 m_store->setTriggerThresholds(thresholds);
             }

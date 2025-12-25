@@ -33,7 +33,6 @@ class Menu {
         DrumTriggerThresholdsManual,
         DrumTriggerThresholdsAuto,
         DrumTriggerThresholdsReset,
-        DrumTriggerThresholdsView,  // NEW: Read-only view of current thresholds
         DrumBigHitArcade,
         DrumBigHitEnable,
 
@@ -90,7 +89,6 @@ class Menu {
             GotoPageDrumTriggerThresholdsManual,
             GotoPageDrumTriggerThresholdsAuto,
             GotoPageDrumTriggerThresholdsReset,
-            GotoPageDrumTriggerThresholdsView,  // NEW: View current thresholds
             GotoPageDrumBigHitThreshold,
 
             // Taiko Tantrum calibration actions
@@ -157,7 +155,7 @@ class Menu {
       public:
         Buttons();
 
-        void update(const InputState::Controller &state);
+        void update(const InputState::Controller &state, Descriptor::Type page_type);
         void reset();  // NEW: Reset all button states
         [[nodiscard]] bool getPressed(Id id) const;
     };
