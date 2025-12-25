@@ -739,7 +739,7 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 2: selected_threshold = &thresholds.don_right; break;
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
-            if (selected_threshold && *selected_threshold < 1000) {
+            if (selected_threshold && *selected_threshold < 4095) {  // 12-bit ADC max
                 (*selected_threshold)++;
                 m_store->setTriggerThresholds(thresholds);
             }
