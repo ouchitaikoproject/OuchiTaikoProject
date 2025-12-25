@@ -874,8 +874,8 @@ void Menu::update(const InputState::Controller &controller_state) {
                           current_state.selected_value);
             break;
         case Descriptor::Type::UnifiedThresholds:
-            // Save changes (already written in real-time) and exit
-            gotoParent(false);
+            // A button does nothing - changes auto-save in real-time
+            // Only B button exits the page
             break;
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:

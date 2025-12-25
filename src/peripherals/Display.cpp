@@ -653,7 +653,7 @@ void Display::drawMenuScreen() {
         const auto& thresholds = m_drum->getCurrentThresholds();
 
         // Draw control instructions at top instead of title
-        ssd1306_draw_string(&m_display, 0, 0, 1, "<> Adjust  ^v Sel");
+        ssd1306_draw_string(&m_display, 0, 0, 1, "LR:Adj UD:Sel");
         ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 
         // Display thresholds in 2-column layout

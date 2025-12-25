@@ -380,8 +380,11 @@ int main() {
             Utils::InputState::Controller menu_controller = {};
 
             // Copy only newly pressed buttons (rising edges)
+            // NOTE: Left/Right use raw state (not edge-detected) to support hold-to-repeat
+            // in Menu.cpp for Value and UnifiedThresholds pages
             #define EDGE_DETECT_BTN(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
             #define EDGE_DETECT_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn && !last_menu_controller.dpad.btn
+            #define RAW_STATE_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn
 
             EDGE_DETECT_BTN(north);
             EDGE_DETECT_BTN(east);
@@ -395,35 +398,16 @@ int main() {
             EDGE_DETECT_BTN(share);
             EDGE_DETECT_DPAD(up);
             EDGE_DETECT_DPAD(down);
-            EDGE_DETECT_DPAD(left);
-            EDGE_DETECT_DPAD(right);
+            RAW_STATE_DPAD(left);   // No edge detection - Menu.cpp handles repeat
+            RAW_STATE_DPAD(right);  // No edge detection - Menu.cpp handles repeat
 
             #undef EDGE_DETECT_BTN
             #undef EDGE_DETECT_DPAD
+            #undef RAW_STATE_DPAD
 
-            // CRITICAL: Rate limiting - only allow menu actions every 200ms
-            // Prevents rapid scrolling from button bounce or fast state changes
-            static uint32_t last_menu_input_time = 0;
-            const uint32_t MENU_INPUT_DELAY_MS = 200;
-            uint32_t current_time = to_ms_since_boot(get_absolute_time());
-
-            // Check if any button was pressed (has any input to send)
-            bool has_input = menu_controller.buttons.north || menu_controller.buttons.south ||
-                           menu_controller.buttons.east || menu_controller.buttons.west ||
-                           menu_controller.buttons.l || menu_controller.buttons.r ||
-                           menu_controller.buttons.select || menu_controller.buttons.start ||
-                           menu_controller.buttons.home || menu_controller.buttons.share ||
-                           menu_controller.dpad.up || menu_controller.dpad.down ||
-                           menu_controller.dpad.left || menu_controller.dpad.right;
-
-            // Only send input if enough time has passed since last input
-            if (has_input && (current_time - last_menu_input_time) >= MENU_INPUT_DELAY_MS) {
-                menu.update(menu_controller);
-                last_menu_input_time = current_time;
-            } else if (!has_input) {
-                // No input - send empty state to keep menu responsive
-                menu.update(menu_controller);
-            }
+            // Always update menu to allow hold-to-repeat timing to work correctly
+            // Menu.cpp handles edge detection and repeat logic internally
+            menu.update(menu_controller);
 
             // Save current state for next frame's edge detection
             last_menu_controller = input_state.controller;
