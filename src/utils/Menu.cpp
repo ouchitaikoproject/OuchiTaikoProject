@@ -8,17 +8,16 @@ namespace OuchiTaiko::Utils {
 
 const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
     // NEW MAIN MENU - 7 items
-    {Menu::Page::Main,
-     {Menu::Descriptor::Type::Menu,
-      "Main Menu",
-      {{"Controller\nMode", Menu::Descriptor::Action::GotoPageDeviceMode},
-       {"Drum\nTuning", Menu::Descriptor::Action::GotoPageDrumTuning},
-       {"Gameplay\nMods", Menu::Descriptor::Action::GotoPageGameplay},
-       {"Advanced", Menu::Descriptor::Action::GotoPageAdvanced},
-       {"Reset\nSettings", Menu::Descriptor::Action::GotoPageReset},
-       {"USB Flash\nMode", Menu::Descriptor::Action::GotoPageBootsel},
-       {"About", Menu::Descriptor::Action::GotoPageAbout}},
-      0}},
+   {Menu::Page::Main,
+ {Menu::Descriptor::Type::Menu,
+  "Main Menu",
+  {{"Controller\nMode", Menu::Descriptor::Action::GotoPageDeviceMode},
+   {"Drum\nTuning", Menu::Descriptor::Action::GotoPageDrumTuning},
+   {"Gameplay\nMods", Menu::Descriptor::Action::GotoPageGameplay},
+   {"Advanced", Menu::Descriptor::Action::GotoPageAdvanced},
+   {"USB Flash\nMode", Menu::Descriptor::Action::GotoPageBootsel},
+   {"About", Menu::Descriptor::Action::GotoPageAbout}},
+  0}},
 
     // Controller Mode (unchanged)
     {Menu::Page::DeviceMode,
@@ -42,11 +41,13 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 
     // Drum Tuning submenu (2 items) - Pure tuning
     {Menu::Page::DrumTuning,
-     {Menu::Descriptor::Type::Menu,
-      "Drum\nTuning",
-      {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
-       {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual}},
-      0}},    // Gameplay Mods submenu (2 items)
+ {Menu::Descriptor::Type::Menu,
+  "Drum\nTuning",
+  {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
+   {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
+   {"Reset\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsReset}},
+  0}},
+
     {Menu::Page::Gameplay,
      {Menu::Descriptor::Type::Menu,
       "Gameplay\nMods",
@@ -57,12 +58,12 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 
 
     // Advanced submenu (2 items - technical settings)
-    {Menu::Page::Advanced,
-     {Menu::Descriptor::Type::Menu,
-      "Advanced",
-      {{"Hold Time\n(Debounce)", Menu::Descriptor::Action::GotoPageDrumDebounceDelay},
-       {"Reset\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsReset}},
-      0}},
+   {Menu::Page::Advanced,
+ {Menu::Descriptor::Type::Menu,
+  "Advanced",
+  { {"Reset ALL\nSettings", Menu::Descriptor::Action::GotoPageReset},
+    {"Hold Time\n(Debounce)", Menu::Descriptor::Action::GotoPageDrumDebounceDelay}},
+  0}},
 
     // Unified Manual Thresholds Page (all 4 thresholds with live drum animations)
     {Menu::Page::DrumTriggerThresholdsManual,
@@ -203,8 +204,7 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
     // Enable repeat ONLY for Left/Right on Value or UnifiedThresholds pages
-    bool enable_repeat = (page_type == Descriptor::Type::Value ||
-                         page_type == Descriptor::Type::UnifiedThresholds);
+  bool enable_repeat = (page_type == Descriptor::Type::Value || page_type == Descriptor::Type::UnifiedThresholds);
 
     // Edge-detect handler (for most buttons and page types)
     auto handle_button_edge = [](State &button_state, bool input_state) {
@@ -609,9 +609,10 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     }
 }
 
+
 void Menu::update(const InputState::Controller &controller_state) {
     State &current_state = m_state_stack.top();
-
+    
     auto descriptor_it = descriptors.find(current_state.page);
     if (descriptor_it == descriptors.end()) {
         assert(false);
@@ -620,6 +621,27 @@ void Menu::update(const InputState::Controller &controller_state) {
 
     // Update buttons with page type to enable repeat for Value/UnifiedThresholds
     m_buttons.update(controller_state, descriptor_it->second.type);
+    
+    // Throttle menu updates to prevent too-fast scrolling
+    // EXCEPT for UnifiedThresholds Left/Right adjustments (those should feel responsive)
+    static uint32_t last_update_time = 0;
+    //static constexpr uint32_t UPDATE_INTERVAL_MS = 16;  // ~60 updates per second
+    
+    uint32_t current_time = to_ms_since_boot(get_absolute_time());
+    
+// Throttle navigation, but allow value adjustments to be more responsive
+bool is_value_adjustment = (descriptor_it->second.type == Descriptor::Type::Value || 
+                            descriptor_it->second.type == Descriptor::Type::UnifiedThresholds) &&
+                           (m_buttons.getPressed(Buttons::Id::Left) || 
+                            m_buttons.getPressed(Buttons::Id::Right));
+
+uint32_t throttle_time = is_value_adjustment ? 0 : 150;  // No throttle for values, slow for navigation
+
+if (current_time - last_update_time < throttle_time) {
+    return;
+}
+
+last_update_time = current_time;
 
     // RebootInfo pages should just deactivate menu and let the store handle reboot
     if (descriptor_it->second.type == Descriptor::Type::RebootInfo) {
@@ -671,28 +693,34 @@ void Menu::update(const InputState::Controller &controller_state) {
                 performAction(descriptor_it->second.items.at(0).second, current_state.selected_value);
             }
             break;
-        case Descriptor::Type::UnifiedThresholds: {
-            // LEFT = decrease the currently selected threshold value by 1 (hold to repeat)
-            auto thresholds = m_store->getTriggerThresholds();
-            uint16_t* selected_threshold = nullptr;
-            switch (current_state.selected_value) {
-                case 0: selected_threshold = &thresholds.ka_left; break;
-                case 1: selected_threshold = &thresholds.don_left; break;
-                case 2: selected_threshold = &thresholds.don_right; break;
-                case 3: selected_threshold = &thresholds.ka_right; break;
-            }
-            if (selected_threshold && *selected_threshold > 0) {
-                (*selected_threshold)--;
-                m_store->setTriggerThresholds(thresholds);
-            }
-            break;
-        }
+   case Descriptor::Type::UnifiedThresholds: {
+    // LEFT = decrease value
+
+    auto thresholds = m_store->getTriggerThresholds();
+    
+           
+    uint16_t* selected_threshold = nullptr;
+    switch (current_state.selected_value) {
+        case 0: selected_threshold = &thresholds.ka_left; break;
+        case 1: selected_threshold = &thresholds.don_left; break;
+        case 2: selected_threshold = &thresholds.don_right; break;
+        case 3: selected_threshold = &thresholds.ka_right; break;
+    }
+    if (selected_threshold && *selected_threshold > 0) {
+        (*selected_threshold)--;
+      
+        m_store->setTriggerThresholds(thresholds);
+    } else {
+       
+    }
+    break;
+}
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:
             break;
-        }
+        }  // <-- This closes the LEFT button switch
     } else if (m_buttons.getPressed(Buttons::Id::Right)) {
-        switch (descriptor_it->second.type) {
+         switch (descriptor_it->second.type) {
         case Descriptor::Type::Toggle:
             current_state.selected_value = current_state.selected_value == 0 ? 1 : 0;
             // Only perform action for non-confirmation toggles (not Bootsel, Reset, or ResetThresholds)
@@ -729,22 +757,23 @@ void Menu::update(const InputState::Controller &controller_state) {
                 performAction(descriptor_it->second.items.at(0).second, current_state.selected_value);
             }
             break;
-        case Descriptor::Type::UnifiedThresholds: {
-            // RIGHT = increase the currently selected threshold value by 1 (hold to repeat)
-            auto thresholds = m_store->getTriggerThresholds();
-            uint16_t* selected_threshold = nullptr;
-            switch (current_state.selected_value) {
-                case 0: selected_threshold = &thresholds.ka_left; break;
-                case 1: selected_threshold = &thresholds.don_left; break;
-                case 2: selected_threshold = &thresholds.don_right; break;
-                case 3: selected_threshold = &thresholds.ka_right; break;
-            }
-            if (selected_threshold && *selected_threshold < 4095) {  // 12-bit ADC max
-                (*selected_threshold)++;
-                m_store->setTriggerThresholds(thresholds);
-            }
-            break;
-        }
+      case Descriptor::Type::UnifiedThresholds: {
+    // RIGHT = increase value
+    printf("RIGHT pressed on UnifiedThresholds, selected=%d\n", current_state.selected_value);
+    auto thresholds = m_store->getTriggerThresholds();
+    uint16_t* selected_threshold = nullptr;
+    switch (current_state.selected_value) {
+        case 0: selected_threshold = &thresholds.ka_left; break;
+        case 1: selected_threshold = &thresholds.don_left; break;
+        case 2: selected_threshold = &thresholds.don_right; break;
+        case 3: selected_threshold = &thresholds.ka_right; break;
+    }
+    if (selected_threshold && *selected_threshold < 4095) {
+        (*selected_threshold)++;
+        m_store->setTriggerThresholds(thresholds);
+    }
+    break;
+}
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:
             break;
@@ -796,11 +825,11 @@ void Menu::update(const InputState::Controller &controller_state) {
         case Descriptor::Type::Selection:
             gotoParent(true);
             break;
-        case Descriptor::Type::UnifiedThresholds:
-            // Restore original thresholds and exit
-            m_store->setTriggerThresholds(m_unified_thresholds_original);
-            gotoParent(false);
-            break;
+ case Descriptor::Type::UnifiedThresholds:
+    // Restore original thresholds and exit page
+    m_store->setTriggerThresholds(m_unified_thresholds_original);
+    gotoParent(false);
+    break;
         case Descriptor::Type::Menu:
             gotoParent(false);
             break;
@@ -874,9 +903,9 @@ void Menu::update(const InputState::Controller &controller_state) {
                           current_state.selected_value);
             break;
         case Descriptor::Type::UnifiedThresholds:
-            // A button does nothing - changes auto-save in real-time
-            // Only B button exits the page
-            break;
+    // A button confirms and exits
+    gotoParent(false);
+    break;
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:
             break;

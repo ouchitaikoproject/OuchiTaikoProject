@@ -56,6 +56,7 @@ class Menu {
         Page page;
         uint16_t selected_value;
         uint16_t original_value;
+        bool editing_value = false; 
     };
 
     struct Descriptor {

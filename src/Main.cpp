@@ -37,6 +37,9 @@ queue_t auth_signed_challenge_queue;
 // Queue for sending drum pointer to core 1
 queue_t drum_reference_queue;
 
+// NEW: Queue for sending fresh threshold data to Display
+queue_t thresholds_queue;
+
 enum class ControlCommand : uint8_t {
     SetUsbMode,
     SetPlayerLed,
@@ -82,6 +85,9 @@ void core1_task() {
     queue_remove_blocking(&drum_reference_queue, &drum_ptr);
     display.setDrumReference(drum_ptr);
 
+    // NEW: Storage for fresh threshold data
+    Peripherals::Drum::Config::Thresholds fresh_thresholds{};
+
     while (true) {
         controller.updateInputState(input_state);
 
@@ -91,6 +97,11 @@ void core1_task() {
         queue_add_blocking(&controller_input_queue, &input_state.controller);
         
         queue_try_remove(&drum_input_queue, &input_state.drum);
+
+        // NEW: Receive fresh threshold data from Core 0
+        if (queue_try_remove(&thresholds_queue, &fresh_thresholds)) {
+            display.setCurrentThresholds(fresh_thresholds);
+        }
 
         if (queue_try_remove(&control_queue, &control_msg)) {
             switch (control_msg.command) {
@@ -167,6 +178,9 @@ int main() {
     queue_init(&auth_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&auth_signed_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&drum_reference_queue, sizeof(Peripherals::Drum*), 1);
+    
+    // NEW: Initialize queue for fresh threshold data
+    queue_init(&thresholds_queue, sizeof(Peripherals::Drum::Config::Thresholds), 1);
 
     stdio_init_all();
 
@@ -313,6 +327,14 @@ int main() {
         // If queue is empty, keep last known state - edge detection in menu handles repeats
         // Don't clear stale data as it creates false rising edges
         queue_try_remove(&controller_input_queue, &input_state.controller);
+
+        // NEW: Send fresh threshold data to Display on every frame when menu is active
+        // This ensures Display always shows current values from SettingsStore
+        if (menu.active()) {
+            auto fresh_thresholds = settings_store->getTriggerThresholds();
+            queue_try_remove(&thresholds_queue, nullptr); // Remove stale data
+            queue_try_add(&thresholds_queue, &fresh_thresholds);
+        }
 
         // Check for B button press to cancel Tantrum calibration
         const auto& tantrum_state = drum.getTantrumState();

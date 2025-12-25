@@ -67,6 +67,9 @@ class Display {
     // Taiko Tantrum: Reference to drum for accessing calibration state
     Drum *m_drum{nullptr};
 
+    // ADD THIS LINE - Fresh thresholds from SettingsStore
+    Peripherals::Drum::Config::Thresholds m_current_thresholds{};
+
     // Timer for auto-transitioning screens
     uint32_t m_tantrum_results_start{0};
     static constexpr uint32_t TANTRUM_RESULTS_DISPLAY_MS = 5000;
@@ -134,10 +137,11 @@ class Display {
     void setPlayerId(uint8_t player_id);
 
     void setMenuState(const Utils::Menu::State &menu_state);
-    
+
     // Taiko Tantrum integration
     void setDrumReference(Drum *drum);
-
+    void setCurrentThresholds(const Peripherals::Drum::Config::Thresholds &thresholds);
+    
     void showIdle();
     void showMenu();
     void showTantrumCountdown();

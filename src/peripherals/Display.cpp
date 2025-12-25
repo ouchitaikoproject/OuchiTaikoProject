@@ -199,6 +199,10 @@ void Display::setMenuState(const Utils::Menu::State &menu_state) { m_menu_state 
 
 void Display::setDrumReference(Drum *drum) { m_drum = drum; }
 
+void Display::setCurrentThresholds(const Peripherals::Drum::Config::Thresholds &thresholds) {
+    m_current_thresholds = thresholds;
+}
+
 void Display::showIdle() { m_state = State::Idle; }
 void Display::showMenu() { m_state = State::Menu; }
 
@@ -611,8 +615,10 @@ void Display::drawMenuScreen() {
         return;
     }
 
-    // Draw title at top-left
-    ssd1306_draw_string(&m_display, 0, 0, 1, descriptor_it->second.name.c_str());
+   // Draw title at top-left (except for UnifiedThresholds which has custom header)
+    if (descriptor_it->second.type != Utils::Menu::Descriptor::Type::UnifiedThresholds) {
+        ssd1306_draw_string(&m_display, 0, 0, 1, descriptor_it->second.name.c_str());
+    }
 
     // Draw navigation arrows at top-right (only for Menu/Selection/Toggle types with multiple items)
     switch (descriptor_it->second.type) {
@@ -650,40 +656,75 @@ void Display::drawMenuScreen() {
 
     // UNIFIED THRESHOLDS SCREEN (all 4 thresholds + live drum animations)
     if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::UnifiedThresholds && m_drum != nullptr) {
-        const auto& thresholds = m_drum->getCurrentThresholds();
+              auto thresholds = m_current_thresholds;
+        
 
-        // Draw control instructions at top instead of title
-        ssd1306_draw_string(&m_display, 0, 0, 1, "LR:Adj UD:Sel");
+        // Draw control instructions with arrow icons at top
+        // Format: [↑↓ Sel] [←→ Adj] centered
+        
+        // Calculate total width for centering
+        int arrows_ud_width = 13;  // Up+Down arrows
+        int arrows_lr_width = 12;  // Left+Right arrows
+        int label_width = 3 * 6;   // "Sel" = 3 chars
+        int label2_width = 3 * 6;  // "Adj" = 3 chars
+        int spacing = 6;           // Space between groups
+        int total_width = arrows_ud_width + label_width + spacing + arrows_lr_width + label2_width;
+        int start_x = (128 - total_width) / 2;
+        
+        // Draw Up/Down arrows + "Sel" (first)
+        drawUpArrow(&m_display, start_x, 2);
+        drawDownArrow(&m_display, start_x + 8, 2);
+        ssd1306_draw_string(&m_display, start_x + 16, 0, 1, "Sel");
+        
+        // Draw Left/Right arrows + "Adj" (second)
+        int lr_start = start_x + arrows_ud_width + label_width + spacing;
+        drawLeftArrow(&m_display, lr_start, 2);
+        drawRightArrow(&m_display, lr_start + 7, 2);
+        ssd1306_draw_string(&m_display, lr_start + 15, 0, 1, "Adj");
+        
         ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 
-        // Display thresholds in 2-column layout
+        // Display thresholds in 2-column layout with clear selection indicator
         // Format: ">L.Ka:350   R.Ka:350" (cursor shows selected)
 
-        const char* cursor = ">";
+        // Display thresholds in 2-column layout with underline selection indicator
+        // Format: "L.Ka:350   R.Ka:350" (no arrow cursor)
 
-        // Ka row (y=12)
+        // Ka row (y=12) - NO CURSOR, NO BOX
         char ka_left[16], ka_right[16];
-        snprintf(ka_left, sizeof(ka_left), "%sL.Ka:%-4u",
-                 m_menu_state.selected_value == 0 ? cursor : " ",
-                 thresholds.ka_left);
-        snprintf(ka_right, sizeof(ka_right), "%sR.Ka:%-4u",
-                 m_menu_state.selected_value == 3 ? cursor : " ",
-                 thresholds.ka_right);
+        snprintf(ka_left, sizeof(ka_left), "L.Ka:%-4u", thresholds.ka_left);
+        snprintf(ka_right, sizeof(ka_right), "R.Ka:%-4u", thresholds.ka_right);
 
         ssd1306_draw_string(&m_display, 0, 12, 1, ka_left);
         ssd1306_draw_string(&m_display, 64, 12, 1, ka_right);
 
-        // Don row (y=20)
-        char don_left[16], don_right[16];
-        snprintf(don_left, sizeof(don_left), "%sL.Don:%-4u",
-                 m_menu_state.selected_value == 1 ? cursor : " ",
-                 thresholds.don_left);
-        snprintf(don_right, sizeof(don_right), "%sR.Don:%-4u",
-                 m_menu_state.selected_value == 2 ? cursor : " ",
-                 thresholds.don_right);
+        // Draw underline if selected (2 pixels below text at y=20)
+        if (m_menu_state.selected_value == 0) {
+            // Underline L.Ka
+            ssd1306_draw_line(&m_display, 0, 21, 54, 21);
+        }
+        if (m_menu_state.selected_value == 3) {
+            // Underline R.Ka
+            ssd1306_draw_line(&m_display, 64, 21, 118, 21);
+        }
 
-        ssd1306_draw_string(&m_display, 0, 20, 1, don_left);
-        ssd1306_draw_string(&m_display, 64, 20, 1, don_right);
+        // Don row (y=22) - NO CURSOR, NO BOX
+        char don_left[16], don_right[16];
+        snprintf(don_left, sizeof(don_left), "L.Don:%-4u", thresholds.don_left);
+        snprintf(don_right, sizeof(don_right), "R.Don:%-4u", thresholds.don_right);
+
+        ssd1306_draw_string(&m_display, 0, 22, 1, don_left);
+        ssd1306_draw_string(&m_display, 64, 22, 1, don_right);
+
+        // Draw underline if selected (2 pixels below text at y=30)
+        if (m_menu_state.selected_value == 1) {
+            // Underline L.Don
+            ssd1306_draw_line(&m_display, 0, 31, 60, 31);
+        }
+        if (m_menu_state.selected_value == 2) {
+            // Underline R.Don
+            ssd1306_draw_line(&m_display, 64, 31, 124, 31);
+        }
 
         // Draw live drum animations at the bottom (same as idle screen)
         // Drum centers are at y=43 (defined in Display.h)
@@ -725,10 +766,10 @@ void Display::drawMenuScreen() {
             ssd1306_draw_pixel(&m_display, x + 1, y + 1);
         }
 
-        // Draw simple footer: "B:Back" centered
-        const char* footer = "B:Back";
-        int footer_x = (128 - (strlen(footer) * 6)) / 2;
-        ssd1306_draw_string(&m_display, footer_x, 56, 1, footer);
+// Draw footer
+const char* footer = "A:OK B:Cancel";
+int footer_x = (128 - (strlen(footer) * 6)) / 2;
+ssd1306_draw_string(&m_display, footer_x, 56, 1, footer);
 
         return;  // Early return, don't render normal menu content
     }
