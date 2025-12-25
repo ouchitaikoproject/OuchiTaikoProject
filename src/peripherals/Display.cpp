@@ -652,28 +652,21 @@ void Display::drawMenuScreen() {
     if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::UnifiedThresholds && m_drum != nullptr) {
         const auto& thresholds = m_drum->getCurrentThresholds();
 
-        // Display thresholds in 2-column layout at top
-        // Format: "L.Ka:350  R.Ka:350" (row 1 at y=12)
-        //         "L.Don:200 R.Don:200" (row 2 at y=20)
+        // Draw control instructions at top instead of title
+        ssd1306_draw_string(&m_display, 0, 0, 1, "<> Adjust  ^v Sel");
+        ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 
-        char ka_row[25], don_row[25];
-        snprintf(ka_row, sizeof(ka_row), "L.Ka:%-3u  R.Ka:%-3u",
-                 thresholds.ka_left, thresholds.ka_right);
-        snprintf(don_row, sizeof(don_row), "L.Don:%-3u R.Don:%-3u",
-                 thresholds.don_left, thresholds.don_right);
-
-        // Draw threshold values with selection indicator
-        // Format with cursor showing currently selected threshold
-        // Selection: 0=KaL, 1=DonL, 2=DonR, 3=KaR
+        // Display thresholds in 2-column layout
+        // Format: ">L.Ka:350   R.Ka:350" (cursor shows selected)
 
         const char* cursor = ">";
 
         // Ka row (y=12)
         char ka_left[16], ka_right[16];
-        snprintf(ka_left, sizeof(ka_left), "%sL.Ka:%-3u",
+        snprintf(ka_left, sizeof(ka_left), "%sL.Ka:%-4u",
                  m_menu_state.selected_value == 0 ? cursor : " ",
                  thresholds.ka_left);
-        snprintf(ka_right, sizeof(ka_right), "%sR.Ka:%-3u",
+        snprintf(ka_right, sizeof(ka_right), "%sR.Ka:%-4u",
                  m_menu_state.selected_value == 3 ? cursor : " ",
                  thresholds.ka_right);
 
@@ -682,10 +675,10 @@ void Display::drawMenuScreen() {
 
         // Don row (y=20)
         char don_left[16], don_right[16];
-        snprintf(don_left, sizeof(don_left), "%sL.Don:%-3u",
+        snprintf(don_left, sizeof(don_left), "%sL.Don:%-4u",
                  m_menu_state.selected_value == 1 ? cursor : " ",
                  thresholds.don_left);
-        snprintf(don_right, sizeof(don_right), "%sR.Don:%-3u",
+        snprintf(don_right, sizeof(don_right), "%sR.Don:%-4u",
                  m_menu_state.selected_value == 2 ? cursor : " ",
                  thresholds.don_right);
 
@@ -732,8 +725,11 @@ void Display::drawMenuScreen() {
             ssd1306_draw_pixel(&m_display, x + 1, y + 1);
         }
 
-        // Draw navigation bar
-        drawNavigationBar(descriptor_it->second);
+        // Draw simple footer: "B:Back" centered
+        const char* footer = "B:Back";
+        int footer_x = (128 - (strlen(footer) * 6)) / 2;
+        ssd1306_draw_string(&m_display, footer_x, 56, 1, footer);
+
         return;  // Early return, don't render normal menu content
     }
 
