@@ -33,7 +33,6 @@ class Menu {
         DrumTriggerThresholdsManual,
         DrumTriggerThresholdsAuto,
         DrumTriggerThresholdsReset,
-        DrumTriggerThresholdsView,  // NEW: Read-only view of current thresholds
         DrumBigHitArcade,
         DrumBigHitEnable,
 
@@ -90,7 +89,6 @@ class Menu {
             GotoPageDrumTriggerThresholdsManual,
             GotoPageDrumTriggerThresholdsAuto,
             GotoPageDrumTriggerThresholdsReset,
-            GotoPageDrumTriggerThresholdsView,  // NEW: View current thresholds
             GotoPageDrumBigHitThreshold,
 
             // Taiko Tantrum calibration actions
