@@ -60,27 +60,28 @@ All you need is basic soldering and woodworking skills. The components linked in
 
 ### **World-First Innovations**
 
-#### **Two-Pass Bidirectional Crosstalk Detection**
+#### **Auto Calibrate - Intelligent Threshold Detection**
 
-**The Problem:** When you strike one drum, vibrations travel through the mounting frame to neighboring drums, causing false "ghost hits" (crosstalk) that ruin gameplay accuracy.
-
-**Traditional Approaches:**
-- Manual threshold tweaking in code (requires recompilation and trial-and-error)
-- Physical modifications (foam padding, increased spacing)
-- Accepting crosstalk as an inherent limitation
+**The Problem:** Traditional Taiko controllers require manual threshold adjustments through trial-and-error, often involving recompiling firmware or endless menu tweaking. Users struggle to find the perfect balance between sensitivity (missing hits) and false triggers (ghost hits from vibrations).
 
 **OuchiTaiko's Solution:**
 
-The **All 4 Drums Auto-Calibration** mode uses a two-pass system analyzing crosstalk from **BOTH directions**:
+The **Auto Calibrate** system intelligently analyzes your actual playing and automatically calculates optimal sensitivity settings:
 
-- **Pass 1 (Forward):** Ka-Left → Don-Left → Don-Right → Ka-Right *(records left-neighbor interference)*
-- **Pass 2 (Reverse):** Ka-Right → Don-Right → Don-Left → Ka-Left *(records right-neighbor interference)*
+- **Real-time hit analysis:** Monitors your natural playing style as you hit each pad
+- **Adaptive learning:** Tracks both light taps and strong strikes to understand your dynamic range
+- **Crosstalk compensation:** Detects vibration interference from adjacent drums and adjusts thresholds with built-in safety margins
+- **Instant results:** Calculates and applies optimal values automatically - no guesswork needed
 
-**Result:** Each drum's threshold uses the **MAXIMUM crosstalk** from both passes, accounting for mechanical coupling from ALL adjacent drums.
+**How it works:**
 
-✅ **Eliminates ghost hits** from frame vibrations  
-✅ **Zero manual tweaking** - fully automated  
-✅ **Arcade-level accuracy** at any intensity
+1. **All 4 Drums** - Complete setup in ~20 seconds with guided process
+2. **Manual Adjust** - Fine-tune individual drum thresholds if needed
+
+✅ **Eliminates manual tweaking** - no more trial-and-error  
+✅ **Prevents false triggers** - intelligent 150-point safety margins  
+✅ **Adapts to you** - learns your unique playing dynamics  
+✅ **Future-proof** - recalibrate anytime conditions change
 
 #### **Adaptive Baseline Software Intelligence (ABSI)**
 
@@ -1365,7 +1366,7 @@ To do this, drag the `universal_flash_nuke.uf2` to the root of the removable dri
 
 ### **Step 3: Drag the Firmware File To The Board to Flash It**
 
-Drag `KillerQsOuchiTaikoFirmware_v2.0.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
+Drag `OuchiTaikoFirmware_v15.0.uf2` to the removable drive. After a few seconds, the board will upload the file and automatically reboot. This time, the drive won't reappear—that's correct! Your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
 
 You're ready for calibration and testing!
 
@@ -1391,11 +1392,11 @@ You can now exit the menu screen. If you notice any automatic/false triggering o
 
 ---
 
-### **Taiko-Tune™ Auto-Calibration System (Recommended)**
+### **Auto Calibrate System (Recommended)**
 
-**The world's first automated calibration system for Taiko drum controllers** - a revolutionary feature that eliminates the manual threshold guesswork.
+**Intelligent automated calibration** - eliminates manual threshold guesswork and trial-and-error adjustments.
 
-#### **What is Taiko-Tune?**
+#### **What is Auto Calibrate?**
 
 Instead of manually adjusting thresholds through trial and error, Taiko-Tune analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
 
@@ -1413,62 +1414,44 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 Launch calibration using either method:
 - **Hold START** for 1 second (fastest - launches directly)
-- **System Menu:** Hold SELECT → Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune → Analyze All 4 Drums → Start Analysis
+- **System Menu:** Hold SELECT → Drum Tuning → Auto Calibrate → Continue?
 
 ---
 
-**During the All 4 Drums Wizard:**
+**During Calibration:**
 
-- The system will guide you through **2 complete passes** (8 calibrations total)
-  - **Pass 1:** Left Ka → Left Don → Right Don → Right Ka
-  - **Pass 2:** Right Ka → Right Don → Left Don → Left Ka (reverse order for optimal crosstalk compensation)
-- For each drum:
-  1. **Wait for the 3-second countdown** (samples ambient noise - do NOT touch the drum during countdown)
-  2. **Hit the indicated pad naturally** until progress reaches 100%
-     - Mix light taps and stronger hits like you would during actual gameplay
-     - Don't baby it or go crazy - use your normal playing intensity
-  3. **Results auto-apply** - the system calculates and saves optimal threshold instantly
-  4. After a 3-second results display, it automatically moves to the next drum
-- Between Pass 1 and Pass 2, a transition screen appears briefly
-- **Total time:** Approximately 5-8 minutes for all 4 drums (both passes)
+- **3-second countdown** - samples ambient noise (do NOT touch drums during countdown)
+- **15-second recording** - hit all pads as hard as in-game, as fast as possible, random patterns
+  - Mix light taps and strong strikes
+  - Hit all 4 pads repeatedly
+  - Progress bar shows completion status
+- **Results auto-apply** - optimal thresholds calculated and saved instantly
+- **Total time:** Approximately 20 seconds (3s countdown + 15s recording + 2s results)
 
 ---
 
-**Calibrate a Single Pad using Taiko-Tune:**
+**Note on Single Pad Calibration:**
 
-Use this method if you only want to recalibrate one specific drum without affecting the others.
+The v15.0 firmware calibrates all 4 drums simultaneously for optimal crosstalk compensation. The Auto Calibrate process takes only ~20 seconds total, making it practical to recalibrate all pads anytime you need adjustments.
 
-1. **Enter the System Menu:** Hold **SELECT** for 1 second
-2. **Navigate:**
-   - Settings → Drum Settings → Drum Thresholds → Auto Taiko-Tune
-3. **Choose your drum:**
-   - Analyze Left Ka
-   - Analyze Left Don
-   - Analyze Right Don
-   - Analyze Right Ka
-4. **Select "Start Analysis"**
-5. **Wait for the 3-second countdown** (samples ambient noise - do NOT touch the drum during countdown)
-6. **Hit the indicated pad naturally** until progress reaches 100%
-   - Mix light taps and stronger hits like you would during actual gameplay
-   - Progress bar shows completion status
-7. **Results auto-apply:** Optimal threshold is calculated and saved instantly
+For manual fine-tuning of individual pads after Auto Calibrate, use the Manual Thresholds option in the Drum Tuning menu.
 
 ---
 
-**Canceling Taiko-Tune:**
+**Canceling Auto Calibrate:**
 
-- Press **B** at any time during analysis to cancel
+- Press **B (SOUTH button)** at any time during calibration to cancel
 - Original thresholds are automatically restored
 - Returns you to where you started (menu or idle)
 
 ---
 
-#### **Why Use Taiko-Tune Instead of Manual Calibration?**
+#### **Why Use Auto Calibrate Instead of Manual?**
 
-- **Faster:** 5-8 minutes for all pads vs. 30+ minutes of manual testing
+- **Faster:** 20 seconds for all pads vs. 30+ minutes of manual testing
 - **More accurate:** Mathematical analysis vs. guesswork
 - **Adapts to you:** Learns your specific playing dynamics
-- **Eliminates crosstalk:** Two-pass system automatically detects and compensates for pad interference
+- **Built-in safety margins:** Adds 150 points above detected crosstalk to prevent false triggers
 - **Future-proof:** Recalibrate anytime if you change drum covers or playing style
 
 ---
@@ -1534,20 +1517,35 @@ Each pad has an adjustable threshold value (0-4095) that determines how hard you
 
 ### **Extended Drum Setting Features**
 
-#### **Big Hit Arcade Mode**
+#### **Big Hit Settings**
 
-This controls how the drum reacts to very strong strikes.
+Controls how the drum reacts to very strong strikes for arcade-style Big Note detection.
 
-In the Arcade, to get full points for Big Notes, you have to hit the any Don or Ka *much harder* than your regular note hits. Because most existing home Taiko drums didn't have the technology to detect when a hit was harder than other hits, home Console ports and PC versions of Taiko games changed the method up a bit, and would give full points for Big Notes by simply hitting both Don or Ka at the same time - instead of just hitting a single Don or Ka harder.
+In arcade Taiko, you must hit **much harder** than normal to score full points on Big Notes. Home console versions simplified this by accepting simultaneous hits (both Don or both Ka at once) instead. OuchiTaiko's Big Hit feature restores authentic arcade gameplay where a single, powerful strike registers as a Big Note.
 
-My **Big Hit Arcade Mode** solves that, and allows for that "Arcade Hit" where you can simply hit the Don or Ka of your choice *harder* than typical hits to get credit for the Big Notes - Just like how Official Taiko Arcade Machines operate.
+**Performance Profiles:**
 
-**Settings:**
+Choose from optimized presets:
 
-- Set Mode to: **ON**
-- Adjust Threshold Level: Start around **850** (Big Hit threshold is typically 2-3x normal threshold)
-- **Increase** the value to lower the threshold of what counts as a Big Hit
-- **Decrease** the value to make it so that you have to hit much harder for the Big Note to register
+- **Off:** Big Hit detection disabled
+- **Light (2000):** Easier to trigger - lower strike force needed
+- **Med (2500):** Balanced - moderate strike force (recommended)
+- **Heavy (3000):** Harder to trigger - requires strong strikes (closest to arcade)
+- **Custom:** Fine-tune threshold to your exact preference (0-4095)
+
+**Settings Navigation:**
+
+1. **Enter System Menu:** Hold SELECT
+2. **Navigate:** Gameplay Mods → Big Hit Mode
+3. **Select Profile:** Use LEFT/RIGHT to cycle through options
+4. **Confirm:** Press A (EAST button)
+
+**How it works:**
+- Big Hit threshold is typically 2-3x your normal threshold
+- **Lower values** = harder to trigger Big Hits (more force needed)
+- **Higher values** = easier to trigger Big Hits (less force needed)
+
+💡 **Pro Tip:** After using Auto Calibrate, try the **Med (2500)** profile first. Adjust based on your playing style - if you're getting too many/few accidental Big Hits, switch profiles or use Custom.
 
 ---
 
@@ -1608,8 +1606,8 @@ There you have it - You've just built a professional controller circuit with ada
 
 ### **Firmware Files**
 
-**[⬇️ OuchiTaiko Firmware v1.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaikoProject.uf2)**  
-Main controller firmware
+**[⬇️ OuchiTaiko Firmware v15.0](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaikoProject.uf2)**  
+Main controller firmware with Auto Calibrate system
 
 **[⬇️ Flash Nuke (Board Wipe)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/Universal-Flash-Nuke.uf2)**  
 Fully Wipes RP2040 flash memory between Flashing- flash this first every time before installing firmware
@@ -1652,17 +1650,24 @@ Complete circuit wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons
 
 **🥁 SENSOR Issues**
 
-- **No response:** Check diode polarity, TRS wiring
-- **False triggers:** Increase thresholds
-- **Missed hits:** Decrease thresholds, check mounting
-- **Crosstalk:** Increase threshold on triggering pad
+- **No response:** Check diode polarity, TRS wiring, verify sensor connections
+- **False triggers:** Run Auto Calibrate or manually raise thresholds
+- **Missed hits:** Run Auto Calibrate or manually lower thresholds, check sensor mounting
+- **Crosstalk (one drum triggers another):** Run Auto Calibrate (recommended) or manually raise threshold on the drum that falsely triggered
+
+**🎮 CALIBRATION Issues**
+
+- **Auto Calibrate won't start:** Ensure you're in correct menu, press A to confirm
+- **Calibration progress stuck:** Hit the drum harder with varied intensity
+- **Results seem wrong:** Re-run calibration, ensure you're hitting all 4 drums during the 15-second window
+- **Big Hits not registering:** Lower Big Hit threshold or switch to Light (2000) profile
 
 **🎮 MODE SWITCHING Issues**
 
 - **Freezes:** Unplug/reconnect USB-C
 - **No change:** Press EAST to confirm
 
-💡 **Tip:** If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
+💡 **Tip:** Most sensitivity issues are solved by running Auto Calibrate. If you have trouble with a particular version of a Taiko game, note your current controller emulation mode and research what others have done to get that controller series working with your particular game version.
 
 ---
 
@@ -1673,7 +1678,7 @@ Complete circuit wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons
 ### **Quick Access**
 
 - **Hold SELECT (1 sec):** Enter system menu
-- **Hold START (1 sec):** Launch Taiko-Tune (calibrate all 4 drums)
+- **Hold START (1 sec):** Launch Auto Calibrate (all 4 drums)
 
 ---
 
@@ -1710,40 +1715,34 @@ SYSTEM MENU
 │   └── Debug Mode
 │   [LEFT/RIGHT to select, A to confirm & reboot]
 │
-├── 🥁 Drum Settings
-│   │
-│   ├── Drum Thresholds
-│   │   │
-│   │   ├── Auto Taiko-Tune ⚡
-│   │   │   ├── Analyze All 4 Drums
-│   │   │   ├── Analyze Left Ka
-│   │   │   ├── Analyze Left Don
-│   │   │   ├── Analyze Right Don
-│   │   │   └── Analyze Right Ka
-│   │   │   [LEFT/RIGHT to select, A to start]
-│   │   │
-│   │   ├── Manual Pad Adjust
-│   │   │   ├── Left Ka (0-4095)
-│   │   │   ├── Left Don (0-4095)
-│   │   │   ├── Right Don (0-4095)
-│   │   │   └── Right Ka (0-4095)
-│   │   │   [UP/DOWN to adjust, A to save, B to cancel]
-│   │   │
-│   │   └── Reset Thresholds
-│   │       └── Yes/No [LEFT/RIGHT, A to confirm]
-│   │
+├── 🥁 Drum Tuning
+│   ├── Auto Calibrate ⚡
+│   │   └── Continue? [A to start 20-second calibration]
+│   ├── Manual Thresholds
+│   │   ├── KaL (0-4095) [UP/DOWN adjust, live preview]
+│   │   ├── DonL (0-4095)
+│   │   ├── DonR (0-4095)
+│   │   └── KaR (0-4095)
+│   └── Reset Thresholds
+│       └── Yes/No [LEFT/RIGHT, A to confirm]
+│
+├── 🎮 Gameplay Mods
 │   ├── Big Hit Mode
 │   │   ├── Off
-│   │   ├── Light (2000)
-│   │   ├── Medium (2500)
-│   │   ├── Heavy (3000)
-│   │   └── Custom...
-│   │       └── Threshold (0-4095) [UP/DOWN adjust]
-│   ├── SimulTap Mode
-│   │   └── ON/OFF [LEFT/RIGHT toggle]
-│   │
-│   └── Hold Time
-│       └── Adjust (0-255 ms) [UP/DOWN adjust]
+│   │   ├── Light (2K)
+│   │   ├── Med (2.5K)
+│   │   ├── Heavy (3K)
+│   │   └── Custom... → Threshold (0-4095)
+│   └── Fast Roll Mode
+│       ├── Safe (25ms)
+│       ├── Normal (12ms)
+│       └── EXTREME (8ms)
+│
+├── 🔧 Advanced
+│   ├── Reset ALL Settings
+│   │   └── Yes/No [LEFT/RIGHT, A to confirm]
+│   └── Hold Time (Debounce)
+│       └── Duration (0-255ms) [UP/DOWN adjust]
 │
 ├── 💡 LED Settings
 │   ├── Brightness (0-255) [UP/DOWN adjust]
@@ -1752,17 +1751,14 @@ SYSTEM MENU
 │
 ├── ℹ️ About
 │   ├── OuchiTaiko Project by KillerQ
-│   ├── Full Guide & Info: ouchitaiko.com
-│   ├── Firmware v1.0 October 2025
+│   ├── Full Guide: ouchitaiko.com
+│   ├── Firmware v15.0 December 2025
 │   ├── Based on: DonCon2040 (MIT)
 │   └── & HIDtaiko (Apache 2.0)
 │   [LEFT/RIGHT to scroll info]
 │
-├── 🔄 Reset
-│   └── Yes/No [LEFT/RIGHT, A to confirm]
-│
 └── 💾 USB Flash Mode
-    └── Yes/No [LEFT/RIGHT, A to confirm]
+    └── Enter Bootloader [A to confirm]
 ```
 
 ---
