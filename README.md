@@ -75,8 +75,10 @@ The **Auto Calibrate** system intelligently analyzes your actual playing and aut
 
 **How it works:**
 
-1. **All 4 Drums** - Complete setup in ~20 seconds with guided process
-2. **Manual Adjust** - Fine-tune individual drum thresholds if needed
+1. **Hold START for 1 second** - Launches Auto Calibrate instantly
+2. **3-second countdown** - Don't touch drums (ambient noise sampling)
+3. **15-second recording** - Hit all 4 pads as hard and fast as you play in-game
+4. **Auto-apply** - Optimal thresholds calculated and saved
 
 ✅ **Eliminates manual tweaking** - no more trial-and-error  
 ✅ **Prevents false triggers** - intelligent 150-point safety margins  
@@ -126,7 +128,7 @@ Calibrate and test your entire system with just USB power—see exactly what's h
 
 - Nintendo Switch Tatacon (HORI NSW-079 Taiko Drum)
 - Nintendo Switch Pro Controller
-- Sony PS3 Dualshock3
+- Sony PS3 Dualshock3 (PC/Steam only)
 - Sony PS4 Tatacon Drum (HORI PS4-095 Taiko Drum)
 - Sony PS4 Dualshock4 (PC/Steam only)
 - Keyboard Player 1
@@ -153,7 +155,7 @@ Calibrate and test your entire system with just USB power—see exactly what's h
 ### 🎥 Demo Videos
 
 - [Finished Drum](https://youtu.be/Ji3sOdRHO0Q)
-- [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
+- [Some Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uXx1qAux)
 - [Roll Polling Rate Demo](https://youtu.be/wEw9HbGcR-s)
 - [Hit Velocity Detection](https://www.youtube.com/watch?v=wceSXgtBcfE)
 
@@ -1345,7 +1347,7 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 Great job making it this far! Now it's time to prepare the board and flash the firmware. This is the quickest and easiest part of the entire build.
 
 💾 **Download the firmware files:**
-- [OuchiTaiko Firmware v1.0](#9-files--downloads)
+- [OuchiTaiko Firmware v15.0](#9-files--downloads)
 - [Flash Nuke (Board Wipe)](#9-files--downloads)
 
 ---
@@ -1398,7 +1400,7 @@ You can now exit the menu screen. If you notice any automatic/false triggering o
 
 #### **What is Auto Calibrate?**
 
-Instead of manually adjusting thresholds through trial and error, Taiko-Tune analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
+Instead of manually adjusting thresholds through trial and error, Auto Calibrate analyzes your actual playing style and automatically calculates optimal sensitivity settings for each drum pad. This intelligent system:
 
 - Monitors hits in real-time until progress bar reaches 100%
 - Analyzes velocity patterns and strike consistency
@@ -1408,7 +1410,7 @@ Instead of manually adjusting thresholds through trial and error, Taiko-Tune ana
 
 ---
 
-#### **How to Use Taiko-Tune:**
+#### **How to Use Auto Calibrate:**
 
 **Quick Start - Calibrate All 4 Pads Automatically:**
 
@@ -1458,9 +1460,9 @@ For manual fine-tuning of individual pads after Auto Calibrate, use the Manual T
 
 ### **Manual Single Pad Threshold Adjustment**
 
-💡 **Note:** If you prefer automated calibration, use the **Taiko-Tune™ Auto-Calibration System** above - it's faster and more accurate.
+💡 **Note:** If you prefer automated calibration, use the **Auto Calibrate System** above - it's faster and more accurate.
 
-Use this method when you want precise manual control over individual drum sensitivity values, or need to fine-tune after Taiko-Tune calibration.
+Use this method when you want precise manual control over individual drum sensitivity values, or need to fine-tune after Auto Calibrate.
 
 ---
 
@@ -1468,12 +1470,11 @@ Use this method when you want precise manual control over individual drum sensit
 
 1. **Enter the System Menu:** Hold **SELECT** for 1 second
 2. **Navigate:**
-   - Settings → Drum Settings → Drum Thresholds → **Single Pad Adjust**
-3. **Choose your drum:**
-   - Left Ka
-   - Left Don
-   - Right Don
-   - Right Ka
+   - Drum Tuning → Manual Thresholds → **Choose your drum:**
+     - Left Ka
+     - Left Don
+     - Right Don
+     - Right Ka
 
 ---
 
@@ -1511,7 +1512,7 @@ Each pad has an adjustable threshold value (0-4095) that determines how hard you
 - When switching between soft and aggressive playing styles
 - After any hardware modifications
 
-💡 **Pro Tip:** You can mix Taiko-Tune with manual adjustments - let Taiko-Tune set the baseline, then fine-tune individual pads ±10-20 points if desired.
+💡 **Pro Tip:** You can mix Auto Calibrate with manual adjustments - let Auto Calibrate set the baseline, then fine-tune individual pads ±10-20 points if desired.
 
 ---
 
@@ -1528,10 +1529,9 @@ In arcade Taiko, you must hit **much harder** than normal to score full points o
 Choose from optimized presets:
 
 - **Off:** Big Hit detection disabled
-- **Light (2000):** Easier to trigger - lower strike force needed
-- **Med (2500):** Balanced - moderate strike force (recommended)
-- **Heavy (3000):** Harder to trigger - requires strong strikes (closest to arcade)
-- **Custom:** Fine-tune threshold to your exact preference (0-4095)
+- **Safe:** Easier to trigger - lower strike force needed (recommended for beginners)
+- **Normal:** Balanced - moderate strike force (recommended for most players)
+- **EXTREME:** Harder to trigger - requires strong strikes (closest to arcade, expert players)
 
 **Settings Navigation:**
 
@@ -1541,35 +1541,40 @@ Choose from optimized presets:
 4. **Confirm:** Press A (EAST button)
 
 **How it works:**
-- Big Hit threshold is typically 2-3x your normal threshold
-- **Lower values** = harder to trigger Big Hits (more force needed)
-- **Higher values** = easier to trigger Big Hits (less force needed)
+- Big Hit threshold is automatically calculated as 2.5x your normal threshold
+- **Safe** profile reduces the multiplier for easier triggering
+- **EXTREME** profile increases the multiplier for harder triggering
+- System automatically adjusts when you recalibrate normal thresholds
 
-💡 **Pro Tip:** After using Auto Calibrate, try the **Med (2500)** profile first. Adjust based on your playing style - if you're getting too many/few accidental Big Hits, switch profiles or use Custom.
-
----
-
-#### **SimulTap Mode**
-
-By Default, the firmware makes it so that you cannot hit a Don and Ka at exactly the same time (since that situation doesn't exist in gameplay, and helps ensure clean hits). If you wanted to use this controller to play your other favorite 4-lane rhythm games, this would be an issue. So, I added this mode that lets you toggle whether there are hit limitations.
-
-**Settings:**
-
-- Turn **SimulTap ON** if you want to use the Drum in non-Taiko Rhythm Games (since you'll want the ability to hit more than one drum/note at the same time)
-- Leave it **OFF** when playing Taiko Games
+💡 **Pro Tip:** After using Auto Calibrate, try the **Normal** profile first. Adjust based on your playing style - if you're getting too many/few accidental Big Hits, switch profiles.
 
 ---
 
-#### **Hold Time**
+#### **Fast Roll Mode**
 
-This defines how long a hit is "held" before the drum accepts another.
+Controls how quickly the controller accepts repeated hits on the same drum - critical for fast drum rolls and expert-level play.
 
-**Settings:**
+**Performance Profiles:**
 
-- Recommended range: **25—35ms**
-- **Increase** if double hits register too fast
-- **Decrease** if hits feel laggy or delayed
-- In most cases, this is not needed — some say a level of at least 25ms is needed when playing on the Nintendo Switch
+Choose from optimized presets:
+
+- **Safe (25ms):** Most reliable - prevents accidental double-hits, best for beginners
+- **Normal (12ms):** Balanced - enables arcade-speed rolls, recommended for most players
+- **EXTREME (8ms):** Maximum speed - fastest possible rolls, expert players only
+
+**Settings Navigation:**
+
+1. **Enter System Menu:** Hold SELECT
+2. **Navigate:** Gameplay Mods → Fast Roll Mode
+3. **Select Profile:** Use LEFT/RIGHT to cycle through options
+4. **Confirm:** Press A (EAST button)
+
+**How it works:**
+- Hold Time defines the minimum time between accepted hits on the same drum
+- **Lower values** = faster rolls possible (but higher risk of accidental double-hits)
+- **Higher values** = more reliable (but slower maximum roll speed)
+
+💡 **Pro Tip:** Start with **Normal (12ms)** - it handles arcade-speed gameplay well. Only switch to EXTREME if you're consistently playing expert charts and need maximum roll speed.
 
 ---
 
@@ -1660,7 +1665,7 @@ Complete circuit wiring diagram for XIAO RP2040, MCP23017, sensors, and buttons
 - **Auto Calibrate won't start:** Ensure you're in correct menu, press A to confirm
 - **Calibration progress stuck:** Hit the drum harder with varied intensity
 - **Results seem wrong:** Re-run calibration, ensure you're hitting all 4 drums during the 15-second window
-- **Big Hits not registering:** Lower Big Hit threshold or switch to Light (2000) profile
+- **Big Hits not registering:** Switch to Safe profile or re-run Auto Calibrate
 
 **🎮 MODE SWITCHING Issues**
 
@@ -1701,9 +1706,9 @@ SYSTEM MENU
 ├── 🎮 Controller Modes
 │   ├── Nintendo Switch Tatacon Drum
 │   ├── Nintendo Switch Pro Controller
-│   ├── Sony PS3 Dualshock3
+│   ├── Sony PS3 Dualshock3 (PC/Steam only)
 │   ├── Sony PS4 Tatacon Drum
-│   ├── Sony PS4 Dualshock4
+│   ├── Sony PS4 Dualshock4 (PC/Steam only)
 │   ├── Keyboard Player 1
 │   ├── Keyboard Player 2
 │   ├── Microsoft Xbox Xbox360
@@ -1729,20 +1734,17 @@ SYSTEM MENU
 ├── 🎮 Gameplay Mods
 │   ├── Big Hit Mode
 │   │   ├── Off
-│   │   ├── Light (2K)
-│   │   ├── Med (2.5K)
-│   │   ├── Heavy (3K)
-│   │   └── Custom... → Threshold (0-4095)
+│   │   ├── Safe
+│   │   ├── Normal
+│   │   └── EXTREME
 │   └── Fast Roll Mode
 │       ├── Safe (25ms)
 │       ├── Normal (12ms)
 │       └── EXTREME (8ms)
 │
 ├── 🔧 Advanced
-│   ├── Reset ALL Settings
-│   │   └── Yes/No [LEFT/RIGHT, A to confirm]
-│   └── Hold Time (Debounce)
-│       └── Duration (0-255ms) [UP/DOWN adjust]
+│   └── Reset ALL Settings
+│       └── Yes/No [LEFT/RIGHT, A to confirm]
 │
 ├── 💡 LED Settings
 │   ├── Brightness (0-255) [UP/DOWN adjust]
@@ -1934,187 +1936,3 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
    and conversions to other media types.
 
    "Work" shall mean the work of authorship, whether in Source or
-   Object form, made available under the License, as indicated by a
-   copyright notice that is attached to or included in the work (an
-   example is provided in the Appendix below).
-
-   "Derivative Works" shall mean any work, whether in Source or Object
-   form, that is based on (or derived from) the Work and for which the
-   editorial revisions, annotations, elaborations, or other modifications
-   represent, as a whole, an original work of authorship. For the purposes
-   of this License, Derivative Works shall not include works that remain
-   separable from, or merely link (or bind by name) to the interfaces of,
-   the Work and Derivative Works thereof.
-
-   "Contribution" shall mean any work of authorship, including
-   the original version of the Work and any modifications or additions
-   to that Work or Derivative Works thereof, that is intentionally
-   submitted to Licensor for inclusion in the Work by the copyright owner
-   or by an individual or Legal Entity authorized to submit on behalf of
-   the copyright owner. For the purposes of this definition, "submitted"
-   means any form of electronic, verbal, or written communication sent
-   to the Licensor or its representatives, including but not limited to
-   communication on electronic mailing lists, source code control systems,
-   and issue tracking systems that are managed by, or on behalf of, the
-   Licensor for the purpose of discussing and improving the Work, but
-   excluding communication that is conspicuously marked or otherwise
-   designated in writing by the copyright owner as "Not a Contribution."
-
-   "Contributor" shall mean Licensor and any individual or Legal Entity
-   on behalf of whom a Contribution has been received by Licensor and
-   subsequently incorporated within the Work.
-
-2. Grant of Copyright License. Subject to the terms and conditions of
-   this License, each Contributor hereby grants to You a perpetual,
-   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-   copyright license to reproduce, prepare Derivative Works of,
-   publicly display, publicly perform, sublicense, and distribute the
-   Work and such Derivative Works in Source or Object form.
-
-3. Grant of Patent License. Subject to the terms and conditions of
-   this License, each Contributor hereby grants to You a perpetual,
-   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-   (except as stated in this section) patent license to make, have made,
-   use, offer to sell, sell, import, and otherwise transfer the Work,
-   where such license applies only to those patent claims licensable
-   by such Contributor that are necessarily infringed by their
-   Contribution(s) alone or by combination of their Contribution(s)
-   with the Work to which such Contribution(s) was submitted. If You
-   institute patent litigation against any entity (including a
-   cross-claim or counterclaim in a lawsuit) alleging that the Work
-   or a Contribution incorporated within the Work constitutes direct
-   or contributory patent infringement, then any patent licenses
-   granted to You under this License for that Work shall terminate
-   as of the date such litigation is filed.
-
-4. Redistribution. You may reproduce and distribute copies of the
-   Work or Derivative Works thereof in any medium, with or without
-   modifications, and in Source or Object form, provided that You
-   meet the following conditions:
-
-   (a) You must give any other recipients of the Work or
-       Derivative Works a copy of this License; and
-
-   (b) You must cause any modified files to carry prominent notices
-       stating that You changed the files; and
-
-   (c) You must retain, in the Source form of any Derivative Works
-       that You distribute, all copyright, patent, trademark, and
-       attribution notices from the Source form of the Work,
-       excluding those notices that do not pertain to any part of
-       the Derivative Works; and
-
-   (d) If the Work includes a "NOTICE" text file as part of its
-       distribution, then any Derivative Works that You distribute must
-       include a readable copy of the attribution notices contained
-       within such NOTICE file, excluding those notices that do not
-       pertain to any part of the Derivative Works, in at least one
-       of the following places: within a NOTICE text file distributed
-       as part of the Derivative Works; within the Source form or
-       documentation, if provided along with the Derivative Works; or,
-       within a display generated by the Derivative Works, if and
-       wherever such third-party notices normally appear. The contents
-       of the NOTICE file are for informational purposes only and
-       do not modify the License. You may add Your own attribution
-       notices within Derivative Works that You distribute, alongside
-       or as an addendum to the NOTICE text from the Work, provided
-       that such additional attribution notices cannot be construed
-       as modifying the License.
-
-   You may add Your own copyright statement to Your modifications and
-   may provide additional or different license terms and conditions
-   for use, reproduction, or distribution of Your modifications, or
-   for any such Derivative Works as a whole, provided Your use,
-   reproduction, and distribution of the Work otherwise complies with
-   the conditions stated in this License.
-
-5. Submission of Contributions. Unless You explicitly state otherwise,
-   any Contribution intentionally submitted for inclusion in the Work
-   by You to the Licensor shall be under the terms and conditions of
-   this License, without any additional terms or conditions.
-   Notwithstanding the above, nothing herein shall supersede or modify
-   the terms of any separate license agreement you may have executed
-   with Licensor regarding such Contributions.
-
-6. Trademarks. This License does not grant permission to use the trade
-   names, trademarks, service marks, or product names of the Licensor,
-   except as required for reasonable and customary use in describing the
-   origin of the Work and reproducing the content of the NOTICE file.
-
-7. Disclaimer of Warranty. Unless required by applicable law or
-   agreed to in writing, Licensor provides the Work (and each
-   Contributor provides its Contributions) on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-   implied, including, without limitation, any warranties or conditions
-   of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-   PARTICULAR PURPOSE. You are solely responsible for determining the
-   appropriateness of using or redistributing the Work and assume any
-   risks associated with Your exercise of permissions under this License.
-
-8. Limitation of Liability. In no event and under no legal theory,
-   whether in tort (including negligence), contract, or otherwise,
-   unless required by applicable law (such as deliberate and grossly
-   negligent acts) or agreed to in writing, shall any Contributor be
-   liable to You for damages, including any direct, indirect, special,
-   incidental, or consequential damages of any character arising as a
-   result of this License or out of the use or inability to use the
-   Work (including but not limited to damages for loss of goodwill,
-   work stoppage, computer failure or malfunction, or any and all
-   other commercial damages or losses), even if such Contributor
-   has been advised of the possibility of such damages.
-
-9. Accepting Warranty or Additional Liability. While redistributing
-   the Work or Derivative Works thereof, You may choose to offer,
-   and charge a fee for, acceptance of support, warranty, indemnity,
-   or other liability obligations and/or rights consistent with this
-   License. However, in accepting such obligations, You may act only
-   on Your own behalf and on Your sole responsibility, not on behalf
-   of any other Contributor, and only if You agree to indemnify,
-   defend, and hold each Contributor harmless for any liability
-   incurred by, or claims asserted against, such Contributor by reason
-   of your accepting any such warranty or additional liability.
-
-END OF TERMS AND CONDITIONS
-
-APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!) The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
-
-   Copyright [2022] [kasasiki3]
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-```
-
----
-
-### Summary
-
-This project is fully transparent about its licensing and gives proper credit to all contributors. By including the complete license texts above, this README serves as the authoritative legal documentation for the OuchiTaiko Project.
-
-Thank you to ravinrabbid and kasasiki3 for their incredible open-source contributions that made this project possible.
-
-**KillerQ**
-
-www.ouchitaiko.com
-
----
-
-*OuchiTaiko Project | Smarter. Simpler. Better.*
-
