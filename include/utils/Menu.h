@@ -155,7 +155,7 @@ class Menu {
       public:
         Buttons();
 
-        void update(const InputState::Controller &state);
+        void update(const InputState::Controller &state, Descriptor::Type page_type);
         void reset();  // NEW: Reset all button states
         [[nodiscard]] bool getPressed(Id id) const;
     };

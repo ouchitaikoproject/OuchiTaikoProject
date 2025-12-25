@@ -195,14 +195,23 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
 Menu::Buttons::Buttons()
     : m_states({{Id::Up, {}}, {Id::Down, {}}, {Id::Left, {}}, {Id::Right, {}}, {Id::Confirm, {}}, {Id::Back, {}}}) {}
 
-void Menu::Buttons::update(const InputState::Controller &controller_state) {
-    // SIMPLIFIED: Pure edge detection - press once, fire once
-    // No repeat funactionality at all
-    auto handle_button = [](State &button_state, bool input_state) {
+void Menu::Buttons::update(const InputState::Controller &controller_state, Descriptor::Type page_type) {
+    // Repeat timing constants (only for Value/UnifiedThresholds pages)
+    static constexpr uint32_t REPEAT_INITIAL_DELAY_MS = 500;  // 500ms before repeat starts
+    static constexpr uint32_t REPEAT_INTERVAL_MS = 100;       // 100ms between repeats
+
+    uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+    // Enable repeat ONLY for Left/Right on Value or UnifiedThresholds pages
+    bool enable_repeat = (page_type == Descriptor::Type::Value ||
+                         page_type == Descriptor::Type::UnifiedThresholds);
+
+    // Edge-detect handler (for most buttons and page types)
+    auto handle_button_edge = [](State &button_state, bool input_state) {
         if (input_state && button_state.repeat == State::Repeat::Idle) {
             // Button just pressed (was idle, now pressed)
             button_state.pressed = true;
-            button_state.repeat = State::Repeat::RepeatDelay; // Mark as "held" to prevent re-trigger
+            button_state.repeat = State::Repeat::RepeatDelay;
         } else if (!input_state) {
             // Button released - reset to idle
             button_state.pressed = false;
@@ -213,12 +222,58 @@ void Menu::Buttons::update(const InputState::Controller &controller_state) {
         }
     };
 
-    handle_button(m_states.at(Id::Up), controller_state.dpad.up);
-    handle_button(m_states.at(Id::Down), controller_state.dpad.down);
-    handle_button(m_states.at(Id::Left), controller_state.dpad.left);
-    handle_button(m_states.at(Id::Right), controller_state.dpad.right);
-    handle_button(m_states.at(Id::Confirm), controller_state.buttons.east);
-    handle_button(m_states.at(Id::Back), controller_state.buttons.south);
+    // Repeat handler (for Left/Right on Value/UnifiedThresholds pages only)
+    auto handle_button_repeat = [current_time, REPEAT_INITIAL_DELAY_MS, REPEAT_INTERVAL_MS]
+                                (State &button_state, bool input_state) {
+        if (input_state) {
+            if (button_state.repeat == State::Repeat::Idle) {
+                // Button just pressed - fire immediately and start delay timer
+                button_state.pressed = true;
+                button_state.repeat = State::Repeat::RepeatDelay;
+                button_state.pressed_since = current_time;
+                button_state.last_repeat = 0;
+            } else if (button_state.repeat == State::Repeat::RepeatDelay) {
+                // Waiting for initial delay
+                if (current_time - button_state.pressed_since >= REPEAT_INITIAL_DELAY_MS) {
+                    // Initial delay elapsed - start repeating
+                    button_state.pressed = true;
+                    button_state.repeat = State::Repeat::Repeat;
+                    button_state.last_repeat = current_time;
+                } else {
+                    button_state.pressed = false;
+                }
+            } else if (button_state.repeat == State::Repeat::Repeat) {
+                // Repeating - check if interval elapsed
+                if (current_time - button_state.last_repeat >= REPEAT_INTERVAL_MS) {
+                    button_state.pressed = true;
+                    button_state.last_repeat = current_time;
+                } else {
+                    button_state.pressed = false;
+                }
+            }
+        } else {
+            // Button released - reset to idle
+            button_state.pressed = false;
+            button_state.repeat = State::Repeat::Idle;
+            button_state.pressed_since = 0;
+            button_state.last_repeat = 0;
+        }
+    };
+
+    // Handle each button based on whether repeat is enabled
+    handle_button_edge(m_states.at(Id::Up), controller_state.dpad.up);
+    handle_button_edge(m_states.at(Id::Down), controller_state.dpad.down);
+
+    if (enable_repeat) {
+        handle_button_repeat(m_states.at(Id::Left), controller_state.dpad.left);
+        handle_button_repeat(m_states.at(Id::Right), controller_state.dpad.right);
+    } else {
+        handle_button_edge(m_states.at(Id::Left), controller_state.dpad.left);
+        handle_button_edge(m_states.at(Id::Right), controller_state.dpad.right);
+    }
+
+    handle_button_edge(m_states.at(Id::Confirm), controller_state.buttons.east);
+    handle_button_edge(m_states.at(Id::Back), controller_state.buttons.south);
 }
 
 bool Menu::Buttons::getPressed(Id id) const { return m_states.at(id).pressed; }
@@ -555,8 +610,6 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
 }
 
 void Menu::update(const InputState::Controller &controller_state) {
-    m_buttons.update(controller_state);
-
     State &current_state = m_state_stack.top();
 
     auto descriptor_it = descriptors.find(current_state.page);
@@ -564,6 +617,9 @@ void Menu::update(const InputState::Controller &controller_state) {
         assert(false);
         return;
     }
+
+    // Update buttons with page type to enable repeat for Value/UnifiedThresholds
+    m_buttons.update(controller_state, descriptor_it->second.type);
 
     // RebootInfo pages should just deactivate menu and let the store handle reboot
     if (descriptor_it->second.type == Descriptor::Type::RebootInfo) {
@@ -616,7 +672,7 @@ void Menu::update(const InputState::Controller &controller_state) {
             }
             break;
         case Descriptor::Type::UnifiedThresholds: {
-            // LEFT = decrease the currently selected threshold value by 10
+            // LEFT = decrease the currently selected threshold value by 1 (hold to repeat)
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
             switch (current_state.selected_value) {
@@ -625,12 +681,8 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 2: selected_threshold = &thresholds.don_right; break;
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
-            if (selected_threshold) {
-                if (*selected_threshold >= 10) {
-                    *selected_threshold -= 10;
-                } else {
-                    *selected_threshold = 0;
-                }
+            if (selected_threshold && *selected_threshold > 0) {
+                (*selected_threshold)--;
                 m_store->setTriggerThresholds(thresholds);
             }
             break;
@@ -678,7 +730,7 @@ void Menu::update(const InputState::Controller &controller_state) {
             }
             break;
         case Descriptor::Type::UnifiedThresholds: {
-            // RIGHT = increase the currently selected threshold value by 10
+            // RIGHT = increase the currently selected threshold value by 1 (hold to repeat)
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
             switch (current_state.selected_value) {
@@ -687,12 +739,8 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 2: selected_threshold = &thresholds.don_right; break;
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
-            if (selected_threshold) {
-                if (*selected_threshold <= 990) {
-                    *selected_threshold += 10;
-                } else {
-                    *selected_threshold = 1000;
-                }
+            if (selected_threshold && *selected_threshold < 1000) {
+                (*selected_threshold)++;
                 m_store->setTriggerThresholds(thresholds);
             }
             break;
