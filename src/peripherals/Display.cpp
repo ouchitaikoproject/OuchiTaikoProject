@@ -554,6 +554,10 @@ void Display::drawNavigationBar(const Utils::Menu::Descriptor &descriptor) {
         show_left_right_arrows = true;  // Changed from show_up_down_arrows
         right_label = "Save";
         break;
+    case Utils::Menu::Descriptor::Type::UnifiedThresholds:
+        show_left_right_arrows = true;
+        right_label = "Save";
+        break;    
     case Utils::Menu::Descriptor::Type::RebootInfo:
     case Utils::Menu::Descriptor::Type::RebootCountdown:
         right_label = "Reboot";
@@ -665,7 +669,7 @@ void Display::drawMenuScreen() {
         const char* cursor = ">";
 
         // Ka row (y=12)
-        char ka_left[12], ka_right[12];
+        char ka_left[16], ka_right[16];
         snprintf(ka_left, sizeof(ka_left), "%sL.Ka:%-3u",
                  m_menu_state.selected_value == 0 ? cursor : " ",
                  thresholds.ka_left);
@@ -677,7 +681,7 @@ void Display::drawMenuScreen() {
         ssd1306_draw_string(&m_display, 64, 12, 1, ka_right);
 
         // Don row (y=20)
-        char don_left[12], don_right[12];
+        char don_left[16], don_right[16];
         snprintf(don_left, sizeof(don_left), "%sL.Don:%-3u",
                  m_menu_state.selected_value == 1 ? cursor : " ",
                  thresholds.don_left);
@@ -800,6 +804,8 @@ void Display::drawMenuScreen() {
                     selection = "Off (On)";
                 }
             }
+            break;
+        case Utils::Menu::Descriptor::Type::UnifiedThresholds:
             break;
         case Utils::Menu::Descriptor::Type::Value:
             break;
