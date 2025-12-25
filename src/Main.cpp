@@ -368,49 +368,9 @@ int main() {
         bool was_menu_active = menu.active();
 
         if (menu.active()) {
-            // CRITICAL: Menu needs edge detection to prevent fast scrolling
-            // Only pass button presses on rising edges (first frame pressed)
-            static Utils::InputState::Controller last_menu_controller = {};
-
-            // Reset edge detection when first entering menu to prevent stale state
-            if (!was_menu_active) {
-                last_menu_controller = input_state.controller;
-            }
-
-            Utils::InputState::Controller menu_controller = {};
-
-            // Copy only newly pressed buttons (rising edges)
-            // NOTE: Left/Right use raw state (not edge-detected) to support hold-to-repeat
-            // in Menu.cpp for Value and UnifiedThresholds pages
-            #define EDGE_DETECT_BTN(btn) menu_controller.buttons.btn = input_state.controller.buttons.btn && !last_menu_controller.buttons.btn
-            #define EDGE_DETECT_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn && !last_menu_controller.dpad.btn
-            #define RAW_STATE_DPAD(btn) menu_controller.dpad.btn = input_state.controller.dpad.btn
-
-            EDGE_DETECT_BTN(north);
-            EDGE_DETECT_BTN(east);
-            EDGE_DETECT_BTN(south);
-            EDGE_DETECT_BTN(west);
-            EDGE_DETECT_BTN(l);
-            EDGE_DETECT_BTN(r);
-            EDGE_DETECT_BTN(select);
-            EDGE_DETECT_BTN(start);
-            EDGE_DETECT_BTN(home);
-            EDGE_DETECT_BTN(share);
-            EDGE_DETECT_DPAD(up);
-            EDGE_DETECT_DPAD(down);
-            RAW_STATE_DPAD(left);   // No edge detection - Menu.cpp handles repeat
-            RAW_STATE_DPAD(right);  // No edge detection - Menu.cpp handles repeat
-
-            #undef EDGE_DETECT_BTN
-            #undef EDGE_DETECT_DPAD
-            #undef RAW_STATE_DPAD
-
-            // Always update menu to allow hold-to-repeat timing to work correctly
-            // Menu.cpp handles edge detection and repeat logic internally
-            menu.update(menu_controller);
-
-            // Save current state for next frame's edge detection
-            last_menu_controller = input_state.controller;
+            // Pass raw controller state to Menu.cpp
+            // Menu.cpp handles all edge detection and hold-to-repeat logic internally
+            menu.update(input_state.controller);
             
             // Check if Tantrum calibration start was requested
             if (menu.isTantrumStartRequested()) {
