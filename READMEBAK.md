@@ -5,7 +5,7 @@
 ---
 
 <div align="center">
-*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the arcade into your own space.*
+*In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents the joy of bringing the authentic Taiko experience from the Arcade into your own space.*
 </div>
 
 ---
@@ -38,7 +38,6 @@
 <div align="center">
 <img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
 <div align="center">
 <img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -46,6 +45,8 @@
 <div align="center">
 <img src="images/Pictures/finishedbackside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+
+
 
 Hi, I'm KillerQ. Welcome to the **OuchiTaiko Project** - an open-source build guide for a professional arcade-grade Taiko drum controller.
 
@@ -169,29 +170,29 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 
 <div style="overflow-x: auto;">
 
-| #  | Item                                                          | Qty | Product Link                   |
-| -- | ------------------------------------------------------------- | --- | ------------------------------ |
-| 1  | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://a.co/d/g9dFG88) |
-| 2  | GODIYMODULES MCP23017 I2C expander board                      | 1   | [Link](https://a.co/d/iBEbs4b) |
-| 3  | 1N4148 diodes                                                 | 4   | [Link](https://a.co/d/jlNKdaJ) |
-| 4  | 0.1µF/100nF ceramic capacitors                                | 4   | [Link](https://a.co/d/cG1cxOQ) |
-| 5  | 3.5mm TRS female jacks w/ screw terminals                     | 4   | [Link](https://a.co/d/2umR9us) |
-| 6  | 3.5mm TRS male plugs w/ standard ends                         | 4   | [Link](https://a.co/d/414YG9z) |
-| 7  | 27mm piezo sensors                                            | 4   | [Link](https://a.co/d/hbacbaF) |
-| 8  | 128x64 mono OLED display (I2C)                                | 1   | [Link](https://a.co/d/bHAtiY2) |
-| 9  | 6mm x 6mm x 8mm tactile switches                              | 14  | [Link](https://a.co/d/aa5ppfs) |
-| 10 | 22 AWG Siamese wire                                           | 1   | [Link](https://a.co/d/0pGa2wH) |
-| 11 | USB-C to USB-A female coupler                                 | 1   | [Link](https://a.co/d/9WTmxTu) |
-| 12 | Short USB-C to USB-C extension cable                          | 1   | [Link](https://a.co/d/cVbKVmQ) |
-| 13 | 6 inch, coiled 3.5mm TRS audio extension cable (male to male) | 4   | [Link](https://a.co/d/cSKAJ7D) |
-| 14 | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://a.co/d/fOiYb5s) |
-| 15 | 4-pin, 0.2 inch pitch screw terminal blocks                   | 2   | [Link](https://a.co/d/1X20DtA) |
-| 16 | 22 AWG 4-wire ribbon connection wire                          | 1   | [Link](https://a.co/d/cXyTYy1) |
-| 17 | ElectroCookie circuit board (88.9mm x 96.5mm)                 | 1   | [Link](https://a.co/d/i5jfYjs) |
-| 18 | 10ft USB-A to USB-A cable                                     | 1   | [Link](https://a.co/d/cBqJJua) |
-| 19 | M2 x 3 x 3 threaded inserts                                   | 4   | [Link](https://a.co/d/8VZdEql) |
-| 20 | M2 x 4 bolts                                                  | 4   | [Link](https://a.co/d/4cPSWVY) |
-| 21 | 22 AWG wire ferrules and crimper                              | 8   | [Link](https://a.co/d/hu5OIl3) |
+| #    | Item                                                         | Qty  | Product Link                   |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------ |
+| 1    | XIAO RP2040 board (Seeed Studio)                             | 1    | [Link](https://a.co/d/g9dFG88) |
+| 2    | GODIYMODULES MCP23017 I2C expander Board                     | 1    | [Link](https://a.co/d/iBEbs4b) |
+| 3    | 1N4148 diodes                                                | 4    | [Link](https://a.co/d/jlNKdaJ) |
+| 4    | 0.1µF/100nF Ceramic Capacitors                               | 4    | [Link](https://a.co/d/cG1cxOQ) |
+| 5    | 3.5mm TRS FEMALE jacks w/ screw terminals                    | 4    | [Link](https://a.co/d/2umR9us) |
+| 6    | 3.5mm TRS male Plugs w/ standard ends                        | 4    | [Link](https://a.co/d/414YG9z) |
+| 7    | 27mm Piezo sensors                                           | 4    | [Link](https://a.co/d/hbacbaF) |
+| 8    | 128x64 Mono OLED display (I2C)                               | 1    | [Link](https://a.co/d/bHAtiY2) |
+| 9    | 6mmx6mmx8mm Tactile Switches                                 | 14   | [Link](https://a.co/d/aa5ppfs) |
+| 10   | 22 AWG Siamese wire                                          | 1    | [Link](https://a.co/d/0pGa2wH) |
+| 11   | USB-C to USB-A Female Coupler                                | 1    | [Link](https://a.co/d/9WTmxTu) |
+| 12   | Short USB-C to USB-C extension cable                         | 1    | [Link](https://a.co/d/cVbKVmQ) |
+| 13   | 6 inch, coiled 3.5mm TRS audio extension cable (Male to Male) | 4    | [Link](https://a.co/d/cSKAJ7D) |
+| 14   | 3.5mm TRS barrel coupler                                     | 4    | [Link](https://a.co/d/fOiYb5s) |
+| 15   | 4-Pin, 0.2 Inch Pitch Screw Terminal Blocks                  | 2    | [Link](https://a.co/d/1X20DtA) |
+| 16   | 22 AWG 4-Wire Ribbon Connection Wire                         | 1    | [Link](https://a.co/d/cXyTYy1) |
+| 17   | ElectroCookie Circuit Board(88.9mm x 96.5mm)                 | 1    | [Link](https://a.co/d/i5jfYjs) |
+| 18   | 10ft USB-A to USB-A Cable                                    | 1    | [Link](https://a.co/d/cBqJJua) |
+| 19   | M2x3x3 Threaded Inserts                                      | 4    | [Link](https://a.co/d/8VZdEql) |
+| 20   | M2x4 bolts                                                   | 4    | [Link](https://a.co/d/4cPSWVY) |
+| 21   | 22 AWG Wire Ferrules and Crimper                             | 8    | [Link](https://a.co/d/hu5OIl3) |
 
 </div>
 
@@ -221,25 +222,25 @@ This guide assumes you have access to the following:
 
 <div style="overflow-x: auto;">
 
-| #  | Item                                                                                                          | Qty | Product Link                                                                                                          |
-| -- | ------------------------------------------------------------------------------------------------------------- | --- | --------------------------------------------------------------------------------------------------------------------- |
-| 1  | 6mm cabinet-grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files               | 1   | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069)           |
-| 2  | 1/4" x 1-1/2" OD stainless steel fender washers                                                               | 42  | [Link](https://a.co/d/1a2dLTV)                                                                                        |
-| 3  | Strong wood glue                                                                                              | 1   | [Link](https://a.co/d/1uKv6cR)                                                                                        |
-| 4  | M3 x 8mm bolts                                                                                                | 8   | [Link](https://a.co/d/52Q8UtD)                                                                                        |
-| 5  | M3 x 5mm threaded inserts                                                                                     | 8   | [Link](https://a.co/d/bKB6OpW)                                                                                        |
-| 6  | M6 x 10mm wood threaded inserts                                                                               | 14  | [Link](https://a.co/d/jhY5rYA)                                                                                        |
-| 7  | M6 x 20mm nylon bolts                                                                                         | 14  | [Link](https://a.co/d/bPitQiX)                                                                                        |
-| 8  | M6 threaded 20mm x 15mm rubber isolators (one side M6 female, other side with M6 x 18mm bolt)                 | 14  | [Link](https://a.co/d/9dWHezk)                                                                                        |
-| 9  | 3D printer filament (PLA)                                                                                     | 1   | [Link](https://a.co/d/7cCSDtJ)                                                                                        |
-| 10 | Gel superglue                                                                                                 | 1   | [Link](https://a.co/d/dxU7lfw)                                                                                        |
-| 11 | Loctite thread adhesive - medium                                                                              | 1   | [Link](https://a.co/d/2W890aJ)                                                                                        |
-| 12 | 2.2mm thick scuba knit neoprene fabric (only 4" x 4" total needed)                                           | 1   | [Link](https://a.co/d/dfMhZ4k)                                                                                        |
-| 13 | Finger knobs with pass-through M6 threads                                                                     | 18  | [Link](https://a.co/d/hjL3QQP)                                                                                        |
-| 14 | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below)                   | 1   | [Link](https://a.co/d/2YkmhPj)                                                                                        |
-| 15 | Adjustable angle speaker bracket (or a compliant interface that matches your stand above)                     | 1   | [Link](https://a.co/d/gQioU8i)                                                                                        |
-| 16 | Rubber Taiko drum cover (optional but crucial for arcade feel. Any thin sound-dampening material works)       | 1   | [Link](https://taiko.ac/products/rubber-drum-pad)                                                                     |
-| 17 | Spring-loaded phone holder with gooseneck arm                                                                 | 1   | [Link](https://a.co/d/fRja2H6)                                                                                        |
+| #    | Item                                                         | Qty  | Product Link                                                 |
+| ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| 1    | 6mm Cabinet-Grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 2    | 1/4" x 1-1/2 OD" Stainless Steel Fender Washers              | 42   | [Link](https://a.co/d/1a2dLTV)                             |
+| 2    | Strong Wood Glue                                             | 1    | [Link](https://a.co/d/1uKv6cR)                               |
+| 3    | M3x8mm bolts                                                 | 8    | [Link](https://a.co/d/52Q8UtD)                               |
+| 4    | M3x5mm threaded inserts                                      | 8    | [Link](https://a.co/d/bKB6OpW)                               |
+| 5    | M6x10mm wood threaded inserts                                | 14   | [Link](https://a.co/d/jhY5rYA)                               |
+| 6    | M6x20mm nylon bolts                                          | 14   | [Link](https://a.co/d/bPitQiX)                               |
+| 7    | M6 threaded 20mmx15mm rubber isolators (one side M6 Female, other side with M6x18mm bolt) | 14   | [Link](https://a.co/d/9dWHezk)                               |
+| 8    | 3D printer filament (PLA)                                    | 1    | [Link](https://a.co/d/7cCSDtJ)                               |
+| 9    | Gel Superglue                                                | 1    | [Link](https://a.co/d/dxU7lfw)                               |
+| 10   | Loctite thread adhesive - Medium                             | 1    | [Link](https://a.co/d/2W890aJ)                               |
+| 11   | 2.2mm thick Scuba Knit Neoprene fabric (only 4"x4" total needed) | 1    | [Link](https://a.co/d/dfMhZ4k)                               |
+| 12   | Finger Knobs with pass-through M6 threads                    | 18   | [Link](https://a.co/d/hjL3QQP)                               |
+| 13   | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below) | 1    | [Link](https://a.co/d/2YkmhPj)                               |
+| 14   | Adjustable Angle Speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://a.co/d/gQioU8i)                               |
+| 15   | Rubber Taiko Drum Cover (optional but crucial for Arcade feel. Any thin sound-dampening material with bounce works: towel, mouse pad, etc.) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 16   | Spring-Loaded Phone Holder with Gooseneck Arm                | 1    | [Link](https://a.co/d/fRja2H6)                               |
 
 </div>
 
@@ -252,18 +253,17 @@ This guide assumes you have access to the following:
 <div align="center">
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
-
-**📸 Photo Documentation Note:**  
+📸 Photo Documentation Note
 Early assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. Don't worry about these mismatches - the installation process is identical. You'll see the correct terminals when you reach Step 8.
 
 ### **Circuit Overview**
 
 This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
 
-- **XIAO RP2040:** Brain of the system, handles drum sensors
-- **MCP23017:** Controls OLED display and navigation buttons
-- **OLED Display:** Status and menu display
-- **14 Navigation Buttons:** Gamepad controls
+- **XIAO RP2040**: Brain of the system, handles drum sensors
+- **MCP23017**: Controls OLED display and navigation buttons
+- **OLED Display**: Status and menu display
+- **14 Navigation Buttons**: Gamepad controls
 
 ### **Understanding Shared Rows**
 
@@ -302,7 +302,7 @@ Always verify which side you're working on before placing components.
 
 ### **Step 1: Mount OLED Display (FRONT face)**
 
-Mount the OLED display on the **top center** of the FRONT face.
+Mount OLED Display on the **top center** of the FRONT face.
 
 **OLED Placement:**
 
@@ -334,8 +334,8 @@ Mount the OLED display on the **top center** of the FRONT face.
 - Orient buttons with legs on the **left and right side** (NOT up and down)
 - For visual consistency: align all button tabs the same way (all tabs up OR all tabs down)
 
-**CRITICAL - Use Exact Positions:**  
-The table below specifies exact FRONT face hole positions. These align with the control box openings to ensure proper fit of the controller faceplate.
+**CRITICAL - Use Exact Positions:**
+The table below specifies exact FRONT face hole positions. These align with the control box openings to ensure proper fit of the controller face plate.
 
 <div align="center">
 <img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -364,7 +364,7 @@ The table below specifies exact FRONT face hole positions. These align with the 
 
 **Installation:**
 
-1. Insert each button into its specified position, bend legs behind board to hold in place
+1. Insert each button into its specified position, bend legs behind board to hold into place
 2. Solder both legs in place
 3. Verify button alignment matches reference photos
 
@@ -372,7 +372,7 @@ The table below specifies exact FRONT face hole positions. These align with the 
 <img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-**CRITICAL - Prevent 2 Existing Signal Shorts:**  
+**CRITICAL - Prevent 2 existing Signal Shorts:**
 Because of the shared rows, two button pairs share signal rows and will short without this fix:
 
 - **NORTH/SOUTH buttons**
@@ -390,7 +390,7 @@ Because of the shared rows, two button pairs share signal rows and will short wi
 
 1. Find the hole centered between the two signal legs
 2. Scrape away copper with 3mm drill bit or knife
-3. Test with multimeter: touch both signal legs - NO beep = success. If you hear a beep, remove more copper metal and try again
+3. Test with multi-meter: touch both signal legs - NO beep = success.  If you hear a beep, remove more copper metal and try again.
 4. Repeat for second button pair
 
 ---
@@ -436,13 +436,14 @@ Each of the 4 drum sensors requires identical protection circuitry.
 
 **For Each Sensor:**
 
-1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed above (do not solder yet)
+1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed below (do not solder yet)
 
 2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
    
    <div align="center">
    <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
+   
    
    <div align="center">
    <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -456,11 +457,12 @@ Each of the 4 drum sensors requires identical protection circuitry.
    <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
+   
    <div align="center">
    <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
-5. **Solder:** NOW, you can solder the combined diode + capacitor legs together. This saves space and keeps things looking clean.
+5. **Solder:** NOW, you can solder the combined diode + capacitor legs together. This saves space, and keeps things looking clean.
    
    <div align="center">
    <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -473,7 +475,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
 **Flip board as needed** - button legs are now accessible on BACK.
 
 - Connect one leg of each button (ground leg) to GND rail
-- **Recommended:** Daisy-chain grounds for cleaner routing - see reference photo for layout. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
+- **Recommended:** Daisy-chain grounds for cleaner routing - see reference photo for layout Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
 
 <div align="center">
 <img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -487,7 +489,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
 
 1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
 2. This row starts with **A2** (left) and ends with **VCC** (right)
-3. The double row of pins on top remains empty (for button signal connections later)
+3. The double row of pins on top remains empty (for button signal connections later on)
 
 <div align="center">
 <img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -511,14 +513,14 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 | ---------- | ---------------- | -------------- | -------------------- |
 | VCC        | Row A, hole 11   | Row A, hole 15 | Power to display     |
 | GND        | Row A, hole 12   | Row A, hole 14 | Ground to display    |
-| SCL        | Row A, hole 13   | Row A, hole 16 | I²C clock to display |
-| SDA        | Row A, hole 14   | Row A, hole 17 | I²C data to display  |
+| SCL        | Row A, hole 13   | Row A, hole 16 | I²C Clock to display |
+| SDA        | Row A, hole 14   | Row A, hole 17 | I²C Data to display  |
 
 <div align="center">
 <img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-(Photo shows SDA and SCL connection progress. You will also connect VCC and GND to the display in this step)
+(photo shows SDA and SCL connection progress.  You will also connect VCC and GND to the Display in this step)
 
 **Now mount MCP23017:**
 
@@ -531,19 +533,19 @@ Before mounting the MCP23017, pre-wire power and I²C connections underneath whe
 <img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-(In the above photo the VCC and GND were routed different than the guide, but work the same)
+(in the above photo the VCC and GND were routed different than the guide, but work the same)
 
 ---
 
 ### **Step 8: Connect Power & Ground**
 
-Connect/verify power and ground between XIAO, MCP23017, and display.
+Connect/verify power and ground between XIAO, MCP23017, and Display.
 
 **Connections:**
 
 1. **XIAO 3.3V** → **MCP23017 VCC** → **OLED VCC** (OLED already connected via Step 7)
 2. **XIAO GND** → **MCP23017 GND** → **OLED GND** (OLED already connected via Step 7)
-3. Verify all three components (XIAO, MCP, display) share common ground
+3. Verify all three components (XIAO, MCP, Display) share common ground
 
 ---
 
@@ -629,16 +631,16 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 
 ### **Step 11: Mount Terminal Blocks (BACK face)**
 
-Place two 4-pin screw terminal blocks on BACK face.
+Place two 4-pin screw terminal blocks on BACK face 
 
 **Terminal Block 1 (GND):**
 
 - **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
-- **Orientation:** Wire openings facing UP toward top of board
-- Bridge all 4 pins together with solder or wire
+- **Orientation:** Wire openings facing UP toward top of board.
+- Bridge all 4 pins together with solder or wire.
 - Connect this common GND cluster to nearest GND rail
 
-**Terminal Block 2 (For Drum Signals):**
+**Terminal Block 2 ( For Drum Signals):**
 
 - **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
 - **Orientation:** Wire openings facing DOWN toward bottom of board
@@ -651,8 +653,8 @@ Place two 4-pin screw terminal blocks on BACK face.
 **Label the signal block ports:**
 
 - Pad 1/Left Ka (Row F, hole 24)
-- Pad 2/Left Don (Row F, hole 26)
-- Pad 3/Right Don (Row F, hole 28)
+- Pad 2/Left Don (Row F, hole 26) 
+- Pad 3/Right Don (Row F, hole 28) 
 - Pad 4/Right Ka (Row F, hole 30)
 
 These will be connected in the next step.
@@ -680,7 +682,7 @@ Connect terminal block signal pins to XIAO analog pins.
 | Right Don | Any hole in Row B, hole 28 shared row | A2          |
 | Right Ka  | Any hole in Row A, hole 30 shared row | A3          |
 
-These screw terminals will connect to the drum sensor TRS jacks in a later step.
+These screw terminals will connect to the drum sensor TRS jacks in a step later in this guide
 
 ---
 
@@ -688,11 +690,11 @@ These screw terminals will connect to the drum sensor TRS jacks in a later step.
 
 You now have a single-board circuit with:
 
-✅ OLED Display  
-✅ 14 Navigation Buttons  
-✅ XIAO RP2040 (drum sensor controller)  
-✅ MCP23017 (button/display controller)  
-✅ Screw terminals for drum sensors
+- ✅ OLED Display
+- ✅ 14 Navigation Buttons
+- ✅ XIAO RP2040 (drum sensor controller)
+- ✅ MCP23017 (button/display controller)
+- ✅ Screw terminals for drum sensors
 
 Continue to Section 5 to build the drum.
 
@@ -702,11 +704,11 @@ Continue to Section 5 to build the drum.
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
-**Important Scale Notice:** The SVG files provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components. If you try to make the drum smaller, other parts will not fit later in the project.
+**Important Scale Notice:** The SVG files provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components. If you try and make the drum smaller, other parts will not fit later on during the project.
 
-💡 **Scale Verification:** Before cutting, verify the SVG files are at correct scale by checking that all 14 mounting holes in the drum baseplate measure exactly **6mm** in diameter.
+💡 **Scale Verification:** Before cutting, verify the SVG files are at correct scale by checking that all 14 mounting holes in the drum base measure exactly **6mm** in diameter.
 
-**No laser cutter or CNC access?** No worries - there are other options. Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand. Double check that your printed templates are sized properly before cutting or drilling anything.
+**No Laser cutter or CNC access?** No worries - there are other options. Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets (ensure your printer is set to 100% scale / "Actual Size"), overlay the paper on your wood as a template, and cut and drill by hand. Double check that your printed templates are sized properly before cutting or drilling anything.
 
 ---
 
@@ -716,11 +718,11 @@ Continue to Section 5 to build the drum.
 
 💾 [SVG Template packet located here](#9-files--downloads)
 
-Use your laser or CNC machine to cut out all of the parts in template files.
+Use your Laser or CNC machine to cut out all of the parts in template files.
 
-- You'll be printing one set of upper faceplates
-- You'll be printing one set of lower faceplates
-- You'll be printing 2x identical baseplates
+-You'll be printing one set of upper faceplates
+-You'll be printing one set of lower faceplates)
+-You'll be printing 2x identical baseplates.
 
 <div align="center">
 <img src="images/Pictures/frontcuts.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -736,15 +738,16 @@ Use your laser or CNC machine to cut out all of the parts in template files.
 
 Sand down any rough edges and surfaces from the cutting step, and wipe off sawdust to prepare for gluing.
 
+
 ---
 
 ### **5.2: Assemble the Drum Structure**
 
-#### **D1. Glue the rear baseplates together**
+#### **D1. Glue the rear base plates together**
 
-Use **wood glue** to glue the two identical rear baseplates together (they are 100% identical, just align the holes and glue together). Clamp securely or weigh down and let dry for several hours. You can also temporarily insert some 6mm bolts into the holes to ensure the two plates remain exactly aligned. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - if so, re-align and clamp harder.
+Use **Wood Glue** to glue the two identical rear base plates together (they are 100% identical, just align the holes and glue together). Clamp securely or weigh down and let dry for several hours.  You can also temporarily insert some 6mm bolts into the holes to ensure the the two plates remain exactly aligned.  Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - If so, re-align and clamp harder.
 
-Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for 24 hours before continuing past the gluing steps.
+Leave the clamps and weight on for at least 6 hours.  Let the glue fully cure for 24 hours before continuing past the gluing steps.
 
 <div align="center">
 <img src="images/Pictures/woodgluealloverback.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -758,11 +761,12 @@ Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for
 <img src="images/Pictures/weightclamps.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+
 ---
 
-#### **D2. Assemble and glue the drum faceplates together**
+#### **D2. Assemble and glue the drum face plate panels together**
 
-There will be 4 finished drum faceplates that you will be assembling during this step: Left Ka, Left Don, Right Don, and Right Ka. Each faceplate has a smooth top plate along with a corresponding bottom plate with holes in it.
+There will be 4 finished drum faceplates that you will be assembling in during this step. Left Ka, Left Don, Right Don, and Right Ka. Each faceplate has a smooth top plate along with a corresponding bottom plate with holes in it.
 
 <div align="center">
 <img src="images/Pictures/woodglue.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -770,17 +774,22 @@ There will be 4 finished drum faceplates that you will be assembling during this
 
 **For Ka Plates:**
 
-Let's start with the Ka plates - specifically, the Left Ka. You will be using the Left Ka TOP and the Left Ka BOTTOM plate.
+Let's start with the Ka plates - specifically, the Left Ka. You will be using the Left Ka TOP and the Left Ka BOTTOM Plate.
 
-Apply wood glue to the underside of the top Ka plate and apply wood glue to the topside of the lower Ka plate. Press the two pieces together and clamp or weigh them down. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - if so, re-align and clamp harder. Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for 24 hours before continuing past the gluing steps.
+Apply wood glue to the underside of the top Ka plate and apply wood glue to the topside of the lower Ka plate. Press the two pieces together and clamp or weigh them down. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - If so, re-align and clamp harder.  Leave the clamps and weight on for at least 6 hours.  Let the glue fully cure for 24 hours before continuing past the gluing steps.
 
 **Repeat this exact same process for the Right Ka.**
 
+
+
 **For Don Plates:**
 
-Apply wood glue to the underside of the top Don plate and apply wood glue to the topside of the lower Don plate. Press the two pieces together and clamp or weigh them down. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - if so, re-align and clamp harder. Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for 24 hours before continuing past the gluing steps.
+Apply wood glue to the underside of the top Don plate and apply wood glue to the topside of the lower Don plate. Press the two pieces together and clamp or weigh them down. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - If so, re-align and clamp harder.  Leave the clamps and weight on for at least 6 hours.  Let the glue fully cure for 24 hours before continuing past the gluing steps.
 
 **Repeat this exact same process for the Right Don.**
+
+
+
 
 ---
 
@@ -822,7 +831,7 @@ This procedure helps prevent stick damage and wear and tear on your drum and cov
 </div>
 
 
-You may now spray several coats of Clear Lacquer Spray Paint to the front back and sides all wood pieces.  This will help protect and seal the wood and reduce wear and tear.  Spray a single coat, let sit for 45 minutes.  Spray two more coats in a similar manner.  Let dry completely for 4 hours after the final coat before continuing.
+You may now spray several coats of Clear Lacquer Spray Paint to the front back and sides all all wood pieces.  This will help protect and seal the wood and reduce wear and tear.  Spray a single coat, let sit for 45 minutes.  Spay two more coats in a similar manner.  Let dry completely for 4 hours after the final coat before continuing.
 
 
 
@@ -839,7 +848,7 @@ Using a Drill press, insert a **9mm** diameter drill bit (or the specialized dri
 <img src="images/Pictures/drillpre.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-If you don't have a drill press, and only have a standard drill, that's still ok.  In that case, measure the exact thickness of your Don and Ka Plates (should be 12mm-13mm) and subtract 2mm from that measurement and mark that new, lower number on your 9mm drill bit with a piece of tape. 
+If you don't have a drill press, and only have a standard drill, that's still ok.  In that case, measure the exact thickness of your Don and Ka Plates (should be 12m-13mm) and subtract 2mm from that measurement and mark that new, lower number on your 9mm drill bit with a piece of tape. 
 
 For example, if your Plates are exactly 12mm thick, take a piece of tape and put it on your drill bit so that the bottom edge of the tape is at exactly 10mm from the tip of the drill bit.  You'll simply drill down until the bottom of the tape is at the surface of your plate.  It is suggested to practice holes on a scrap piece of wood to make sure you have the hang of it, and that everything is working as planned.
 
@@ -851,7 +860,7 @@ For example, if your Plates are exactly 12mm thick, take a piece of tape and put
 <img src="images/Pictures/11mmdrill.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Now that your drill depth is set, locate the 14 pre-cut **9.5mm** holes where the rubber grommets will go located on the underside of the top plates, you will be using those holes as a drill guide.
+Now that your drill depth is set, locate the 14 pre-cut **9.5mm** holes where the rubber grommets will go located on the underside of of the top plates, you will be using those holes as a drill guide.
 
 Carefully Drill **straight** down into those 9.5mm holes and turn them into new **9.5mm wide x 11mm deep** holes (or whatever your calculated depth was). **Repeat this for all 14 similar holes.**
 
@@ -934,15 +943,15 @@ This is how it will look when all M6 and M3 threaded inserts are installed:
 
 The Official Taiko no Tatsujin Arcade Drum Controllers use large, machine-cut steel metal plates mounted to the rear of the wooden faceplates.  These metal plates add rigidity which, in turn, help absorb vibration, improve stick feedback, as well as help dampen the sound.  My original design for this project included plans to machine your own metal plate, but that required heavy machinery that was extremely impractical to ask users to acquire for just this one portion of the build. Not to mention, Steel plates can get quite expensive.
 
-I still wanted the user to be able to recreate the Arcade feeling of having the Steel Plates, so I had to design a new method - a method that would replicate ALL of the benefits and feeling of the Steel Arcade Plates, without actual Steel Plates.  After a few days of brainstorming, was able to create a solution that replaces the Steel Plates while retaining 100% of their benefit. 
+I still wanted the user to be able to recreate the Arcade feeling of having the Steel Plates, so I had to design a new method - a method that would replicate ALL of the benefits and feeling of the Steel Arcade Plates, without actual Steel Plates.  After a few days of brain storming, was able to create a solution that replaces the Steel Plates while retaining 100% of their benefit. 
 
-The 1/4" x 1-1/2 OD" Stainless Steel Fender Washers mounts you will be constructing in this next step is my perfect solution.  You will still get the true arcade benefits of rigidity, vibration absorption, improved stick feedback, and sound dampening without ANY of trouble of using actual steel plates...and for only a few dollars!
+The 1/4" x 1-1/2 OD" Stainless Steel Fender Washers mounts you will be constructing in this next step is my perfect solution.  You will still get the the rue Arcade benefits of rigidity, vibration absorption, improved stick feedback, and sound dampening without ANY of trouble of using actual steel plates...and for only a few dollars!
 
 
 
 **Prepare the Stainless Steel Washer Stacks:**
 
-​	(Note, the washers may one side that is slightly sloped, if so, make that the top face and orient them all the same)
+​	(Note, the washers may one one side that is slightly sloped, if so, make that the top face and orient them all the same)
 
 1. Use rubbing alcohol to clean the front and back surfaces of all 42 1/4" x 1-1/2 OD" Stainless Steel Fender Washers .
 
@@ -1186,7 +1195,7 @@ Repeat this for each Don and Ka faceplate.
 
 #### **H1. Mount Adjustable Speaker Plate**
 
-1. Place your **speaker bracket** against the rear/bottom of your baseplate so aligns with the 4 pre-cut mounting holes.
+1. Place your **speaker bracket** against the rear/bottom of your base plate so aligns with the 4 pre-cut mounting holes.
 
 2. Feed **4x M6x16 bolts** though a single 1/4" x 1-1/2 OD" Stainless Steel Fender Washers and then through these mounting holes on the baseplate so that they protrude from the rear to and go through the speaker mounting plate holes.  Use 4 of the M6 knobs to tightly secure the mounting plate against the rear of the Drum
 
@@ -1207,7 +1216,7 @@ Repeat this for each Don and Ka faceplate.
 
 (Here is a timelapse video demonstrating how to mount the faceplates to the baseplate)
 
-Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through baseplate holes of the rear baseplate. Be sure to route the sensor wires through the nearest, round cut-out in the baseplate.
+Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through base plate holes of the rear baseplate. Be sure to route the sensor wires through the nearest, round cut-out in the baseplate.
 
 <div align="center">
 <img src="images/Pictures/kainstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1245,7 +1254,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 #### **H8. Attach the 6mm Knobs**
 
-Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all 4 faceplates are securely fastened to the baseplate.
+Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all 4 face plates are securely fastened to the baseplate.
 
 <div align="center">
 <img src="images/Pictures/backalmostdone.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1253,9 +1262,9 @@ Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all
 
 
 
-#### **H9. Connect control box Extension cables**
+#### **H9. Connect Control Box Extension cables**
 
-Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barrel Connectors.  These extension cables will eventually plug into the female TRS jacks on your control box. The wires should connect cleanly from left to right.
+Connect the ends of the the coiled 3.5mm extension cables to the bottom of the Barrel Connectors.  These extension cables will eventually plug into the female TRS jacks on your control box. The wires should connect cleanly from left to right.
 
 <div align="center">
 <img src="images/Pictures/baseplatecomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1266,7 +1275,7 @@ Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barre
 
 ---
 
-## **6: control box**
+## **6: Control Box**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
 
@@ -1276,7 +1285,7 @@ If you built the board to the exact specifications in my guide, you'll be able t
 
 ---
 
-### **6.1: 3D Print and Assemble The control box**
+### **6.1: 3D Print and Assemble The Control Box**
 
 #### **I1. Print the Enclosure**
 
@@ -1356,7 +1365,7 @@ For a cleaner look, once the hinges are complete, push a few millimeters of the 
 
 ---
 
-### **6.2: Connect Circuit Wiring To control box**
+### **6.2: Connect Circuit Wiring To Control Box**
 
 #### **J1. Create the Wires**
 
@@ -1380,7 +1389,7 @@ Connect the 4 wires on one end of one of the sets of ribbon wire to the green, G
 <img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Connect the opposite end of that strip of wire to the GND terminal in each of the 4 TRS jacks in your control box.  There is no specific order for the GND wires hear.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
+Connect the opposite end of that strip of wire to the GND terminal in each of the 4 TRS jacks in your control box.  There is no specific order for the the GND wires hear.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
 
 #### **J2. Connect The Signal Wires**
 
@@ -1415,7 +1424,7 @@ Terminal pin 4 connects to the TIP terminal of TRS Jack 4.
 
 
 
-#### **J2. Connect The XIAO Board To The control box USB Coupler**
+#### **J2. Connect The XIAO Board To The Control Box USB Coupler**
 
 Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the control box.
 
@@ -1441,7 +1450,7 @@ This is how the final, wired product should look:
 
 
 
-### **6.3: Floor Stand And control box Mount**
+### **6.3: Floor Stand And Control Box Mount**
 
 #### **K1. Mount Drum to speaker stand**
 
@@ -1450,13 +1459,13 @@ Mount the angled speaker bracket to the speaker stand.
 <div align="center">
 <img src="images/Pictures/wirerouteold.png" width="350px" style="display: block; margin: 0 auto;">
 </div>
-#### **K1. Mount control box and Connect Signal Wires**
+#### **K1. Mount Control Box and Connect Signal Wires**
 
 <div align="center">
 <img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the control box.
+Attach the phone holder arm to the central post of the Speaker Stand.  Attach the control box to the Spring-Loaded phone bracket.  Adjust to an appropriate position, and connect the Drum Sensor TRS male ends that are hanging down on the drum to the matching TRS Female Jack on the Control Box.
 
 
 
@@ -1779,8 +1788,8 @@ Complete bundle of all manufacturing files
 - [Bachi Stick Holder (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Bachi-Stick-Holder.stl)
 - [Sensor Housing (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Housing.stl) - Print 4x
 - [TRS Barrel Mount (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-TRS-Barrel-Connector-Mount.stl)
-- [control box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Base.stl)
-- [control box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Lid.stl)
+- [Control Box Base (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Base.stl)
+- [Control Box Lid (STL)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-Control-Box-Lid.stl)
 - [All Laser SVG Files](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-All-Laser-SVG-Files.svg)
 - [LightBurn Project File (.lbrn2)](https://ouchitaikoproject.github.io/OuchiTaikoProject/DownloadFiles/OuchiTaiko-Project-SVG-LightBurn-Project-File.lbrn2)
 
@@ -1965,8 +1974,6 @@ www.ouchitaiko.com
 ## **13: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">↑ Back to Top</a></sub></div>
-
-0
 
 ### Copyright & License Transparency
 
@@ -2268,3 +2275,4 @@ www.ouchitaiko.com
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+
