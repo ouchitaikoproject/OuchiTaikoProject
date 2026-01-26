@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OuchiTaiko Project</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Hero Poster Banner */
+        .hero-banner {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            background-color: #1a1a1a;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/Pictures/finishedfront.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 40px 20px;
+        }
+        
+        .hero-title {
+            font-size: 5.5em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+            line-height: 1.1;
+        }
+        
+        .hero-tagline {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .hero-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .hero-button:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+        
+        /* Content Section */
+        .content-section {
+            background: #0a0a0a;
+            padding: 200px 20px 60px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .link-box {
+            background: #1a1a1a;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .link-box:hover {
+            background: #2a2a2a;
+            border-color: #2980b9;
+            transform: translateY(-5px);
+        }
+        
+        .link-box h3 {
+            color: #3498db;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        
+        .link-box p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .link-box a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .link-box a:hover {
+            background: #2980b9;
+        }
+        
+        /* About Section */
+        .about-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .about-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+        
+        .about-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Footer */
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid #3498db;
+        }
+        
+        footer p {
+            color: #ccc;
+            margin: 5px 0;
+        }
+        
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .hero-tagline {
+                font-size: 1.1em;
+            }
+            
+            .hero-subtitle {
+                font-size: 1em;
+            }
+            
+            .hero-button {
+                font-size: 1.1em;
+                padding: 15px 40px;
+            }
+            
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <p style="font-size: 1.2em; font-weight: 300; letter-spacing: 3px; margin-bottom: 10px; color: #ccc;">KillerQ's</p>
+                <h1 class="hero-title" style="margin: 0;">OUCHITAIKO</h1>
+                <p style="font-size: 1.2em; font-weight: 300; letter-spacing: 3px; margin-top: 10px; margin-bottom: 15px; color: #ccc;">Project</p>
+                <p class="hero-tagline">Smarter. Simpler. Better.</p>
+                <img src="images/Pictures/dualdrumindex.jpg" alt="OuchiTaiko" style="max-width: 400px; width: 100%; margin-top: 30px;">
+            </div>
+            
+            <div class="about-section">
+                <p><em>In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents bringing the authentic Taiko experience from the Arcade into your own space.</em></p>
+                
+                <br>
+                
+                <h2>About the Project</h2>
+                                
+                <p>The OuchiTaiko Project is an open-source build guide for a professional arcade-grade Taiko drum controller. This guide represents 8 months of research and development, achieving arcade-level performance through intelligent Adaptive Baseline Software Intelligence (ABSI) and <strong>revolutionary auto-calibration</strong>.</p>
+                
+                <br>
+                
+                <p><strong>Key Features:</strong></p>
+                <div style="max-width: 600px; margin: 20px auto; text-align: center; line-height: 2;">
+                    <p style="margin-bottom: 10px;">• Automatic Sensitivity Calibration • Built-In Controller</p>
+                    <p style="margin-bottom: 10px;">• OLED Display • 14 Input Modes</p>
+                    <p style="margin-bottom: 10px;">• Zero Coding Required</p>
+                </div>
+                
+                <br>
+                
+                <div style="margin-top: 40px;">
+                    <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" class="hero-button">Enter Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>OuchiTaiko Project</strong> by KillerQ</p>
+        <p><strong>Open Source • DIY • Arcade Quality</strong></p>
+        <p><a href="https://www.ouchitaiko.com">www.ouchitaiko.com</a> | <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject">GitHub</a></p>
+        <p>Community Driven • Built with Passion</p>
+    </footer>
+</body>
+</html>
