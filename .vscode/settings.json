@@ -40,5 +40,9 @@
     "cSpell.words": [
         "Ouchi",
         "Taiko"
+    ],
+    "cSpell.enabled": true,
+    "cSpell.enableFiletypes": [
+        "markdown"
     ]
 }

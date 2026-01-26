@@ -882,7 +882,7 @@ You may now spray several coats of Clear Lacquer Spray Paint to the front back a
 
 The following step allows the drum to be built with no visible mounting holes on the drum face. This improves aesthetics and reduces wear on sticks and the drum cover. You will drill holes into the underside of the top faceplates so the threaded inserts for the grommets can be installed from beneath and remain invisible.
 
-
+The hols you will be workin with are on the underside of the bottom Drum Face Plates.
 
 Using a Drill press, insert a **9mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), and set it up so that when you drill press is fully lowered, the bottom of the drill bit is exactly 2mm above your drill press plate/table.  This way, you can ensure that every time you lower the drill press, you're getting the exact depth needed each time.
 
@@ -915,6 +915,10 @@ Carefully Drill **straight** down into those 9.5mm holes and turn them into new 
 ### **Chamfer/Bevel holes**
 
 Using a Deburring tool, Chamfer/Bevel the (inner) rim of each of the 14 holes you just drilled hole so that the tapered head of the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This chamfering can be done with a sharp screwdriver or a sharp knife if you don't have a deburring tool. 
+
+Additionally, if you have a drill press, or you can actually just strist the drill bit using your hand, you can use an 11mm drill bit and drill straignt down intop the top of your new 9.5mm holes for the depth of ONLY anout 1-2mm.  this will create a chamfered rim just the same as the above steps.
+
+Make sure you repeat this exact same process for all 14 holes.
 
 <div align="center">
 <img src="images/Pictures/deburred2.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1401,7 +1405,7 @@ The hinges on the box were cleverly designed to be fastened using a piece of sta
 <img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Cut off a small section of filament that is  long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections.  Cut each end flush.  Repeat this for the other hinge as well.  
+Cut off a small section of filament that is  long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections of the hinge you're working on.  It will be snug, but that is by design Cut each end flush.  Repeat this for the other hinge as well.  
 
 ---
 
@@ -1874,7 +1878,7 @@ Without these two projects, none of this would have been possible.
 
 Credit to **'Gadgetoid'** on GitHub for his [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke) file that helps clean things up between flashes.
 
-Credit to Dork Design (https://www.printables.com/@DorkDesign) as well for creating the ultimate customizeable box resource. I tried so many different methods and systems for creating my custom controller, and the Dork Design system worked the very first time I tried it. Accept no immitation! Check their page out, they have other awesome creations as well.
+Credit to Dork Design (https://www.printables.com/@DorkDesign) as well for creating the ultimate customizable box resource. I tried so many different methods and systems for creating my custom controller, and the Dork Design system worked the very first time I tried it. Accept no immitation! Check their page out, they have other awesome creations as well.
 
 Credit to Discord User **'Allspice'** who wanted to help, but was concerned about not having any electronics or soldering skills, yet managed to build a complete circuit and drum controller from scratch using my guide. He helped shape early version of the How-To Guide that inspired me to make it as extensive as it is today.
 
@@ -1883,7 +1887,7 @@ Credit to Discord User **'Moshir'** who helped with the final once-over of this 
 I also want to take a moment to mention a few, more general resources that were invaluable for me during this entire process. These are great if you ever want to go down the rabbit hole of the world of Taiko no Tatsujin modding or Custom Controller creation.  With these assets at your disposal, you have the power to create anything imaginable:
 
 - [Taiko no Tatsujin Modding! Discord Channel](https://discord.com/invite/HFm37aA5zr)
-- [Cons&Stuff :) Discord Channel](https://discord.com/invite/P4CpVHrR?utm_source=Discord%20Widget&utm_medium=Connect)
+- [Cons&Stuff :) Discord Channel](https://discord.gg/qEpzyvf8DY)
 - [OpenStick Community - GP2040-ce Project Discord Channel](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
 ## **Closing Thoughts**
