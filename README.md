@@ -1507,7 +1507,7 @@ Attach the phone holder arm to the central post of the Speaker Stand.  Attach th
 
 ### **Add drum cover**
 
-Add your Drum cover, it will fit perfectly. Since my dimensions for the drum in this project are exactly the same as the Arcade Drum dimensions, I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
+Add your Drum cover, it will fit perfectly. Since my dimensions for the drum in this project are exactly the same as the Arcade Drum dimensions (427mm in diameter), I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
 If that isn't an option for you, you can try using a towel, blanket, large mouse pad, thin foam, whatever you want that gives you sound-reducing qualities as well as the amount of bounce that you're looking for.
 
