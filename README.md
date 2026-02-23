@@ -182,16 +182,16 @@ The Amazon links reference parts that are 100% compatible when used together. Yo
 | 6  | 3.5mm TRS male plugs w/ standard ends                         | 4   | [Link](https://www.amazon.com/dp/B07Y8JGFS1) |
 | 7  | 27mm piezo sensors                                            | 4   | [Link](https://www.amazon.com/dp/B07RK2TQ8D) |
 | 8  | 128x64 mono OLED display (I2C)                                | 1   | [Link](https://www.amazon.com/dp/B09T6SJBV5) |
-| 9  | 6mm x 6mm x 8mm tactile switches                              | 14  | [Link](https://www.amazon.com/dp/B0827LX3FV) |
+| 9  | 6mm x 6mm x 8mm tactile switches with button caps                              | 14  | [Link](https://www.amazon.com/dp/B0827LX3FV) |
 | 10 | 22 AWG Siamese wire                                           | 1   | [Link](https://www.amazon.com/dp/B0CN76L8G3) |
 | 11 | USB-C to USB-A female coupler                                 | 1   | [Link](https://www.amazon.com/dp/B0CY314DCJ) |
-| 12 | Short USB-C to USB-C extension cable                          | 1   | [Link](https://www.amazon.com/dp/B0DFHG5LNY) |
+| 12 | Short USB-C to USB-A extension cable                          | 1   | [Link](https://www.amazon.com/dp/B0DPF8TFC9) |
 | 13 | 6 inch, coiled 3.5mm TRS audio extension cable (male to male) | 4   | [Link](https://www.amazon.com/dp/B0D7CXJ5LQ) |
-| 14 | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://www.amazon.com/dp/B072J3LGSQ) |
+| 14 | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://www.amazon.com/dp/B0BVDQ5G9X) |
 | 15 | 4-pin, 0.2 inch pitch screw terminal blocks                   | 2   | [Link](https://www.amazon.com/dp/B098QMNHPJ) |
 | 16 | 22 AWG 4-wire ribbon connection wire                          | 1   | [Link](https://www.amazon.com/dp/B09X47XBFS) |
 | 17 | ElectroCookie circuit board (88.9mm x 96.5mm)                 | 1   | [Link](https://www.amazon.com/dp/B07YSCGBL7) |
-| 18 | 10ft USB-A to USB-A cable                                     | 1   | [Link](https://www.amazon.com/dp/B08FTDWPTX) |
+| 18 | 6ft USB-A to USB-C cable                                     | 1   | [Link](https://www.amazon.com/dp/B0CKXZML11) |
 | 19 | M2 x 3 x 3 threaded inserts                                   | 4   | [Link](https://www.amazon.com/dp/B0FD7DQS8Y) |
 | 20 | M2 x 4 bolts                                                  | 4   | [Link](https://www.amazon.com/dp/B0D3X4LJD2) |
 | 21 | 22 AWG wire ferrules and crimper                              | 8   | [Link](https://www.amazon.com/dp/B0DRJ9CDNG) |
@@ -226,7 +226,7 @@ This guide assumes you have access to the following:
 
 | #    | Item                                                         | Qty  | Product Link                                                 |
 | ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
-| 1    | 6mm cabinet-grade MDF (1/4 inch thick works too). Amount needed dictated by sizes in SVG files | 1    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
+| 1    | 1/4" (or 6mm) 2ft x 4ft plank of cabinet-grade MDF .            | 2    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
 | 2    | 1/4" x 1-1/2" OD stainless steel fender washers              | 46   | [Link](https://www.amazon.com/dp/B0D8ZRL1CP)                               |
 | 3    | Strong wood glue                                             | 1    | [Link](https://www.amazon.com/dp/B0002YQ378)                               |
 | 4    | M3 x 8mm bolts                                               | 8    | [Link](https://www.amazon.com/dp/B07CMQ1SQH)                               |
@@ -239,13 +239,13 @@ This guide assumes you have access to the following:
 | 11   | Loctite thread adhesive - medium                             | 1    | [Link](https://www.amazon.com/dp/B000FIXQXK)                               |
 | 12   | 2.2mm thick scuba knit neoprene fabric (only 4" x 4" total needed) | 1    | [Link](https://www.amazon.com/dp/B0DK1B5LZ7)                               |
 | 13   | Finger knobs with pass-through M6 threads                    | 18   | [Link](https://www.amazon.com/dp/B07RW9ZH4H)                               |
-| 14   | Mini PA speaker stand (or a stand with a compliant interface that matches your mount below) | 1    | [Link](https://www.amazon.com/dp/B094N9YG72)                               |
-| 15   | Adjustable angle speaker bracket (or a compliant interface that matches your stand above) | 1    | [Link](https://www.amazon.com/dp/B0DR8NCZP6)                               |
-| 16   | Rubber Taiko drum cover (optional but crucial for arcade feel. Any thin sound-dampening material may suffice) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
-| 17   | Spring-loaded phone holder with gooseneck arm                | 1    | [Link](https://www.amazon.com/dp/B0F32MLBZX)
-| 18   | 1/4" Roundover Router Bit                | 1    | [Link](https://www.amazon.com/dp/B01I1YQRTE)                                 |
+| 14   | Mini PA speaker stand (optional, or similar that connects to the drum mount below) | 1    | [Link](https://www.amazon.com/dp/B094N9YG72)                               |
+| 15   | Adjustable angle speaker bracket (optional, or similar that connects to the drum stand above) | 1    | [Link](https://www.amazon.com/dp/B0DR8NCZP6)                               |
+| 16   | Rubber Taiko drum cover (optional, but crucial for arcade feel. Any thin sound-dampening material may suffice) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 17   | Spring-loaded phone holder with gooseneck arm (optional, or similar)                | 1    | [Link](https://www.amazon.com/dp/B0F32MLBZX)
+| 18   | 1/4" Roundover Router Bit                | 1    | [Link](https://www.amazon.com/dp/B0C5DVBNLS)                                 |
 | 19   | Clear Spray Glaze/Lacquer                | 1    | [Link](https://www.amazon.com/dp/B00D0293SA)
-| 20   | Deburring Tool                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
+| 20   | Deburring Tool (optional, can use large drill bit instead)                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
 </div>
 
 ---
