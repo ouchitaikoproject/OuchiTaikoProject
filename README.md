@@ -1503,6 +1503,7 @@ Mount the angled speaker bracket to the speaker stand.
 <img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+<br> 
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the Control Box to the Spring-Loaded phone bracket, and adjust to your preferred position.  Connect the Drum Sensor TRS male ends that are hanging down on the drum to the corresponding TRS Female Jack on the Control Box.
 
 
@@ -1510,7 +1511,7 @@ Attach the phone holder arm to the central post of the Speaker Stand.  Attach th
 
 ### **Cut Monitor Stand Tubing**
 
-The monitor stand will be too tall initially.  Start by cutting the tube down to 200mm tall.  Place your drum with bracket onto the 200mm tall tube and see how you like the height.  If you want, cut down some more.  Repeat until it's the proer height for you and your table/desk.  The stand in the photo is cut down to 150mm as that brings the bottom of the drum right above the control box and that works best for me.
+The monitor stand will be too tall initially.  Start by cutting the tube down to 200mm tall.  Place your drum with bracket onto the tube and see if you like the height.  If you want, cut the tube shorter.  Repeat until it's the proer height for you and your table/desk.  The stand shown in the photo is shortened to 150mm. This brings the bottom of the drum right above the control box and that works best for me.
 
 <div align="center">
 <img src="images/Pictures/tableshortmeasure.jpg" width="350px" style="display: block; margin: 0 auto;">
