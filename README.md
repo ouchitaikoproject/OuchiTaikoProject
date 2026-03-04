@@ -377,6 +377,7 @@ Here are the exact hole locations for you to place your buttons in:
 <div align="center">
 <img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+<br>
 
 **CRITICAL NOTE - Prevent Signal Shorts:**  
 Because of the shared row nature of the board, 2 buttons  will initially share signal rows with two other buttons—this would short without the following quick fix:
@@ -399,7 +400,7 @@ You will need to make a "break" in the shared row between these buttons so that 
 **Quick Fix (30 seconds per pair):**
 
 1. Find the hole centered between the two signal legs of the two buttons
-2. Remove/Scrape away copper with 3mm drill bit or knife
+2. Remove/Scrape away copper with 3mm drill bit or knife. It doesn't tke much force to remove.
 3. Test with multimeter: touch both signal legs - NO beep = success. If you hear a beep, remove more copper metal and try again
 4. Repeat for second button pair
 
@@ -1486,7 +1487,7 @@ This is how the final, wired product should look:
 
 
 
-## **6.3: Floor Stand And Control Box Mount**
+## **6.3: Floor Stand Mode (And Control Box Mount)**
 
 ### **Mount Drum to speaker stand**
 
@@ -1505,12 +1506,28 @@ Mount the angled speaker bracket to the speaker stand.
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the Control Box to the Spring-Loaded phone bracket, and adjust to your preferred position.  Connect the Drum Sensor TRS male ends that are hanging down on the drum to the corresponding TRS Female Jack on the Control Box.
 
 
+## **6.34: Table-Top  Mode**
+
+### **Cut Monitor Stand Tubing**
+
+The monitor stand will be much to tall initially.  You'll need to cut the vertical tube down so that it is aproximately 150mm in lenth (don't cut yet - read the next sentance first).  Cutting to 150mm tall will bring the bottom of the drum jsut above the control box, which some may prefer.  However, I suggest cutting the tube to a length of 200mm at first, and then cutting more off if you want to go lower.  This is personal preference, but you dont want to xcut off too much initially - for obvious reasons.
+
+<div align="center">
+<img src="images/Pictures/tableshortmeasure.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+### **Place Control Box on Table and Connect Signal Wires**
+
+<div align="center">
+<img src="images/Pictures/tableshortback.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 
 ### **Add drum cover**
 
-Add your Drum cover, it will fit perfectly. Since my dimensions for the drum in this project are exactly the same as the Arcade Drum dimensions (427mm in diameter), I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
+If you haven't alreqady, add your Drum cover, it will fit perfectly. Since my dimensions for the drum in this project are exactly the same as the Arcade Drum dimensions (427mm in diameter), I recommend locating an official Arcade drum skin. One source that seems to always have them in stock is [here](https://taiko.ac/products/rubber-drum-pad).
 
-If that isn't an option for you, you can try using a towel, blanket, large mouse pad, thin foam, whatever you want that gives you sound-reducing qualities as well as the amount of bounce that you're looking for.
+If that isn't an option for you, you can try using a towel, thin blanket, large mouse pad, thin foam, whatever you want that gives you sound-reducing qualities as well as the amount of bounce that you're looking for.
 
 💡 **Pro Tip:** The beauty of this Project is that you can adjust the Drum Thresholds and make it perform just how you want regardless of Drum cover.
 
