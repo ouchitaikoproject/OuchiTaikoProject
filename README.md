@@ -242,7 +242,7 @@ This guide assumes you have access to the following:
 | 18   | Rubber Taiko drum cover (optional, but crucial for arcade feel. Any thin sound-dampening material may suffice) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
 | 19   | 1/4" Roundover Router Bit                | 1    | [Link](https://www.amazon.com/dp/B0C5DVBNLS)                                 |
 | 20   | Clear Spray Glaze/Lacquer                | 1    | [Link](https://www.amazon.com/dp/B00D0293SA)
-| 2   | Deburring Tool (optional, you can use large drill bit as shown in guide)                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
+| 21   | Deburring Tool (optional, you can use large drill bit as shown in guide)                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
 </div>
 
 ---
@@ -1506,11 +1506,11 @@ Mount the angled speaker bracket to the speaker stand.
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the Control Box to the Spring-Loaded phone bracket, and adjust to your preferred position.  Connect the Drum Sensor TRS male ends that are hanging down on the drum to the corresponding TRS Female Jack on the Control Box.
 
 
-## **6.34: Table-Top  Mode**
+## **6.4: Table-Top  Mode**
 
 ### **Cut Monitor Stand Tubing**
 
-The monitor stand will be much to tall initially.  You'll need to cut the vertical tube down so that it is aproximately 150mm in lenth (don't cut yet - read the next sentance first).  Cutting to 150mm tall will bring the bottom of the drum jsut above the control box, which some may prefer.  However, I suggest cutting the tube to a length of 200mm at first, and then cutting more off if you want to go lower.  This is personal preference, but you dont want to xcut off too much initially - for obvious reasons.
+The monitor stand will be too tall initially.  Start by cutting the tube down to 200mm tall.  Place your drum with bracket onto the 200mm tall tube and see how you like the height.  If you want, cut down some more.  Repeat until it's the proer height for you and your table/desk.  The stand in the photo is cut down to 150mm as that brings the bottom of the drum right above the control box and that works best for me.
 
 <div align="center">
 <img src="images/Pictures/tableshortmeasure.jpg" width="350px" style="display: block; margin: 0 auto;">
