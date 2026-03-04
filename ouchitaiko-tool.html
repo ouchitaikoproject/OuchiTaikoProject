@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OuchiTaiko Setup</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f2f0ed; --surface:#ffffff; --surface2:#f0eeeb; --surface3:#e6e3df;
+  --border:#dbd8d3; --border2:#c8c4be;
+  --don:#e8572a; --don-dim:rgba(232,87,42,0.10); --don-glow:rgba(232,87,42,0.25);
+  --ka:#1fa3b3;  --ka-dim:rgba(31,163,179,0.10);  --ka-glow:rgba(31,163,179,0.25);
+  --green:#18a85e; --green-dim:rgba(24,168,94,0.10); --green-glow:rgba(24,168,94,0.25);
+  --amber:#c47e00; --red:#d63030;
+  --text:#1c1a17; --text2:#5a5450; --text3:#9a9490;
+  --f:'Figtree',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+body{background:var(--bg);font-family:var(--f);color:var(--text);min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased;}
+
+header{background:var(--surface);border-bottom:1px solid var(--border);height:52px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-text{font-weight:900;font-size:15px;letter-spacing:-0.3px;color:var(--text);}
+.logo-text span{color:var(--don);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.rate-badge{font-size:11px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px 10px;font-family:var(--mono);}
+.rate-badge.active{color:var(--green);border-color:rgba(24,168,94,0.35);background:var(--green-dim);}
+.conn-pill{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;}
+.conn-pill.on{color:var(--green);border-color:rgba(24,168,94,0.35);background:var(--green-dim);}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);}
+.conn-pill.on .conn-dot{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;display:flex;}
+.tab{font-family:var(--f);font-weight:700;font-size:12px;color:var(--text3);padding:10px 14px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.02em;text-transform:uppercase;}
+.tab:hover{color:var(--text2);}
+.tab.on{color:var(--don);border-bottom-color:var(--don);}
+
+.pg{display:none;max-width:780px;margin:0 auto;padding:26px 20px 60px;}
+.pg.on{display:block;}
+
+.splash{text-align:center;padding:64px 20px;}
+.splash h2{font-size:22px;font-weight:900;margin-bottom:10px;}
+.splash p{color:var(--text2);font-size:14px;margin-bottom:28px;line-height:1.8;}
+.splash p strong{color:var(--don);}
+.btn-connect{padding:13px 34px;border-radius:99px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 18px var(--don-glow);transition:all .2s;}
+.btn-connect:hover{background:#d04820;transform:translateY(-2px);}
+.conn-err{margin-top:14px;font-size:12px;color:var(--red);font-weight:700;min-height:18px;}
+.splash.hide{display:none;}
+
+.sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:11px;}
+
+.bars-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:26px;}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.bar-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text3);height:16px;line-height:16px;transition:color .1s;}
+.bar-val.lit{color:var(--text);}
+.bar-track{position:relative;width:48px;height:170px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+.bar-fill{position:absolute;bottom:0;left:0;right:0;height:0%;border-radius:7px 7px 0 0;transition:height .04s linear;}
+.bar-thr{position:absolute;left:0;right:0;height:2px;}
+.col-ka_l .bar-fill,.col-ka_r .bar-fill{background:linear-gradient(to top,var(--ka),rgba(31,163,179,.18));}
+.col-don_l .bar-fill,.col-don_r .bar-fill{background:linear-gradient(to top,var(--don),rgba(232,87,42,.18));}
+.col-ka_l .bar-thr,.col-ka_r .bar-thr{background:var(--ka);}
+.col-don_l .bar-thr,.col-don_r .bar-thr{background:var(--don);}
+.drum-icon{width:86px;height:86px;flex-shrink:0;}
+.thr-row{display:flex;align-items:center;gap:6px;}
+.nudge{width:26px;height:26px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--f);line-height:1;padding:0;transition:all .15s;}
+.nudge:hover{background:var(--border2);color:var(--text);}
+.thr-val{font-family:var(--mono);font-size:13px;font-weight:700;min-width:32px;text-align:center;}
+.col-ka_l .thr-val,.col-ka_r .thr-val{color:var(--ka);}
+.col-don_l .thr-val,.col-don_r .thr-val{color:var(--don);}
+.pad-label{font-size:11px;font-weight:800;}
+.col-ka_l .pad-label,.col-ka_r .pad-label{color:var(--ka);}
+.col-don_l .pad-label,.col-don_r .pad-label{color:var(--don);}
+
+.cal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;transition:border-color .3s;}
+.cal-card.recording{border-color:rgba(232,87,42,.5);}
+.cal-card.done{border-color:rgba(24,168,94,.5);}
+.cal-body{padding:20px;}
+.cal-title{font-size:17px;font-weight:900;margin-bottom:4px;}
+.cal-sub{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:17px;}
+.prog-wrap{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:14px;display:none;}
+.prog-wrap.vis{display:block;}
+.prog-fill{height:100%;width:0%;background:var(--don);border-radius:99px;transition:width .25s linear,background .5s;}
+.prog-fill.done{background:var(--green);}
+.hc-row{display:none;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.hc-row.vis{display:grid;}
+.hc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;transition:border-color .3s,background .3s;}
+.hc.ok{border-color:rgba(24,168,94,.4);background:var(--green-dim);}
+.hc-n{font-family:var(--mono);font-size:22px;font-weight:700;}
+.hc-n.ka{color:var(--ka);}.hc-n.don{color:var(--don);}
+.hc-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-top:2px;}
+.cal-status{font-size:13px;font-weight:700;color:var(--text2);min-height:18px;margin-bottom:12px;display:none;}
+.cal-status.vis{display:block;}
+.cal-status.go{color:var(--green);}
+.cal-status.warn{color:var(--amber);}
+.btn-start{width:100%;padding:13px;border-radius:10px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 3px 14px var(--don-glow);letter-spacing:.02em;}
+.btn-start:hover{background:#d04820;transform:translateY(-1px);}
+.btn-start.recording{background:var(--surface2);color:var(--text2);box-shadow:none;border:1px solid var(--border2);}
+.btn-start.recording:hover{background:var(--surface3);color:var(--text);transform:none;}
+.btn-start.ready{background:var(--green);box-shadow:0 3px 14px var(--green-glow);}
+.btn-start.ready:hover{background:#159e57;}
+.results-box{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:17px;margin-top:15px;display:none;animation:fadeUp .35s ease;}
+.results-box.vis{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.results-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.result-item{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:7px;padding:10px 13px;border:1px solid var(--border);}
+.result-label{font-size:13px;font-weight:700;}
+.result-label.ka{color:var(--ka);}.result-label.don{color:var(--don);}
+.result-value{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);}
+
+.adv-toggle{display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--surface2);border-top:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:700;color:var(--text3);user-select:none;transition:color .2s;}
+.adv-toggle:hover{color:var(--text2);}
+.adv-chevron{margin-left:auto;font-size:10px;transition:transform .25s;}
+.adv-toggle.open .adv-chevron{transform:rotate(180deg);}
+.adv-panel{display:none;padding:20px;border-top:1px solid var(--border);background:var(--surface2);}
+.adv-panel.open{display:block;}
+.adv-section{margin-bottom:20px;}
+.adv-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:9px;}
+.sug-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:4px;}
+.sug-table th{padding:5px 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);text-align:left;}
+.sug-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.sug-table tr:last-child td{border-bottom:none;}
+.sug-pad{font-weight:800;font-size:13px;}
+.sug-pad.don{color:var(--don);}.sug-pad.ka{color:var(--ka);}
+.sug-cur{font-family:var(--mono);color:var(--text3);}
+.sug-arrow{color:var(--border2);padding:0 4px;}
+.sug-new{font-family:var(--mono);font-weight:800;font-size:14px;}
+.sug-new.better{color:var(--green);}.sug-new.same{color:var(--text3);}.sug-new.worse{color:var(--red);}
+.conf-bar{display:inline-block;vertical-align:middle;width:60px;height:5px;border-radius:99px;background:var(--border2);margin-right:5px;}
+.conf-fill{height:100%;border-radius:99px;background:var(--green);}
+.sug-reason-txt{font-size:11px;color:var(--text3);}
+.sug-reason-txt.warn{color:var(--amber);}
+.mx-wrap{overflow-x:auto;}
+.mx{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:9px;overflow:hidden;width:max-content;min-width:100%;}
+.mc{background:var(--surface3);padding:9px 7px;font-size:12px;font-weight:700;text-align:center;font-family:var(--mono);}
+.mh{background:var(--surface2);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:7px 6px;font-family:var(--f);}
+.ml{background:var(--surface2);color:var(--text2);font-size:10px;font-weight:700;text-align:left;padding:9px 10px;font-family:var(--f);}
+.ms{background:var(--surface);color:var(--border2);}
+.m-red{background:rgba(214,48,48,.10);color:var(--red);}
+.m-amb{background:rgba(196,126,0,.10);color:var(--amber);}
+.m-grn{background:rgba(24,168,94,.10);color:var(--green);}
+.mx-hint{font-size:11px;color:var(--text3);margin-top:8px;line-height:1.7;}
+.debug-log{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:80px;overflow-y:auto;line-height:1.75;}
+.debug-log .hit{color:var(--don);}
+.action-row{display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap;}
+.btn-save{padding:11px 22px;border-radius:9px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 2px 10px var(--don-glow);}
+.btn-save:hover{background:#d04820;}
+.btn-apply{padding:11px 22px;border-radius:9px;border:none;background:var(--green);color:#fff;font-family:var(--f);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:none;}
+.btn-apply:hover{background:#159e57;}
+.btn-disc{padding:10px 18px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-disc:hover{color:var(--text);border-color:var(--text3);}
+.save-note{font-size:12px;font-weight:700;color:var(--text3);margin-left:auto;}
+.save-note.ok{color:var(--green);}.save-note.err{color:var(--red);}
+
+/* BUTTON TESTER */
+.bt-status{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.bt-dot{width:9px;height:9px;border-radius:50%;background:var(--border2);flex-shrink:0;}
+.bt-dot.on{background:var(--green);box-shadow:0 0 7px var(--green);animation:blink 1.4s infinite;}
+.bt-msg{font-size:13px;color:var(--text2);}
+.bt-msg strong{color:var(--text);}
+.bt-mode-badge{margin-left:auto;font-size:11px;font-weight:700;font-family:var(--mono);color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px 10px;white-space:nowrap;}
+.bt-mode-badge.on{color:var(--don);border-color:rgba(232,87,42,.3);background:var(--don-dim);}
+
+/* PCB BOARD */
+.pcb-wrap{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px 18px 18px;margin-bottom:12px;}
+.pcb{display:grid;grid-template-columns:1fr 220px 1fr;gap:12px;align-items:center;}
+.pcb-half{display:flex;flex-direction:column;gap:12px;}
+.pcb-half.right{align-items:flex-end;}
+.sh-row{display:flex;gap:8px;}
+.sh-row.right{justify-content:flex-end;}
+
+.nb{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default;user-select:none;}
+.nb-cap{border-radius:8px;background:var(--surface2);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--text3);letter-spacing:.02em;transition:background .07s,border-color .07s,color .07s,box-shadow .07s;font-family:var(--f);}
+.nb-lbl{font-size:8px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+.nb.sz-md .nb-cap{width:42px;height:42px;font-size:11px;}
+.nb.sz-sh .nb-cap{width:56px;height:26px;border-radius:6px;font-size:10px;}
+.nb.active-don .nb-cap{background:var(--don-dim);border-color:var(--don);color:var(--don);box-shadow:0 0 10px var(--don-glow);}
+.nb.active-ka  .nb-cap{background:var(--ka-dim); border-color:var(--ka); color:var(--ka); box-shadow:0 0 10px var(--ka-glow);}
+.nb.active-grn .nb-cap{background:var(--green-dim);border-color:var(--green);color:var(--green);box-shadow:0 0 10px var(--green-glow);}
+
+.dpad{display:grid;grid-template-columns:42px 42px 42px;grid-template-rows:42px 42px 42px;gap:3px;}
+.dp{background:var(--surface2);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;transition:background .07s,border-color .07s,color .07s,box-shadow .07s;font-family:var(--f);}
+.dp.up   {border-radius:8px 8px 2px 2px;grid-column:2;grid-row:1;}
+.dp.left {border-radius:8px 2px 2px 8px;grid-column:1;grid-row:2;}
+.dp.cx   {border-radius:3px;grid-column:2;grid-row:2;background:var(--surface3);border-color:var(--border);}
+.dp.right{border-radius:2px 8px 8px 2px;grid-column:3;grid-row:2;}
+.dp.down {border-radius:2px 2px 8px 8px;grid-column:2;grid-row:3;}
+.dp.active{background:var(--ka-dim);border-color:var(--ka);color:var(--ka);box-shadow:0 0 8px var(--ka-glow);}
+
+.face{display:grid;grid-template-columns:42px 42px 42px;grid-template-rows:42px 42px 42px;gap:3px;}
+.fc{background:var(--surface2);border:1.5px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--text3);transition:background .07s,border-color .07s,color .07s,box-shadow .07s;font-family:var(--f);}
+.fc.north{grid-column:2;grid-row:1;}
+.fc.west {grid-column:1;grid-row:2;}
+.fc.blank{grid-column:2;grid-row:2;background:transparent;border-color:transparent;}
+.fc.east {grid-column:3;grid-row:2;}
+.fc.south{grid-column:2;grid-row:3;}
+.fc.active{background:var(--don-dim);border-color:var(--don);color:var(--don);box-shadow:0 0 8px var(--don-glow);}
+
+.pcb-center{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.oled-mock{width:138px;height:72px;background:#0a1018;border:2px solid #1e3040;border-radius:5px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 12px rgba(0,0,0,.4);}
+.oled-inner{width:122px;height:58px;background:#060d14;border-radius:2px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+.oled-txt{font-family:var(--mono);font-size:8px;color:#1fa3b3;opacity:.55;text-transform:uppercase;letter-spacing:.1em;}
+
+/* Drum diagram */
+.drum-diagram-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.drum-svg{display:block;}
+.zone-ka-ring{fill:none;stroke:#c8c4be;stroke-width:18;transition:stroke .1s,filter .1s;}
+.zone-ka-ring.lit{stroke:var(--ka);filter:drop-shadow(0 0 8px var(--ka-glow));}
+.zone-don-fill{fill:#e0dcd7;transition:fill .1s,filter .1s;}
+.zone-don-fill.lit{fill:var(--don);filter:drop-shadow(0 0 8px var(--don-glow));}
+.zone-divider{stroke:#a8a5a0;stroke-width:3;}
+.drum-lbl{font-family:'Figtree',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;fill:#9a9490;transition:fill .1s;}
+.drum-lbl.lit-ka{fill:var(--ka);}
+.drum-lbl.lit-don{fill:var(--don);}
+.drum-outer{fill:#f0eeeb;stroke:#c8c4be;stroke-width:1.5;}
+
+.drum-zone-labels{display:flex;justify-content:space-between;width:200px;padding:6px 2px 0;}
+.dzl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);transition:color .1s;text-align:center;flex:1;}
+.dzl.ka{color:var(--ka);opacity:.5;}
+.dzl.don{color:var(--don);opacity:.5;}
+.dzl.lit{opacity:1;}
+.bt-info{font-size:11px;color:var(--text3);text-align:center;margin-top:6px;line-height:1.7;}
+.bt-tip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.85;}
+.bt-tip b{color:var(--text);}
+.bt-tip code{font-family:var(--mono);font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:4px;color:var(--ka);}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(28,26,23,.45);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-backdrop.show{opacity:1;pointer-events:auto;}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 26px 22px;max-width:400px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.18);transform:translateY(12px);transition:transform .2s;}
+.modal-backdrop.show .modal-box{transform:translateY(0);}
+.modal-icon{font-size:32px;text-align:center;margin-bottom:12px;}
+.modal-title{font-size:16px;font-weight:900;color:var(--text);margin-bottom:8px;text-align:center;}
+.modal-body{font-size:13px;color:var(--text2);line-height:1.75;text-align:center;margin-bottom:20px;}
+.modal-ok{width:100%;padding:12px;border-radius:9px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:14px;font-weight:800;cursor:pointer;transition:background .15s;}
+.modal-ok:hover{background:#d04820;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <!-- Teal Ka ring -->
+      <circle cx="14" cy="14" r="13" fill="#1fa3b3"/>
+      <!-- Orange Don fill -->
+      <circle cx="14" cy="14" r="9.4" fill="#e8572a"/>
+      <!-- White vertical divider -->
+      <line x1="14" y1="1" x2="14" y2="27" stroke="white" stroke-width="1.4"/>
+    </svg>
+    <span class="logo-text">Ouchi<span>Taiko</span> Setup</span>
+  </div>
+  <div class="header-right">
+    <span class="rate-badge" id="rate-badge">0 msg/s</span>
+    <div class="conn-pill" id="pill"><div class="conn-dot"></div><span id="pill-txt">Not connected</span></div>
+  </div>
+</header>
+
+<nav>
+  <button class="tab on" data-tab="cal">Calibrate</button>
+  <button class="tab" data-tab="btn">Button Tester</button>
+</nav>
+
+<!-- CALIBRATE PAGE -->
+<div class="pg on" id="pg-cal">
+  <div class="splash" id="sp-cal">
+    <svg width="90" height="90" viewBox="0 0 90 90" fill="none" style="margin:0 auto 20px;display:block">
+      <!-- Teal Ka ring -->
+      <circle cx="45" cy="45" r="43" fill="#1fa3b3"/>
+      <!-- Orange Don fill -->
+      <circle cx="45" cy="45" r="31" fill="#e8572a"/>
+      <!-- White vertical divider -->
+      <line x1="45" y1="2" x2="45" y2="88" stroke="white" stroke-width="2"/>
+    </svg>
+    <h2>Connect your drum in Debug mode</h2>
+    <p>Set your drum to <strong>Debug</strong> USB mode using the on-device menu.<br>
+    Plug in via USB, then click Connect.<br>
+    <strong>Requires Chrome or Edge.</strong></p>
+    <button class="btn-connect" onclick="connectSerial()">Connect Serial Port</button>
+    <div class="conn-err" id="conn-err"></div>
+  </div>
+
+  <div id="cal-body" style="display:none">
+    <div class="sec">Live Signal</div>
+    <div class="bars-row">
+      <div class="bar-col col-ka_l">
+        <div class="bar-val" id="val-ka_l">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-ka_l"></div><div class="bar-thr" id="bt-ka_l"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-kal"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#f0eeeb" stroke="#dbd8d3" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="32" fill="none" stroke="#1fa3b3" stroke-width="14" clip-path="url(#c-kal)"/>
+        </svg>
+        <div class="thr-row">
+          <button class="nudge" data-p="ka_l" data-d="-10">-</button>
+          <span class="thr-val" id="tv-ka_l">95</span>
+          <button class="nudge" data-p="ka_l" data-d="+10">+</button>
+        </div>
+        <div class="pad-label">Ka Left</div>
+      </div>
+      <div class="bar-col col-don_l">
+        <div class="bar-val" id="val-don_l">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-don_l"></div><div class="bar-thr" id="bt-don_l"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donl"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#f0eeeb" stroke="#dbd8d3" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donl)"/>
+        </svg>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_l" data-d="-10">-</button>
+          <span class="thr-val" id="tv-don_l">75</span>
+          <button class="nudge" data-p="don_l" data-d="+10">+</button>
+        </div>
+        <div class="pad-label">Don Left</div>
+      </div>
+      <div class="bar-col col-don_r">
+        <div class="bar-val" id="val-don_r">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-don_r"></div><div class="bar-thr" id="bt-don_r"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donr"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#f0eeeb" stroke="#dbd8d3" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
+        </svg>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_r" data-d="-10">-</button>
+          <span class="thr-val" id="tv-don_r">75</span>
+          <button class="nudge" data-p="don_r" data-d="+10">+</button>
+        </div>
+        <div class="pad-label">Don Right</div>
+      </div>
+      <div class="bar-col col-ka_r">
+        <div class="bar-val" id="val-ka_r">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-ka_r"></div><div class="bar-thr" id="bt-ka_r"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-kar"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#f0eeeb" stroke="#dbd8d3" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="32" fill="none" stroke="#1fa3b3" stroke-width="14" clip-path="url(#c-kar)"/>
+        </svg>
+        <div class="thr-row">
+          <button class="nudge" data-p="ka_r" data-d="-10">-</button>
+          <span class="thr-val" id="tv-ka_r">95</span>
+          <button class="nudge" data-p="ka_r" data-d="+10">+</button>
+        </div>
+        <div class="pad-label">Ka Right</div>
+      </div>
+    </div>
+
+    <div class="sec">Auto-Calibrate</div>
+    <div class="cal-card" id="cal-card">
+      <div class="cal-body">
+        <div class="cal-title">Calibrate Thresholds</div>
+        <div class="cal-sub" id="cal-sub">Hit all four pads randomly for ~5 seconds — mix gentle taps and hard hits. The button turns green when enough data is collected.</div>
+        <div class="prog-wrap" id="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+        <div class="hc-row" id="hc-row">
+          <div class="hc" id="hc-ka_l"><div class="hc-n ka" id="hcn-ka_l">0</div><div class="hc-lbl">Ka Left</div></div>
+          <div class="hc" id="hc-don_l"><div class="hc-n don" id="hcn-don_l">0</div><div class="hc-lbl">Don Left</div></div>
+          <div class="hc" id="hc-don_r"><div class="hc-n don" id="hcn-don_r">0</div><div class="hc-lbl">Don Right</div></div>
+          <div class="hc" id="hc-ka_r"><div class="hc-n ka" id="hcn-ka_r">0</div><div class="hc-lbl">Ka Right</div></div>
+        </div>
+        <div class="cal-status" id="cal-status"></div>
+        <button class="btn-start" id="btn-start" onclick="toggleCal()">Start Calibration</button>
+        <div class="results-box" id="results-box">
+          <div class="results-title">Suggested Thresholds</div>
+          <div class="results-grid">
+            <div class="result-item"><span class="result-label ka">Ka L</span><span class="result-value" id="res-ka_l">-</span></div>
+            <div class="result-item"><span class="result-label don">Don L</span><span class="result-value" id="res-don_l">-</span></div>
+            <div class="result-item"><span class="result-label don">Don R</span><span class="result-value" id="res-don_r">-</span></div>
+            <div class="result-item"><span class="result-label ka">Ka R</span><span class="result-value" id="res-ka_r">-</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="adv-toggle" id="adv-toggle" onclick="toggleAdv()">
+        <span>Advanced — confidence levels, crosstalk matrix &amp; debug log</span>
+        <span class="adv-chevron">▼</span>
+      </div>
+      <div class="adv-panel" id="adv-panel">
+        <div class="adv-section" id="adv-sug-section" style="display:none">
+          <div class="adv-label">Threshold Analysis</div>
+          <table class="sug-table">
+            <thead><tr><th>Pad</th><th>Current</th><th></th><th>Suggested</th><th>Confidence</th><th>Reason</th></tr></thead>
+            <tbody id="sug-tbody"></tbody>
+          </table>
+        </div>
+        <div class="adv-section">
+          <div class="adv-label">Crosstalk Matrix</div>
+          <div class="mx-wrap"><div class="mx" id="mx" style="grid-template-columns:64px repeat(4,1fr)"></div></div>
+          <div class="mx-hint">Columns = pad hit · Rows = bleed onto · <span style="color:var(--red);font-weight:700">Red</span> = above threshold · <span style="color:var(--amber);font-weight:700">Amber</span> = close · <span style="color:var(--green);font-weight:700">Green</span> = fine</div>
+        </div>
+        <div class="adv-section" style="margin-bottom:0">
+          <div class="adv-label">Serial Log</div>
+          <div class="debug-log" id="debug-log"><span>Waiting for hits...</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-save" onclick="saveThresholds()">Save to Drum</button>
+      <button class="btn-apply" id="btn-apply" onclick="applyAndSave()">Apply &amp; Save</button>
+      <button class="btn-disc" onclick="disconnect()">Disconnect</button>
+      <span class="save-note" id="save-note"></span>
+    </div>
+  </div>
+</div>
+
+<!-- BUTTON TESTER PAGE -->
+<div class="pg" id="pg-btn">
+
+  <div class="bt-status">
+    <div class="bt-dot" id="bt-dot"></div>
+    <div class="bt-msg" id="bt-msg">Switch your drum to any <strong>non-Debug</strong> mode, then plug in via USB.</div>
+    <div class="bt-mode-badge" id="bt-mode-badge">No gamepad</div>
+  </div>
+
+  <div class="pcb-wrap">
+    <div class="pcb">
+
+      <!-- LEFT: L + SHARE / D-pad only -->
+      <div class="pcb-half left">
+        <div class="sh-row">
+          <div class="nb sz-sh" id="nb-l">    <div class="nb-cap">L</div>    <div class="nb-lbl">L</div></div>
+          <div class="nb sz-sh" id="nb-share"><div class="nb-cap">Share</div><div class="nb-lbl">Share</div></div>
+        </div>
+        <div class="dpad">
+          <div class="dp up"    id="dp-up">UP</div>
+          <div class="dp left"  id="dp-left">LT</div>
+          <div class="dp right" id="dp-right">RT</div>
+          <div class="dp down"  id="dp-down">DN</div>
+        </div>
+      </div>
+
+      <!-- CENTER: OLED / Select+Start / drum diagram -->
+      <div class="pcb-center">
+        <div class="oled-mock">
+          <div class="oled-inner">
+            <div class="oled-txt">OuchiTaiko</div>
+            <div class="oled-txt" style="opacity:.25;font-size:7px">SW TATACON</div>
+          </div>
+        </div>
+
+        <!-- Select + Start directly below screen -->
+        <div class="sh-row" style="gap:10px;">
+          <div class="nb sz-md" id="nb-select"><div class="nb-cap">-</div><div class="nb-lbl">Select</div></div>
+          <div class="nb sz-md" id="nb-start"> <div class="nb-cap">+</div><div class="nb-lbl">Start</div></div>
+        </div>
+
+        <div class="drum-diagram-wrap">
+          <svg class="drum-svg" width="200" height="200" viewBox="0 0 200 200">
+            <defs>
+              <clipPath id="clip-l"><rect x="0"   y="0" width="100" height="200"/></clipPath>
+              <clipPath id="clip-r"><rect x="100" y="0" width="100" height="200"/></clipPath>
+            </defs>
+            <circle class="drum-outer" cx="100" cy="100" r="97"/>
+            <circle id="zone-ka-l"  class="zone-ka-ring"  cx="100" cy="100" r="88" clip-path="url(#clip-l)"/>
+            <circle id="zone-ka-r"  class="zone-ka-ring"  cx="100" cy="100" r="88" clip-path="url(#clip-r)"/>
+            <circle cx="100" cy="100" r="79" fill="#e8e5e0"/>
+            <circle id="zone-don-l" class="zone-don-fill" cx="100" cy="100" r="79" clip-path="url(#clip-l)"/>
+            <circle id="zone-don-r" class="zone-don-fill" cx="100" cy="100" r="79" clip-path="url(#clip-r)"/>
+            <line class="zone-divider" x1="100" y1="3" x2="100" y2="197"/>
+          </svg>
+          <!-- Zone labels below drum so activation colour doesn't cover them -->
+          <div class="drum-zone-labels">
+            <span id="lbl-ka-l"  class="dzl ka">Ka L</span>
+            <span id="lbl-don-l" class="dzl don">Don L</span>
+            <span id="lbl-don-r" class="dzl don">Don R</span>
+            <span id="lbl-ka-r"  class="dzl ka">Ka R</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: HOME + R / face diamond -->
+      <div class="pcb-half right">
+        <div class="sh-row right">
+          <div class="nb sz-sh" id="nb-home"><div class="nb-cap">Home</div><div class="nb-lbl">Home</div></div>
+          <div class="nb sz-sh" id="nb-r">   <div class="nb-cap">R</div>    <div class="nb-lbl">R</div></div>
+        </div>
+        <div class="face">
+          <div class="fc north" id="fc-north">X</div>
+          <div class="fc west"  id="fc-west">Y</div>
+          <div class="fc blank"></div>
+          <div class="fc east"  id="fc-east">A</div>
+          <div class="fc south" id="fc-south">B</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="bt-info" id="bt-info">Switch to a non-Debug gamepad mode and press any button</div>
+  </div>
+
+  <div class="bt-tip">
+    <b>How to use:</b> Switch your drum to any gamepad mode (Switch Tatacon, PS4, XInput). Plug in via USB and press any button — it lights up above.<br><br>
+    Drum hits: <span style="color:var(--ka)">Ka</span> = ZL/ZR &nbsp;·&nbsp; <span style="color:var(--don)">Don</span> = L3/R3 &nbsp;·&nbsp; Face: <code>X=North</code> <code>B=South</code> <code>Y=West</code> <code>A=East</code>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal-box">
+    <div class="modal-icon">🎮</div>
+    <div class="modal-title">Switch Drum Mode First</div>
+    <div class="modal-body">Switch your drum to a non-Debug mode<br>(Switch Tatacon, PS4, or XInput),<br>then plug in via USB.</div>
+    <button class="modal-ok" onclick="hideModal()">OK</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+const PADS=['ka_l','don_l','don_r','ka_r'];
+const SH={ka_l:'Ka L',don_l:'Don L',don_r:'Don R',ka_r:'Ka R'};
+const LABELS={ka_l:'Ka Left',don_l:'Don Left',don_r:'Don Right',ka_r:'Ka Right'};
+const DECAY=0.82, MIN_HIT=30;
+const S={port:null,reader:null,writer:null,connected:false,pendingAck:false,ackTimeout:null,thr:{ka_l:95,don_l:75,don_r:75,ka_r:95},pk:{ka_l:0,don_l:0,don_r:0,ka_r:0},pv:{ka_l:false,don_l:false,don_r:false,ka_r:false},xt:{},msgCount:0,lastRateTime:Date.now()};
+PADS.forEach(h=>{S.xt[h]={};PADS.forEach(v=>S.xt[h][v]=0);});
+const AC={active:false,startTime:0,MIN_MS:5000,HIT_COOLDOWN:80,lastHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},hitCount:{ka_l:0,don_l:0,don_r:0,ka_r:0},maxHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},maxCrosstalk:{ka_l:0,don_l:0,don_r:0,ka_r:0},suggestions:null,timer:null};
+
+// ── Cache all hot-path DOM refs once at startup ───────────
+const EL={};
+function cacheEls(){
+  PADS.forEach(p=>{
+    EL['bf_'+p]=document.getElementById('bf-'+p);
+    EL['val_'+p]=document.getElementById('val-'+p);
+    EL['tv_'+p]=document.getElementById('tv-'+p);
+    EL['bt_'+p]=document.getElementById('bt-'+p);
+    EL['hcn_'+p]=document.getElementById('hcn-'+p);
+    EL['hc_'+p]=document.getElementById('hc-'+p);
+  });
+  EL.pill=document.getElementById('pill');
+  EL.pillTxt=document.getElementById('pill-txt');
+  EL.spCal=document.getElementById('sp-cal');
+  EL.calBody=document.getElementById('cal-body');
+  EL.rateBadge=document.getElementById('rate-badge');
+  EL.connErr=document.getElementById('conn-err');
+  EL.progFill=document.getElementById('prog-fill');
+  EL.progWrap=document.getElementById('prog-wrap');
+  EL.hcRow=document.getElementById('hc-row');
+  EL.calStatus=document.getElementById('cal-status');
+  EL.resultsBox=document.getElementById('results-box');
+  EL.btnStart=document.getElementById('btn-start');
+  EL.btnApply=document.getElementById('btn-apply');
+  EL.calCard=document.getElementById('cal-card');
+  EL.calSub=document.getElementById('cal-sub');
+  EL.advSugSection=document.getElementById('adv-sug-section');
+  EL.advPanel=document.getElementById('adv-panel');
+  EL.advToggle=document.getElementById('adv-toggle');
+  EL.debugLog=document.getElementById('debug-log');
+  EL.saveNote=document.getElementById('save-note');
+  EL.btDot=document.getElementById('bt-dot');
+  EL.btMsg=document.getElementById('bt-msg');
+  EL.btModeBadge=document.getElementById('bt-mode-badge');
+  EL.btInfo=document.getElementById('bt-info');
+  // cache matrix cells
+  EL.mx={};
+  PADS.forEach(h=>PADS.forEach(v=>{
+    if(h!==v)EL.mx[h+'_'+v]=document.getElementById('mx-'+h+'-'+v);
+  }));
+  // cache gamepad button elements
+  EL.gp={};
+  Object.entries(BT_MAP).forEach(([i,m])=>EL.gp[i]=document.getElementById(m.el));
+  EL.drum={};
+  Object.entries(DRUM_BTNS).forEach(([i,d])=>{
+    EL.drum[i]={zone:document.getElementById(d.zone),lbl:document.getElementById(d.lbl)};
+  });
+  ['dp-up','dp-down','dp-left','dp-right'].forEach(id=>EL['dp_'+id]=document.getElementById(id));
+}
+
+// Track active tab so gpPoll can skip when not visible
+let activeTab='cal';
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab,.pg').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  activeTab=t.dataset.tab;
+  document.getElementById('pg-'+activeTab).classList.add('on');
+  if(activeTab==='btn')showModal();
+}));
+function showModal(){document.getElementById('modal').classList.add('show');}
+function hideModal(){document.getElementById('modal').classList.remove('show');}
+document.addEventListener('click',e=>{const b=e.target.closest('.nudge');if(!b)return;const p=b.dataset.p,d=parseInt(b.dataset.d);S.thr[p]=Math.max(0,Math.min(4095,S.thr[p]+d));syncThr(p);updateMx();});
+function syncThr(p){const v=S.thr[p];if(EL['tv_'+p])EL['tv_'+p].textContent=v;if(EL['bt_'+p])EL['bt_'+p].style.bottom=(v/4095*100).toFixed(2)+'%';}
+function syncAllThr(){PADS.forEach(syncThr);}
+
+async function connectSerial(){if(!('serial' in navigator)){showConnErr('Web Serial not supported — use Chrome or Edge.');return;}try{S.port=await navigator.serial.requestPort();await S.port.open({baudRate:115200});S.writer=S.port.writable.getWriter();S.connected=true;showConn();readLoop();}catch(e){showConnErr(e.message||String(e));}}
+async function disconnect(){S.connected=false;if(AC.active)stopCal(true);try{if(S.reader){await S.reader.cancel();S.reader=null;}}catch(_){}try{if(S.writer){S.writer.releaseLock();S.writer=null;}}catch(_){}try{if(S.port)await S.port.close();}catch(_){}S.port=null;showDisc();}
+function showConn(){EL.pill.classList.add('on');EL.pillTxt.textContent='Debug serial connected';EL.spCal.classList.add('hide');EL.calBody.style.display='block';buildMx();syncAllThr();}
+function showDisc(){EL.pill.classList.remove('on');EL.pillTxt.textContent='Not connected';EL.spCal.classList.remove('hide');EL.calBody.style.display='none';EL.rateBadge.textContent='0 msg/s';EL.rateBadge.classList.remove('active');}
+function showConnErr(msg){EL.connErr.textContent='Error: '+msg;setTimeout(()=>EL.connErr.textContent='',6000);}
+async function readLoop(){const decoder=new TextDecoderStream();S.port.readable.pipeTo(decoder.writable);const lr=decoder.readable.pipeThrough(new TransformStream(new LineBreakTransformer())).getReader();S.reader=lr;try{while(S.connected){const{value,done}=await lr.read();if(done)break;if(value)parseLine(value.trim());}}catch(e){if(S.connected){note('Serial error: '+(e.message||e),'err');disconnect();}}}
+class LineBreakTransformer{constructor(){this.buf='';}transform(chunk,ctrl){this.buf+=chunk;const l=this.buf.split('\n');this.buf=l.pop();l.forEach(x=>ctrl.enqueue(x));}flush(ctrl){if(this.buf)ctrl.enqueue(this.buf);}}
+
+// Parser — firmware streams "KAL DON_L DON_R KAR\n" every poll
+function parseLine(line){
+  if(line==='OK'){if(S.pendingAck){S.pendingAck=false;clearTimeout(S.ackTimeout);note('Saved to drum — '+new Date().toLocaleTimeString(),'ok');setTimeout(()=>note('',''),4000);}return;}
+  const parts=line.trim().split(' ');
+  if(parts.length<4)return;
+  const v0=parseInt(parts[0],10),v1=parseInt(parts[1],10),v2=parseInt(parts[2],10),v3=parseInt(parts[3],10);
+  if(isNaN(v0)||isNaN(v1)||isNaN(v2)||isNaN(v3))return;
+  const vals={ka_l:v0,don_l:v1,don_r:v2,ka_r:v3};
+  processPads(vals);
+  if(EL.advPanel&&EL.advPanel.classList.contains('open'))logHit(vals);
+  S.msgCount++;
+}
+
+function processPads(vals){
+  PADS.forEach(p=>{const n=vals[p]/4095;if(n>S.pk[p])S.pk[p]=n;else S.pk[p]*=DECAY;});
+  const rising={};
+  PADS.forEach(p=>{const thr=S.thr[p]/4095,now=S.pk[p]>thr;rising[p]=now&&!S.pv[p];S.pv[p]=now;});
+  if(PADS.some(p=>rising[p])){
+    PADS.filter(p=>rising[p]).forEach(h=>PADS.forEach(v=>{if(v!==h&&S.pk[v]>S.xt[h][v])S.xt[h][v]=S.pk[v];}));
+    updateMx();
+  }
+  if(AC.active)collectAC(vals);
+  PADS.forEach(p=>{
+    const pct=(vals[p]/4095*100).toFixed(1)+'%';
+    EL['bf_'+p].style.height=pct;
+    const raw=vals[p];
+    // Display dead-band: match MIN_HIT floor so numbers never flicker at idle
+    const disp=raw>=MIN_HIT?raw:0;
+    EL['val_'+p].textContent=disp;
+    EL['val_'+p].className=disp>0?'bar-val lit':'bar-val';
+  });
+}
+function toggleCal(){if(!AC.active)startCal();else stopCal(false);}
+function startCal(){PADS.forEach(p=>{AC.hitCount[p]=0;AC.maxHit[p]=0;AC.maxCrosstalk[p]=0;AC.lastHit[p]=0;EL['hcn_'+p].textContent='0';EL['hc_'+p].classList.remove('ok');});AC.suggestions=null;AC.active=true;AC.startTime=Date.now();EL.calCard.classList.add('recording');EL.calCard.classList.remove('done');EL.progWrap.classList.add('vis');EL.hcRow.classList.add('vis');EL.calStatus.classList.add('vis');EL.resultsBox.classList.remove('vis');EL.advSugSection.style.display='none';EL.btnApply.style.display='none';EL.progFill.className='prog-fill';EL.progFill.style.width='0%';EL.btnStart.className='btn-start recording';EL.btnStart.textContent='Stop Early';EL.calSub.textContent='Recording — hit all four pads hard and randomly. Mix light taps and heavy hits.';setStatus('Hit all four pads — keep going until the button turns green','');AC.timer=setInterval(tickAC,200);}
+function stopCal(silent){AC.active=false;clearInterval(AC.timer);EL.calCard.classList.remove('recording');EL.btnStart.className='btn-start';EL.btnStart.textContent='Start Calibration';EL.progFill.style.width='100%';if(silent)return;const elapsed=Date.now()-AC.startTime;const allHit=PADS.every(p=>AC.hitCount[p]>=3);if(!allHit||elapsed<AC.MIN_MS){setStatus('Need 5 seconds and at least 3 hits per pad. Try again.','warn');EL.calSub.textContent='Hit all four pads randomly for ~5 seconds — mix gentle taps and hard hits.';return;}calcSuggestions();}
+function collectAC(vals){const now=Date.now();let strongest=null,maxVal=MIN_HIT;PADS.forEach(p=>{if(vals[p]>maxVal){maxVal=vals[p];strongest=p;}});if(!strongest)return;if(now-AC.lastHit[strongest]<AC.HIT_COOLDOWN)return;AC.lastHit[strongest]=now;AC.hitCount[strongest]++;if(vals[strongest]>AC.maxHit[strongest])AC.maxHit[strongest]=vals[strongest];PADS.forEach(p=>{if(p!==strongest&&vals[p]>AC.maxCrosstalk[p])AC.maxCrosstalk[p]=vals[p];});}
+function tickAC(){const elapsed=Date.now()-AC.startTime;EL.progFill.style.width=Math.min(100,elapsed/AC.MIN_MS*100)+'%';PADS.forEach(p=>{EL['hcn_'+p].textContent=AC.hitCount[p];if(AC.hitCount[p]>=3)EL['hc_'+p].classList.add('ok');});if(elapsed>2000)calcSuggestions(true);const allGood=PADS.every(p=>AC.hitCount[p]>=3);const timeOk=elapsed>=AC.MIN_MS;if(allGood&&timeOk){EL.progFill.className='prog-fill done';EL.btnStart.className='btn-start ready';EL.btnStart.textContent='Done — tap to see results';setStatus('Enough data collected. Tap the button for results.','go');}else if(allGood){setStatus('All pads hit — '+Math.ceil((AC.MIN_MS-elapsed)/1000)+'s more...','go');}else{const miss=PADS.filter(p=>AC.hitCount[p]<3).map(p=>LABELS[p]).join(', ');setStatus('Still need hits on: '+miss,'warn');}}
+function calcSuggestions(live){const sugs={};PADS.forEach(p=>{const maxCross=AC.maxCrosstalk[p],maxHit=AC.maxHit[p];let suggested=Math.max(maxCross+20,Math.round(maxHit*0.30));const cap=Math.round(maxHit*0.50);const capped=cap>0&&suggested>cap;if(capped)suggested=cap;suggested=Math.max(10,Math.min(3000,suggested));sugs[p]={suggested,current:S.thr[p],maxHit,maxCross,capped,confidence:AC.hitCount[p]>=6?'high':AC.hitCount[p]>=3?'med':'low'};});AC.suggestions=sugs;PADS.forEach(p=>{const el=document.getElementById('res-'+p);if(el)el.textContent=sugs[p].suggested;});EL.resultsBox.classList.add('vis');renderAdvSuggestions();if(!live){EL.calCard.classList.remove('recording');EL.calCard.classList.add('done');EL.btnStart.className='btn-start';EL.btnStart.textContent='Recalibrate';EL.calSub.textContent='Review suggestions. Apply & Save pushes them directly to your drum.';setStatus('Calibration complete','go');EL.btnApply.style.display='';EL.advSugSection.style.display='';}}
+function renderAdvSuggestions(){const tbody=document.getElementById('sug-tbody');tbody.innerHTML='';PADS.forEach(p=>{const s=AC.suggestions[p];if(!s)return;const isDon=p.startsWith('don');const diff=s.suggested-s.current;const cls=diff<-5?'better':diff>5?'worse':'same';const confPct={high:95,med:60,low:30}[s.confidence];let reason='';if(s.maxHit===0)reason='<span class="sug-reason-txt warn">No hits recorded</span>';else if(s.capped)reason='<span class="sug-reason-txt warn">Capped — high crosstalk ('+s.maxCross+')</span>';else if(s.maxCross<=5)reason='<span class="sug-reason-txt">No crosstalk — hit-strength based</span>';else reason='<span class="sug-reason-txt">Max crosstalk: '+s.maxCross+' + 20 margin</span>';const tr=document.createElement('tr');tr.innerHTML=`<td><span class="sug-pad ${isDon?'don':'ka'}">${LABELS[p]}</span></td><td><span class="sug-cur">${s.current}</span></td><td><span class="sug-arrow">-></span></td><td><span class="sug-new ${cls}">${s.suggested}</span></td><td><div class="conf-bar"><div class="conf-fill" style="width:${confPct}%"></div></div><span style="font-size:11px;color:var(--text3)">${s.confidence}</span></td><td>${reason}</td>`;tbody.appendChild(tr);});}
+function applyAndSave(){if(!AC.suggestions)return;PADS.forEach(p=>{if(AC.suggestions[p]&&AC.suggestions[p].confidence!=='low'){S.thr[p]=AC.suggestions[p].suggested;syncThr(p);}});updateMx();saveThresholds();}
+function setStatus(msg,cls){EL.calStatus.textContent=msg;EL.calStatus.className='cal-status vis '+(cls||'');}
+function toggleAdv(){EL.advPanel.classList.toggle('open');EL.advToggle.classList.toggle('open');}
+function buildMx(){const g=document.getElementById('mx');g.innerHTML='';const hdr=document.createElement('div');hdr.className='mc mh';hdr.innerHTML='&nbsp;';g.appendChild(hdr);PADS.forEach(p=>{const h=document.createElement('div');h.className='mc mh';h.textContent=SH[p];g.appendChild(h);});PADS.forEach(v=>{const l=document.createElement('div');l.className='mc ml';l.textContent=SH[v];g.appendChild(l);PADS.forEach(h=>{const c=document.createElement('div');c.id='mx-'+h+'-'+v;c.className='mc'+(h===v?' ms':'');c.textContent=h===v?'-':'0';g.appendChild(c);});});}
+function updateMx(){PADS.forEach(h=>PADS.forEach(v=>{if(h===v)return;const c=EL.mx[h+'_'+v];if(!c)return;const raw=Math.round(S.xt[h][v]*4095),thr=S.thr[v];c.textContent=raw;c.className=raw>thr?'mc m-red':raw>thr*.5?'mc m-amb':raw>8?'mc m-grn':'mc';}));}
+const MAX_LOG=6;let logLines=[];
+function logHit(vals){logLines.push(`ka_l:${vals.ka_l} don_l:${vals.don_l} don_r:${vals.don_r} ka_r:${vals.ka_r}`);if(logLines.length>MAX_LOG)logLines.shift();EL.debugLog.innerHTML=logLines.map(l=>`<div class="hit">${l}</div>`).join('');EL.debugLog.scrollTop=EL.debugLog.scrollHeight;}
+setInterval(()=>{const now=Date.now(),elapsed=(now-S.lastRateTime)/1000;const rate=Math.round(S.msgCount/elapsed);S.msgCount=0;S.lastRateTime=now;EL.rateBadge.textContent=rate+' msg/s';EL.rateBadge.classList.toggle('active',rate>0);if(rate===0&&S.connected){PADS.forEach(p=>{S.pk[p]*=DECAY;EL['bf_'+p].style.height=Math.max(0,S.pk[p]*100).toFixed(1)+'%';EL['val_'+p].textContent=Math.round(S.pk[p]*4095);});}},1000);
+async function saveThresholds(){if(!S.writer){note('Not connected','err');return;}const t=S.thr;const buf=new Uint8Array([0xAA,(t.don_l>>8)&0xFF,t.don_l&0xFF,(t.don_r>>8)&0xFF,t.don_r&0xFF,(t.ka_l>>8)&0xFF,t.ka_l&0xFF,(t.ka_r>>8)&0xFF,t.ka_r&0xFF,0x55]);try{note('Saving...','');await S.writer.write(buf);S.pendingAck=true;S.ackTimeout=setTimeout(()=>{if(S.pendingAck){S.pendingAck=false;note('No response — check drum is in Debug mode','err');}},2000);}catch(e){note('Error: '+(e.message||e),'err');}}
+function note(m,c){EL.saveNote.textContent=m;EL.saveNote.className='save-note '+(c||'');}
+syncAllThr();
+
+// BUTTON TESTER — Gamepad API
+const BT_MAP={0:{el:'fc-west',cls:'active'},1:{el:'fc-south',cls:'active'},2:{el:'fc-east',cls:'active'},3:{el:'fc-north',cls:'active'},4:{el:'nb-l',cls:'active-ka'},5:{el:'nb-r',cls:'active-ka'},8:{el:'nb-select',cls:'active-grn'},9:{el:'nb-start',cls:'active-don'},12:{el:'nb-home',cls:'active-grn'},13:{el:'nb-share',cls:'active-grn'},16:{el:'dp-up',cls:'active'},17:{el:'dp-down',cls:'active'},18:{el:'dp-left',cls:'active'},19:{el:'dp-right',cls:'active'}};
+const DRUM_BTNS={6:{zone:'zone-ka-l',lbl:'lbl-ka-l',type:'ka'},7:{zone:'zone-ka-r',lbl:'lbl-ka-r',type:'ka'},10:{zone:'zone-don-l',lbl:'lbl-don-l',type:'don'},11:{zone:'zone-don-r',lbl:'lbl-don-r',type:'don'}};
+
+// Cache must be called after BT_MAP and DRUM_BTNS are defined
+cacheEls();
+
+let gpIndex=null,gpRafId=null;
+window.addEventListener('gamepadconnected',e=>{gpIndex=e.gamepad.index;EL.btDot.classList.add('on');const id=e.gamepad.id;EL.btMsg.innerHTML='<strong>'+id+'</strong> connected — press buttons to test!';EL.btModeBadge.textContent=id.length>30?id.slice(0,30)+'...':id;EL.btModeBadge.classList.add('on');EL.btInfo.textContent='Press any button — it will light up';gpPoll();});
+window.addEventListener('gamepaddisconnected',e=>{if(e.gamepad.index===gpIndex){gpIndex=null;cancelAnimationFrame(gpRafId);EL.btDot.classList.remove('on');EL.btMsg.innerHTML='Switch your drum to any <strong>non-Debug</strong> mode, then plug in via USB.';EL.btModeBadge.textContent='No gamepad';EL.btModeBadge.classList.remove('on');EL.btInfo.textContent='Switch to a non-Debug gamepad mode and press any button';clearAllBt();}});
+function setZone(i,on){
+  const d=EL.drum[i];if(!d)return;
+  if(on){d.zone.classList.add('lit');d.lbl.classList.add('lit');}
+  else{d.zone.classList.remove('lit');d.lbl.classList.remove('lit');}
+}
+function gpPoll(){
+  // Skip polling entirely when on calibrate tab — saves ~60 DOM ops/sec
+  if(activeTab!=='btn'){gpRafId=requestAnimationFrame(gpPoll);return;}
+  const gp=navigator.getGamepads()[gpIndex];
+  if(!gp){gpRafId=requestAnimationFrame(gpPoll);return;}
+  gp.buttons.forEach((btn,i)=>{
+    const pressed=btn.pressed||btn.value>0.5;
+    const map=BT_MAP[i];
+    if(map){const el=EL.gp[i];if(el){if(pressed)el.classList.add(map.cls);else el.classList.remove(map.cls);}}
+    if(EL.drum[i])setZone(i,pressed);
+  });
+  const hatAxis=gp.axes.length>9?gp.axes[9]:null;
+  if(hatAxis!==null&&hatAxis<=0.99){
+    const hat=Math.round((hatAxis+1)/2*7);
+    setDp(EL['dp_dp-up'],   hat===0||hat===1||hat===7);
+    setDp(EL['dp_dp-right'],hat===1||hat===2||hat===3);
+    setDp(EL['dp_dp-down'], hat===3||hat===4||hat===5);
+    setDp(EL['dp_dp-left'], hat===5||hat===6||hat===7);
+  }
+  gpRafId=requestAnimationFrame(gpPoll);
+}
+function setDp(el,on){if(!el)return;if(on)el.classList.add('active');else el.classList.remove('active');}
+function clearAllBt(){
+  Object.entries(BT_MAP).forEach(([i,m])=>{const el=EL.gp[i];if(el)el.classList.remove(m.cls,'active','active-don','active-ka','active-grn');});
+  Object.keys(EL.drum).forEach(i=>setZone(i,false));
+  ['dp-up','dp-down','dp-left','dp-right'].forEach(id=>setDp(EL['dp_dp-'+id.split('-')[1]],false));
+}
+</script>
+</body>
+</html>

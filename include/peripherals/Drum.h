@@ -10,23 +10,23 @@
 #include "pico/time.h"
 
 #include <array>
-#include <map>
 #include <memory>
 #include <stdint.h>
 #include <variant>
-#include <deque>
-#include <string>
 
 namespace OuchiTaiko::Peripherals {
 
 class Drum {
   public:
     enum class Id {
-        DON_LEFT,
-        KA_LEFT,
-        DON_RIGHT,
-        KA_RIGHT,
+        DON_LEFT  = 0,
+        KA_LEFT   = 1,
+        DON_RIGHT = 2,
+        KA_RIGHT  = 3,
     };
+
+    // Converts Id enum to array index (0-3)
+    static constexpr uint8_t idToIndex(Id id) { return static_cast<uint8_t>(id); }
 
     struct Config {
         struct Thresholds {
@@ -66,7 +66,7 @@ class Drum {
     };
 
     // ============================================================================
-    // AUTO CALIBRATE - Single 20-second calibration phase
+    // AUTO CALIBRATE - Single 5-second calibration phase (matches web tool algorithm)
     // ============================================================================
 
     struct TantrumState {
@@ -84,44 +84,37 @@ class Drum {
         uint32_t calibration_start{0};
         uint32_t last_hit_time{0};  // For hit cooldown tracking
 
-        // Per-sensor tracking
-        std::map<Id, uint16_t> max_hit_value;       // Highest value seen on this sensor
-        std::map<Id, uint16_t> max_crosstalk_to;    // Highest crosstalk seen TO this sensor
+        // Per-sensor tracking (indexed by Id enum value: 0=DON_LEFT, 1=KA_LEFT, 2=DON_RIGHT, 3=KA_RIGHT)
+        std::array<uint16_t, 4> max_hit_value{};       // Highest value seen on this sensor
+        std::array<uint16_t, 4> max_crosstalk_to{};    // Highest crosstalk seen TO this sensor
 
         // Results
-        std::map<Id, uint16_t> recommended_thresholds;
+        std::array<uint16_t, 4> recommended_thresholds{};
         uint32_t total_hits_detected{0};
         bool high_crosstalk_warning{false};
         bool needs_redo{false};
-        std::string redo_reason;
+        const char* redo_reason{nullptr};  // Points to string literals only — no heap allocation
 
-        // Single-phase timing constants (Total: 28 seconds)
+        // Single-phase timing constants — matched to web tool for consistent results
         static constexpr uint32_t COUNTDOWN_DURATION_MS = 3000;      // 3s countdown
-        static constexpr uint32_t CALIBRATION_DURATION_MS = 20000;   // 20s calibration (UP from 8s!)
+        static constexpr uint32_t CALIBRATION_DURATION_MS = 5000;    // 5s calibration (matches web tool)
         static constexpr uint32_t RESULTS_DURATION_MS = 5000;        // 5s results display
         
-        // Detection thresholds
-        static constexpr uint16_t MIN_HIT_STRENGTH = 150;           // Minimum to count as hit
+        // Detection thresholds — matched to web tool algorithm
+        static constexpr uint16_t MIN_HIT_STRENGTH = 30;            // Minimum to count as hit (matches web tool)
         static constexpr uint16_t MIN_ACCEPTABLE_MAX = 300;         // User must hit at least this hard
-        static constexpr uint16_t SAFETY_MARGIN = 50;               // Added above crosstalk for sensitivity
-        static constexpr float MAX_CROSSTALK_RATIO = 0.5f;          // Warn if >50% of hit
-        static constexpr uint32_t HIT_COOLDOWN_MS = 50;             // 50ms between hits (20/sec max)
+        static constexpr uint16_t SAFETY_MARGIN = 20;               // Added above crosstalk (matches web tool)
+        static constexpr uint32_t HIT_COOLDOWN_MS = 80;             // 80ms between hits (matches web tool)
 
         void reset() {
             current_mode = Mode::Inactive;
-            max_hit_value.clear();
-            max_crosstalk_to.clear();
-            recommended_thresholds.clear();
+            max_hit_value.fill(0);
+            max_crosstalk_to.fill(0);
+            recommended_thresholds.fill(0);
             total_hits_detected = 0;
             high_crosstalk_warning = false;
             needs_redo = false;
-            redo_reason.clear();
-
-            // Initialize all sensors to 0
-            for (auto id : {Id::DON_LEFT, Id::DON_RIGHT, Id::KA_LEFT, Id::KA_RIGHT}) {
-                max_hit_value[id] = 0;
-                max_crosstalk_to[id] = 0;
-            }
+            redo_reason = nullptr;
         }
 
         void startInstructions() {
@@ -182,41 +175,54 @@ class Drum {
             }
 
             // Integer-based calculation: (elapsed * 1000) / total_duration / 1000.0f
-            // This avoids floating point division in the hot path
             uint32_t progress_permille = (elapsed * 1000u) / total_duration;
             return static_cast<float>(progress_permille) * 0.001f;
+        }
+
+        // Convenience accessors for recommended thresholds (used by Display and applyTantrumRecommendations)
+        [[nodiscard]] uint16_t getRecommendedThreshold(Id id) const {
+            return recommended_thresholds[static_cast<uint8_t>(id)];
+        }
+        [[nodiscard]] bool hasRecommendations() const {
+            for (auto v : recommended_thresholds) { if (v > 0) return true; }
+            return false;
         }
     };
 
   private:
+    // ============================================================================
+    // Pad: Fixed circular buffer - ZERO heap allocation, deterministic timing
+    // ============================================================================
     class Pad {
       private:
+        static constexpr uint8_t BUFFER_CAPACITY = 32;
+
         struct BufferEntry {
             uint16_t value;
             uint32_t timestamp;
-
-            // Comparison operator for std::max_element
-            bool operator<(const BufferEntry& other) const {
-                return value < other.value;
-            }
         };
 
+        // Circular buffer - stack-allocated, fixed size
+        BufferEntry m_buffer[BUFFER_CAPACITY]{};
+        uint8_t m_head{0};   // index of oldest entry
+        uint8_t m_count{0};  // number of valid entries
+
         uint8_t m_channel;
-        uint32_t m_last_change;
-        bool m_active;
-        std::deque<BufferEntry> m_buffer;
-        uint16_t m_baseline;
+        uint32_t m_last_change{0};
+        bool m_active{false};
 
       public:
-        Pad(const uint8_t channel);
+        explicit Pad(uint8_t channel) : m_channel(channel) {}
 
-        [[nodiscard]] uint8_t getChannel() const { return m_channel; };
-        [[nodiscard]] bool getState() const { return m_active; };
-        void setState(const bool state, const uint16_t debounce_delay);
+        [[nodiscard]] uint8_t getChannel() const { return m_channel; }
+        [[nodiscard]] bool getState() const { return m_active; }
+        void setState(bool state, uint16_t debounce_delay);
 
         void addToBuffer(uint16_t value, uint16_t debounce_delay);
         [[nodiscard]] uint16_t getMaxValueInBuffer() const;
-        [[nodiscard]] uint16_t getAnalog(float gain = 1.0) const;
+        [[nodiscard]] uint16_t getAnalog(float gain = 1.0f) const;
+        // Compute analog from an already-known raw value — avoids rescanning the buffer
+        [[nodiscard]] static uint16_t computeAnalogFromRaw(uint16_t raw, float gain);
     };
 
     class RollCounter {
@@ -263,15 +269,21 @@ class Drum {
 
     Config m_config;
     std::unique_ptr<AdcInterface> m_adc;
-    std::map<Id, Pad> m_pads;
+
+    // ============================================================================
+    // m_pads: Stack-allocated array - O(1) access, zero heap allocation
+    // Order MUST match Id enum: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
+    // ============================================================================
+    std::array<Pad, 4> m_pads;
+
     RollCounter m_roll_counter;
 
     TantrumState m_tantrum_state;
 
-    void updateDigitalInputState(Utils::InputState &input_state, const std::map<Id, uint16_t> &raw_values);
-    void updateAnalogInputState(Utils::InputState &input_state, const std::map<Id, uint16_t> &raw_values);
-    std::map<Id, uint16_t> readInputs();
-    void processCalibrationData(const std::map<Id, uint16_t> &raw_values);  // Multi-phase calibration helper
+    void updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
+    void updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
+    std::array<uint16_t, 4> readInputs();
+    void processCalibrationData(const std::array<uint16_t, 4> &raw_values);
 
   public:
     Drum(const Config &config);
@@ -284,7 +296,7 @@ class Drum {
     // Taiko Tantrum public interface
     void startTaikoTantrum();
     void startTantrumCountdown();  // Start countdown from instructions screen
-    void updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values);
+    void updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values);
     void finishTaikoTantrum();
     void cancelTaikoTantrum();
     void applyTantrumRecommendations();

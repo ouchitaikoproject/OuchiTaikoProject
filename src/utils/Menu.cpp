@@ -683,7 +683,6 @@ last_update_time = current_time;
             break;
       case Descriptor::Type::UnifiedThresholds: {
     // RIGHT = increase value
-    printf("RIGHT pressed on UnifiedThresholds, selected=%d\n", current_state.selected_value);
     auto thresholds = m_store->getTriggerThresholds();
     uint16_t* selected_threshold = nullptr;
     switch (current_state.selected_value) {

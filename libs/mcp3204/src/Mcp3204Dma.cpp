@@ -55,7 +55,8 @@ void Mcp3204Dma::dmaReadHandler() {
     const uint16_t value = (static_cast<uint16_t>(m_rx_buffer[1] & 0x0F) << 8) | m_rx_buffer[2];
 
     // We only care for the maximum value since the last read
-    m_current_max_readings.at(m_current_channel) = std::max(m_current_max_readings.at(m_current_channel), value);
+    // Use [] instead of .at() — .at() can throw inside an ISR which is undefined behaviour on RP2040
+    m_current_max_readings[m_current_channel] = std::max(m_current_max_readings[m_current_channel], value);
 
     // Advance to the next channel
     m_current_channel = (m_current_channel + 1) % CHANNEL_COUNT;
@@ -123,12 +124,14 @@ void Mcp3204Dma::stop() {
 }
 
 std::array<uint16_t, Mcp3204Dma::CHANNEL_COUNT> Mcp3204Dma::take_maximums() {
-    // TODO: theoretically we should need to pause conversion for reading the values,
-    //       but so far this does not seem to pose any issue.
+    // Briefly disable the DMA IRQ while we snapshot and reset the max readings.
+    // Without this, dmaReadHandler() could write to m_current_max_readings between
+    // our copy and our fill, causing a race condition on core 0.
+    // The window is tiny (a few instructions) so latency impact is negligible.
+    irq_set_enabled(DMA_IRQ_0, false);
     std::array<uint16_t, Mcp3204Dma::CHANNEL_COUNT> result{m_current_max_readings};
-
-    // Reset values to zero
     std::ranges::fill(m_current_max_readings, 0);
+    irq_set_enabled(DMA_IRQ_0, true);
 
     return result;
 }

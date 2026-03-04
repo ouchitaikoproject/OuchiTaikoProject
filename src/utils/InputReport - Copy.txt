@@ -1,5 +1,6 @@
 #include "utils/InputReport.h"
 
+#include <iomanip>
 #include <sstream>
 
 namespace OuchiTaiko::Utils {
@@ -276,13 +277,19 @@ usb_report_t InputReport::getDebugReport(const InputState &state) {
 
     std::stringstream out;
 
-    // Stream all four raw values every poll so the web calibration tool
-    // can animate live signal bars continuously.
-    // Format: "KAL DON_L DON_R KAR\n" (space-separated, 0-4095 each)
-    out << drum.ka_left.raw  << " "
-        << drum.don_left.raw  << " "
-        << drum.don_right.raw << " "
-        << drum.ka_right.raw  << "\n";
+    auto bar = [](uint16_t val) { return std::string(val / 511, '#'); };
+
+    if (drum.don_left.triggered || drum.ka_left.triggered || drum.don_right.triggered || drum.ka_right.triggered) {
+        out << "(" << (drum.ka_left.triggered ? "*" : " ") << "( "                                         //
+            << std::setw(4) << drum.ka_left.raw << "[" << std::setw(8) << bar(drum.ka_left.raw) << "]"     //
+            << "(" << (drum.don_left.triggered ? "*" : " ") << "| "                                        //
+            << std::setw(4) << drum.don_left.raw << "[" << std::setw(8) << bar(drum.don_left.raw) << "]"   //
+            << "|" << (drum.don_right.triggered ? "*" : " ") << ") "                                       //
+            << std::setw(4) << drum.don_right.raw << "[" << std::setw(8) << bar(drum.don_right.raw) << "]" //
+            << ")" << (drum.ka_right.triggered ? "*" : " ") << ") "                                        //
+            << std::setw(4) << drum.ka_right.raw << "[" << std::setw(8) << bar(drum.ka_right.raw) << "]"   //
+            << "\n";
+    }
 
     m_debug_report = out.str();
 

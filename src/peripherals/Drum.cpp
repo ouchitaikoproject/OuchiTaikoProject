@@ -7,9 +7,12 @@
 #include <mcp3204/Mcp3204Dma.h>
 
 #include <algorithm>
-#include <deque>
 
 namespace OuchiTaiko::Peripherals {
+
+// ============================================================================
+// InternalAdc
+// ============================================================================
 
 Drum::InternalAdc::InternalAdc(const Config::InternalAdc &config) : m_config(config) {
     static const uint adc_base_pin = 26;
@@ -30,14 +33,14 @@ std::array<uint16_t, 4> Drum::InternalAdc::read() {
     for (uint8_t sample_number = 0; sample_number < m_config.sample_count; ++sample_number) {
         for (size_t idx = 0; idx < values.size(); ++idx) {
             adc_select_input(idx);
-            values.at(idx) += adc_read();
+            values[idx] += adc_read();
         }
     }
 
     std::array<uint16_t, 4> raw_result{};
-    std::ranges::transform(values, raw_result.begin(), [&](const auto &sample) { 
-        return sample / m_config.sample_count; 
-    });
+    for (size_t idx = 0; idx < raw_result.size(); ++idx) {
+        raw_result[idx] = static_cast<uint16_t>(values[idx] / m_config.sample_count);
+    }
 
     std::array<uint16_t, 4> result{};
     for (size_t idx = 0; idx < raw_result.size(); ++idx) {
@@ -66,6 +69,10 @@ std::array<uint16_t, 4> Drum::InternalAdc::read() {
     return result;
 }
 
+// ============================================================================
+// ExternalAdc
+// ============================================================================
+
 Drum::ExternalAdc::ExternalAdc(const Config::ExternalAdc &config) {
     gpio_init(config.spi_level_shifter_enable_pin);
     gpio_set_dir(config.spi_level_shifter_enable_pin, (bool)GPIO_OUT);
@@ -86,14 +93,15 @@ std::array<uint16_t, 4> Drum::ExternalAdc::read() {
     return Mcp3204Dma::take_maximums(); 
 }
 
-Drum::Pad::Pad(const uint8_t channel) : m_channel(channel), m_last_change(0), m_active(false), m_baseline(300){};
+// ============================================================================
+// Pad - Fixed circular buffer implementation
+// ============================================================================
 
 void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
     if (state != m_active) {
         const uint32_t now = to_ms_since_boot(get_absolute_time());
         uint32_t time_since_change = now - m_last_change;
 
-        // Simple time-based debounce (original DonCon2040 behavior)
         if (time_since_change >= debounce_delay) {
             m_active = state;
             m_last_change = now;
@@ -103,33 +111,43 @@ void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
 
 void Drum::Pad::addToBuffer(uint16_t value, uint16_t debounce_delay) {
     const uint32_t now = to_ms_since_boot(get_absolute_time());
+    const uint32_t expiry = now - debounce_delay;
 
-    while (!m_buffer.empty() && (m_buffer.front().timestamp + debounce_delay) <= now) {
-        m_buffer.pop_front();
+    // Evict expired entries from the front of the circular buffer
+    while (m_count > 0 && m_buffer[m_head].timestamp <= expiry) {
+        m_head = (m_head + 1) % BUFFER_CAPACITY;
+        m_count--;
     }
 
-    m_buffer.push_back({value, now});
-    // Baseline tracking removed - ADC layer already handles baseline subtraction
+    // Write new entry at tail position (wrap around if full, overwriting oldest)
+    const uint8_t tail = (m_head + m_count) % BUFFER_CAPACITY;
+    m_buffer[tail] = {value, now};
+    if (m_count < BUFFER_CAPACITY) {
+        m_count++;
+    } else {
+        // Buffer full: advance head to discard oldest entry
+        m_head = (m_head + 1) % BUFFER_CAPACITY;
+    }
 }
 
 uint16_t Drum::Pad::getMaxValueInBuffer() const {
-    if (m_buffer.empty()) {
+    if (m_count == 0) {
         return 0;
     }
-    return std::max_element(m_buffer.begin(), m_buffer.end())->value;
+    uint16_t max_val = 0;
+    for (uint8_t i = 0; i < m_count; ++i) {
+        uint16_t v = m_buffer[(m_head + i) % BUFFER_CAPACITY].value;
+        if (v > max_val) max_val = v;
+    }
+    return max_val;
 }
 
-uint16_t Drum::Pad::getAnalog(float gain) const {
+// Static helper: convert a known raw 12-bit value to a gained 16-bit analog value.
+// Separated from getAnalog() so updateAnalogInputState() can reuse the already-computed
+// getMaxValueInBuffer() result instead of scanning the circular buffer a second time.
+uint16_t Drum::Pad::computeAnalogFromRaw(uint16_t raw, float gain) {
     // Transform 12-bit ADC value (0-4095) to 16-bit range (0-65535)
-    const auto raw_to_uint16 = [](uint16_t raw) {
-        return ((raw << 4) & 0xFFF0) | ((raw >> 8) & 0x000F);
-    };
-
-    uint16_t max_value = getMaxValueInBuffer();
-    // ADC layer already handles baseline subtraction, no need to subtract again
-
-    // Bit-shift FIRST to get full 16-bit range
-    uint32_t value_16bit = raw_to_uint16(max_value);
+    const uint32_t value_16bit = static_cast<uint32_t>(((raw << 4) & 0xFFF0) | ((raw >> 8) & 0x000F));
 
     // Apply gain multiplier (compensates for missing OpAmp circuit)
     uint32_t gained_value = static_cast<uint32_t>(value_16bit * gain);
@@ -142,7 +160,16 @@ uint16_t Drum::Pad::getAnalog(float gain) const {
     return static_cast<uint16_t>(gained_value);
 }
 
-Drum::RollCounter::RollCounter(uint32_t timeout_ms) : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {};
+uint16_t Drum::Pad::getAnalog(float gain) const {
+    return computeAnalogFromRaw(getMaxValueInBuffer(), gain);
+}
+
+// ============================================================================
+// RollCounter
+// ============================================================================
+
+Drum::RollCounter::RollCounter(uint32_t timeout_ms)
+    : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {}
 
 void Drum::RollCounter::reset() {
     m_roll_count = 0;
@@ -174,150 +201,144 @@ void Drum::RollCounter::update() {
     }
 }
 
-Drum::Drum(const Config &config) : m_config(config), m_roll_counter(config.roll_counter_timeout_ms) {
+// ============================================================================
+// Drum constructor
+// ============================================================================
 
+Drum::Drum(const Config &config)
+    : m_config(config),
+      m_pads{Pad(config.adc_channels.don_left),
+             Pad(config.adc_channels.ka_left),
+             Pad(config.adc_channels.don_right),
+             Pad(config.adc_channels.ka_right)},
+      m_roll_counter(config.roll_counter_timeout_ms)
+{
     std::visit(
-        [this](auto &&config) {
-            using T = std::decay_t<decltype(config)>;
+        [this](auto &&adc_cfg) {
+            using T = std::decay_t<decltype(adc_cfg)>;
 
             if constexpr (std::is_same_v<T, Config::InternalAdc>) {
-                m_adc = std::make_unique<InternalAdc>(config);
+                m_adc = std::make_unique<InternalAdc>(adc_cfg);
             } else if constexpr (std::is_same_v<T, Config::ExternalAdc>) {
-                m_adc = std::make_unique<ExternalAdc>(config);
+                m_adc = std::make_unique<ExternalAdc>(adc_cfg);
             } else {
                 static_assert(false, "Unknown ADC type!");
             }
         },
         m_config.adc_config);
-
-    m_pads.emplace(Id::DON_LEFT, config.adc_channels.don_left);
-    m_pads.emplace(Id::KA_LEFT, config.adc_channels.ka_left);
-    m_pads.emplace(Id::DON_RIGHT, config.adc_channels.don_right);
-    m_pads.emplace(Id::KA_RIGHT, config.adc_channels.ka_right);
 }
 
-std::map<Drum::Id, uint16_t> Drum::readInputs() {
-    std::map<Id, uint16_t> result;
+// ============================================================================
+// readInputs - returns stack-allocated array, zero heap allocation
+// Index mapping: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
+// ============================================================================
 
+std::array<uint16_t, 4> Drum::readInputs() {
     const auto adc_values = m_adc->read();
 
-    for (const auto &pad : m_pads) {
-        result[pad.first] = adc_values[pad.second.getChannel()];
+    std::array<uint16_t, 4> result{};
+    for (size_t i = 0; i < 4; ++i) {
+        result[i] = adc_values[m_pads[i].getChannel()];
     }
 
     return result;
 }
 
-void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::map<Drum::Id, uint16_t> &raw_values) {
-    
-    // ============================================================================
-    // OUCHITAIKO SPECIAL: THRESHOLD-FIRST HIT DETECTION ALGORITHM
-    // DO NOT REMOVE OR REPLACE - This is the proven working approach from 45 days ago!
-    // Key principle: Filter by thresholds FIRST, then do all comparisons on filtered values
-    // This eliminates crosstalk before it participates in decision-making
-    // ============================================================================
-    
-    std::map<Id, uint16_t> filtered_raw_values;
+// ============================================================================
+// OUCHITAIKO SPECIAL: THRESHOLD-FIRST HIT DETECTION
+// DO NOT REMOVE OR REPLACE
+// ============================================================================
 
-    const auto get_threshold = [&](Id target) {
-        switch (target) {
-        case Id::DON_LEFT:
-            return m_config.trigger_thresholds.don_left;
-        case Id::DON_RIGHT:
-            return m_config.trigger_thresholds.don_right;
-        case Id::KA_LEFT:
-            return m_config.trigger_thresholds.ka_left;
-        case Id::KA_RIGHT:
-            return m_config.trigger_thresholds.ka_right;
-        }
-        return (uint16_t)0;
+void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
+
+    // Threshold lookup by array index (matches Id enum values)
+    const uint16_t thresholds[4] = {
+        m_config.trigger_thresholds.don_left,   // [0] DON_LEFT
+        m_config.trigger_thresholds.ka_left,    // [1] KA_LEFT
+        m_config.trigger_thresholds.don_right,  // [2] DON_RIGHT
+        m_config.trigger_thresholds.ka_right,   // [3] KA_RIGHT
     };
 
-    // STEP 1: Apply thresholds FIRST - create filtered map
-    for (const auto &entry : raw_values) {
-        uint16_t threshold = get_threshold(entry.first);
-        filtered_raw_values[entry.first] = (entry.second > threshold) ? entry.second : 0;
+    // STEP 1: Apply thresholds FIRST
+    std::array<uint16_t, 4> filtered{};
+    for (size_t i = 0; i < 4; ++i) {
+        filtered[i] = (raw_values[i] > thresholds[i]) ? raw_values[i] : 0;
     }
 
     // STEP 2: Twin pad zero logic (if one is much weaker, zero it out)
-    const auto zero_if_not_within_twin = [](auto &values, Id a, Id b) {
-        if (values.at(a) == 0 || values.at(b) == 0) {
-            return;
-        }
-
-        if (values.at(a) > values.at(b)) {
-            if (values.at(b) < (values.at(a) >> 1)) {
-                values.at(b) = 0;
-            }
+    // DON pair: indices 0 (DON_LEFT) and 2 (DON_RIGHT)
+    // KA pair:  indices 1 (KA_LEFT)  and 3 (KA_RIGHT)
+    const auto zero_if_not_within_twin = [](std::array<uint16_t, 4> &values, size_t a, size_t b) {
+        if (values[a] == 0 || values[b] == 0) return;
+        if (values[a] > values[b]) {
+            if (values[b] < (values[a] >> 1)) values[b] = 0;
         } else {
-            if (values.at(a) < (values.at(b) >> 1)) {
-                values.at(a) = 0;
-            }
+            if (values[a] < (values[b] >> 1)) values[a] = 0;
         }
     };
 
-    zero_if_not_within_twin(filtered_raw_values, Id::DON_LEFT, Id::DON_RIGHT);
-    zero_if_not_within_twin(filtered_raw_values, Id::KA_LEFT, Id::KA_RIGHT);
+    zero_if_not_within_twin(filtered, 0, 2);  // DON_LEFT vs DON_RIGHT
+    zero_if_not_within_twin(filtered, 1, 3);  // KA_LEFT  vs KA_RIGHT
 
     // STEP 3: Don-vs-Ka crosstalk suppression on FILTERED values
-    uint16_t max_don = std::max(filtered_raw_values[Id::DON_LEFT], filtered_raw_values[Id::DON_RIGHT]);
-    uint16_t max_ka = std::max(filtered_raw_values[Id::KA_LEFT], filtered_raw_values[Id::KA_RIGHT]);
-    
+    uint16_t max_don = (filtered[0] > filtered[2]) ? filtered[0] : filtered[2];
+    uint16_t max_ka  = (filtered[1] > filtered[3]) ? filtered[1] : filtered[3];
+
     if (max_don > 0 && max_ka > 0) {
-        // Both types triggered - suppress the weaker one
         if (max_don > max_ka) {
-            // Don wins - suppress Ka
-            filtered_raw_values[Id::KA_LEFT] = 0;
-            filtered_raw_values[Id::KA_RIGHT] = 0;
+            filtered[1] = 0;
+            filtered[3] = 0;
         } else {
-            // Ka wins - suppress Don
-            filtered_raw_values[Id::DON_LEFT] = 0;
-            filtered_raw_values[Id::DON_RIGHT] = 0;
+            filtered[0] = 0;
+            filtered[2] = 0;
         }
     }
 
     // STEP 4: Set pad states based on FILTERED values
-    for (const auto &entry : filtered_raw_values) {
-        m_pads.at(entry.first).setState(entry.second != 0, m_config.debounce_delay_ms);
+    for (size_t i = 0; i < 4; ++i) {
+        m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
     }
     // ============================================================================
     // END OUCHITAIKO SPECIAL HIT DETECTION
     // ============================================================================
 
     // STEP 5: Roll counter (detect rising edges)
-    bool don_left_rising = !input_state.drum.don_left.triggered && m_pads.at(Id::DON_LEFT).getState();
-    bool don_right_rising = !input_state.drum.don_right.triggered && m_pads.at(Id::DON_RIGHT).getState();
-    bool ka_left_rising = !input_state.drum.ka_left.triggered && m_pads.at(Id::KA_LEFT).getState();
-    bool ka_right_rising = !input_state.drum.ka_right.triggered && m_pads.at(Id::KA_RIGHT).getState();
+    bool don_left_rising  = !input_state.drum.don_left.triggered  && m_pads[idToIndex(Id::DON_LEFT)].getState();
+    bool don_right_rising = !input_state.drum.don_right.triggered && m_pads[idToIndex(Id::DON_RIGHT)].getState();
+    bool ka_left_rising   = !input_state.drum.ka_left.triggered   && m_pads[idToIndex(Id::KA_LEFT)].getState();
+    bool ka_right_rising  = !input_state.drum.ka_right.triggered  && m_pads[idToIndex(Id::KA_RIGHT)].getState();
 
     if (don_left_rising || don_right_rising || ka_left_rising || ka_right_rising) {
         m_roll_counter.addHit();
     }
 
     // STEP 6: Write final states to input_state
-    input_state.drum.don_left.triggered = m_pads.at(Id::DON_LEFT).getState();
-    input_state.drum.ka_left.triggered = m_pads.at(Id::KA_LEFT).getState();
-    input_state.drum.don_right.triggered = m_pads.at(Id::DON_RIGHT).getState();
-    input_state.drum.ka_right.triggered = m_pads.at(Id::KA_RIGHT).getState();
+    input_state.drum.don_left.triggered  = m_pads[idToIndex(Id::DON_LEFT)].getState();
+    input_state.drum.ka_left.triggered   = m_pads[idToIndex(Id::KA_LEFT)].getState();
+    input_state.drum.don_right.triggered = m_pads[idToIndex(Id::DON_RIGHT)].getState();
+    input_state.drum.ka_right.triggered  = m_pads[idToIndex(Id::KA_RIGHT)].getState();
 
-    input_state.drum.current_roll = m_roll_counter.getRoll();
+    input_state.drum.current_roll  = m_roll_counter.getRoll();
     input_state.drum.previous_roll = m_roll_counter.getPreviousRoll();
 }
 
-void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::map<Drum::Id, uint16_t> &raw_values) {
-    for (const auto &[id, value] : raw_values) {
-        m_pads.at(id).addToBuffer(value, m_config.debounce_delay_ms);
+void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
+    for (size_t i = 0; i < 4; ++i) {
+        m_pads[i].addToBuffer(raw_values[i], m_config.debounce_delay_ms);
     }
 
-    input_state.drum.don_left.raw = m_pads.at(Id::DON_LEFT).getMaxValueInBuffer();
-    input_state.drum.ka_left.raw = m_pads.at(Id::KA_LEFT).getMaxValueInBuffer();
-    input_state.drum.don_right.raw = m_pads.at(Id::DON_RIGHT).getMaxValueInBuffer();
-    input_state.drum.ka_right.raw = m_pads.at(Id::KA_RIGHT).getMaxValueInBuffer();
+    // Scan each pad's circular buffer exactly once, then compute both raw and analog from that result.
+    // Previously getMaxValueInBuffer() and getAnalog() each scanned the buffer separately (2x per pad = 8 scans).
+    const auto applyPad = [&](Utils::InputState::Drum::Pad &out, Id id) {
+        const uint16_t raw = m_pads[idToIndex(id)].getMaxValueInBuffer();
+        out.raw    = raw;
+        out.analog = m_pads[idToIndex(id)].computeAnalogFromRaw(raw, m_config.analog_gain);
+    };
 
-    input_state.drum.don_left.analog = m_pads.at(Id::DON_LEFT).getAnalog(m_config.analog_gain);
-    input_state.drum.ka_left.analog = m_pads.at(Id::KA_LEFT).getAnalog(m_config.analog_gain);
-    input_state.drum.don_right.analog = m_pads.at(Id::DON_RIGHT).getAnalog(m_config.analog_gain);
-    input_state.drum.ka_right.analog = m_pads.at(Id::KA_RIGHT).getAnalog(m_config.analog_gain);
+    applyPad(input_state.drum.don_left,  Id::DON_LEFT);
+    applyPad(input_state.drum.ka_left,   Id::KA_LEFT);
+    applyPad(input_state.drum.don_right, Id::DON_RIGHT);
+    applyPad(input_state.drum.ka_right,  Id::KA_RIGHT);
 }
 
 void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode) {
@@ -327,8 +348,6 @@ void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode)
         updateTaikoTantrum(raw_values);
     }
 
-    // In Xbox 360 Analog modes, skip digital threshold checking entirely
-    // This prevents .triggered from being set, forcing the game to read only analog values
     const bool is_analog_mode = (usb_mode == USB_MODE_XBOX360_ANALOG_P1) ||
                                 (usb_mode == USB_MODE_XBOX360_ANALOG_P2);
 
@@ -355,21 +374,17 @@ void Drum::startTantrumCountdown() {
     m_tantrum_state.startCountdown();
 }
 
-void Drum::updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values) {
+void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
     if (!m_tantrum_state.isActive()) {
         return;
     }
 
     uint32_t now = to_ms_since_boot(get_absolute_time());
 
-    // WAITING FOR USER: Instructions screen - user must press A button to start
-    // (This is handled externally by checking getTantrumState().current_mode and calling startCountdown)
     if (m_tantrum_state.current_mode == TantrumState::Mode::Instructions) {
-        // Do nothing - wait for external trigger via startCountdown()
-        return;
+        return;  // Wait for external trigger via startCountdown()
     }
 
-    // PHASE 1: COUNTDOWN (3 seconds)
     if (m_tantrum_state.current_mode == TantrumState::Mode::Countdown) {
         uint32_t elapsed = now - m_tantrum_state.countdown_start;
         if (elapsed >= TantrumState::COUNTDOWN_DURATION_MS) {
@@ -378,7 +393,6 @@ void Drum::updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values) {
         return;
     }
 
-    // PHASE 2: CALIBRATION (20 seconds) - Mix rolls & standard hits
     if (m_tantrum_state.current_mode == TantrumState::Mode::Calibrating) {
         uint32_t elapsed = now - m_tantrum_state.calibration_start;
         if (elapsed >= TantrumState::CALIBRATION_DURATION_MS) {
@@ -390,16 +404,16 @@ void Drum::updateTaikoTantrum(const std::map<Id, uint16_t> &raw_values) {
     }
 }
 
-void Drum::processCalibrationData(const std::map<Id, uint16_t> &raw_values) {
+void Drum::processCalibrationData(const std::array<uint16_t, 4> &raw_values) {
     uint32_t now = to_ms_since_boot(get_absolute_time());
 
     // Find which sensor has the strongest signal
-    Id strongest_sensor = Id::DON_LEFT;
+    uint8_t strongest_idx = 0;
     uint16_t max_value = 0;
-    for (const auto& [sensor_id, value] : raw_values) {
-        if (value > max_value) {
-            max_value = value;
-            strongest_sensor = sensor_id;
+    for (uint8_t i = 0; i < 4; ++i) {
+        if (raw_values[i] > max_value) {
+            max_value = raw_values[i];
+            strongest_idx = i;
         }
     }
 
@@ -413,21 +427,18 @@ void Drum::processCalibrationData(const std::map<Id, uint16_t> &raw_values) {
         return;
     }
 
-    // Record this as a hit
     m_tantrum_state.last_hit_time = now;
     m_tantrum_state.total_hits_detected++;
 
     // Track maximum value for the strongest sensor (intentional hit)
-    if (max_value > m_tantrum_state.max_hit_value[strongest_sensor]) {
-        m_tantrum_state.max_hit_value[strongest_sensor] = max_value;
+    if (max_value > m_tantrum_state.max_hit_value[strongest_idx]) {
+        m_tantrum_state.max_hit_value[strongest_idx] = max_value;
     }
 
-    // Track maximum crosstalk for all OTHER sensors (unintentional activation)
-    for (const auto& [sensor_id, value] : raw_values) {
-        if (sensor_id != strongest_sensor) {
-            if (value > m_tantrum_state.max_crosstalk_to[sensor_id]) {
-                m_tantrum_state.max_crosstalk_to[sensor_id] = value;
-            }
+    // Track maximum crosstalk for all OTHER sensors
+    for (uint8_t i = 0; i < 4; ++i) {
+        if (i != strongest_idx && raw_values[i] > m_tantrum_state.max_crosstalk_to[i]) {
+            m_tantrum_state.max_crosstalk_to[i] = raw_values[i];
         }
     }
 }
@@ -436,44 +447,39 @@ void Drum::finishTaikoTantrum() {
     m_tantrum_state.current_mode = TantrumState::Mode::ShowingResults;
 
     // VALIDATION: Check that user hit hard enough on all sensors
-    bool all_sensors_hit = true;
-    for (auto id : {Id::DON_LEFT, Id::DON_RIGHT, Id::KA_LEFT, Id::KA_RIGHT}) {
-        if (m_tantrum_state.max_hit_value[id] < TantrumState::MIN_ACCEPTABLE_MAX) {
-            all_sensors_hit = false;
-            break;
+    for (uint8_t i = 0; i < 4; ++i) {
+        if (m_tantrum_state.max_hit_value[i] < TantrumState::MIN_ACCEPTABLE_MAX) {
+            m_tantrum_state.current_mode = TantrumState::Mode::NeedsRedo;
+            m_tantrum_state.needs_redo = true;
+            m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";  // string literal — no allocation
+            return;
         }
     }
 
-    if (!all_sensors_hit) {
-        m_tantrum_state.current_mode = TantrumState::Mode::NeedsRedo;
-        m_tantrum_state.needs_redo = true;
-        m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";
-        return;
-    }
-
     // CALCULATE THRESHOLDS: Use HIGHER of crosstalk-based OR hit-strength-based threshold
-    // This prevents thresholds from being too low when mechanical isolation is excellent
-    for (auto id : {Id::DON_LEFT, Id::DON_RIGHT, Id::KA_LEFT, Id::KA_RIGHT}) {
-        uint16_t max_crosstalk = m_tantrum_state.max_crosstalk_to[id];
-        uint16_t max_hit = m_tantrum_state.max_hit_value[id];
+    for (uint8_t i = 0; i < 4; ++i) {
+        uint16_t max_crosstalk = m_tantrum_state.max_crosstalk_to[i];
+        uint16_t max_hit       = m_tantrum_state.max_hit_value[i];
         
-        // Crosstalk-based threshold: crosstalk + safety margin
-        uint16_t crosstalk_threshold = max_crosstalk + TantrumState::SAFETY_MARGIN;
-        
-        // Hit-strength-based threshold: 35% of maximum hit strength
-        // Using integer math: (max_hit * 35) / 100
-        uint16_t hit_strength_threshold = (max_hit * 35) / 100;
-        
-        // Use whichever is HIGHER to ensure good sensitivity while preventing crosstalk
-        uint16_t final_threshold = (crosstalk_threshold > hit_strength_threshold) 
-                                   ? crosstalk_threshold 
-                                   : hit_strength_threshold;
-        
-        m_tantrum_state.recommended_thresholds[id] = final_threshold;
+        uint16_t crosstalk_threshold   = max_crosstalk + TantrumState::SAFETY_MARGIN;
+        uint16_t hit_strength_threshold = (max_hit * 30) / 100;  // 30% of max hit (matches web tool)
 
-        // CROSSTALK WARNING: Check if crosstalk is >50% of hit strength
-        // Use integer math: crosstalk > (max_hit / 2) instead of (crosstalk / max_hit > 0.5)
-        if (max_crosstalk > (max_hit >> 1)) {  // >> 1 is divide by 2
+        uint16_t final_threshold =
+            (crosstalk_threshold > hit_strength_threshold) ? crosstalk_threshold : hit_strength_threshold;
+
+        // SAFETY CAP: Never recommend a threshold above 50% of max hit strength.
+        // If crosstalk is so bad the math would exceed this, the pad would become
+        // unresponsive. Cap it and force the high-crosstalk warning instead.
+        uint16_t max_safe_threshold = max_hit >> 1;  // 50% of hit strength
+        if (final_threshold > max_safe_threshold) {
+            final_threshold = max_safe_threshold;
+            m_tantrum_state.high_crosstalk_warning = true;
+        }
+
+        m_tantrum_state.recommended_thresholds[i] = final_threshold;
+
+        // CROSSTALK WARNING: if crosstalk > 50% of hit strength
+        if (max_crosstalk > (max_hit >> 1)) {
             m_tantrum_state.high_crosstalk_warning = true;
         }
     }
@@ -484,14 +490,15 @@ void Drum::cancelTaikoTantrum() {
 }
 
 void Drum::applyTantrumRecommendations() {
-    if (m_tantrum_state.recommended_thresholds.empty()) {
+    if (!m_tantrum_state.hasRecommendations()) {
         return;
     }
 
-    m_config.trigger_thresholds.don_left = m_tantrum_state.recommended_thresholds[Id::DON_LEFT];
-    m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[Id::DON_RIGHT];
-    m_config.trigger_thresholds.ka_left = m_tantrum_state.recommended_thresholds[Id::KA_LEFT];
-    m_config.trigger_thresholds.ka_right = m_tantrum_state.recommended_thresholds[Id::KA_RIGHT];
+    // Index mapping: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
+    m_config.trigger_thresholds.don_left  = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_LEFT)];
+    m_config.trigger_thresholds.ka_left   = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
+    m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
+    m_config.trigger_thresholds.ka_right  = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
 }
 
 } // namespace OuchiTaiko::Peripherals

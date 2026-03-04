@@ -21,6 +21,7 @@
 #include "pico/util/queue.h"
 
 #include <cstdio>
+#include "tusb.h"
 
 using namespace OuchiTaiko;
 
@@ -445,9 +446,6 @@ int main() {
                 ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
 
-                // Brief delay to let display state update
-                sleep_ms(100);
-
                 // Core 1's display.update() will automatically show the Tantrum screens
                 // based on the Drum's TantrumState (countdown → recording → results)
             }
@@ -485,6 +483,50 @@ int main() {
         if (was_menu_active && !menu.active()) {
             // The menu's deactivate() already handles cleanup
         }
+
+        // ============================================================================
+        // WEB TOOL SERIAL RECEIVE: Accept threshold packet from ouchitaiko-tool
+        // Packet format: AA [donL hi] [donL lo] [donR hi] [donR lo] [kaL hi] [kaL lo] [kaR hi] [kaR lo] 55
+        // Only active in Debug mode so it doesn't interfere with normal USB operation
+        // ============================================================================
+        if (mode == USB_MODE_DEBUG && tud_cdc_available()) {
+            static uint8_t rx_buf[10];
+            static uint8_t rx_pos = 0;
+
+            uint8_t byte;
+            tud_cdc_read(&byte, 1);
+
+            if (rx_pos == 0 && byte != 0xAA) {
+                // Not a start byte — ignore and stay ready
+            } else {
+                rx_buf[rx_pos++] = byte;
+
+                if (rx_pos == 10) {
+                    rx_pos = 0;
+                    if (rx_buf[9] == 0x55) {
+                        // Valid packet — apply and save thresholds
+                        Peripherals::Drum::Config::Thresholds t;
+                        t.don_left  = (static_cast<uint16_t>(rx_buf[1]) << 8) | rx_buf[2];
+                        t.don_right = (static_cast<uint16_t>(rx_buf[3]) << 8) | rx_buf[4];
+                        t.ka_left   = (static_cast<uint16_t>(rx_buf[5]) << 8) | rx_buf[6];
+                        t.ka_right  = (static_cast<uint16_t>(rx_buf[7]) << 8) | rx_buf[8];
+
+                        drum.setTriggerThresholds(t);
+                        settings_store->setTriggerThresholds(t);
+                        settings_store->store();
+
+                        // Send ACK back to web tool
+                        const char* ack = "OK\n";
+                        tud_cdc_write(ack, 3);
+                        tud_cdc_write_flush();
+                    }
+                    // Bad end byte — silently discard, rx_pos already reset
+                }
+            }
+        }
+        // ============================================================================
+        // END WEB TOOL SERIAL RECEIVE
+        // ============================================================================
 
         usbd_driver_send_report(input_report.getReport(input_state, mode));
         usbd_driver_task();

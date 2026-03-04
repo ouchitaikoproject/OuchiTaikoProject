@@ -1222,15 +1222,16 @@ void Display::drawTantrumResultsScreen() {
     ssd1306_draw_line(&m_display, 0, 22, 127, 22);
 
     // Show calculated thresholds (size 1 font)
+    // Index mapping: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
     const auto& thresholds = tantrum_state.recommended_thresholds;
 
-    std::string line1 = "DL:" + std::to_string(thresholds.at(Drum::Id::DON_LEFT)) +
-                        " DR:" + std::to_string(thresholds.at(Drum::Id::DON_RIGHT));
+    std::string line1 = "DL:" + std::to_string(thresholds[Drum::idToIndex(Drum::Id::DON_LEFT)]) +
+                        " DR:" + std::to_string(thresholds[Drum::idToIndex(Drum::Id::DON_RIGHT)]);
     int line1_x = (128 - line1.length() * 6) / 2;
     ssd1306_draw_string(&m_display, line1_x, 26, 1, line1.c_str());
 
-    std::string line2 = "KL:" + std::to_string(thresholds.at(Drum::Id::KA_LEFT)) +
-                        " KR:" + std::to_string(thresholds.at(Drum::Id::KA_RIGHT));
+    std::string line2 = "KL:" + std::to_string(thresholds[Drum::idToIndex(Drum::Id::KA_LEFT)]) +
+                        " KR:" + std::to_string(thresholds[Drum::idToIndex(Drum::Id::KA_RIGHT)]);
     int line2_x = (128 - line2.length() * 6) / 2;
     ssd1306_draw_string(&m_display, line2_x, 36, 1, line2.c_str());
 

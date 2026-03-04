@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OuchiTaiko · Rhythm Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0908;
+  --surface:#121110;
+  --surface2:#1a1917;
+  --surface3:#222120;
+  --border:#2a2826;
+  --don:#e8572a;
+  --don-dim:rgba(232,87,42,0.15);
+  --don-glow:rgba(232,87,42,0.5);
+  --ka:#1fa3b3;
+  --ka-dim:rgba(31,163,179,0.15);
+  --ka-glow:rgba(31,163,179,0.5);
+  --green:#22c55e;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --text:#f0ede8;
+  --text2:#8a8480;
+  --text3:#4a4644;
+  --f:'DM Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --display:'Syne',sans-serif;
+}
+
+body{background:var(--bg);font-family:var(--f);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ── Header ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo svg{width:26px;height:26px;}
+.logo-text{font-family:var(--display);font-size:14px;font-weight:800;} 
+.logo-text em{color:var(--don);font-style:normal;}
+.hdr-center{display:flex;align-items:center;gap:16px;}
+.pattern-select{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;}
+.pattern-select:focus{outline:none;}
+.speed-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);}
+.speed-row label{font-weight:700;}
+.speed-input{width:52px;padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--mono);font-size:12px;text-align:center;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.conn-btn{padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;}
+.conn-btn.on{border-color:rgba(34,197,94,.35);color:var(--green);background:rgba(34,197,94,.08);}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);}
+.conn-btn.on .conn-dot{background:var(--green);box-shadow:0 0 5px var(--green);}
+.start-btn{padding:7px 18px;border-radius:7px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
+.start-btn:hover{background:#d04820;}
+.start-btn:disabled{background:var(--surface2);color:var(--text3);cursor:not-allowed;}
+.start-btn.running{background:var(--surface2);color:var(--text2);border:1px solid var(--border);}
+
+/* ── Game area ── */
+.game-wrap{flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+
+/* ── Lane ── */
+.lane-area{flex:1;position:relative;display:flex;align-items:center;}
+canvas#lane{display:block;width:100%;height:100%;}
+
+/* ── Feedback popup ── */
+.feedback{position:absolute;left:var(--hit-x);top:50%;transform:translate(-50%,-110%);font-family:var(--display);font-size:22px;font-weight:900;pointer-events:none;opacity:0;transition:none;}
+.feedback.show{animation:fbpop .45s ease forwards;}
+@keyframes fbpop{0%{opacity:1;transform:translate(-50%,-110%) scale(1.3);}60%{opacity:1;transform:translate(-50%,-140%) scale(1);}100%{opacity:0;transform:translate(-50%,-170%);}}
+.feedback.perfect{color:#fbbf24;}
+.feedback.good{color:var(--green);}
+.feedback.miss{color:var(--red);}
+
+/* ── Bottom stats bar ── */
+.stats-bar{height:64px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:32px;flex-shrink:0;}
+.stat{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:60px;}
+.stat-val{font-family:var(--display);font-size:20px;font-weight:900;line-height:1;}
+.stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:var(--mono);}
+.stat.perfect .stat-val{color:#fbbf24;}
+.stat.good    .stat-val{color:var(--green);}
+.stat.miss    .stat-val{color:var(--red);}
+.stat.combo   .stat-val{color:var(--text);}
+.stat.acc     .stat-val{color:var(--text);}
+.stat-div{width:1px;height:32px;background:var(--border);}
+
+/* Timing histogram area */
+.timing-wrap{margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.timing-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:var(--mono);}
+.timing-hist{display:flex;align-items:flex-end;gap:1px;height:28px;}
+.th-bar{width:5px;background:var(--surface3);border-radius:2px 2px 0 0;min-height:2px;transition:height .15s;}
+
+/* ── Key indicators ── */
+.keys-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.keys-row{display:flex;gap:4px;}
+.key-cap{display:flex;flex-direction:column;align-items:center;gap:1px;width:38px;padding:5px 4px 4px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);transition:all .08s;cursor:default;}
+.key-cap.ka.active{border-color:var(--ka);background:var(--ka-dim);box-shadow:0 0 10px var(--ka-glow);}
+.key-cap.don.active{border-color:var(--don);background:var(--don-dim);box-shadow:0 0 10px var(--don-glow);}
+.key-letter{font-family:var(--display);font-size:14px;font-weight:900;color:var(--text2);line-height:1;}
+.key-cap.ka.active .key-letter{color:var(--ka);}
+.key-cap.don.active .key-letter{color:var(--don);}
+.key-sub{font-size:8px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.03em;font-family:var(--mono);}
+
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(10,9,8,.92);z-index:10;}
+.overlay.hidden{display:none;}
+.ov-title{font-family:var(--display);font-size:28px;font-weight:900;color:var(--text);}
+.ov-sub{font-size:13px;color:var(--text2);text-align:center;max-width:360px;line-height:1.7;}
+.ov-drum{display:flex;align-items:center;gap:24px;margin:8px 0;}
+.ov-key{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--text2);font-weight:700;}
+.ov-key svg{width:48px;height:48px;}
+
+/* Results overlay */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:340px;}
+.res-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+.res-val{font-family:var(--display);font-size:24px;font-weight:900;}
+.res-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-family:var(--mono);margin-top:3px;}
+.res-card.perfect .res-val{color:#fbbf24;}
+.res-card.good    .res-val{color:var(--green);}
+.res-card.miss    .res-val{color:var(--red);}
+.res-acc{font-family:var(--display);font-size:48px;font-weight:900;color:var(--text);}
+.res-grade{font-family:var(--display);font-size:22px;font-weight:800;margin-bottom:4px;}
+.play-again{padding:11px 28px;border-radius:9px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;}
+.play-again:hover{background:#d04820;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="12" fill="#1fa3b3"/>
+      <circle cx="13" cy="13" r="7.8" fill="#e8572a"/>
+      <line x1="13" y1="1" x2="13" y2="25" stroke="white" stroke-width="1.4"/>
+    </svg>
+    <span class="logo-text">Ouchi<em>Taiko</em> · Rhythm Test</span>
+  </div>
+
+  <div class="hdr-center">
+    <select class="pattern-select" id="pattern-sel">
+      <option value="don_slow">Don (Slow)</option>
+      <option value="ka_slow">Ka (Slow)</option>
+      <option value="don_fast">Don (Fast)</option>
+      <option value="ka_fast">Ka (Fast)</option>
+      <option value="alt_don">Alternating Don</option>
+      <option value="alt_ka">Alternating Ka</option>
+      <option value="mixed" selected>Mixed</option>
+      <option value="stress">Stress Test</option>
+    </select>
+    <div class="speed-row">
+      <label>BPM</label>
+      <input class="speed-input" id="bpm-input" type="number" value="120" min="60" max="240">
+    </div>
+  </div>
+
+  <div class="hdr-right">
+    <button class="conn-btn" id="conn-btn" onclick="toggleConnect()">
+      <div class="conn-dot" id="conn-dot"></div>
+      <span id="conn-txt">Connect Serial</span>
+    </button>
+    <button class="start-btn" id="start-btn" onclick="toggleGame()">Start</button>
+  </div>
+</header>
+
+<div class="game-wrap">
+  <!-- Lane canvas -->
+  <div class="lane-area">
+    <canvas id="lane"></canvas>
+    <div class="feedback" id="feedback" style="--hit-x:160px"></div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat perfect"><div class="stat-val" id="s-perfect">0</div><div class="stat-lbl">Perfect</div></div>
+    <div class="stat-div"></div>
+    <div class="stat good"><div class="stat-val" id="s-good">0</div><div class="stat-lbl">Good</div></div>
+    <div class="stat-div"></div>
+    <div class="stat miss"><div class="stat-val" id="s-miss">0</div><div class="stat-lbl">Miss</div></div>
+    <div class="stat-div"></div>
+    <div class="stat combo"><div class="stat-val" id="s-combo">0</div><div class="stat-lbl">Combo</div></div>
+    <div class="stat-div"></div>
+    <div class="stat acc"><div class="stat-val" id="s-acc">—</div><div class="stat-lbl">Accuracy</div></div>
+
+    <div class="keys-wrap">
+      <div class="timing-label">Keyboard</div>
+      <div class="keys-row">
+        <div class="key-cap ka"  id="key-a"><span class="key-letter">A</span><span class="key-sub">Ka L</span></div>
+        <div class="key-cap don" id="key-s"><span class="key-letter">S</span><span class="key-sub">Don L</span></div>
+        <div class="key-cap don" id="key-d"><span class="key-letter">D</span><span class="key-sub">Don R</span></div>
+        <div class="key-cap ka"  id="key-f"><span class="key-letter">F</span><span class="key-sub">Ka R</span></div>
+      </div>
+    </div>
+
+    <div class="timing-wrap">
+      <div class="timing-label">Timing offset</div>
+      <div class="timing-hist" id="timing-hist"></div>
+    </div>
+  </div>
+
+  <!-- Connect prompt overlay -->
+  <div class="overlay" id="ov-connect">
+    <div class="ov-title">OuchiTaiko Rhythm Test</div>
+    <div class="ov-sub">
+      <strong style="color:var(--don)">With drum:</strong> Set to Debug USB mode, plug in, click Connect Serial.<br><br>
+      <strong style="color:var(--ka)">Keyboard only:</strong> Use <kbd style="font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-size:13px">A</kbd>
+      <kbd style="font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-size:13px">S</kbd>
+      <kbd style="font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-size:13px">D</kbd>
+      <kbd style="font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-size:13px">F</kbd>
+      = Ka L · Don L · Don R · Ka R — no controller needed.
+    </div>
+    <button class="play-again" onclick="showReady()">Continue →</button>
+  </div>
+
+  <!-- Ready overlay -->
+  <div class="overlay hidden" id="ov-ready">
+    <div class="ov-title">Ready</div>
+    <div class="ov-drum">
+      <div class="ov-key">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" fill="#1fa3b3"/>
+          <circle cx="24" cy="24" r="13" fill="#0a0908"/>
+          <line x1="24" y1="2" x2="24" y2="46" stroke="white" stroke-width="1.5"/>
+        </svg>
+        Ka (rim)
+      </div>
+      <div style="font-size:28px;color:var(--text3)">+</div>
+      <div class="ov-key">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" fill="#1fa3b3"/>
+          <circle cx="24" cy="24" r="14" fill="#e8572a"/>
+          <line x1="24" y1="2" x2="24" y2="46" stroke="white" stroke-width="1.5"/>
+        </svg>
+        Don (center)
+      </div>
+    </div>
+    <div class="ov-sub">Hit the matching zone when the note reaches the circle.<br>Either Left or Right side counts.</div>
+    <button class="play-again" onclick="startGame()">Start ▶</button>
+  </div>
+
+  <!-- Results overlay -->
+  <div class="overlay hidden" id="ov-results">
+    <div class="res-grade" id="res-grade"></div>
+    <div class="res-acc" id="res-acc"></div>
+    <div class="res-grid">
+      <div class="res-card perfect"><div class="res-val" id="rp-perfect">0</div><div class="res-lbl">Perfect</div></div>
+      <div class="res-card good"><div class="res-val" id="rp-good">0</div><div class="res-lbl">Good</div></div>
+      <div class="res-card miss"><div class="res-val" id="rp-miss">0</div><div class="res-lbl">Miss</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);font-family:var(--mono)" id="res-timing"></div>
+    <button class="play-again" onclick="showReady()">Play Again</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── Constants ──────────────────────────────────────────────
+const PERFECT_MS = 45;
+const GOOD_MS    = 90;
+const MISS_WINDOW = 160; // note expires this many ms after ideal hit time
+const TRAVEL_MS  = 1800; // ms for note to cross the screen
+const HIT_X_RATIO = 0.18; // hit zone is 18% from left edge
+const NOTE_R = 28;
+const DON_COLOR  = '#e8572a';
+const KA_COLOR   = '#1fa3b3';
+const LANE_BG    = '#121110';
+const MIN_DISPLAY = 30;
+const DECAY      = 0.82;
+
+// ── Patterns (array of {type:'don'|'ka', beat:Number}) ────
+const PATTERNS = {
+  don_slow:  genPattern(16, ()=>'don', 1),
+  ka_slow:   genPattern(16, ()=>'ka',  1),
+  don_fast:  genPattern(24, ()=>'don', 0.5),
+  ka_fast:   genPattern(24, ()=>'ka',  0.5),
+  alt_don:   genPattern(24, (i)=>i%2===0?'don':'don', 0.5, true),  // L/R alternating both don
+  alt_ka:    genPattern(24, (i)=>i%2===0?'ka':'ka',   0.5, true),
+  mixed:     genMixed(32),
+  stress:    genStress(40),
+};
+
+function genPattern(count, typeFn, beatMult, altSide){
+  return Array.from({length:count},(_,i)=>({type:typeFn(i), beat:i*beatMult, side:altSide?(i%2===0?'l':'r'):null}));
+}
+function genMixed(count){
+  const seq=[];
+  const types=['don','don','ka','don','ka','ka','don','ka'];
+  for(let i=0;i<count;i++) seq.push({type:types[i%types.length], beat:i*0.75});
+  return seq;
+}
+function genStress(count){
+  const seq=[];
+  for(let i=0;i<count;i++){
+    seq.push({type:i%3===2?'ka':'don', beat:i*0.4});
+  }
+  return seq;
+}
+
+// ── Serial ─────────────────────────────────────────────────
+const S={port:null,reader:null,connected:false,pk:{ka_l:0,don_l:0,don_r:0,ka_r:0},pv:{ka_l:false,don_l:false,don_r:false,ka_r:false}};
+const PADS=['ka_l','don_l','don_r','ka_r'];
+
+async function toggleConnect(){
+  if(S.connected){await doDisconnect();return;}
+  if(!('serial' in navigator)){alert('Web Serial not supported — use Chrome or Edge.');return;}
+  try{
+    S.port=await navigator.serial.requestPort();
+    await S.port.open({baudRate:115200});
+    S.connected=true;
+    updateConnUI(true);
+    readLoop();
+  }catch(e){console.error(e);}
+}
+async function doDisconnect(){
+  S.connected=false;
+  try{if(S.reader)await S.reader.cancel();}catch(_){}
+  try{if(S.port)await S.port.close();}catch(_){}
+  S.port=null;S.reader=null;
+  updateConnUI(false);
+}
+function updateConnUI(on){
+  document.getElementById('conn-btn').classList.toggle('on',on);
+  document.getElementById('conn-dot').style.background=on?'var(--green)':'';
+  document.getElementById('conn-dot').style.boxShadow=on?'0 0 5px var(--green)':'';
+  document.getElementById('conn-txt').textContent=on?'Disconnect':'Connect Serial';
+}
+async function readLoop(){
+  const dec=new TextDecoderStream();
+  S.port.readable.pipeTo(dec.writable);
+  const lr=dec.readable.pipeThrough(new TransformStream(new LBT())).getReader();
+  S.reader=lr;
+  try{while(S.connected){const{value,done}=await lr.read();if(done)break;if(value)parseLine(value.trim());}}
+  catch(e){if(S.connected)doDisconnect();}
+}
+class LBT{constructor(){this.buf='';}transform(c,ctrl){this.buf+=c;const l=this.buf.split('\n');this.buf=l.pop();l.forEach(x=>ctrl.enqueue(x));}flush(ctrl){if(this.buf)ctrl.enqueue(this.buf);}}
+
+function parseLine(line){
+  if(!line||line==='OK')return;
+  const parts=line.trim().split(/\s+/);
+  if(parts.length<4)return;
+  const v=[parseInt(parts[0]),parseInt(parts[1]),parseInt(parts[2]),parseInt(parts[3])];
+  if(v.some(isNaN))return;
+  const vals={ka_l:v[0],don_l:v[1],don_r:v[2],ka_r:v[3]};
+  processFrame(vals);
+}
+
+function processFrame(vals){
+  const rising={};
+  PADS.forEach(p=>{
+    const n=vals[p]/4095;
+    if(n>S.pk[p])S.pk[p]=n;else S.pk[p]*=DECAY;
+    const over=S.pk[p]>30/4095;
+    rising[p]=over&&!S.pv[p];
+    S.pv[p]=over;
+  });
+  // Combine L+R into zone type
+  const hitDon = rising.don_l||rising.don_r;
+  const hitKa  = rising.ka_l||rising.ka_r;
+  if(gameRunning && hitDon) registerHit('don');
+  if(gameRunning && hitKa)  registerHit('ka');
+}
+
+// ── Game state ─────────────────────────────────────────────
+let gameRunning=false;
+let gameStartTime=0;
+let notes=[];        // {type, targetTime, state:'pending'|'hit'|'missed', x, hitOffset}
+let score={perfect:0,good:0,miss:0,combo:0,maxCombo:0};
+let timingOffsets=[]; // ms offsets for histogram
+let rafId=null;
+
+function getBPM(){return parseInt(document.getElementById('bpm-input').value)||120;}
+
+function buildNotes(){
+  const bpm=getBPM();
+  const beatMs=60000/bpm;
+  const pattern=PATTERNS[document.getElementById('pattern-sel').value]||PATTERNS.mixed;
+  notes=pattern.map(n=>({
+    type:n.type,
+    targetTime: TRAVEL_MS + n.beat*beatMs,
+    state:'pending',
+    x:0,
+    hitOffset:null
+  }));
+}
+
+function toggleGame(){
+  if(gameRunning){stopGame();}else{showReady();}
+}
+function showReady(){
+  stopGame();
+  showOverlay('ov-ready');
+  document.getElementById('start-btn').textContent='Start';
+  document.getElementById('start-btn').className='start-btn';
+}
+function startGame(){
+  showOverlay(null);
+  buildNotes();
+  score={perfect:0,good:0,miss:0,combo:0,maxCombo:0};
+  timingOffsets=[];
+  updateStats();
+  buildHistogram();
+  gameRunning=true;
+  gameStartTime=performance.now();
+  document.getElementById('start-btn').textContent='Stop';
+  document.getElementById('start-btn').className='start-btn running';
+  cancelAnimationFrame(rafId);
+  rafId=requestAnimationFrame(gameLoop);
+}
+function stopGame(){
+  gameRunning=false;
+  cancelAnimationFrame(rafId);
+  document.getElementById('start-btn').textContent='Start';
+  document.getElementById('start-btn').className='start-btn';
+}
+
+// ── Hit registration ───────────────────────────────────────
+function registerHit(type){
+  if(!gameRunning)return;
+  const now=performance.now()-gameStartTime;
+  // find nearest pending note of matching type within miss window
+  let best=null,bestDelta=Infinity;
+  for(const n of notes){
+    if(n.state!=='pending'||n.type!==type)continue;
+    const delta=now-n.targetTime;
+    if(delta < -GOOD_MS) continue; // too early — don't consume future notes
+    if(delta > MISS_WINDOW) continue; // too late
+    const absDelta=Math.abs(delta);
+    if(absDelta<bestDelta){bestDelta=absDelta;best=n;best._delta=delta;}
+  }
+  if(!best){
+    // extra hit with no matching note = no feedback
+    return;
+  }
+  const delta=best._delta;
+  const absDelta=Math.abs(delta);
+  best.state='hit';
+  best.hitOffset=delta;
+  timingOffsets.push(delta);
+
+  let grade;
+  if(absDelta<=PERFECT_MS){grade='perfect';score.perfect++;}
+  else{grade='good';score.good++;}
+  score.combo++;
+  if(score.combo>score.maxCombo)score.maxCombo=score.combo;
+  showFeedback(grade);
+  updateStats();
+  buildHistogram();
+}
+
+// ── Game loop ──────────────────────────────────────────────
+function gameLoop(ts){
+  const elapsed=ts-gameStartTime;
+  const W=canvas.width, H=canvas.height;
+  const hitX=Math.round(W*HIT_X_RATIO);
+
+  // Update note positions
+  let allDone=true;
+  for(const n of notes){
+    // x goes from W+NOTE_R down to hitX as time progresses from 0 to n.targetTime
+    const progress=(elapsed)/(n.targetTime);
+    n.x = (W+NOTE_R) - progress*(W+NOTE_R - hitX + NOTE_R);
+
+    // Auto-miss check
+    if(n.state==='pending' && elapsed > n.targetTime+MISS_WINDOW){
+      n.state='missed';
+      score.miss++;
+      score.combo=0;
+      showFeedback('miss');
+      updateStats();
+    }
+    if(n.state==='pending') allDone=false;
+  }
+
+  draw(elapsed, hitX, W, H);
+
+  if(allDone && elapsed > (notes.at(-1)?.targetTime||0)+MISS_WINDOW+500){
+    endGame(); return;
+  }
+  rafId=requestAnimationFrame(gameLoop);
+}
+
+// ── Canvas drawing ─────────────────────────────────────────
+const canvas=document.getElementById('lane');
+const ctx=canvas.getContext('2d');
+
+function resize(){
+  const rect=canvas.parentElement.getBoundingClientRect();
+  canvas.width=rect.width*devicePixelRatio;
+  canvas.height=rect.height*devicePixelRatio;
+  canvas.style.width=rect.width+'px';
+  canvas.style.height=rect.height+'px';
+  // Update feedback position
+  const hitX=Math.round(rect.width*HIT_X_RATIO);
+  document.getElementById('feedback').style.setProperty('--hit-x',hitX+'px');
+}
+window.addEventListener('resize',resize);
+resize();
+
+function draw(elapsed, hitX, W, H){
+  const cx=ctx;
+  cx.clearRect(0,0,W,H);
+
+  const cy=H/2;
+  const dpr=devicePixelRatio;
+  const hx=hitX;
+
+  // Background lane
+  cx.fillStyle=LANE_BG;
+  cx.fillRect(0,0,W,H);
+
+  // Lane lines
+  const laneH=NOTE_R*4.5;
+  cx.fillStyle='#1a1917';
+  cx.fillRect(0, cy-laneH/2, W, laneH);
+
+  // Subtle scan line effect
+  const grad=cx.createLinearGradient(0,cy-laneH/2,0,cy+laneH/2);
+  grad.addColorStop(0,'rgba(255,255,255,0.03)');
+  grad.addColorStop(0.5,'rgba(255,255,255,0.0)');
+  grad.addColorStop(1,'rgba(255,255,255,0.03)');
+  cx.fillStyle=grad;
+  cx.fillRect(0,cy-laneH/2,W,laneH);
+
+  // Lane edge lines
+  cx.strokeStyle='#2a2826';
+  cx.lineWidth=1*dpr;
+  cx.beginPath();
+  cx.moveTo(0,cy-laneH/2);cx.lineTo(W,cy-laneH/2);
+  cx.moveTo(0,cy+laneH/2);cx.lineTo(W,cy+laneH/2);
+  cx.stroke();
+
+  // Hit zone glow
+  const hzGrad=cx.createRadialGradient(hx,cy,0,hx,cy,NOTE_R*2.5);
+  hzGrad.addColorStop(0,'rgba(255,255,255,0.06)');
+  hzGrad.addColorStop(1,'rgba(255,255,255,0)');
+  cx.fillStyle=hzGrad;
+  cx.beginPath();cx.arc(hx,cy,NOTE_R*2.5,0,Math.PI*2);cx.fill();
+
+  // Hit zone circle
+  cx.beginPath();cx.arc(hx,cy,NOTE_R+2,0,Math.PI*2);
+  cx.strokeStyle='rgba(255,255,255,0.12)';cx.lineWidth=2*dpr;cx.stroke();
+  cx.beginPath();cx.arc(hx,cy,NOTE_R,0,Math.PI*2);
+  cx.strokeStyle='rgba(255,255,255,0.25)';cx.lineWidth=3*dpr;cx.stroke();
+
+  // Inner hit zone halves (Ka left, Don center visualization)
+  // Left half = Ka teal
+  cx.save();cx.beginPath();cx.rect(hx-NOTE_R-3,cy-NOTE_R-3,NOTE_R+3,NOTE_R*2+6);cx.clip();
+  cx.beginPath();cx.arc(hx,cy,NOTE_R,0,Math.PI*2);
+  cx.fillStyle='rgba(31,163,179,0.08)';cx.fill();cx.restore();
+  // Right half = also ka
+  cx.save();cx.beginPath();cx.rect(hx,cy-NOTE_R-3,NOTE_R+3,NOTE_R*2+6);cx.clip();
+  cx.beginPath();cx.arc(hx,cy,NOTE_R,0,Math.PI*2);
+  cx.fillStyle='rgba(31,163,179,0.08)';cx.fill();cx.restore();
+
+  // Draw notes (furthest right first)
+  const visible=notes.filter(n=>n.state==='pending'||n.state==='hit');
+  visible.sort((a,b)=>b.x-a.x);
+
+  for(const n of visible){
+    if(n.x < -NOTE_R*2 || n.x > W+NOTE_R*2) continue;
+    const nx=Math.round(n.x);
+    const alpha=n.state==='hit'? Math.max(0, 1-(elapsed-n.targetTime)/200) : 1;
+    if(alpha<=0) continue;
+
+    cx.globalAlpha=alpha;
+
+    if(n.type==='don'){
+      // Filled orange circle
+      cx.beginPath();cx.arc(nx,cy,NOTE_R,0,Math.PI*2);
+      cx.fillStyle=DON_COLOR;cx.fill();
+      // Highlight
+      cx.beginPath();cx.arc(nx,cy-NOTE_R*0.25,NOTE_R*0.45,0,Math.PI*2);
+      cx.fillStyle='rgba(255,255,255,0.15)';cx.fill();
+      // Outline
+      cx.beginPath();cx.arc(nx,cy,NOTE_R,0,Math.PI*2);
+      cx.strokeStyle='rgba(255,255,255,0.2)';cx.lineWidth=2*dpr;cx.stroke();
+    } else {
+      // Ka: teal ring
+      cx.beginPath();cx.arc(nx,cy,NOTE_R,0,Math.PI*2);
+      cx.fillStyle='#0d1f22';cx.fill();
+      cx.beginPath();cx.arc(nx,cy,NOTE_R,0,Math.PI*2);
+      cx.strokeStyle=KA_COLOR;cx.lineWidth=9*dpr;cx.stroke();
+      cx.beginPath();cx.arc(nx,cy,NOTE_R,0,Math.PI*2);
+      cx.strokeStyle='rgba(255,255,255,0.15)';cx.lineWidth=1*dpr;cx.stroke();
+    }
+
+    // Hit flash
+    if(n.state==='hit'){
+      const age=elapsed-n.targetTime;
+      const r=NOTE_R+age*0.12;
+      cx.beginPath();cx.arc(nx,cy,r,0,Math.PI*2);
+      cx.strokeStyle=n.type==='don'?'rgba(232,87,42,0.6)':'rgba(31,163,179,0.6)';
+      cx.lineWidth=2*dpr;cx.stroke();
+    }
+
+    cx.globalAlpha=1;
+  }
+
+  // Perfect timing indicator line
+  cx.beginPath();
+  cx.moveTo(hx,cy-laneH/2+4);cx.lineTo(hx,cy+laneH/2-4);
+  cx.strokeStyle='rgba(255,255,255,0.06)';cx.lineWidth=1*dpr;cx.stroke();
+
+  // Approaching note pulse on hit zone
+  const nearest=notes.find(n=>n.state==='pending');
+  if(nearest){
+    const dt=Math.abs((elapsed)-nearest.targetTime);
+    if(dt<300){
+      const pulse=1-dt/300;
+      cx.beginPath();cx.arc(hx,cy,NOTE_R+2,0,Math.PI*2);
+      cx.strokeStyle=nearest.type==='don'
+        ?`rgba(232,87,42,${pulse*0.5})`
+        :`rgba(31,163,179,${pulse*0.5})`;
+      cx.lineWidth=4*dpr;cx.stroke();
+    }
+  }
+}
+
+// ── Feedback text ──────────────────────────────────────────
+let fbTimer=null;
+function showFeedback(grade){
+  const el=document.getElementById('feedback');
+  el.className='feedback';
+  void el.offsetWidth;
+  el.textContent=grade==='perfect'?'PERFECT!':grade==='good'?'GOOD':'MISS';
+  el.className=`feedback show ${grade}`;
+  clearTimeout(fbTimer);
+  fbTimer=setTimeout(()=>el.className='feedback',500);
+}
+
+// ── Stats ──────────────────────────────────────────────────
+function updateStats(){
+  document.getElementById('s-perfect').textContent=score.perfect;
+  document.getElementById('s-good').textContent=score.good;
+  document.getElementById('s-miss').textContent=score.miss;
+  document.getElementById('s-combo').textContent=score.combo;
+  const total=score.perfect+score.good+score.miss;
+  const acc=total>0?((score.perfect+score.good*0.7)/total*100).toFixed(1)+'%':'—';
+  document.getElementById('s-acc').textContent=acc;
+}
+
+// ── Timing histogram ───────────────────────────────────────
+const HIST_BINS=17; // -160ms to +160ms in ~20ms steps
+function buildHistogram(){
+  const hist=document.getElementById('timing-hist');
+  const bins=new Array(HIST_BINS).fill(0);
+  const range=MISS_WINDOW;
+  timingOffsets.forEach(o=>{
+    const idx=Math.floor((o+range)/(range*2)*HIST_BINS);
+    if(idx>=0&&idx<HIST_BINS) bins[idx]++;
+  });
+  const max=Math.max(1,...bins);
+  hist.innerHTML=bins.map((b,i)=>{
+    const pct=b/max;
+    const center=Math.floor(HIST_BINS/2);
+    const dist=Math.abs(i-center);
+    const col=dist<=1?'#fbbf24':dist<=3?'var(--green)':'var(--text3)';
+    return `<div class="th-bar" style="height:${Math.max(2,pct*26)}px;background:${col}"></div>`;
+  }).join('');
+}
+
+// ── End game ───────────────────────────────────────────────
+function endGame(){
+  stopGame();
+  const total=score.perfect+score.good+score.miss;
+  const acc=total>0?((score.perfect+score.good*0.7)/total*100):0;
+  const grade=acc>=95?'S':acc>=85?'A':acc>=70?'B':acc>=50?'C':'D';
+  const gradeColor=acc>=95?'#fbbf24':acc>=85?'var(--green)':acc>=70?'var(--ka)':acc>=50?'var(--amber)':'var(--red)';
+
+  document.getElementById('res-grade').textContent=grade;
+  document.getElementById('res-grade').style.color=gradeColor;
+  document.getElementById('res-acc').textContent=acc.toFixed(1)+'%';
+  document.getElementById('rp-perfect').textContent=score.perfect;
+  document.getElementById('rp-good').textContent=score.good;
+  document.getElementById('rp-miss').textContent=score.miss;
+
+  const avgOffset=timingOffsets.length?Math.round(timingOffsets.reduce((a,b)=>a+b,0)/timingOffsets.length):0;
+  document.getElementById('res-timing').textContent=
+    `Avg offset: ${avgOffset>0?'+':''}${avgOffset}ms  ·  Max combo: ${score.maxCombo}`;
+
+  showOverlay('ov-results');
+}
+
+// ── Overlay helper ─────────────────────────────────────────
+function showOverlay(id){
+  ['ov-connect','ov-ready','ov-results'].forEach(o=>{
+    document.getElementById(o).classList.toggle('hidden', o!==id);
+  });
+}
+
+// ── Keyboard input (A=ka_l, S=don_l, D=don_r, F=ka_r) ─────
+const KEY_MAP={'a':'ka','s':'don','d':'don','f':'ka'};
+const KEY_PAD ={'a':'ka_l','s':'don_l','d':'don_r','f':'ka_r'};
+const keysDown = new Set();
+window.addEventListener('keydown', e=>{
+  if(e.repeat) return;
+  const key = e.key.toLowerCase();
+  if(!KEY_MAP[key]) return;
+  keysDown.add(key);
+  flashKey(key, true);
+  if(gameRunning) registerHit(KEY_MAP[key]);
+});
+window.addEventListener('keyup', e=>{
+  const key = e.key.toLowerCase();
+  keysDown.delete(key);
+  flashKey(key, false);
+});
+
+function flashKey(key, on){
+  const el = document.getElementById('key-'+key);
+  if(el) el.classList.toggle('active', on);
+}
+
+// ── Init ───────────────────────────────────────────────────
+showOverlay('ov-connect');
+// Draw idle lane
+requestAnimationFrame(()=>{
+  resize();
+  const W=canvas.width,H=canvas.height;
+  ctx.fillStyle=LANE_BG;ctx.fillRect(0,0,W,H);
+});
+</script>
+</body>
+</html>
