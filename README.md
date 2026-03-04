@@ -53,7 +53,7 @@ You'll be creating this entire drum and controller setup with your choice of <i>
 
 Hi, I'm KillerQ, the Creator of the **OuchiTaiko Project** - an open-source build guide for a professional arcade-grade Taiko drum controller unlike anything currently available.
 
-This guide represents 8 months of research and development, addressing the limited availability and high cost of commercial units. Using **Adaptive Baseline Software Intelligence (ABSI)**, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or custom PCBs.
+This guide represents one entire of research and development, addressing the limited availability and high cost of commercial units. Using **Adaptive Baseline Software Intelligence (ABSI)**, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or custom PCBs.
 
 All you need is basic soldering and woodworking skills. The components linked in this guide work together as tested, though compatible alternatives are welcome.
 
