@@ -235,13 +235,14 @@ This guide assumes you have access to the following:
 | 11   | Loctite thread adhesive - medium                             | 1    | [Link](https://www.amazon.com/dp/B000FIXQXK)                               |
 | 12   | 2.2mm thick scuba knit neoprene fabric (only 4" x 4" total needed) | 1    | [Link](https://www.amazon.com/dp/B0DK1B5LZ7)                               |
 | 13   | Finger knobs with pass-through M6 threads                    | 18   | [Link](https://www.amazon.com/dp/B07RW9ZH4H)                               |
-| 14   | Mini PA speaker stand (optional, or similar that connects to the drum mount below) | 1    | [Link](https://www.amazon.com/dp/B094N9YG72)                               |
-| 15   | Adjustable angle speaker bracket (optional, or similar that connects to the drum stand above) | 1    | [Link](https://www.amazon.com/dp/B0DR8NCZP6)                               |
-| 16   | Rubber Taiko drum cover (optional, but crucial for arcade feel. Any thin sound-dampening material may suffice) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 14   | (For Floor-Standing Tripod Mode) Mini PA speaker Tripod Stand (optional, or similar that connects to the Speaker Bracket below) | 1    | [Link](https://www.amazon.com/dp/B094N9YG72)                               |
+| 15   | (For Table-Top Mode) Desktop Monitor Stand (optional, or similar that connects to the Speaker Bracket below) | 1    | [Link](https://www.amazon.com/dp/B072QDMRS8)                               |
+| 16   | Adjustable angle speaker bracket | 1    | [Link](https://www.amazon.com/dp/B0DR8NCZP6)                               |
 | 17   | Spring-loaded phone holder with gooseneck arm (optional, or similar)                | 1    | [Link](https://www.amazon.com/dp/B0F32MLBZX)
-| 18   | 1/4" Roundover Router Bit                | 1    | [Link](https://www.amazon.com/dp/B0C5DVBNLS)                                 |
-| 19   | Clear Spray Glaze/Lacquer                | 1    | [Link](https://www.amazon.com/dp/B00D0293SA)
-| 20   | Deburring Tool (optional, can use large drill bit instead)                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
+| 18   | Rubber Taiko drum cover (optional, but crucial for arcade feel. Any thin sound-dampening material may suffice) | 1    | [Link](https://taiko.ac/products/rubber-drum-pad)            |
+| 19   | 1/4" Roundover Router Bit                | 1    | [Link](https://www.amazon.com/dp/B0C5DVBNLS)                                 |
+| 20   | Clear Spray Glaze/Lacquer                | 1    | [Link](https://www.amazon.com/dp/B00D0293SA)
+| 2   | Deburring Tool (optional, you can use large drill bit as shown in guide)                | 1    | [Link](https://www.amazon.com/dp/B07RM1D6WD)
 </div>
 
 ---
