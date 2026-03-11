@@ -178,6 +178,7 @@ class Menu {
 
     void activate();
     void setWaitingForButtonRelease(bool waiting);  // NEW: Set initial state
+    void enterBootloaderSplash();  // Trigger BootselMsg splash from outside menu (e.g. HOME hold)
     void deactivate();
     void goBackToParent();  // NEW: Navigate back one level without restoring values
     void update(const InputState::Controller &controller_state);

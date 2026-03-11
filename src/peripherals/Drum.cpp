@@ -259,13 +259,40 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
         m_config.trigger_thresholds.ka_right,   // [3] KA_RIGHT
     };
 
-    // STEP 1: Apply thresholds FIRST
-    std::array<uint16_t, 4> filtered{};
-    for (size_t i = 0; i < 4; ++i) {
-        filtered[i] = (raw_values[i] > thresholds[i]) ? raw_values[i] : 0;
+    // ============================================================================
+    // OUCHITAIKO: GLOBAL DON/KA ZONE ARBITRATION — PRE-THRESHOLD
+    //
+    // In Taiko no Tatsujin there are exactly 4 note types:
+    //   Small Don, Small Ka, Big Don (both dons), Big Ka (both kas).
+    // Don and Ka are GLOBALLY mutually exclusive — no valid note ever requires
+    // both zones active simultaneously. Arbitrate on RAW values BEFORE threshold
+    // so crosstalk bleed from the losing zone is zeroed before it can ghost-fire.
+    // Calibration becomes a secondary safety net, not the primary defence.
+    // ============================================================================
+
+    // STEP 1: Global zone arbitration on raw values.
+    //         Whichever zone (Don or Ka) has the highest single sensor reading wins.
+    //         The entire losing zone is zeroed before threshold filtering runs.
+    uint16_t raw_max_don = (raw_values[0] > raw_values[2]) ? raw_values[0] : raw_values[2];
+    uint16_t raw_max_ka  = (raw_values[1] > raw_values[3]) ? raw_values[1] : raw_values[3];
+
+    std::array<uint16_t, 4> working = raw_values;
+    if (raw_max_don >= raw_max_ka) {
+        working[1] = 0;  // KA_LEFT  zeroed — Don zone wins
+        working[3] = 0;  // KA_RIGHT zeroed
+    } else {
+        working[0] = 0;  // DON_LEFT  zeroed — Ka zone wins
+        working[2] = 0;  // DON_RIGHT zeroed
     }
 
-    // STEP 2: Twin pad zero logic (if one is much weaker, zero it out)
+    // STEP 2: Apply thresholds to winning zone only
+    std::array<uint16_t, 4> filtered{};
+    for (size_t i = 0; i < 4; ++i) {
+        filtered[i] = (working[i] > thresholds[i]) ? working[i] : 0;
+    }
+
+    // STEP 3: Twin pad logic within winning zone — suppress weaker sensor
+    //         if it is less than half the stronger one (rejects single-side bleed).
     // DON pair: indices 0 (DON_LEFT) and 2 (DON_RIGHT)
     // KA pair:  indices 1 (KA_LEFT)  and 3 (KA_RIGHT)
     const auto zero_if_not_within_twin = [](std::array<uint16_t, 4> &values, size_t a, size_t b) {
@@ -280,23 +307,20 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     zero_if_not_within_twin(filtered, 0, 2);  // DON_LEFT vs DON_RIGHT
     zero_if_not_within_twin(filtered, 1, 3);  // KA_LEFT  vs KA_RIGHT
 
-    // STEP 3: Don-vs-Ka crosstalk suppression on FILTERED values
-    uint16_t max_don = (filtered[0] > filtered[2]) ? filtered[0] : filtered[2];
-    uint16_t max_ka  = (filtered[1] > filtered[3]) ? filtered[1] : filtered[3];
-
-    if (max_don > 0 && max_ka > 0) {
-        if (max_don > max_ka) {
-            filtered[1] = 0;
-            filtered[3] = 0;
-        } else {
-            filtered[0] = 0;
-            filtered[2] = 0;
-        }
-    }
-
-    // STEP 4: Set pad states based on FILTERED values
+    // STEP 4: Set pad states based on FILTERED values.
+    // Pads in the WINNING zone use normal debounce.
+    // Pads in the LOSING zone are forced inactive immediately — bypassing debounce.
+    // This prevents a debounce-held active state from coexisting with the new winning zone.
+    bool don_won = (raw_max_don >= raw_max_ka);
     for (size_t i = 0; i < 4; ++i) {
-        m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
+        bool in_don_zone = (i == 0 || i == 2);  // DON_LEFT=0, DON_RIGHT=2
+        bool is_winning_zone = don_won ? in_don_zone : !in_don_zone;
+        if (is_winning_zone) {
+            m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
+        } else {
+            // Losing zone: force inactive with zero debounce — arbitration overrides
+            m_pads[i].setState(false, 0);
+        }
     }
     // ============================================================================
     // END OUCHITAIKO SPECIAL HIT DETECTION

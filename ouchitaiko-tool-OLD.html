@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -59,20 +59,15 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
 /* BARS */
 .bars-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
 .bar-col{display:flex;flex-direction:column;align-items:center;gap:7px;}
-.hit-ind{position:relative;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:none;}
-.hit-ind.flash{animation:hit-flash-don 0.45s ease-out forwards;}
-.col-ka_l .hit-ind.flash,.col-ka_r .hit-ind.flash{animation-name:hit-flash-ka;}
-@keyframes hit-flash-ka{
-  0%{filter:drop-shadow(0 0 18px var(--ka)) drop-shadow(0 0 6px var(--ka));}
-  100%{filter:none;}
-}
-@keyframes hit-flash-don{
-  0%{filter:drop-shadow(0 0 18px var(--don)) drop-shadow(0 0 6px var(--don));}
-  100%{filter:none;}
-}
-.hit-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text3);
-  height:18px;line-height:18px;text-align:center;min-width:40px;transition:color .15s;}
-.hit-val.lit{color:var(--text);}
+.bar-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text3);height:16px;line-height:16px;transition:color .1s;}
+.bar-val.lit{color:var(--text);}
+.bar-track{position:relative;width:100%;height:170px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+.bar-fill{position:absolute;bottom:0;left:0;right:0;height:0%;border-radius:7px 7px 0 0;transition:height .04s linear;}
+.bar-thr{position:absolute;left:0;right:0;height:2px;}
+.col-ka_l .bar-fill,.col-ka_r .bar-fill{background:linear-gradient(to top,var(--ka),rgba(42,184,200,.28));}
+.col-don_l .bar-fill,.col-don_r .bar-fill{background:linear-gradient(to top,var(--don),rgba(232,87,42,.28));}
+.col-ka_l .bar-thr,.col-ka_r .bar-thr{background:var(--ka);}
+.col-don_l .bar-thr,.col-don_r .bar-thr{background:var(--don);}
 .drum-icon{width:86px;height:86px;flex-shrink:0;}
 .thr-row{display:flex;align-items:center;gap:6px;}
 .nudge{width:26px;height:26px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--f);line-height:1;padding:0;transition:all .15s;}
@@ -98,8 +93,6 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
 .hc-row{display:none;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
 .hc-row.vis{display:grid;}
 .hc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;transition:border-color .3s,background .3s;}
-.hc.active-pad{border-color:var(--don);background:rgba(232,87,42,0.10);box-shadow:0 0 0 2px rgba(232,87,42,0.18);}
-.hc.active-pad .hc-n{transform:scale(1.18);}
 .hc.ok{border-color:rgba(34,201,122,.4);background:var(--green-dim);}
 .hc-n{font-family:var(--mono);font-size:22px;font-weight:700;}
 .hc-n.ka{color:var(--ka);}.hc-n.don{color:var(--don);}
@@ -163,68 +156,28 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
 .action-row{display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap;}
 .btn-save{padding:11px 22px;border-radius:9px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 3px 14px var(--don-glow);}
 .btn-save:hover{background:#d04820;}
-.btn-apply{padding:13px 22px;border-radius:9px;border:none;background:var(--green);color:#0f0e0d;font-family:var(--f);font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px var(--green-glow);}
-.btn-apply:hover{background:#1aaa66;transform:translateY(-1px);}
+.btn-apply{padding:11px 22px;border-radius:9px;border:none;background:var(--green);color:#0f0e0d;font-family:var(--f);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:none;}
+.btn-apply:hover{background:#1aaa66;}
 .btn-disc{padding:10px 18px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
 .btn-disc:hover{color:var(--text);border-color:var(--text3);}
 .save-note{font-size:12px;font-weight:700;color:var(--text3);margin-left:auto;}
 .save-note.ok{color:var(--green);}.save-note.err{color:var(--red);}
 /* Toast popup */
+/* Calibration pre-flight modal */
+#cal-modal{position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+#cal-modal.show{opacity:1;pointer-events:all;}
+#cal-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 30px 26px;max-width:420px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,0.6);}
+#cal-modal-box h3{margin:0 0 16px;font-size:17px;color:var(--text);letter-spacing:.01em;}
+#cal-modal-box ul{margin:0 0 22px;padding-left:22px;color:var(--muted);font-size:14px;line-height:1.8;}
+#cal-modal-box ul li strong{color:var(--text);}
+#cal-modal-ok{width:100%;padding:13px;border-radius:10px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:15px;font-weight:800;cursor:pointer;transition:background .15s;box-shadow:0 4px 18px var(--don-glow);}
+#cal-modal-ok:hover{background:#d04820;}
 #toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,0.45);z-index:9999;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;display:flex;align-items:center;gap:10px;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #toast.ok .toast-icon{color:var(--green);}
 #toast.err .toast-icon{color:var(--red);}
 #toast.warn .toast-icon{color:#f0a500;}
 .toast-icon{font-size:18px;line-height:1;}
-
-/* CALIBRATION WIZARD MODAL */
-#cal-wiz{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:10001;display:none;align-items:center;justify-content:center;}
-#cal-wiz.show{display:flex;}
-#wiz-content{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:44px 42px 34px;max-width:660px;width:97%;box-shadow:0 24px 64px rgba(0,0,0,0.8);}
-.wiz-pips{display:flex;gap:6px;margin-bottom:20px;}
-.wiz-pip{height:5px;border-radius:99px;background:var(--surface3);flex:1;transition:all .3s;}
-.wiz-pip.done{background:var(--green);}
-.wiz-pip.active-ka{background:var(--ka);}
-.wiz-pip.active-don{background:var(--don);}
-.wiz-pip.active-mix{background:var(--amber);}
-.wiz-step-num{font-size:15px;font-weight:800;text-transform:uppercase;color:var(--text3);letter-spacing:.1em;margin-bottom:5px;}
-.wiz-title{font-size:34px;font-weight:900;margin-bottom:12px;}
-.wiz-title.ka{color:var(--ka);}.wiz-title.don{color:var(--don);}.wiz-title.mix{color:var(--amber);}.wiz-title.complete{color:var(--green);}
-.wiz-instr{font-size:19px;color:var(--text2);line-height:1.65;margin-bottom:22px;}
-.wiz-timer-bg{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:18px;}
-.wiz-timer-fill{height:100%;width:0%;border-radius:99px;background:var(--don);transition:width .2s linear;}
-.wiz-timer-fill.ka{background:var(--ka);}.wiz-timer-fill.mix{background:var(--amber);}.wiz-timer-fill.complete{background:var(--green)!important;}
-.wiz-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
-.wiz-stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;}
-.wiz-stat-val{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--text);line-height:1;}
-.wiz-stat-val.ka{color:var(--ka);}.wiz-stat-val.don{color:var(--don);}.wiz-stat-val.ok{color:var(--green)!important;}
-.wiz-stat-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-top:5px;}
-.wiz-status-msg{font-size:16px;font-weight:700;text-align:center;min-height:20px;margin-bottom:18px;color:var(--text3);}
-.wiz-status-msg.ready{color:var(--green);}
-.wiz-substeps{display:flex;gap:10px;margin-bottom:22px;justify-content:center;}
-.wiz-substep{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.wiz-substep-dot{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--text3);transition:all .25s;}
-.wiz-substep-dot.active{border-color:currentColor;}
-.wiz-substep-dot.active.don{color:var(--don);background:var(--don-dim);}
-.wiz-substep-dot.active.ka{color:var(--ka);background:var(--ka-dim);}
-.wiz-substep-dot.done{background:var(--green-dim);border-color:var(--green);color:var(--green);}
-.wiz-substep-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
-.wiz-big-prompt{font-size:26px;font-weight:900;text-align:center;margin-bottom:8px;}
-.wiz-sub-hint{font-size:17px;color:var(--text2);text-align:center;margin-bottom:22px;line-height:1.5;}
-.wiz-hit-flash{font-family:var(--mono);font-size:52px;font-weight:700;text-align:center;margin-bottom:8px;transition:opacity .3s;}
-.btn-wiz-primary{width:100%;padding:20px;border-radius:11px;border:none;font-family:var(--f);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;background:var(--surface2);color:var(--text3);}
-.btn-wiz-primary.go-don{background:var(--don);color:#fff;box-shadow:0 4px 18px var(--don-glow);}
-.btn-wiz-primary.go-ka{background:var(--ka);color:#fff;box-shadow:0 4px 18px var(--ka-glow);}
-.btn-wiz-primary.go-mix{background:var(--amber);color:#0f0e0d;}
-.btn-wiz-primary.go-save{background:var(--green);color:#0f0e0d;box-shadow:0 4px 18px var(--green-glow);animation:wiz-pulse 1.5s infinite;}
-.btn-wiz-primary:disabled{opacity:0.4;cursor:not-allowed;animation:none!important;}
-.btn-wiz-primary.ready{background:var(--green);color:#0f0e0d;box-shadow:0 4px 18px var(--green-glow);animation:wiz-pulse 1.5s infinite;}
-@keyframes wiz-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.02);box-shadow:0 0 22px var(--green-glow);}}
-.wiz-cancel{display:block;text-align:center;margin-top:14px;font-size:12px;color:var(--text3);cursor:pointer;text-decoration:none;}
-.wiz-cancel:hover{color:var(--red);}
-.wiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 20px;}
-.wiz-grid-item{background:var(--surface2);border:1px solid var(--border);padding:11px 13px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;}
-.wiz-grid-val{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--green);}
 
 /* ══ BUTTON TESTER ══════════════════════════════════════ */
 .bt-status{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
@@ -332,9 +285,18 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
 <body>
 <div id="toast"><span class="toast-icon"></span><span id="toast-msg"></span></div>
 
-<!-- CALIBRATION WIZARD MODAL -->
-<div id="cal-wiz">
-  <div id="wiz-content"></div>
+<!-- Calibration pre-flight modal -->
+<div id="cal-modal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div id="cal-modal-box">
+    <h3>🥁 Before you calibrate…</h3>
+    <ul>
+      <li><strong>Hit one zone at a time</strong> — Don and Ka must never be hit simultaneously</li>
+      <li><strong>Random order is best</strong> — mix all four pads unpredictably</li>
+      <li><strong>Vary your strength</strong> — include light taps and hard hits</li>
+      <li><strong>Keep going for ~10 seconds</strong> — the button turns green when ready</li>
+    </ul>
+    <button id="cal-modal-ok" onclick="confirmCalStart()">Got it — Start Calibration</button>
+  </div>
 </div>
 
 <header>
@@ -348,6 +310,7 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
     <span class="logo-text">Ouchi<span>Taiko</span> Setup</span>
   </div>
   <div class="header-right">
+    <span class="rate-badge" id="rate-badge">0 msg/s</span>
     <div class="conn-pill" id="pill"><div class="conn-dot"></div><span id="pill-txt">Not connected</span></div>
   </div>
 </header>
@@ -379,12 +342,13 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
     <div class="sec">Live Signal</div>
     <div class="bars-row">
       <div class="bar-col col-ka_l">
-        <div class="hit-val" id="val-ka_l"></div>
-        <div class="hit-ind" id="hi-ka_l"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+        <div class="bar-val" id="val-ka_l">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-ka_l"></div><div class="bar-thr" id="bt-ka_l"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
           <defs><clipPath id="c-kal"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
           <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
           <circle cx="43" cy="43" r="32" fill="none" stroke="#2ab8c8" stroke-width="14" clip-path="url(#c-kal)"/>
-        </svg></div>
+        </svg>
         <div class="thr-row">
           <button class="nudge" data-p="ka_l" data-d="-10">−</button>
           <span class="thr-val" id="tv-ka_l">200</span>
@@ -392,41 +356,44 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
         </div>
         <div class="pad-label">Ka Left</div>
       </div>
-      <div class="bar-col col-don_r">
-        <div class="hit-val" id="val-don_r"></div>
-        <div class="hit-ind" id="hi-don_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
-          <defs><clipPath id="c-donr"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
-          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
-          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
-        </svg></div>
-        <div class="thr-row">
-          <button class="nudge" data-p="don_r" data-d="-10">−</button>
-          <span class="thr-val" id="tv-don_r">175</span>
-          <button class="nudge" data-p="don_r" data-d="+10">+</button>
-        </div>
-        <div class="pad-label">Don Left</div>
-      </div>
       <div class="bar-col col-don_l">
-        <div class="hit-val" id="val-don_l"></div>
-        <div class="hit-ind" id="hi-don_l"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+        <div class="bar-val" id="val-don_l">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-don_l"></div><div class="bar-thr" id="bt-don_l"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
           <defs><clipPath id="c-donl"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
           <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
           <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donl)"/>
-        </svg></div>
+        </svg>
         <div class="thr-row">
           <button class="nudge" data-p="don_l" data-d="-10">−</button>
           <span class="thr-val" id="tv-don_l">175</span>
           <button class="nudge" data-p="don_l" data-d="+10">+</button>
         </div>
+        <div class="pad-label">Don Left</div>
+      </div>
+      <div class="bar-col col-don_r">
+        <div class="bar-val" id="val-don_r">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-don_r"></div><div class="bar-thr" id="bt-don_r"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donr"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
+        </svg>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_r" data-d="-10">−</button>
+          <span class="thr-val" id="tv-don_r">175</span>
+          <button class="nudge" data-p="don_r" data-d="+10">+</button>
+        </div>
         <div class="pad-label">Don Right</div>
       </div>
       <div class="bar-col col-ka_r">
-        <div class="hit-val" id="val-ka_r"></div>
-        <div class="hit-ind" id="hi-ka_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+        <div class="bar-val" id="val-ka_r">0</div>
+        <div class="bar-track"><div class="bar-fill" id="bf-ka_r"></div><div class="bar-thr" id="bt-ka_r"></div></div>
+        <svg class="drum-icon" viewBox="0 0 86 86" fill="none">
           <defs><clipPath id="c-kar"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
           <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
           <circle cx="43" cy="43" r="32" fill="none" stroke="#2ab8c8" stroke-width="14" clip-path="url(#c-kar)"/>
-        </svg></div>
+        </svg>
         <div class="thr-row">
           <button class="nudge" data-p="ka_r" data-d="-10">−</button>
           <span class="thr-val" id="tv-ka_r">200</span>
@@ -443,7 +410,7 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
     <div class="cal-card" id="cal-card">
       <div class="cal-body">
         <div class="cal-title">Calibrate Thresholds</div>
-        <div class="cal-sub" id="cal-sub">Guided 5-step calibration — each pad is isolated in turn so crosstalk is measured with ground truth accuracy. Click Start to begin.</div>
+        <div class="cal-sub" id="cal-sub">Hit all four pads randomly for ~10 seconds — mix light taps and hard hits across all pads. No need to go one at a time. The button turns green when enough data is collected.</div>
         <div class="prog-wrap" id="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
         <div class="hc-row" id="hc-row">
           <div class="hc" id="hc-ka_l"><div class="hc-n ka" id="hcn-ka_l">0</div><div class="hc-lbl">Ka Left</div></div>
@@ -461,7 +428,6 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
             <div class="result-item"><span class="result-label don">Don Left</span><span class="result-value" id="res-don_l">—</span></div>
             <div class="result-item"><span class="result-label don">Don Right</span><span class="result-value" id="res-don_r">—</span></div>
           </div>
-          <button class="btn-apply" id="btn-apply" onclick="applyAndSave()" style="display:none;width:100%;margin-top:14px;">Apply &amp; Save to Drum</button>
         </div>
       </div>
       <div class="adv-toggle" id="adv-toggle" onclick="toggleAdv()">
@@ -490,6 +456,7 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
 
     <div class="action-row">
       <button class="btn-save" onclick="saveThresholds()">Save to Drum</button>
+      <button class="btn-apply" id="btn-apply" onclick="applyAndSave()">Apply &amp; Save</button>
       <button class="btn-disc" onclick="disconnect()">Disconnect</button>
       <span class="save-note" id="save-note"></span>
     </div>
@@ -661,19 +628,11 @@ const S = {
 PADS.forEach(h=>{ S.xt[h]={}; PADS.forEach(v=>S.xt[h][v]=0); });
 
 const AC = {
-  active:false, phase:0, phaseStart:0,
-  HIT_COOLDOWN:80,
-  PHASE_MS:7000,   // ms per isolated pad phase
-  RANDOM_MS:6000,  // ms for random mix phase
-  padOrder:['ka_l','don_l','don_r','ka_r'],
+  active:false, startTime:0, MIN_MS:10000, HIT_COOLDOWN:80,
   lastHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
   hitCount:{ka_l:0,don_l:0,don_r:0,ka_r:0},
   maxHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
-  normalHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
-  minHit:{ka_l:9999,don_l:9999,don_r:9999,ka_r:9999},
-  subHitBuf:{ka_l:[],don_l:[],don_r:[],ka_r:[]},
   maxCrosstalk:{ka_l:0,don_l:0,don_r:0,ka_r:0},
-  simHitCount:0, _lastWrongWarn:0, _lastSimWarn:0,
   suggestions:null, timer:null,
 };
 
@@ -687,7 +646,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 // ── NUDGE ─────────────────────────────────────────────────
 document.addEventListener('click',e=>{
   const b=e.target.closest('.nudge'); if(!b) return;
-  const p=b.dataset.p, d=(parseInt(b.dataset.d)>0?1:-1);
+  const p=b.dataset.p, d=parseInt(b.dataset.d);
   S.thr[p]=Math.max(0,Math.min(4095,S.thr[p]+d));
   syncThr(p); updateMx();
 });
@@ -707,26 +666,16 @@ function syncAllThr(){ PADS.forEach(syncThr); }
 // ── SERIAL ────────────────────────────────────────────────
 async function connectSerial(){
   if(!('serial' in navigator)){ showConnErr('Web Serial not supported — use Chrome or Edge.'); return; }
-  // Clean up any leftover port from a previous session (e.g. page refresh without disconnect)
-  if(S.port){
-    try{ if(S.reader){ await S.reader.cancel(); S.reader=null; } }catch(_){}
-    try{ if(S.writer){ S.writer.releaseLock(); S.writer=null; } }catch(_){}
-    try{ await S.port.close(); }catch(_){}
-    S.port=null;
-  }
   try{
     S.port=await navigator.serial.requestPort();
     await S.port.open({baudRate:115200});
     S.writer=S.port.writable.getWriter();
     S.connected=true; showConn(); readLoop();
+    // Ask drum for its current thresholds so the UI reflects reality
     setTimeout(async()=>{
       try{ await S.writer.write(new Uint8Array([0xBB])); }catch(_){}
     }, 300);
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('already open')) showConnErr('Port in use — close Arduino IDE or other serial apps and try again.');
-    else showConnErr(msg);
-  }
+  }catch(e){ showConnErr(e.message||String(e)); }
 }
 async function disconnect(){
   S.connected=false;
@@ -736,26 +685,6 @@ async function disconnect(){
   try{ if(S.port) await S.port.close(); }catch(_){}
   S.port=null; showDisc();
 }
-
-// Close port cleanly on page refresh/close
-window.addEventListener('beforeunload', ()=>{
-  if(S.port){
-    try{ if(S.writer){ S.writer.releaseLock(); } }catch(_){}
-    try{ S.port.close(); }catch(_){}
-  }
-});
-
-// Handle physical USB disconnect
-navigator.serial && navigator.serial.addEventListener('disconnect', e=>{
-  if(S.port===e.target){
-    S.connected=false;
-    if(AC.active) stopCal(true);
-    S.reader=null; S.writer=null; S.port=null;
-    showDisc();
-    note('Drum disconnected','err');
-    toast('Drum disconnected — reconnect USB and click Connect','err');
-  }
-});
 function showConn(){
   document.getElementById('pill').classList.add('on');
   document.getElementById('pill-txt').textContent='Calibrate mode connected';
@@ -770,7 +699,8 @@ function showDisc(){
   document.getElementById('pill-txt').textContent='Not connected';
   document.getElementById('sp-cal').classList.remove('hide');
   document.getElementById('cal-body').style.display='none';
-
+  document.getElementById('rate-badge').textContent='0 msg/s';
+  document.getElementById('rate-badge').classList.remove('active');
 }
 function showConnErr(msg){
   const el=document.getElementById('conn-err');
@@ -778,16 +708,11 @@ function showConnErr(msg){
   setTimeout(()=>el.textContent='',6000);
 }
 async function readLoop(){
+  const decoder=new TextDecoderStream();
+  S.port.readable.pipeTo(decoder.writable);
+  const lr=decoder.readable.pipeThrough(new TransformStream(new LineBreakTransformer())).getReader();
+  S.reader=lr;
   try{
-    // Guard: if readable is already locked, the port wasn't fully released after last session
-    if(S.port.readable.locked){
-      note('Serial stream locked - try unplugging and replugging the drum','err');
-      disconnect(); return;
-    }
-    const decoder=new TextDecoderStream();
-    S.port.readable.pipeTo(decoder.writable);
-    const lr=decoder.readable.pipeThrough(new TransformStream(new LineBreakTransformer())).getReader();
-    S.reader=lr;
     while(S.connected){
       const{value,done}=await lr.read(); if(done) break;
       if(value) parseLine(value.trim());
@@ -838,7 +763,7 @@ function parseLine(line){
   }
   if(!v) return;
   const vals={ka_l:v[0],don_l:v[1],don_r:v[2],ka_r:v[3]};
-  processPads(vals); S.msgCount++;
+  processPads(vals); logHit(vals); S.msgCount++;
 }
 function processPads(vals){
   PADS.forEach(p=>{
@@ -856,44 +781,33 @@ function processPads(vals){
       scopeHit(h);
     });
     updateMx();
-    logHit(vals);
   }
   if(AC.active) collectAC(vals);
   PADS.forEach(p=>{
     const v=vals[p];
     // Dead-band: suppress display flicker below MIN_HIT (ADC noise floor)
-    // Flash the drum icon on threshold-crossing rising edge only
-    if(rising[p]){
-      const hi=document.getElementById('hi-'+p);
-      if(hi){ hi.classList.remove('flash'); void hi.offsetWidth; hi.classList.add('flash'); }
-      const valEl=document.getElementById('val-'+p);
-      if(valEl){ valEl.textContent=vals[p]; valEl.className='hit-val lit';
-        setTimeout(()=>{ valEl.textContent=''; valEl.className='hit-val'; },600);
-      }
-    }
+    const display = v >= MIN_HIT ? v : 0;
+    // Use peak-hold (S.pk) for bar height so hits stay visible as they decay
+    // Cap scale at 800 — typical hits are 200-700, this fills the bar nicely
+    const BAR_SCALE = 800;
+    const pkPct = Math.min(100, S.pk[p] * 4095 / BAR_SCALE * 100).toFixed(1);
+    document.getElementById('bf-'+p).style.height=pkPct+'%';
+    const el=document.getElementById('val-'+p);
+    el.textContent=display||''; el.className='bar-val'+(display>0?' lit':'');
   });
 }
 
-// ── GUIDED CALIBRATION WIZARD ────────────────────────────
-// -- GUIDED CALIBRATION WIZARD ------------------------------------------
-// _wizPhase: 0-4 = which step. _wizRecording: whether timer is running.
-let _wizPhase=0, _wizSubStep=0, _wizSubCaptured=false, _wizTimerMs=0, _wizTimerLimit=7000, _wizRecording=false;
-
-function toggleCal(){ if(!AC.active) startCal(); else stopCal(false); }
-function showCalModal(){ startCal(); }
-function confirmCalStart(){ startCal(); }
-
+// ── AUTO-CAL ──────────────────────────────────────────────
+function toggleCal(){ if(!AC.active) showCalModal(); else stopCal(false); }
+function showCalModal(){ document.getElementById('cal-modal').classList.add('show'); }
+function confirmCalStart(){ document.getElementById('cal-modal').classList.remove('show'); startCal(); }
 function startCal(){
-  // Full reset of all calibration data
   PADS.forEach(p=>{
-    AC.hitCount[p]=0; AC.normalHit[p]=0; AC.maxHit[p]=0; AC.minHit[p]=9999; AC.maxCrosstalk[p]=0; AC.lastHit[p]=0; AC.subHitBuf[p]=[];
+    AC.hitCount[p]=0; AC.maxHit[p]=0; AC.maxCrosstalk[p]=0; AC.lastHit[p]=0;
     document.getElementById('hcn-'+p).textContent='0';
-    document.getElementById('hc-'+p).classList.remove('ok','active-pad');
+    document.getElementById('hc-'+p).classList.remove('ok');
   });
-  AC.suggestions=null; AC.active=true; AC.phase=0; AC.simHitCount=0;
-  AC._lastWrongWarn=0; AC._lastSimWarn=0;
-  _wizPhase=0; _wizRecording=false; _wizTimerMs=0;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+  AC.suggestions=null; AC.active=true; AC.startTime=Date.now();
   document.getElementById('cal-card').classList.add('recording');
   document.getElementById('cal-card').classList.remove('done');
   document.getElementById('prog-wrap').classList.add('vis');
@@ -905,358 +819,75 @@ function startCal(){
   document.getElementById('prog-fill').className='prog-fill';
   document.getElementById('prog-fill').style.width='0%';
   document.getElementById('btn-start').className='btn-start recording';
-  document.getElementById('btn-start').textContent='Stop';
-  // Open wizard to Step 1 instructions -- timer does NOT start yet
-  document.getElementById('cal-wiz').classList.add('show');
-  wizShowInstructions(0);
-}
-
-function wizClose(){
-  document.getElementById('cal-wiz').classList.remove('show');
-}
-
-// Build the 5 pip dots as an HTML string
-function _wizPips(activeStep){
-  let h='<div class="wiz-pips">';
-  for(let i=0;i<5;i++){
-    let c='wiz-pip';
-    if(i<activeStep) c+=' done';
-    else if(i===activeStep){
-      const pad=(i<4)?AC.padOrder[i]:null;
-      c+=(i===4)?' active-mix':(pad&&pad.startsWith('ka'))?' active-ka':' active-don';
-    }
-    h+='<div class="'+c+'"></div>';
-  }
-  return h+'</div>';
-}
-
-// Phase A: show instructions, wait for user to click "I'm Ready"
-function wizShowInstructions(step){
-  _wizPhase=step;
-  _wizRecording=false;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-
-  const isMix=(step===4);
-  const pad=isMix?null:AC.padOrder[step];
-  const isKa=pad&&pad.startsWith('ka');
-  const col=isMix?'mix':(isKa?'ka':'don');
-  const title=isMix?'Random Mix':LABELS[pad];
-  const btnCls=isMix?'go-mix':(isKa?'go-ka':'go-don');
-
-  const instrLines=[
-    'Strike the <strong>LEFT RIM</strong> (outer edge). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>LEFT FACE</strong> (centre). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>RIGHT FACE</strong> (centre). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>RIGHT RIM</strong> (outer edge). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'For the final measurement, use <strong>ONE hand only</strong> and hit all over the drum &mdash; light, hard, normal, slow, fast, single taps, one-handed rolls, whatever you want, it&rsquo;s totally up to you&hellip;'
-  ];
-
-  // Highlight active pad on the hit counter row visible behind the overlay
-  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
-  if(pad) document.getElementById('hc-'+pad).classList.add('active-pad');
-
-  document.getElementById('wiz-content').innerHTML=
-    _wizPips(step)+
-    '<div class="wiz-step-num">Step '+(step+1)+' of 5</div>'+
-    '<div class="wiz-title '+col+'">'+title+'</div>'+
-    '<p class="wiz-instr">'+instrLines[step]+'</p>'+
-    '<button class="btn-wiz-primary '+btnCls+'" onclick="wizStartPhase('+step+')">I\'m Ready &mdash; Start</button>'+
-    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
-}
-
-// Phase B: user clicked Ready -- start timer and data collection
-function wizStartPhase(step){
-  _wizPhase=step;
-  _wizSubStep=0;
-  _wizSubCaptured=false;
-  _wizTimerMs=0;
-  _wizRecording=false;
-  AC.phase=step+1;
-  AC.phaseStart=Date.now();
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-
-  const pad=(step<4)?AC.padOrder[step]:null;
-  if(pad){
-    // Reset this pad's data for a fresh measurement
-    AC.hitCount[pad]=0; AC.normalHit[pad]=0; AC.maxHit[pad]=0; AC.minHit[pad]=9999;
-    document.getElementById('hcn-'+pad).textContent='0';
-    document.getElementById('hc-'+pad).classList.remove('ok');
-    document.getElementById('hc-'+pad).classList.add('active-pad');
-  }
-
-  if(step===4){
-    // Mix phase: one-hand timer only, 4 seconds, no sub-steps
-    _wizTimerLimit=4000;
-    _wizRecording=true;
-    const col='mix';
-    document.getElementById('wiz-content').innerHTML=
-      _wizPips(step)+
-      '<div class="wiz-step-num">Step 5 of 5 &mdash; Recording</div>'+
-      '<div class="wiz-title mix">Random Mix</div>'+
-      '<div class="wiz-timer-bg"><div id="wiz-bar" class="wiz-timer-fill mix"></div></div>'+
-      '<div class="wiz-stats"><div class="wiz-stat-card"><div id="wiz-time" class="wiz-stat-val">4s</div><div class="wiz-stat-lbl">Timer</div></div></div>'+
-      '<div id="wiz-status" class="wiz-status-msg">Keep hitting all over...</div>'+
-      '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
-    AC.timer=setInterval(tickAC,200);
-  } else {
-    // Pad phases: sub-step flow — Normal → Light → Hard → Roll
-    wizShowSubStep(step, 0);
-  }
-}
-
-// Render a hit-wait sub-step (subStep 0=Normal, 1=Light, 2=Hard)
-function wizShowSubStep(step, subStep){
-  _wizSubStep=subStep;
-  _wizSubCaptured=false;
-  _wizRecording=true;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-
-  const pad=AC.padOrder[step];
-  const isKa=pad.startsWith('ka');
-  const col=isKa?'ka':'don';
-  const title=LABELS[pad];
-  const subLabels=['Light','Normal','Hard','Roll'];
-  const prompts=[
-    {big:'Hit it LIGHTLY',    hint:'Softest tap you\'d use in a real song &mdash; 3 hits'},
-    {big:'Now hit it NORMALLY',hint:'How you\'d play normally &mdash; 3 hits'},
-    {big:'Now hit it HARD',   hint:'Your hardest playing hit &mdash; 3 hits'}
-  ];
-
-  let dotsHtml='<div class="wiz-substeps">';
-  for(let i=0;i<4;i++){
-    const cls=i<subStep?'done':(i===subStep?'active '+col:'');
-    const icon=i<subStep?'&#10003;':(i+1);
-    dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
-  }
-  dotsHtml+='</div>';
-
-  document.getElementById('wiz-content').innerHTML=
-    _wizPips(step)+
-    '<div class="wiz-step-num">Step '+(step+1)+' of 5</div>'+
-    '<div class="wiz-title '+col+'">'+title+'</div>'+
-    dotsHtml+
-    '<div class="wiz-big-prompt">'+prompts[subStep].big+'</div>'+
-    '<div class="wiz-sub-hint">'+prompts[subStep].hint+'</div>'+
-    '<div id="wiz-status" class="wiz-status-msg">Waiting for hit...</div>'+
-    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
-}
-
-// Called by collectAC when a valid hit is detected during sub-steps 0-2
-function wizSubHitDetected(step, subStep, value){
-  _wizSubCaptured=true;
-  const pad=AC.padOrder[step];
-  const isKa=pad.startsWith('ka');
-  const col=isKa?'ka':'don';
-
-  // Store the measured value
-  if(subStep===0){ AC.minHit[pad]=value; }  // Light first
-  else if(subStep===1){ AC.normalHit[pad]=value; }  // Normal second
-  else if(subStep===2){ AC.maxHit[pad]=value; AC.hitCount[pad]=3; document.getElementById('hc-'+pad).classList.add('ok'); }  // Hard third
-
-  // Flash confirmation
-  const statusEl=document.getElementById('wiz-status');
-  if(statusEl){ statusEl.textContent='Got it! ('+value+')'; statusEl.className='wiz-status-msg ready'; }
-
-  setTimeout(()=>{
-    _wizSubCaptured=false;
-    if(subStep+1<3) wizShowSubStep(step, subStep+1);
-    else wizStartRoll(step);
-  }, 500);
-}
-
-// Sub-step 3: roll timer — collects crosstalk, then auto-advances
-function wizStartRoll(step){
-  _wizSubStep=3;
-  _wizSubCaptured=false;
-  _wizTimerMs=0;
-  _wizTimerLimit=3000;
-  _wizRecording=true;
-  AC.phaseStart=Date.now();
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-
-  const pad=AC.padOrder[step];
-  const isKa=pad.startsWith('ka');
-  const col=isKa?'ka':'don';
-  const title=LABELS[pad];
-  const subLabels=['Normal','Light','Hard','Roll'];
-
-  let dotsHtml='<div class="wiz-substeps">';
-  for(let i=0;i<4;i++){
-    const cls=i<3?'done':('active '+col);
-    const icon=i<3?'&#10003;':(i+1);
-    dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
-  }
-  dotsHtml+='</div>';
-
-  document.getElementById('wiz-content').innerHTML=
-    _wizPips(step)+
-    '<div class="wiz-step-num">Step '+(step+1)+' of 5 &mdash; Roll Phase</div>'+
-    '<div class="wiz-title '+col+'">'+title+'</div>'+
-    dotsHtml+
-    '<div class="wiz-big-prompt">Now roll!</div>'+
-    '<div class="wiz-sub-hint">Keep rolling for 3 seconds &mdash; any speed</div>'+
-    '<div class="wiz-timer-bg"><div id="wiz-bar" class="wiz-timer-fill '+col+'"></div></div>'+
-    '<div class="wiz-stats"><div class="wiz-stat-card"><div id="wiz-time" class="wiz-stat-val">3s</div><div class="wiz-stat-lbl">Timer</div></div></div>'+
-    '<div id="wiz-status" class="wiz-status-msg">Rolling...</div>'+
-    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
-
+  document.getElementById('btn-start').textContent='⏹ Stop Calibration';
+  document.getElementById('cal-sub').textContent='Recording — hit all four pads hard and randomly! Mix light taps and heavy hits.';
+  setStatus('Hit all four pads — keep going until the button turns green…','');
   AC.timer=setInterval(tickAC,200);
 }
-
-// Called when user clicks Continue/Finish
-function wizAdvanceTo(step){
-  _wizRecording=false;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-  if(step>=5) finishCal();
-  else wizShowInstructions(step);
-}
-
-function calWizNext(){ wizAdvanceTo(_wizPhase+1); }
-
-function wizShowComplete(){
-  const sugs=AC.suggestions;
-  function sv(pad){ return (sugs&&sugs[pad])?sugs[pad].suggested:'--'; }
-  document.getElementById('wiz-content').innerHTML=
-    '<div class="wiz-pips">'+Array(5).fill('<div class="wiz-pip done"></div>').join('')+'</div>'+
-    '<div class="wiz-step-num">Complete</div>'+
-    '<div class="wiz-title complete">Calibration Done</div>'+
-    '<p class="wiz-instr">Suggested thresholds based on your hits. Click Save to apply them to the drum.</p>'+
-    '<div class="wiz-grid">'+
-      '<div class="wiz-grid-item"><span class="pad-label ka">Ka Left</span><span class="wiz-grid-val">'+sv('ka_l')+'</span></div>'+
-      '<div class="wiz-grid-item"><span class="pad-label ka">Ka Right</span><span class="wiz-grid-val">'+sv('ka_r')+'</span></div>'+
-      '<div class="wiz-grid-item"><span class="pad-label don">Don Left</span><span class="wiz-grid-val">'+sv('don_l')+'</span></div>'+
-      '<div class="wiz-grid-item"><span class="pad-label don">Don Right</span><span class="wiz-grid-val">'+sv('don_r')+'</span></div>'+
-    '</div>'+
-    '<button class="btn-wiz-primary go-save" onclick="wizSaveAndClose()">Save to Drum</button>'+
-    '<a class="wiz-cancel" onclick="wizClose()">Close without saving</a>';
-}
-
-function wizSaveAndClose(){ wizClose(); applyAndSave(); }
-
-function finishCal(){
-  AC.active=false; _wizRecording=false;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
-  calcSuggestions(false);
-  wizShowComplete();
-}
-
 function stopCal(silent){
-  AC.active=false; _wizRecording=false; AC.phase=0;
-  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
-  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
-  wizClose();
+  AC.active=false; clearInterval(AC.timer);
   document.getElementById('cal-card').classList.remove('recording');
   document.getElementById('btn-start').className='btn-start';
   document.getElementById('btn-start').textContent='Start Calibration';
-  document.getElementById('prog-fill').style.width='0%';
+  document.getElementById('prog-fill').style.width='100%';
   if(silent) return;
-  setStatus('Calibration stopped.','warn');
-  document.getElementById('cal-sub').textContent='Click Start Calibration to begin guided setup.';
+  const elapsed=Date.now()-AC.startTime;
+  const allHit=PADS.every(p=>AC.hitCount[p]>=3);
+  if(!allHit||elapsed<AC.MIN_MS){
+    setStatus('⚠ Need 10 seconds + at least 3 hits per pad. Try again.','warn');
+    document.getElementById('cal-sub').textContent='Hit all four pads randomly for ~10 seconds — mix light taps and hard hits.';
+    return;
+  }
+  calcSuggestions();
 }
 function collectAC(vals){
   const now=Date.now();
-  if(AC.phase>=1&&AC.phase<=4){
-    const pad=AC.padOrder[AC.phase-1];
-    const v=vals[pad];
-
-    if(_wizSubStep<3 && _wizRecording){
-      // Sub-steps 0-2: capture 3 clean hits, store the median
-      if(v>MIN_HIT && now-AC.lastHit[pad]>AC.HIT_COOLDOWN){
-        AC.lastHit[pad]=now;
-        if(!AC.subHitBuf[pad]) AC.subHitBuf[pad]=[];
-        AC.subHitBuf[pad].push(v);
-        const remaining=3-AC.subHitBuf[pad].length;
-        const statusEl=document.getElementById('wiz-status');
-        if(statusEl){
-          if(remaining>0){ statusEl.textContent='Got one! '+remaining+' more...'; statusEl.className='wiz-status-msg ready'; }
-        }
-        if(AC.subHitBuf[pad].length>=3){
-          const sorted=[...AC.subHitBuf[pad]].sort((a,b)=>a-b);
-          const median=sorted[1];
-          AC.subHitBuf[pad]=[];
-          wizSubHitDetected(_wizPhase, _wizSubStep, median);
-        }
-      }
-    } else if(_wizSubStep===3 && _wizRecording){
-      // Roll sub-step: count hits for display, use lower cooldown for fast rolls
-      if(v>MIN_HIT && now-AC.lastHit[pad]>25){
-        AC.lastHit[pad]=now;
-        AC.hitCount[pad]++;
-        const el=document.getElementById('hcn-'+pad);
-        if(el) el.textContent=AC.hitCount[pad];
-      }
-    }
-
-    // Always sample crosstalk on every frame regardless of sub-step
-    PADS.forEach(p=>{ if(p!==pad&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
-
-  } else if(AC.phase===5){
-    // Discard simultaneous Don+Ka
-    const donMax=Math.max(vals.don_l||0,vals.don_r||0);
-    const kaMax=Math.max(vals.ka_l||0,vals.ka_r||0);
-    if(donMax>MIN_HIT&&kaMax>MIN_HIT){ AC.simHitCount++; return; }
-    // Supplement random-phase crosstalk
-    let strongest=null, maxVal=MIN_HIT;
-    PADS.forEach(p=>{ if(vals[p]>maxVal){ maxVal=vals[p]; strongest=p; } });
-    if(!strongest) return;
-    if(now-AC.lastHit[strongest]<AC.HIT_COOLDOWN) return;
-    AC.lastHit[strongest]=now;
-    PADS.forEach(p=>{ if(p!==strongest&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
-  }
+  let strongest=null, maxVal=MIN_HIT;
+  PADS.forEach(p=>{ if(vals[p]>maxVal){ maxVal=vals[p]; strongest=p; } });
+  if(!strongest) return;
+  if(now-AC.lastHit[strongest]<AC.HIT_COOLDOWN) return;
+  AC.lastHit[strongest]=now;
+  AC.hitCount[strongest]++;
+  if(vals[strongest]>AC.maxHit[strongest]) AC.maxHit[strongest]=vals[strongest];
+  PADS.forEach(p=>{ if(p!==strongest&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
 }
-
 function tickAC(){
-  // Only runs during roll sub-step (subStep 3) and mix phase (step 4)
-  if(!_wizRecording) return;
-  _wizTimerMs=Math.min(_wizTimerMs+200, _wizTimerLimit+200);
-  const elapsed=_wizTimerMs;
-  const pct=Math.min(100, elapsed/_wizTimerLimit*100);
-  const sec=Math.max(0, Math.ceil((_wizTimerLimit-elapsed)/1000));
-  const timeOk=elapsed>=_wizTimerLimit;
-  const isMix=(_wizPhase===4);
-
-  const barEl=document.getElementById('wiz-bar');
-  const timeEl=document.getElementById('wiz-time');
-  const statusEl=document.getElementById('wiz-status');
-
-  if(barEl){ barEl.style.width=pct+'%'; if(timeOk) barEl.classList.add('complete'); }
-  if(timeEl){ timeEl.textContent=sec+'s'; }
-
-  if(timeOk){
-    if(statusEl){ statusEl.textContent='Done!'; statusEl.className='wiz-status-msg ready'; }
-    if(AC.timer){ clearInterval(AC.timer); AC.timer=null; _wizRecording=false; }
-    setTimeout(()=>{ wizAdvanceTo(_wizPhase+1); }, 400);
-  } else {
-    if(statusEl){ statusEl.textContent=isMix?('Keep hitting... '+sec+'s left'):('Keep rolling... '+sec+'s left'); }
+  const elapsed=Date.now()-AC.startTime;
+  document.getElementById('prog-fill').style.width=Math.min(100,elapsed/AC.MIN_MS*100)+'%';
+  PADS.forEach(p=>{
+    document.getElementById('hcn-'+p).textContent=AC.hitCount[p];
+    if(AC.hitCount[p]>=3) document.getElementById('hc-'+p).classList.add('ok');
+  });
+  if(elapsed>2000) calcSuggestions(true);
+  const allGood=PADS.every(p=>AC.hitCount[p]>=3);
+  const timeOk=elapsed>=AC.MIN_MS;
+  const btn=document.getElementById('btn-start');
+  if(allGood&&timeOk){
+    document.getElementById('prog-fill').className='prog-fill done';
+    btn.className='btn-start ready'; btn.textContent='✓ Done — tap to see results';
+    setStatus('✅ Enough data collected! Tap the button for results.','go');
+  }else if(allGood){
+    setStatus('✅ All pads hit — '+Math.ceil((AC.MIN_MS-elapsed)/1000)+'s more…','go');
+  }else{
+    const miss=PADS.filter(p=>AC.hitCount[p]<3).map(p=>LABELS[p]).join(', ');
+    setStatus('Still need hits on: '+miss,'warn');
   }
 }
 function calcSuggestions(live){
   const sugs={};
   PADS.forEach(p=>{
-    const maxCross=AC.maxCrosstalk[p];
-    const maxHit=AC.maxHit[p]||0;
-    const minHit=AC.minHit[p]<9999?AC.minHit[p]:maxHit;
-    const normalHit=AC.normalHit[p]||minHit;  // explicitly measured normal playing hit
-    const isKa=p.startsWith('ka');
-    const crossMar=isKa?35:20;
-
-    // Threshold sits just below the lightest measured hit.
-    // This guarantees even light hits register in real gameplay.
-    const lightMult=isKa?0.65:0.60;  // Lower = easier to trigger, reduced from 0.75/0.70
-    let suggested=Math.max(maxCross+crossMar, Math.round(minHit*lightMult));
-
-    // Must also be well below the normal playing hit (most important reference)
-    const normalCap=Math.round(normalHit*(isKa?0.55:0.50));  // Reduced from 0.68/0.60
-    if(normalCap>0&&suggested>normalCap) suggested=normalCap;
-
-    // Hard ceiling: never more than 45/38% of max hit (guards against crosstalk dominance)
-    const hardCap=Math.round(maxHit*(isKa?0.45:0.38));  // Reduced from 0.55/0.45
-    const capped=hardCap>0&&suggested>hardCap;
-    if(capped) suggested=hardCap;
-
+    const maxCross=AC.maxCrosstalk[p], maxHit=AC.maxHit[p];
+    const isKa = p.startsWith('ka');
+    // Ka (rim) uses a higher multiplier + larger crosstalk margin so it isn't
+    // triggered by neighbouring Don hits. Don can be more sensitive.
+    const hitMult  = isKa ? 0.42 : 0.30;
+    const crossMar = isKa ? 35   : 20;
+    let suggested=Math.max(maxCross+crossMar, Math.round(maxHit*hitMult));
+    const cap=Math.round(maxHit*(isKa ? 0.60 : 0.50));
+    const capped=cap>0&&suggested>cap;
+    if(capped) suggested=cap;
     suggested=Math.max(10,Math.min(3000,suggested));
-    sugs[p]={suggested,current:S.thr[p],maxHit,minHit,normalHit,maxCross,capped,confidence:AC.hitCount[p]>=3?'high':'med'};
+    sugs[p]={suggested,current:S.thr[p],maxHit,maxCross,capped,confidence:AC.hitCount[p]>=6?'high':AC.hitCount[p]>=3?'med':'low'};
   });
   AC.suggestions=sugs;
   PADS.forEach(p=>{ const el=document.getElementById('res-'+p); if(el) el.textContent=sugs[p].suggested; });
@@ -1267,11 +898,10 @@ function calcSuggestions(live){
     document.getElementById('cal-card').classList.add('done');
     document.getElementById('btn-start').className='btn-start';
     document.getElementById('btn-start').textContent='Recalibrate';
-    document.getElementById('cal-sub').textContent='Calibration complete! Review the suggested thresholds below, then click Apply & Save to write them to your drum.';
-    setStatus('Calibration complete - ready to save','go');
+    document.getElementById('cal-sub').textContent='Review suggestions. Apply & Save pushes them directly to your drum.';
+    setStatus('✅ Calibration complete','go');
     document.getElementById('btn-apply').style.display='';
     document.getElementById('adv-sug-section').style.display='';
-    toast('Calibration complete! Click Apply & Save to write to drum.','ok');
   }
 }
 function renderAdvSuggestions(){
@@ -1295,11 +925,10 @@ function renderAdvSuggestions(){
 function applyAndSave(){
   if(!AC.suggestions) return;
   PADS.forEach(p=>{ if(AC.suggestions[p]&&AC.suggestions[p].confidence!=='low'){ S.thr[p]=AC.suggestions[p].suggested; syncThr(p); } });
-  AC.suggestions=null;
+  AC.suggestions=null; // Mark as applied
   document.getElementById('btn-apply').style.display='none';
-  document.getElementById('cal-sub').textContent='Thresholds saved to drum! If any crosstalk remains, raise the threshold of the accidentally-triggering pad using the + button above until it stops, then click Save to Drum.';
   updateMx(); saveThresholds();
-  toast('Saved! If you still get crosstalk, nudge that pad\u2019s threshold up and Save to Drum.','ok');
+  toast('Calibration applied & saved to drum!','ok');
 }
 function setStatus(msg,cls){ const el=document.getElementById('cal-status'); el.textContent=msg; el.className='cal-status vis '+(cls||''); }
 function toggleAdv(){ document.getElementById('adv-panel').classList.toggle('open'); document.getElementById('adv-toggle').classList.toggle('open'); }
@@ -1355,13 +984,23 @@ let _lastDecayTs = 0;
   const d = Math.pow(0.5, dt / 250);
   PADS.forEach(p=>{
     S.pk[p] *= d;
+    const pct = Math.min(100, S.pk[p] * 4095 / BAR_SCALE * 100).toFixed(1);
+    document.getElementById('bf-'+p).style.height = pct + '%';
   });
 })();
 setInterval(()=>{
   const now=Date.now(), elapsed=(now-S.lastRateTime)/1000;
   const rate=Math.round(S.msgCount/elapsed);
   S.msgCount=0; S.lastRateTime=now;
-  if(rate===0&&S.connected){ PADS.forEach(p=>{ S.pk[p]*=DECAY; }); }
+  const badge=document.getElementById('rate-badge');
+  badge.textContent=rate+' msg/s'; badge.classList.toggle('active',rate>0);
+  if(rate===0&&S.connected){
+    PADS.forEach(p=>{
+      S.pk[p]*=DECAY;
+      document.getElementById('bf-'+p).style.height=Math.min(100,S.pk[p]*4095/800*100).toFixed(1)+'%';
+      document.getElementById('val-'+p).textContent=Math.round(S.pk[p]*4095);
+    });
+  }
 },1000);
 
 // ── SAVE ──────────────────────────────────────────────────
@@ -1597,38 +1236,6 @@ function clearAllBt(){
   });
   ['dp-up','dp-down','dp-left','dp-right'].forEach(id=>setDp(id,false));
 }
-
-// ── KEYBOARD TEST MODE ────────────────────────────────────
-// A=Ka Left  S=Don Left  D=Don Right  F=Ka Right
-// Simulates a firm hit (value 450) so calibration phases respond normally
-const KEY_MAP = {a:'ka_l', s:'don_l', d:'don_r', f:'ka_r'};
-const KEY_HELD = {ka_l:false, don_l:false, don_r:false, ka_r:false};
-let _kbInterval = null;
-
-function _kbFire(){
-  const vals = {ka_l:0, don_l:0, don_r:0, ka_r:0};
-  let any = false;
-  Object.entries(KEY_HELD).forEach(([p,held])=>{ if(held){ vals[p]=450; any=true; } });
-  if(any){ processPads(vals); logHit(vals); S.msgCount++; }
-}
-
-document.addEventListener('keydown', e=>{
-  if(e.repeat) return;
-  const pad = KEY_MAP[e.key.toLowerCase()];
-  if(!pad) return;
-  e.preventDefault();
-  KEY_HELD[pad] = true;
-  if(!_kbInterval) _kbInterval = setInterval(_kbFire, 16); // ~60hz
-});
-
-document.addEventListener('keyup', e=>{
-  const pad = KEY_MAP[e.key.toLowerCase()];
-  if(!pad) return;
-  KEY_HELD[pad] = false;
-  if(Object.values(KEY_HELD).every(v=>!v)){ clearInterval(_kbInterval); _kbInterval=null; }
-});
 </script>
 </body>
 </html>
-
-

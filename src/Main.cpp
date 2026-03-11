@@ -1,4 +1,4 @@
-//beginning of Main.cpp
+﻿//beginning of Main.cpp
 
 #include "peripherals/Controller.h"
 #include "peripherals/Display.h"
@@ -15,6 +15,7 @@
 #include "GlobalConfiguration.h"
 #include "PS4AuthConfiguration.h"
 
+#include "pico/bootrom.h"
 #include "pico/multicore.h"
 #include "pico/stdlib.h"
 #include "pico/time.h"
@@ -254,6 +255,38 @@ int main() {
         return false;
     };
 
+    // Hold HOME for 5 seconds to reboot into bootloader (BOOTSEL) mode.
+    // Saves wear on physical BOOTSEL button — no need to hold while plugging in.
+    const auto checkHoldHome = [&input_state]() {
+        static uint32_t home_hold_start = 0;
+        static bool was_held = false;
+        static uint8_t press_count = 0;
+        static const uint32_t HOLD_DURATION_MS = 5000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;
+
+        bool home_pressed = input_state.controller.buttons.home;
+        uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+        if (home_pressed) {
+            press_count++;
+            if (press_count >= DEBOUNCE_THRESHOLD && home_hold_start == 0) {
+                home_hold_start = current_time;
+                was_held = false;
+            }
+            if (home_hold_start != 0 && !was_held && (current_time - home_hold_start) >= HOLD_DURATION_MS) {
+                was_held = true;
+                press_count = 0;
+                home_hold_start = 0;
+                return true;
+            }
+        } else {
+            press_count = 0;
+            home_hold_start = 0;
+            was_held = false;
+        }
+        return false;
+    };
+
     auto settings_store = std::make_shared<Utils::SettingsStore>();
     const auto mode = settings_store->getUsbMode();
     const auto readSettings = [&]() {
@@ -336,7 +369,7 @@ int main() {
             
             // Only accept A button after 300ms delay to prevent accidental skip
             uint32_t now = to_ms_since_boot(get_absolute_time());
-            if (input_state.controller.buttons.east && (now - instructions_start_time) >= 300) {
+            if (input_state.controller.buttons.east && (now - instructions_start_time) >= 500) {
                 // User pressed A after debounce period - start the countdown
                 drum.startTantrumCountdown();
                 in_instructions = false;
@@ -422,6 +455,15 @@ int main() {
         // Track menu state BEFORE processing to detect transitions
         bool was_menu_active = menu.active();
         
+        // HOLD HOME 5s to reboot into bootloader (BOOTSEL) mode
+        // Goes through the same BootselMsg splash path as the menu so the user
+        // sees the countdown screen instead of the display freezing on main.
+        if (checkHoldHome()) {
+            menu.enterBootloaderSplash();
+            ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
+            queue_add_blocking(&control_queue, &ctrl_message);
+        }
+
         // HOLD SELECT to ENTER menu (not exit - use B button to exit)
         // Check BEFORE menu processing so we can detect the hold
         if (!menu.active() && checkHoldSelect()) {
@@ -441,6 +483,9 @@ int main() {
             if (menu.isTantrumStartRequested()) {
                 // Start Tantrum calibration on Core 0
                 drum.startTaikoTantrum();
+
+                // CRITICAL: Deactivate menu on Core 0 so it stops overwriting Instructions screen
+                menu.deactivate();
 
                 // Exit menu and show Tantrum countdown screen on Core 1
                 ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
@@ -496,7 +541,15 @@ int main() {
             uint8_t byte;
             tud_cdc_read(&byte, 1);
 
-            if (rx_pos == 0 && byte != 0xAA) {
+            // 0xBB = threshold query -- respond with current thresholds so web tool shows real values
+            if (byte == 0xBB && rx_pos == 0) {
+                const auto& t = drum.getCurrentThresholds();
+                char buf[32];
+                snprintf(buf, sizeof(buf), "THR:%u,%u,%u,%u\n",
+                    t.don_left, t.don_right, t.ka_left, t.ka_right);
+                tud_cdc_write(buf, strlen(buf));
+                tud_cdc_write_flush();
+            } else if (rx_pos == 0 && byte != 0xAA) {
                 // Not a start byte — ignore and stay ready
             } else {
                 rx_buf[rx_pos++] = byte;

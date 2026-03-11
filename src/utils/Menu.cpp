@@ -35,7 +35,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Analog\nPlayer 1", Menu::Descriptor::Action::SetUsbMode},
        {"Analog\nPlayer 2", Menu::Descriptor::Action::SetUsbMode},
        {"MIDI\nController", Menu::Descriptor::Action::SetUsbMode},
-       {"Debug\nMode", Menu::Descriptor::Action::SetUsbMode}},
+       {"Calibrate\n/Debug", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
     // Drum Tuning submenu (2 items) - Pure tuning
@@ -155,7 +155,8 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       "About",
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
-       {"Firmware:\nv3.0", Menu::Descriptor::Action::None},
+       {"Firmware:\nv12.5", Menu::Descriptor::Action::None},
+        {"Build:\n8", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
@@ -271,9 +272,16 @@ void Menu::Buttons::reset() {
 
 Menu::Menu(std::shared_ptr<SettingsStore> settings_store) : m_store(std::move(settings_store)) {}
 
+void Menu::enterBootloaderSplash() {
+    m_store->scheduleReboot(true);
+    activate();
+    gotoPage(Page::BootselMsg);
+}
+
 void Menu::activate() {
     m_active = true;
     m_buttons.reset();  // Start with clean button state
+    m_ignore_input_frames = 3;  // Suppress input briefly on menu open
 }
 
 void Menu::setWaitingForButtonRelease(bool waiting) {
@@ -347,6 +355,7 @@ void Menu::gotoPage(Menu::Page page) {
     }
 
     m_state_stack.push({page, current_value, current_value});
+    m_ignore_input_frames = 3;  // Suppress input briefly after page transition
 }
 
 void Menu::gotoParent(bool do_restore) {
@@ -542,6 +551,16 @@ void Menu::update(const InputState::Controller &controller_state) {
     auto descriptor_it = descriptors.find(current_state.page);
     if (descriptor_it == descriptors.end()) {
         assert(false);
+        return;
+    }
+
+    // Ignore input for a few frames after a page transition or menu open.
+    // This prevents the A button press that navigated TO this page from
+    // immediately firing again on the new page (caused by releaseAll() in
+    // Main.cpp creating a one-frame gap that resets the edge-detect state).
+    if (m_ignore_input_frames > 0) {
+        m_ignore_input_frames--;
+        m_buttons.reset();
         return;
     }
 
