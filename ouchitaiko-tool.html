@@ -392,24 +392,10 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
         </div>
         <div class="pad-label">Ka Left</div>
       </div>
-      <div class="bar-col col-don_r">
-        <div class="hit-val" id="val-don_r"></div>
-        <div class="hit-ind" id="hi-don_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
-          <defs><clipPath id="c-donr"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
-          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
-          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
-        </svg></div>
-        <div class="thr-row">
-          <button class="nudge" data-p="don_r" data-d="-10">−</button>
-          <span class="thr-val" id="tv-don_r">175</span>
-          <button class="nudge" data-p="don_r" data-d="+10">+</button>
-        </div>
-        <div class="pad-label">Don Left</div>
-      </div>
       <div class="bar-col col-don_l">
         <div class="hit-val" id="val-don_l"></div>
         <div class="hit-ind" id="hi-don_l"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
-          <defs><clipPath id="c-donl"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <defs><clipPath id="c-donl"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
           <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
           <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donl)"/>
         </svg></div>
@@ -417,6 +403,20 @@ nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22
           <button class="nudge" data-p="don_l" data-d="-10">−</button>
           <span class="thr-val" id="tv-don_l">175</span>
           <button class="nudge" data-p="don_l" data-d="+10">+</button>
+        </div>
+        <div class="pad-label">Don Left</div>
+      </div>
+      <div class="bar-col col-don_r">
+        <div class="hit-val" id="val-don_r"></div>
+        <div class="hit-ind" id="hi-don_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donr"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
+        </svg></div>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_r" data-d="-10">−</button>
+          <span class="thr-val" id="tv-don_r">175</span>
+          <button class="nudge" data-p="don_r" data-d="+10">+</button>
         </div>
         <div class="pad-label">Don Right</div>
       </div>
@@ -650,12 +650,14 @@ const DECAY  = 0.82;
 const MIN_HIT = 30;
 const PAD_COLOR = {ka_l:'#2ab8c8', don_l:'#e8572a', don_r:'#e8572a', ka_r:'#2ab8c8'};
 
+const CROSS_COOLDOWN = 80; // ms — after Don fires, Ka is suppressed and vice versa
 const S = {
   port:null, reader:null, writer:null, connected:false,
   pendingAck:false, ackTimeout:null,
   thr:{ka_l:200, don_l:175, don_r:175, ka_r:200},
   pk:{ka_l:0,don_l:0,don_r:0,ka_r:0},
   pv:{ka_l:false,don_l:false,don_r:false,ka_r:false},
+  lastZoneFire:{don:0, ka:0},
   xt:{}, msgCount:0, lastRateTime:Date.now(),
 };
 PADS.forEach(h=>{ S.xt[h]={}; PADS.forEach(v=>S.xt[h][v]=0); });
@@ -843,16 +845,38 @@ function parseLine(line){
 function processPads(vals){
   PADS.forEach(p=>{
     const n=vals[p]/4095;
-    if(n>S.pk[p]) S.pk[p]=n; // only update upward — decay handled by rAF
+    if(n>S.pk[p]) S.pk[p]=n; // only update upward - decay handled by rAF
   });
+
+  // Mirror firmware Don/Ka zone arbitration: whichever zone has the highest
+  // raw value wins; the entire losing zone is zeroed before threshold testing.
+  const maxDon=Math.max(vals.don_l, vals.don_r);
+  const maxKa =Math.max(vals.ka_l,  vals.ka_r);
+  const arbVals={...vals};
+  if(maxDon >= maxKa){ arbVals.ka_l=0; arbVals.ka_r=0; }
+  else               { arbVals.don_l=0; arbVals.don_r=0; }
+
+  const now=Date.now();
   const rising={};
   PADS.forEach(p=>{
-    const thr=S.thr[p]/4095, now=vals[p]/4095>thr; // raw value — not peak-hold, so fast hits each trigger
-    rising[p]=now&&!S.pv[p]; S.pv[p]=now;
+    const thr=S.thr[p]/4095, active=arbVals[p]/4095>thr;
+    const isKa=p.startsWith('ka');
+    const oppZoneFiredAt=isKa?S.lastZoneFire.don:S.lastZoneFire.ka;
+    const crossBlocked=(now-oppZoneFiredAt)<CROSS_COOLDOWN;
+    const wouldRise=active&&!S.pv[p];
+    rising[p]=wouldRise&&!crossBlocked;
+    S.pv[p]=active;
   });
-  if(PADS.some(p=>rising[p])){
+  // Record zone fire times
+  if(PADS.some(p=>rising[p]&&p.startsWith('don'))) S.lastZoneFire.don=now;
+  if(PADS.some(p=>rising[p]&&p.startsWith('ka')))  S.lastZoneFire.ka=now;
+    if(PADS.some(p=>rising[p])){
     PADS.filter(p=>rising[p]).forEach(h=>{
-      PADS.forEach(v=>{ if(v!==h&&S.pk[v]>S.xt[h][v]) S.xt[h][v]=S.pk[v]; });
+      // FIX: Use instantaneous ADC value, not decaying peak.
+      // S.pk[v] decays over time — during fast rolls the decay has not finished before
+      // the next hit fires, so S.pk[v] is inflated by leftover signal from the previous hit.
+      // vals[v] is the raw value at the exact moment of the rising edge — always accurate.
+      PADS.forEach(v=>{ if(v!==h&&vals[v]>S.xt[h][v]) S.xt[h][v]=vals[v]/4095; });
       scopeHit(h);
     });
     updateMx();
@@ -944,10 +968,10 @@ function wizShowInstructions(step){
   const btnCls=isMix?'go-mix':(isKa?'go-ka':'go-don');
 
   const instrLines=[
-    'Strike the <strong>LEFT RIM</strong> (outer edge). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>LEFT FACE</strong> (centre). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>RIGHT FACE</strong> (centre). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
-    'Strike the <strong>RIGHT RIM</strong> (outer edge). You\u2019ll hit it three times each: three light taps, three normal hits, three hard hits, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>LEFT RIM</strong> (outer edge). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>LEFT FACE</strong> (centre). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>RIGHT FACE</strong> (centre). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>RIGHT RIM</strong> (outer edge). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
     'For the final measurement, use <strong>ONE hand only</strong> and hit all over the drum &mdash; light, hard, normal, slow, fast, single taps, one-handed rolls, whatever you want, it&rsquo;s totally up to you&hellip;'
   ];
 
@@ -978,7 +1002,7 @@ function wizStartPhase(step){
   const pad=(step<4)?AC.padOrder[step]:null;
   if(pad){
     // Reset this pad's data for a fresh measurement
-    AC.hitCount[pad]=0; AC.normalHit[pad]=0; AC.maxHit[pad]=0; AC.minHit[pad]=9999;
+    AC.hitCount[pad]=0; AC.normalHit[pad]=0; AC.maxHit[pad]=0; AC.minHit[pad]=9999; AC.subHitBuf[pad]=[];
     document.getElementById('hcn-'+pad).textContent='0';
     document.getElementById('hc-'+pad).classList.remove('ok');
     document.getElementById('hc-'+pad).classList.add('active-pad');
@@ -1015,15 +1039,14 @@ function wizShowSubStep(step, subStep){
   const isKa=pad.startsWith('ka');
   const col=isKa?'ka':'don';
   const title=LABELS[pad];
-  const subLabels=['Light','Normal','Hard','Roll'];
+  const subLabels=['Normal','Hardest','Roll'];
   const prompts=[
-    {big:'Hit it LIGHTLY',    hint:'Softest tap you\'d use in a real song &mdash; 3 hits'},
-    {big:'Now hit it NORMALLY',hint:'How you\'d play normally &mdash; 3 hits'},
-    {big:'Now hit it HARD',   hint:'Your hardest playing hit &mdash; 3 hits'}
+    {big:'Hit it NORMALLY',   hint:'How you\'d play in a real song &mdash; 3 hits'},
+    {big:'Hardest you\'d ever play', hint:'Your absolute maximum hit force &mdash; 3 hits'}
   ];
 
   let dotsHtml='<div class="wiz-substeps">';
-  for(let i=0;i<4;i++){
+  for(let i=0;i<3;i++){
     const cls=i<subStep?'done':(i===subStep?'active '+col:'');
     const icon=i<subStep?'&#10003;':(i+1);
     dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
@@ -1048,10 +1071,9 @@ function wizSubHitDetected(step, subStep, value){
   const isKa=pad.startsWith('ka');
   const col=isKa?'ka':'don';
 
-  // Store the measured value
-  if(subStep===0){ AC.minHit[pad]=value; }  // Light first
-  else if(subStep===1){ AC.normalHit[pad]=value; }  // Normal second
-  else if(subStep===2){ AC.maxHit[pad]=value; AC.hitCount[pad]=3; document.getElementById('hc-'+pad).classList.add('ok'); }  // Hard third
+  // Store the measured value (subStep 0=Normal, 1=Hardest — Light removed)
+  if(subStep===0){ AC.normalHit[pad]=value; AC.minHit[pad]=value; }  // Normal — also use as minHit fallback
+  else if(subStep===1){ AC.maxHit[pad]=value; AC.hitCount[pad]=3; document.getElementById('hc-'+pad).classList.add('ok'); }  // Hardest
 
   // Flash confirmation
   const statusEl=document.getElementById('wiz-status');
@@ -1059,7 +1081,7 @@ function wizSubHitDetected(step, subStep, value){
 
   setTimeout(()=>{
     _wizSubCaptured=false;
-    if(subStep+1<3) wizShowSubStep(step, subStep+1);
+    if(subStep+1<2) wizShowSubStep(step, subStep+1);
     else wizStartRoll(step);
   }, 500);
 }
@@ -1078,12 +1100,12 @@ function wizStartRoll(step){
   const isKa=pad.startsWith('ka');
   const col=isKa?'ka':'don';
   const title=LABELS[pad];
-  const subLabels=['Normal','Light','Hard','Roll'];
+  const subLabels=['Normal','Hardest','Roll'];
 
   let dotsHtml='<div class="wiz-substeps">';
-  for(let i=0;i<4;i++){
-    const cls=i<3?'done':('active '+col);
-    const icon=i<3?'&#10003;':(i+1);
+  for(let i=0;i<3;i++){
+    const cls=i<2?'done':('active '+col);
+    const icon=i<2?'&#10003;':(i+1);
     dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
   }
   dotsHtml+='</div>';
@@ -1160,7 +1182,7 @@ function collectAC(vals){
     const pad=AC.padOrder[AC.phase-1];
     const v=vals[pad];
 
-    if(_wizSubStep<3 && _wizRecording){
+    if(_wizSubStep<2 && _wizRecording){  // 2 sub-steps now: Normal(0) + Hardest(1)
       // Sub-steps 0-2: capture 3 clean hits, store the median
       if(v>MIN_HIT && now-AC.lastHit[pad]>AC.HIT_COOLDOWN){
         AC.lastHit[pad]=now;
@@ -1188,8 +1210,16 @@ function collectAC(vals){
       }
     }
 
-    // Always sample crosstalk on every frame regardless of sub-step
-    PADS.forEach(p=>{ if(p!==pad&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
+    // BUG FIX: Only record crosstalk during the ROLL sub-step (subStep===3), NOT during
+    // hit-capture sub-steps 0-2. During sub-steps 0-2 the user is deliberately striking
+    // one pad 3 times — that bleed onto other pads is NOT representative crosstalk from
+    // normal play; it would inflate those pads' thresholds unfairly. The earlier pads in
+    // the wizard order (ka_l is first) would accumulate more inflated crosstalk than later
+    // pads, causing ka_l to always get an artificially high threshold. Roll phase bleed
+    // is the correct signal — that is actual play-speed crosstalk.
+    if(_wizSubStep === 3){
+      PADS.forEach(p=>{ if(p!==pad&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
+    }
 
   } else if(AC.phase===5){
     // Discard simultaneous Don+Ka
@@ -1200,7 +1230,11 @@ function collectAC(vals){
     let strongest=null, maxVal=MIN_HIT;
     PADS.forEach(p=>{ if(vals[p]>maxVal){ maxVal=vals[p]; strongest=p; } });
     if(!strongest) return;
-    if(now-AC.lastHit[strongest]<AC.HIT_COOLDOWN) return;
+    // FIX: Use a shorter cooldown during the mix phase so fast one-handed rolls are captured.
+    // 80ms drops hits above ~750BPM; 30ms captures rolls up to ~2000BPM.
+    // Confirmed correct by ShikyC/JoelPBR which both use ~40ms reset time for the same reason.
+    const phaseCooldown = (AC.phase === 5) ? 30 : AC.HIT_COOLDOWN;
+    if(now-AC.lastHit[strongest]<phaseCooldown) return;
     AC.lastHit[strongest]=now;
     PADS.forEach(p=>{ if(p!==strongest&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
   }
@@ -1239,27 +1273,38 @@ function calcSuggestions(live){
     const minHit=AC.minHit[p]<9999?AC.minHit[p]:maxHit;
     const normalHit=AC.normalHit[p]||minHit;  // explicitly measured normal playing hit
     const isKa=p.startsWith('ka');
+    // Ka pads share a rigid steel rim — crosstalk bleeds more than Don surface.
+    // SAFETY_MARGIN_KA=35 in Drum.h is kept in sync with this value.
     const crossMar=isKa?35:20;
 
-    // Threshold sits just below the lightest measured hit.
-    // This guarantees even light hits register in real gameplay.
-    const lightMult=isKa?0.65:0.60;  // Lower = easier to trigger, reduced from 0.75/0.70
-    let suggested=Math.max(maxCross+crossMar, Math.round(minHit*lightMult));
+    // FIX: Anchor threshold to the explicitly-measured NORMAL playing hit, not the light tap.
+    // Light calibration taps may be softer than real gameplay and push the threshold too low,
+    // causing ambient vibration from adjacent pads to ghost-fire.
+    // Normal playing hit (Step 2 of wizard) is the true floor reference.
+    const normalRef = (normalHit > 0) ? normalHit : minHit;
+    let suggested=Math.max(maxCross+crossMar, Math.round(normalRef*(isKa?0.50:0.45)));
 
     // Must also be well below the normal playing hit (most important reference)
-    const normalCap=Math.round(normalHit*(isKa?0.55:0.50));  // Reduced from 0.68/0.60
+    const normalCap=Math.round(normalRef*(isKa?0.62:0.55));
     if(normalCap>0&&suggested>normalCap) suggested=normalCap;
 
     // Hard ceiling: never more than 45/38% of max hit (guards against crosstalk dominance)
-    const hardCap=Math.round(maxHit*(isKa?0.45:0.38));  // Reduced from 0.55/0.45
+    const hardCap=Math.round(maxHit*(isKa?0.45:0.38));
     const capped=hardCap>0&&suggested>hardCap;
     if(capped) suggested=hardCap;
 
-    suggested=Math.max(10,Math.min(3000,suggested));
+    // Absolute floor — Ka pads share a rim so need more headroom against rim bleed
+    const floor=isKa?80:60;
+    suggested=Math.max(floor,Math.min(3000,suggested));
     sugs[p]={suggested,current:S.thr[p],maxHit,minHit,normalHit,maxCross,capped,confidence:AC.hitCount[p]>=3?'high':'med'};
   });
   AC.suggestions=sugs;
-  PADS.forEach(p=>{ const el=document.getElementById('res-'+p); if(el) el.textContent=sugs[p].suggested; });
+  PADS.forEach(p=>{
+    const el=document.getElementById('res-'+p); if(el) el.textContent=sugs[p].suggested;
+    // Preview suggested values in the top threshold display so they match the results box
+    const tv=document.getElementById('tv-'+p);
+    if(tv){ tv.textContent=sugs[p].suggested; tv.style.color='var(--green)'; }
+  });
   document.getElementById('results-box').classList.add('vis');
   renderAdvSuggestions();
   if(!live){
@@ -1286,7 +1331,7 @@ function renderAdvSuggestions(){
     if(s.maxHit===0) reason='<span class="sug-reason-txt warn">⚠ No hits recorded</span>';
     else if(s.capped) reason='<span class="sug-reason-txt warn">⚠ Capped — high crosstalk ('+s.maxCross+')</span>';
     else if(s.maxCross<=5) reason='<span class="sug-reason-txt">No crosstalk — hit-strength based</span>';
-    else reason='<span class="sug-reason-txt">Max crosstalk: '+s.maxCross+' + 20 margin</span>';
+    else { const margin=p.startsWith('ka')?35:20; reason='<span class="sug-reason-txt">Max crosstalk: '+s.maxCross+' + '+margin+' margin</span>'; }
     const tr=document.createElement('tr');
     tr.innerHTML=`<td><span class="sug-pad ${isDon?'don':'ka'}">${LABELS[p]}</span></td><td><span class="sug-cur">${s.current}</span></td><td><span class="sug-arrow">→</span></td><td><span class="sug-new ${cls}">${s.suggested}</span></td><td><div class="conf-bar"><div class="conf-fill" style="width:${confPct}%"></div></div><span style="font-size:11px;color:var(--text3)">${s.confidence}</span></td><td>${reason}</td>`;
     tbody.appendChild(tr);
@@ -1295,6 +1340,10 @@ function renderAdvSuggestions(){
 function applyAndSave(){
   if(!AC.suggestions) return;
   PADS.forEach(p=>{ if(AC.suggestions[p]&&AC.suggestions[p].confidence!=='low'){ S.thr[p]=AC.suggestions[p].suggested; syncThr(p); } });
+  // Re-render the results table so Current column reflects the newly-applied values —
+  // before nulling suggestions, update each suggestion's .current to match .suggested
+  PADS.forEach(p=>{ if(AC.suggestions[p]) AC.suggestions[p].current=AC.suggestions[p].suggested; });
+  renderAdvSuggestions();
   AC.suggestions=null;
   document.getElementById('btn-apply').style.display='none';
   document.getElementById('cal-sub').textContent='Thresholds saved to drum! If any crosstalk remains, raise the threshold of the accidentally-triggering pad using the + button above until it stops, then click Save to Drum.';
@@ -1630,5 +1679,9 @@ document.addEventListener('keyup', e=>{
 </script>
 </body>
 </html>
+
+
+
+
 
 

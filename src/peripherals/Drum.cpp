@@ -1,4 +1,4 @@
-// Beginning of file Drum.cpp
+﻿// Beginning of file Drum.cpp
 
 #include "peripherals/Drum.h"
 
@@ -260,11 +260,11 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     };
 
     // ============================================================================
-    // OUCHITAIKO: GLOBAL DON/KA ZONE ARBITRATION — PRE-THRESHOLD
+    // OUCHITAIKO: GLOBAL DON/KA ZONE ARBITRATION â€” PRE-THRESHOLD
     //
     // In Taiko no Tatsujin there are exactly 4 note types:
     //   Small Don, Small Ka, Big Don (both dons), Big Ka (both kas).
-    // Don and Ka are GLOBALLY mutually exclusive — no valid note ever requires
+    // Don and Ka are GLOBALLY mutually exclusive â€” no valid note ever requires
     // both zones active simultaneously. Arbitrate on RAW values BEFORE threshold
     // so crosstalk bleed from the losing zone is zeroed before it can ghost-fire.
     // Calibration becomes a secondary safety net, not the primary defence.
@@ -278,12 +278,13 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
 
     std::array<uint16_t, 4> working = raw_values;
     if (raw_max_don >= raw_max_ka) {
-        working[1] = 0;  // KA_LEFT  zeroed — Don zone wins
+        working[1] = 0;  // KA_LEFT  zeroed â€” Don zone wins
         working[3] = 0;  // KA_RIGHT zeroed
     } else {
-        working[0] = 0;  // DON_LEFT  zeroed — Ka zone wins
+        working[0] = 0;  // DON_LEFT  zeroed â€” Ka zone wins
         working[2] = 0;  // DON_RIGHT zeroed
     }
+
 
     // STEP 2: Apply thresholds to winning zone only
     std::array<uint16_t, 4> filtered{};
@@ -291,7 +292,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
         filtered[i] = (working[i] > thresholds[i]) ? working[i] : 0;
     }
 
-    // STEP 3: Twin pad logic within winning zone — suppress weaker sensor
+    // STEP 3: Twin pad logic within winning zone â€” suppress weaker sensor
     //         if it is less than half the stronger one (rejects single-side bleed).
     // DON pair: indices 0 (DON_LEFT) and 2 (DON_RIGHT)
     // KA pair:  indices 1 (KA_LEFT)  and 3 (KA_RIGHT)
@@ -309,7 +310,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
 
     // STEP 4: Set pad states based on FILTERED values.
     // Pads in the WINNING zone use normal debounce.
-    // Pads in the LOSING zone are forced inactive immediately — bypassing debounce.
+    // Pads in the LOSING zone are forced inactive immediately â€” bypassing debounce.
     // This prevents a debounce-held active state from coexisting with the new winning zone.
     bool don_won = (raw_max_don >= raw_max_ka);
     for (size_t i = 0; i < 4; ++i) {
@@ -318,15 +319,18 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
         if (is_winning_zone) {
             m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
         } else {
-            // Losing zone: force inactive with zero debounce — arbitration overrides
-            m_pads[i].setState(false, 0);
+            // Losing zone: only force inactive if currently active â€” avoids
+            // constantly resetting m_last_change and blocking winning zone debounce
+            if (m_pads[i].getState()) {
+                m_pads[i].setState(false, 0);
+            }
         }
     }
     // ============================================================================
     // END OUCHITAIKO SPECIAL HIT DETECTION
     // ============================================================================
 
-    // STEP 5: Roll counter (detect rising edges)
+    // STEP 5: Roll counter (detect rising edges) + update cross-zone lockout timestamps
     bool don_left_rising  = !input_state.drum.don_left.triggered  && m_pads[idToIndex(Id::DON_LEFT)].getState();
     bool don_right_rising = !input_state.drum.don_right.triggered && m_pads[idToIndex(Id::DON_RIGHT)].getState();
     bool ka_left_rising   = !input_state.drum.ka_left.triggered   && m_pads[idToIndex(Id::KA_LEFT)].getState();
@@ -335,6 +339,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     if (don_left_rising || don_right_rising || ka_left_rising || ka_right_rising) {
         m_roll_counter.addHit();
     }
+
 
     // STEP 6: Write final states to input_state
     input_state.drum.don_left.triggered  = m_pads[idToIndex(Id::DON_LEFT)].getState();
@@ -475,7 +480,7 @@ void Drum::finishTaikoTantrum() {
         if (m_tantrum_state.max_hit_value[i] < TantrumState::MIN_ACCEPTABLE_MAX) {
             m_tantrum_state.current_mode = TantrumState::Mode::NeedsRedo;
             m_tantrum_state.needs_redo = true;
-            m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";  // string literal — no allocation
+            m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";  // string literal â€” no allocation
             return;
         }
     }
@@ -485,7 +490,12 @@ void Drum::finishTaikoTantrum() {
         uint16_t max_crosstalk = m_tantrum_state.max_crosstalk_to[i];
         uint16_t max_hit       = m_tantrum_state.max_hit_value[i];
         
-        uint16_t crosstalk_threshold   = max_crosstalk + TantrumState::SAFETY_MARGIN;
+        // Ka pads (indices 1 and 3) share a rigid steel rim that conducts vibration
+        // more efficiently than the Don surface — use a larger safety margin.
+        // SAFETY_MARGIN_KA=35 matches the web tool's crossMar for Ka pads.
+        bool is_ka = (i == 1 || i == 3);
+        uint16_t margin = is_ka ? TantrumState::SAFETY_MARGIN_KA : TantrumState::SAFETY_MARGIN_DON;
+        uint16_t crosstalk_threshold   = max_crosstalk + margin;
         uint16_t hit_strength_threshold = (max_hit * 30) / 100;  // 30% of max hit (matches web tool)
 
         uint16_t final_threshold =

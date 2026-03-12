@@ -1,4 +1,4 @@
-// Beginning of file Drum.h
+﻿// Beginning of file Drum.h
 
 #ifndef PERIPHERALS_DRUM_H_
 #define PERIPHERALS_DRUM_H_
@@ -103,7 +103,8 @@ class Drum {
         // Detection thresholds — matched to web tool algorithm
         static constexpr uint16_t MIN_HIT_STRENGTH = 30;            // Minimum to count as hit (matches web tool)
         static constexpr uint16_t MIN_ACCEPTABLE_MAX = 300;         // User must hit at least this hard
-        static constexpr uint16_t SAFETY_MARGIN = 20;               // Added above crosstalk (matches web tool)
+        static constexpr uint16_t SAFETY_MARGIN_DON = 20;           // Safety margin for Don surface pads
+        static constexpr uint16_t SAFETY_MARGIN_KA  = 35;           // Ka pads share rigid steel rim — transmits vibration more efficiently
         static constexpr uint32_t HIT_COOLDOWN_MS = 80;             // 80ms between hits (matches web tool)
 
         void reset() {
@@ -279,6 +280,8 @@ class Drum {
     RollCounter m_roll_counter;
 
     TantrumState m_tantrum_state;
+
+
 
     void updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
     void updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);

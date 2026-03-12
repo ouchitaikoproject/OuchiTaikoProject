@@ -1,6 +1,7 @@
-// Beginning of file Menu.cpp
+﻿// Beginning of file Menu.cpp
 
 #include "utils/Menu.h"
+#include "GlobalConfiguration.h"
 
 #include "peripherals/Drum.h"
 
@@ -156,7 +157,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
        {"Firmware:\nv12.5", Menu::Descriptor::Action::None},
-        {"Build:\n8", Menu::Descriptor::Action::None},
+        {"Build:\n11", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
@@ -530,14 +531,9 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
         gotoPage(Page::BootselMsg);
         break;
     case Descriptor::Action::DoResetThresholds: {
-        // Reset all thresholds to factory defaults (50 for all drums)
-        Peripherals::Drum::Config::Thresholds default_thresholds = {
-            .don_left = 75,
-            .ka_left = 95,
-            .don_right = 75,
-            .ka_right = 95,
-        };
-        m_store->setTriggerThresholds(default_thresholds);
+        // Reset all thresholds to factory defaults (from GlobalConfiguration.h)
+        // Using Config::Default::drum_config ensures this always matches the firmware flash default.
+        m_store->setTriggerThresholds(Config::Default::drum_config.trigger_thresholds);
         // Confirmation screen will be shown by Main.cpp which monitors menu state
         gotoParent(false);
     } break;
@@ -850,3 +846,5 @@ bool Menu::isTantrumStartRequested() {
 } // namespace OuchiTaiko::Utils
 
 // End of file Menu.cpp
+
+
