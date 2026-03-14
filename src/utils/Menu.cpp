@@ -84,8 +84,8 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
     // Taiko Tantrum Calibration
     {Menu::Page::TaikoTantrum,
      {Menu::Descriptor::Type::Selection,
-      "Calibrate\nDrum",
-      {{"Continue?", Menu::Descriptor::Action::StartTaikoTantrum}},
+      "Auto\nCalibrate",
+      {{"Start\nWizard", Menu::Descriptor::Action::StartTaikoTantrum}},
       0}},
 
     // Value adjustments (unchanged)
@@ -157,7 +157,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
        {"Firmware:\nv12.5", Menu::Descriptor::Action::None},
-        {"Build:\n11", Menu::Descriptor::Action::None},
+        {"Build:\n53 Harbor", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
@@ -180,14 +180,18 @@ Menu::Buttons::Buttons()
     : m_states({{Id::Up, {}}, {Id::Down, {}}, {Id::Left, {}}, {Id::Right, {}}, {Id::Confirm, {}}, {Id::Back, {}}}) {}
 
 void Menu::Buttons::update(const InputState::Controller &controller_state, Descriptor::Type page_type) {
-    // Repeat timing constants (only for Value/UnifiedThresholds pages)
-    static constexpr uint32_t REPEAT_INITIAL_DELAY_MS = 600;  // 600ms before repeat starts
-    static constexpr uint32_t REPEAT_INTERVAL_MS = 250;       // 250ms between repeats (4 per second)
+    (void)page_type;
+    // Repeat timing constants
+    static constexpr uint32_t REPEAT_INITIAL_DELAY_MS = 380;
+    static constexpr uint32_t REPEAT_INTERVAL_MS = 140;
+    static constexpr uint32_t FAST_REPEAT_START_MS = 1200;
+    static constexpr uint32_t FAST_REPEAT_INTERVAL_MS = 60;
 
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-    // Enable repeat ONLY for Left/Right on Value or UnifiedThresholds pages
-  bool enable_repeat = (page_type == Descriptor::Type::Value || page_type == Descriptor::Type::UnifiedThresholds);
+    // Repeat disabled globally to enforce single-step navigation/input.
+    bool enable_lr_repeat = false;
+    bool enable_ud_repeat = false;
 
     // Edge-detect handler (for most buttons and page types)
     auto handle_button_edge = [](State &button_state, bool input_state) {
@@ -226,8 +230,19 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
                     button_state.pressed = false;
                 }
             } else if (button_state.repeat == State::Repeat::Repeat) {
-                // Repeating - check if interval elapsed
-                if (current_time - button_state.last_repeat >= REPEAT_INTERVAL_MS) {
+                const uint32_t held_ms = current_time - button_state.pressed_since;
+                if (held_ms >= FAST_REPEAT_START_MS) {
+                    button_state.pressed = true;
+                    button_state.repeat = State::Repeat::FastRepeat;
+                    button_state.last_repeat = current_time;
+                } else if (current_time - button_state.last_repeat >= REPEAT_INTERVAL_MS) {
+                    button_state.pressed = true;
+                    button_state.last_repeat = current_time;
+                } else {
+                    button_state.pressed = false;
+                }
+            } else if (button_state.repeat == State::Repeat::FastRepeat) {
+                if (current_time - button_state.last_repeat >= FAST_REPEAT_INTERVAL_MS) {
                     button_state.pressed = true;
                     button_state.last_repeat = current_time;
                 } else {
@@ -244,10 +259,15 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
     };
 
     // Handle each button based on whether repeat is enabled
-    handle_button_edge(m_states.at(Id::Up), controller_state.dpad.up);
-    handle_button_edge(m_states.at(Id::Down), controller_state.dpad.down);
+    if (enable_ud_repeat) {
+        handle_button_repeat(m_states.at(Id::Up), controller_state.dpad.up);
+        handle_button_repeat(m_states.at(Id::Down), controller_state.dpad.down);
+    } else {
+        handle_button_edge(m_states.at(Id::Up), controller_state.dpad.up);
+        handle_button_edge(m_states.at(Id::Down), controller_state.dpad.down);
+    }
 
-    if (enable_repeat) {
+    if (enable_lr_repeat) {
         handle_button_repeat(m_states.at(Id::Left), controller_state.dpad.left);
         handle_button_repeat(m_states.at(Id::Right), controller_state.dpad.right);
     } else {
@@ -282,7 +302,9 @@ void Menu::enterBootloaderSplash() {
 void Menu::activate() {
     m_active = true;
     m_buttons.reset();  // Start with clean button state
+    m_waiting_for_button_release = true;
     m_ignore_input_frames = 3;  // Suppress input briefly on menu open
+    m_confirm_unlock_until_ms = to_ms_since_boot(get_absolute_time()) + CONFIRM_GUARD_AFTER_PAGE_MS;
 }
 
 void Menu::setWaitingForButtonRelease(bool waiting) {
@@ -296,6 +318,8 @@ void Menu::deactivate() {
     m_state_stack = std::stack<State>({{.page = Page::Main, .selected_value = 0, .original_value = 0}});
     m_buttons.reset();
     m_ignore_input_frames = 0;
+    m_waiting_for_button_release = false;
+    m_confirm_unlock_until_ms = 0;
 }
 
 void Menu::goBackToParent() {
@@ -357,6 +381,8 @@ void Menu::gotoPage(Menu::Page page) {
 
     m_state_stack.push({page, current_value, current_value});
     m_ignore_input_frames = 3;  // Suppress input briefly after page transition
+    m_waiting_for_button_release = true;
+    m_confirm_unlock_until_ms = to_ms_since_boot(get_absolute_time()) + CONFIRM_GUARD_AFTER_PAGE_MS;
 }
 
 void Menu::gotoParent(bool do_restore) {
@@ -420,6 +446,8 @@ void Menu::gotoParent(bool do_restore) {
     }
 
     m_state_stack.pop();
+    m_waiting_for_button_release = true;
+    m_confirm_unlock_until_ms = to_ms_since_boot(get_absolute_time()) + CONFIRM_GUARD_AFTER_PAGE_MS;
 }
 
 void Menu::performAction(Descriptor::Action action, uint16_t value) {
@@ -550,6 +578,19 @@ void Menu::update(const InputState::Controller &controller_state) {
         return;
     }
 
+    const bool any_direction_pressed = controller_state.dpad.up || controller_state.dpad.down ||
+                                       controller_state.dpad.left || controller_state.dpad.right;
+    const bool any_face_pressed = controller_state.buttons.east || controller_state.buttons.south;
+    if (m_waiting_for_button_release) {
+        if (any_direction_pressed || any_face_pressed) {
+            m_buttons.reset();
+            return;
+        }
+        m_waiting_for_button_release = false;
+        m_buttons.reset();
+        return;
+    }
+
     // Ignore input for a few frames after a page transition or menu open.
     // This prevents the A button press that navigated TO this page from
     // immediately firing again on the new page (caused by releaseAll() in
@@ -576,13 +617,33 @@ bool is_value_adjustment = (descriptor_it->second.type == Descriptor::Type::Valu
                            (m_buttons.getPressed(Buttons::Id::Left) || 
                             m_buttons.getPressed(Buttons::Id::Right));
 
-uint32_t throttle_time = is_value_adjustment ? 0 : 100;  // No throttle for values, 100ms for navigation (reduced from 150ms)
+    uint32_t throttle_time = is_value_adjustment ? 0 : 100;  // No throttle for values, 100ms for navigation (reduced from 150ms)
 
 if (current_time - last_update_time < throttle_time) {
     return;
 }
 
 last_update_time = current_time;
+
+    const bool any_action_pressed =
+        m_buttons.getPressed(Buttons::Id::Left) ||
+        m_buttons.getPressed(Buttons::Id::Right) ||
+        m_buttons.getPressed(Buttons::Id::Up) ||
+        m_buttons.getPressed(Buttons::Id::Down) ||
+        m_buttons.getPressed(Buttons::Id::Back) ||
+        m_buttons.getPressed(Buttons::Id::Confirm);
+
+    if (any_action_pressed &&
+        (current_time - m_last_input_accept_ms) < INPUT_ACCEPT_DEBOUNCE_MS) {
+        return;
+    }
+
+    if (m_buttons.getPressed(Buttons::Id::Left) ||
+        m_buttons.getPressed(Buttons::Id::Right) ||
+        m_buttons.getPressed(Buttons::Id::Up) ||
+        m_buttons.getPressed(Buttons::Id::Down)) {
+        m_confirm_unlock_until_ms = current_time + CONFIRM_GUARD_AFTER_NAV_MS;
+    }
 
     // RebootInfo pages should just deactivate menu and let the store handle reboot
     if (descriptor_it->second.type == Descriptor::Type::RebootInfo) {
@@ -597,6 +658,7 @@ last_update_time = current_time;
     }
     
     if (m_buttons.getPressed(Buttons::Id::Left)) {
+        m_last_input_accept_ms = current_time;
         switch (descriptor_it->second.type) {
         case Descriptor::Type::Toggle:
             current_state.selected_value = current_state.selected_value == 0 ? 1 : 0;
@@ -660,6 +722,7 @@ last_update_time = current_time;
             break;
         }  // <-- This closes the LEFT button switch
     } else if (m_buttons.getPressed(Buttons::Id::Right)) {
+         m_last_input_accept_ms = current_time;
          switch (descriptor_it->second.type) {
         case Descriptor::Type::Toggle:
             current_state.selected_value = current_state.selected_value == 0 ? 1 : 0;
@@ -717,6 +780,7 @@ last_update_time = current_time;
             break;
         }
     } else if (m_buttons.getPressed(Buttons::Id::Up)) {
+        m_last_input_accept_ms = current_time;
         switch (descriptor_it->second.type) {
         case Descriptor::Type::Value:
             // Values use LEFT/RIGHT, not UP/DOWN
@@ -737,6 +801,7 @@ last_update_time = current_time;
             break;
         }
     } else if (m_buttons.getPressed(Buttons::Id::Down)) {
+        m_last_input_accept_ms = current_time;
         switch (descriptor_it->second.type) {
         case Descriptor::Type::Value:
             // Values use LEFT/RIGHT, not UP/DOWN
@@ -757,6 +822,7 @@ last_update_time = current_time;
             break;
         }
     } else if (m_buttons.getPressed(Buttons::Id::Back)) {
+        m_last_input_accept_ms = current_time;
         switch (descriptor_it->second.type) {
         case Descriptor::Type::Value:
         case Descriptor::Type::Toggle:
@@ -776,6 +842,10 @@ last_update_time = current_time;
             break;
         }
     } else if (m_buttons.getPressed(Buttons::Id::Confirm)) {
+        m_last_input_accept_ms = current_time;
+        if (current_time < m_confirm_unlock_until_ms) {
+            return;
+        }
         switch (descriptor_it->second.type) {
         case Descriptor::Type::Value:
             gotoParent(false);
@@ -846,5 +916,3 @@ bool Menu::isTantrumStartRequested() {
 } // namespace OuchiTaiko::Utils
 
 // End of file Menu.cpp
-
-

@@ -1,4 +1,4 @@
-﻿// Beginning of file Drum.cpp
+// Beginning of file Drum.cpp
 
 #include "peripherals/Drum.h"
 
@@ -247,6 +247,11 @@ std::array<uint16_t, 4> Drum::readInputs() {
 // ============================================================================
 // OUCHITAIKO SPECIAL: THRESHOLD-FIRST HIT DETECTION
 // DO NOT REMOVE OR REPLACE
+//
+// ORDER IS CRITICAL: Thresholds MUST run before zone arbitration.
+// Running arbitration on raw values causes idle ADC noise to randomly zero
+// entire zones every frame, killing valid hits via forced setState(false,0).
+// Threshold-first means quiet frames are never touched at all.
 // ============================================================================
 
 void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
@@ -259,41 +264,17 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
         m_config.trigger_thresholds.ka_right,   // [3] KA_RIGHT
     };
 
-    // ============================================================================
-    // OUCHITAIKO: GLOBAL DON/KA ZONE ARBITRATION â€” PRE-THRESHOLD
-    //
-    // In Taiko no Tatsujin there are exactly 4 note types:
-    //   Small Don, Small Ka, Big Don (both dons), Big Ka (both kas).
-    // Don and Ka are GLOBALLY mutually exclusive â€” no valid note ever requires
-    // both zones active simultaneously. Arbitrate on RAW values BEFORE threshold
-    // so crosstalk bleed from the losing zone is zeroed before it can ghost-fire.
-    // Calibration becomes a secondary safety net, not the primary defence.
-    // ============================================================================
-
-    // STEP 1: Global zone arbitration on raw values.
-    //         Whichever zone (Don or Ka) has the highest single sensor reading wins.
-    //         The entire losing zone is zeroed before threshold filtering runs.
-    uint16_t raw_max_don = (raw_values[0] > raw_values[2]) ? raw_values[0] : raw_values[2];
-    uint16_t raw_max_ka  = (raw_values[1] > raw_values[3]) ? raw_values[1] : raw_values[3];
-
-    std::array<uint16_t, 4> working = raw_values;
-    if (raw_max_don >= raw_max_ka) {
-        working[1] = 0;  // KA_LEFT  zeroed â€” Don zone wins
-        working[3] = 0;  // KA_RIGHT zeroed
-    } else {
-        working[0] = 0;  // DON_LEFT  zeroed â€” Ka zone wins
-        working[2] = 0;  // DON_RIGHT zeroed
-    }
-
-
-    // STEP 2: Apply thresholds to winning zone only
+    // STEP 1: Apply thresholds FIRST.
+    // Anything below threshold is zeroed. Quiet frames produce all-zero filtered[],
+    // and nothing downstream runs -- no arbitration, no pad state changes, no debounce churn.
     std::array<uint16_t, 4> filtered{};
     for (size_t i = 0; i < 4; ++i) {
-        filtered[i] = (working[i] > thresholds[i]) ? working[i] : 0;
+        filtered[i] = (raw_values[i] > thresholds[i]) ? raw_values[i] : 0;
     }
 
-    // STEP 3: Twin pad logic within winning zone â€” suppress weaker sensor
-    //         if it is less than half the stronger one (rejects single-side bleed).
+    // STEP 2: Twin pad suppression on filtered values.
+    // If one side of a Don or Ka pair is less than half the other, suppress the weaker side.
+    // This rejects single-sensor bleed while allowing genuine Big Don / Big Ka hits through.
     // DON pair: indices 0 (DON_LEFT) and 2 (DON_RIGHT)
     // KA pair:  indices 1 (KA_LEFT)  and 3 (KA_RIGHT)
     const auto zero_if_not_within_twin = [](std::array<uint16_t, 4> &values, size_t a, size_t b) {
@@ -308,29 +289,37 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     zero_if_not_within_twin(filtered, 0, 2);  // DON_LEFT vs DON_RIGHT
     zero_if_not_within_twin(filtered, 1, 3);  // KA_LEFT  vs KA_RIGHT
 
-    // STEP 4: Set pad states based on FILTERED values.
-    // Pads in the WINNING zone use normal debounce.
-    // Pads in the LOSING zone are forced inactive immediately â€” bypassing debounce.
-    // This prevents a debounce-held active state from coexisting with the new winning zone.
-    bool don_won = (raw_max_don >= raw_max_ka);
-    for (size_t i = 0; i < 4; ++i) {
-        bool in_don_zone = (i == 0 || i == 2);  // DON_LEFT=0, DON_RIGHT=2
-        bool is_winning_zone = don_won ? in_don_zone : !in_don_zone;
-        if (is_winning_zone) {
-            m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
+    // STEP 3: Global Don/Ka zone arbitration on FILTERED values only.
+    // In Taiko no Tatsujin, Don and Ka are mutually exclusive -- no valid note ever
+    // requires both zones simultaneously. If both zones cleared threshold, the weaker
+    // one is crosstalk; suppress it.
+    // Because this runs on post-threshold values, it only fires when there is a real
+    // competing signal -- never on idle noise.
+    uint16_t max_don = (filtered[0] > filtered[2]) ? filtered[0] : filtered[2];
+    uint16_t max_ka  = (filtered[1] > filtered[3]) ? filtered[1] : filtered[3];
+
+    if (max_don > 0 && max_ka > 0) {
+        // Both zones have a real above-threshold signal -- suppress the weaker zone entirely
+        if (max_don >= max_ka) {
+            filtered[1] = 0;  // KA_LEFT  zeroed -- Don zone wins
+            filtered[3] = 0;  // KA_RIGHT zeroed
         } else {
-            // Losing zone: only force inactive if currently active â€” avoids
-            // constantly resetting m_last_change and blocking winning zone debounce
-            if (m_pads[i].getState()) {
-                m_pads[i].setState(false, 0);
-            }
+            filtered[0] = 0;  // DON_LEFT  zeroed -- Ka zone wins
+            filtered[2] = 0;  // DON_RIGHT zeroed
         }
+    }
+
+    // STEP 4: Set pad states with normal debounce.
+    // All pads use the same debounce path -- no forced setState(false,0) bypass needed
+    // because arbitration now only runs when real signals are present.
+    for (size_t i = 0; i < 4; ++i) {
+        m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
     }
     // ============================================================================
     // END OUCHITAIKO SPECIAL HIT DETECTION
     // ============================================================================
 
-    // STEP 5: Roll counter (detect rising edges) + update cross-zone lockout timestamps
+    // STEP 5: Roll counter -- detect rising edges
     bool don_left_rising  = !input_state.drum.don_left.triggered  && m_pads[idToIndex(Id::DON_LEFT)].getState();
     bool don_right_rising = !input_state.drum.don_right.triggered && m_pads[idToIndex(Id::DON_RIGHT)].getState();
     bool ka_left_rising   = !input_state.drum.ka_left.triggered   && m_pads[idToIndex(Id::KA_LEFT)].getState();
@@ -339,7 +328,6 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     if (don_left_rising || don_right_rising || ka_left_rising || ka_right_rising) {
         m_roll_counter.addHit();
     }
-
 
     // STEP 6: Write final states to input_state
     input_state.drum.don_left.triggered  = m_pads[idToIndex(Id::DON_LEFT)].getState();
@@ -392,130 +380,46 @@ void Drum::setDebounceDelay(uint16_t delay) { m_config.debounce_delay_ms = delay
 void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config.trigger_thresholds = thresholds; }
 
 // ============================================================================
-// AUTO CALIBRATE - Single 20-second calibration phase
+// GUIDED CALIBRATION WIZARD - Per-pad, per-step (replaces old random-hit Tantrum)
+//
+// Pad order: DON_LEFT(0), DON_RIGHT(2), KA_LEFT(1), KA_RIGHT(3)
+// Per pad: Step 0=Normal x3, Step 1=Hard x3, Step 2=Roll 3s
+// Algorithm matches web tool exactly (median, 45/55% caps, crosstalk margins)
 // ============================================================================
 
 void Drum::startTaikoTantrum() {
-    m_tantrum_state.startInstructions();
+    m_tantrum_state.startWelcome();
 }
 
-void Drum::startTantrumCountdown() {
-    m_tantrum_state.startCountdown();
-}
-
-void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
-    if (!m_tantrum_state.isActive()) {
-        return;
-    }
-
-    uint32_t now = to_ms_since_boot(get_absolute_time());
-
-    if (m_tantrum_state.current_mode == TantrumState::Mode::Instructions) {
-        return;  // Wait for external trigger via startCountdown()
-    }
-
-    if (m_tantrum_state.current_mode == TantrumState::Mode::Countdown) {
-        uint32_t elapsed = now - m_tantrum_state.countdown_start;
-        if (elapsed >= TantrumState::COUNTDOWN_DURATION_MS) {
-            m_tantrum_state.startCalibration();
-        }
-        return;
-    }
-
-    if (m_tantrum_state.current_mode == TantrumState::Mode::Calibrating) {
-        uint32_t elapsed = now - m_tantrum_state.calibration_start;
-        if (elapsed >= TantrumState::CALIBRATION_DURATION_MS) {
-            finishTaikoTantrum();
-            return;
-        }
-        processCalibrationData(raw_values);
-        return;
-    }
-}
-
-void Drum::processCalibrationData(const std::array<uint16_t, 4> &raw_values) {
-    uint32_t now = to_ms_since_boot(get_absolute_time());
-
-    // Find which sensor has the strongest signal
-    uint8_t strongest_idx = 0;
-    uint16_t max_value = 0;
-    for (uint8_t i = 0; i < 4; ++i) {
-        if (raw_values[i] > max_value) {
-            max_value = raw_values[i];
-            strongest_idx = i;
-        }
-    }
-
-    // Only process if strongest sensor is above minimum hit strength
-    if (max_value < TantrumState::MIN_HIT_STRENGTH) {
-        return;
-    }
-
-    // Hit cooldown to prevent noise spikes from being counted as separate hits
-    if ((now - m_tantrum_state.last_hit_time) < TantrumState::HIT_COOLDOWN_MS) {
-        return;
-    }
-
-    m_tantrum_state.last_hit_time = now;
-    m_tantrum_state.total_hits_detected++;
-
-    // Track maximum value for the strongest sensor (intentional hit)
-    if (max_value > m_tantrum_state.max_hit_value[strongest_idx]) {
-        m_tantrum_state.max_hit_value[strongest_idx] = max_value;
-    }
-
-    // Track maximum crosstalk for all OTHER sensors
-    for (uint8_t i = 0; i < 4; ++i) {
-        if (i != strongest_idx && raw_values[i] > m_tantrum_state.max_crosstalk_to[i]) {
-            m_tantrum_state.max_crosstalk_to[i] = raw_values[i];
-        }
-    }
-}
-
-void Drum::finishTaikoTantrum() {
-    m_tantrum_state.current_mode = TantrumState::Mode::ShowingResults;
-
-    // VALIDATION: Check that user hit hard enough on all sensors
-    for (uint8_t i = 0; i < 4; ++i) {
-        if (m_tantrum_state.max_hit_value[i] < TantrumState::MIN_ACCEPTABLE_MAX) {
-            m_tantrum_state.current_mode = TantrumState::Mode::NeedsRedo;
-            m_tantrum_state.needs_redo = true;
-            m_tantrum_state.redo_reason = "Not all pads hit\nhard enough (min 300)";  // string literal â€” no allocation
-            return;
-        }
-    }
-
-    // CALCULATE THRESHOLDS: Use HIGHER of crosstalk-based OR hit-strength-based threshold
-    for (uint8_t i = 0; i < 4; ++i) {
-        uint16_t max_crosstalk = m_tantrum_state.max_crosstalk_to[i];
-        uint16_t max_hit       = m_tantrum_state.max_hit_value[i];
-        
-        // Ka pads (indices 1 and 3) share a rigid steel rim that conducts vibration
-        // more efficiently than the Don surface — use a larger safety margin.
-        // SAFETY_MARGIN_KA=35 matches the web tool's crossMar for Ka pads.
-        bool is_ka = (i == 1 || i == 3);
-        uint16_t margin = is_ka ? TantrumState::SAFETY_MARGIN_KA : TantrumState::SAFETY_MARGIN_DON;
-        uint16_t crosstalk_threshold   = max_crosstalk + margin;
-        uint16_t hit_strength_threshold = (max_hit * 30) / 100;  // 30% of max hit (matches web tool)
-
-        uint16_t final_threshold =
-            (crosstalk_threshold > hit_strength_threshold) ? crosstalk_threshold : hit_strength_threshold;
-
-        // SAFETY CAP: Never recommend a threshold above 50% of max hit strength.
-        // If crosstalk is so bad the math would exceed this, the pad would become
-        // unresponsive. Cap it and force the high-crosstalk warning instead.
-        uint16_t max_safe_threshold = max_hit >> 1;  // 50% of hit strength
-        if (final_threshold > max_safe_threshold) {
-            final_threshold = max_safe_threshold;
-            m_tantrum_state.high_crosstalk_warning = true;
-        }
-
-        m_tantrum_state.recommended_thresholds[i] = final_threshold;
-
-        // CROSSTALK WARNING: if crosstalk > 50% of hit strength
-        if (max_crosstalk > (max_hit >> 1)) {
-            m_tantrum_state.high_crosstalk_warning = true;
-        }
+// Called by Main.cpp A-button handler to advance through wizard steps.
+// PadNormal, PadHard, and PadRoll are NOT skippable -- they must complete
+// naturally (3 hits detected / roll timer expires). A is only honoured on
+// screens where the user needs to explicitly confirm before continuing.
+void Drum::advanceCalibWizard() {
+    auto& s = m_tantrum_state;
+    switch (s.current_mode) {
+        case TantrumState::Mode::Welcome:
+            s.startPadNormal();   // Begin Step 0 for first pad
+            break;
+        case TantrumState::Mode::PadNormal:
+        case TantrumState::Mode::PadHard:
+        case TantrumState::Mode::PadRoll:
+        case TantrumState::Mode::PhaseTransition:
+            // These phases are hit/time-driven -- A button does nothing here.
+            // They auto-advance once the required hits or roll timer completes.
+            break;
+        case TantrumState::Mode::PadDone:
+            _advanceToNextPad();
+            break;
+        case TantrumState::Mode::Overview:
+            s.startSaving();
+            break;
+        case TantrumState::Mode::Error:
+            // Redo current pad from Normal phase
+            s.startPadNormal();
+            break;
+        default:
+            break;
     }
 }
 
@@ -523,18 +427,153 @@ void Drum::cancelTaikoTantrum() {
     m_tantrum_state.reset();
 }
 
-void Drum::applyTantrumRecommendations() {
-    if (!m_tantrum_state.hasRecommendations()) {
-        return;
+void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
+    auto& s = m_tantrum_state;
+    if (!s.isActive()) return;
+
+    uint32_t now     = to_ms_since_boot(get_absolute_time());
+    uint8_t  padIdx  = s.currentPadIndex();
+
+    switch (s.current_mode) {
+
+    case TantrumState::Mode::Welcome:
+    case TantrumState::Mode::PadDone:
+    case TantrumState::Mode::Overview:
+    case TantrumState::Mode::Error:
+        // Waiting for user input (A/B) -- handled in advanceCalibWizard / cancelTaikoTantrum
+        break;
+
+    case TantrumState::Mode::PadNormal:
+    case TantrumState::Mode::PadHard: {
+        // Auto-advance to next step once we have 3 hits on the target pad
+        if (s.hit_count >= 3) {
+            if (s.current_mode == TantrumState::Mode::PadNormal) {
+                s.normal_ref[padIdx] = s.medianOfHits();
+                s.startPhaseTransition("Strong hits", TantrumState::Mode::PadHard);
+            } else {
+                s.max_hit[padIdx] = s.medianOfHits();
+                // Validate before roll
+                if (s.max_hit[padIdx] < TantrumState::MIN_ACCEPTABLE_MAX) {
+                    s.error_msg = "Hit too soft!";
+                    s.current_mode = TantrumState::Mode::Error;
+                } else if (s.max_hit[padIdx] <= (s.normal_ref[padIdx] + TantrumState::MIN_STRONG_DELTA)) {
+                    s.error_msg = "Need harder strong hits";
+                    s.current_mode = TantrumState::Mode::Error;
+                } else {
+                    s.startPhaseTransition("Rapid hits", TantrumState::Mode::PadRoll);
+                }
+            }
+            break;
+        }
+        // Detect hits on target pad
+        uint16_t target_val = raw_values[padIdx];
+        if (target_val < TantrumState::MIN_HIT_STRENGTH) break;
+        // Entry grace: ignore all hits for 500ms after phase starts (ADC settle after cancel/restart)
+        if ((now - s.phase_start) < 500) break;
+        if ((now - s.last_hit_time) < TantrumState::HIT_COOLDOWN_MS) break;
+        // Must be above threshold on target, clearly stronger than neighbours
+        // (simple dominance check: target > max of the other 3)
+        uint16_t max_other = 0;
+        for (uint8_t i = 0; i < 4; ++i) {
+            if (i != padIdx && raw_values[i] > max_other) max_other = raw_values[i];
+        }
+        if (target_val < max_other) break;  // Another pad is stronger - not this pad
+        // Record hit
+        s.last_hit_time = now;
+        if (s.hit_count < TantrumState::MAX_HITS) {
+            s.hit_peaks[s.hit_count++] = target_val;
+        }
+        break;
     }
 
-    // Index mapping: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
+    case TantrumState::Mode::PadRoll: {
+        if (!s.roll_started && (now - s.phase_start) >= TantrumState::ROLL_START_TIMEOUT_MS) {
+            s.error_msg = "Start rapid hits";
+            s.current_mode = TantrumState::Mode::Error;
+            break;
+        }
+        // Start timer on first hit
+        if (!s.roll_started && raw_values[padIdx] > TantrumState::MIN_HIT_STRENGTH) {
+            s.roll_started = true;
+            s.roll_start   = now;
+        }
+        // Record crosstalk into all OTHER pads during this pad's roll
+        if (s.roll_started) {
+            for (uint8_t i = 0; i < 4; ++i) {
+                if (i == padIdx) continue;
+                if (raw_values[i] > s.max_crosstalk[i]) {
+                    s.max_crosstalk[i] = raw_values[i];
+                }
+            }
+            // Auto-advance when roll duration expires
+            if ((now - s.roll_start) >= TantrumState::ROLL_DURATION_MS) {
+                _finishCurrentPadRoll();
+            }
+        }
+        break;
+    }
+
+    case TantrumState::Mode::PhaseTransition: {
+        // Auto-advance after 2s -- no user input accepted during this window
+        if ((now - s.phase_start) >= TantrumState::PHASE_TRANSITION_DELAY_MS) {
+            if (s.transition_next_mode == TantrumState::Mode::PadHard) {
+                s.startPadHard();
+            } else {
+                s.startPadRoll();
+            }
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Saving: {
+        if ((now - s.phase_start) >= TantrumState::SAVING_DISPLAY_MS) {
+            s.startComplete();
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Complete: {
+        if ((now - s.phase_start) >= TantrumState::COMPLETE_DISPLAY_MS) {
+            s.current_mode = TantrumState::Mode::Inactive;
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+}
+
+// Internal: finish roll for current pad (crosstalk accumulation complete for this pad's roll).
+// NOTE: threshold computation is intentionally deferred to _advanceToNextPad() / startOverview()
+// so that max_crosstalk[] is fully populated across ALL pads before any threshold is calculated.
+void Drum::_finishCurrentPadRoll() {
+    auto& s = m_tantrum_state;
+    uint8_t padIdx = s.currentPadIndex();
+    s.pad_done[padIdx] = true;
+    s.startPadDone();
+}
+
+// Internal: after PadDone screen, move to next pad or Overview
+void Drum::_advanceToNextPad() {
+    auto& s = m_tantrum_state;
+    s.current_pad++;
+    if (s.current_pad >= 4) {
+        // All pads done -- now safe to compute all thresholds since max_crosstalk[] is fully populated
+        s.computeAllThresholds();
+        s.startOverview();
+    } else {
+        s.startPadNormal();
+    }
+}
+
+void Drum::applyTantrumRecommendations() {
+    if (!m_tantrum_state.hasRecommendations()) return;
     m_config.trigger_thresholds.don_left  = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_LEFT)];
     m_config.trigger_thresholds.ka_left   = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
     m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
     m_config.trigger_thresholds.ka_right  = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
 }
-
 } // namespace OuchiTaiko::Peripherals
 
 // End of file Drum.cpp

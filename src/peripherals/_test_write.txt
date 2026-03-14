@@ -1,0 +1,1 @@
+test write via Filesystem MCP - OK

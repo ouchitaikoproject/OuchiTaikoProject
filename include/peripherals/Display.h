@@ -1,4 +1,4 @@
-//Beginning of Display.h
+﻿//Beginning of Display.h
 
 #ifndef PERIPHERALS_DISPLAY_H_
 #define PERIPHERALS_DISPLAY_H_
@@ -31,11 +31,16 @@ class Display {
         BootSplash,
         Idle,
         Menu,
-        TantrumInstructions,
-        TantrumCountdown,
-        TantrumCalibrating,
-        TantrumResults,
-        TantrumNeedsRedo,
+        // Guided calibration wizard screens
+        TantrumWelcome,
+        TantrumPadHitting,   // Normal hits + Hard hits (same layout, label changes)
+        TantrumPhaseTransition,
+        TantrumPadRoll,
+        TantrumPadDone,
+        TantrumOverview,
+        TantrumSaving,
+        TantrumComplete,
+        TantrumError,
         RebootCountdown
     };
 
@@ -115,12 +120,16 @@ class Display {
     void drawMenuScreen();
     void drawNavigationBar(const Utils::Menu::Descriptor &descriptor);
     
-    // Taiko Tantrum display functions
-    void drawTantrumInstructionsScreen();
-    void drawTantrumCountdownScreen();
-    void drawTantrumCalibratingScreen();
-    void drawTantrumResultsScreen();
-    void drawTantrumNeedsRedoScreen();
+    // Guided calibration wizard draw functions
+    void drawTantrumWelcomeScreen();
+    void drawTantrumPadHittingScreen();
+    void drawTantrumPhaseTransitionScreen();
+    void drawTantrumPadRollScreen();
+    void drawTantrumPadDoneScreen();
+    void drawTantrumOverviewScreen();
+    void drawTantrumSavingScreen();
+    void drawTantrumCompleteScreen();
+    void drawTantrumErrorScreen();
     
     // Reboot countdown display function
     void drawRebootCountdown();
@@ -146,17 +155,22 @@ class Display {
 
     void setMenuState(const Utils::Menu::State &menu_state);
 
-    // Taiko Tantrum integration
+    // Drum reference + thresholds
     void setDrumReference(Drum *drum);
     void setCurrentThresholds(const Peripherals::Drum::Config::Thresholds &thresholds);
     
     void showIdle();
     void showMenu();
-    void showTantrumInstructions();
-    void showTantrumCountdown();
-    void showTantrumCalibrating();
-    void showTantrumResults();
-    void showTantrumNeedsRedo();
+    // Guided calibration wizard show functions
+    void showTantrumWelcome();
+    void showTantrumPadHitting();
+    void showTantrumPhaseTransition();
+    void showTantrumPadRoll();
+    void showTantrumPadDone();
+    void showTantrumOverview();
+    void showTantrumSaving();
+    void showTantrumComplete();
+    void showTantrumError();
     void showRebootCountdown();
 
     void update();

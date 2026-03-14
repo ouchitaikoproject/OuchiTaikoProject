@@ -1,4 +1,4 @@
-﻿// Beginning of file Drum.h
+// Beginning of file Drum.h
 
 #ifndef PERIPHERALS_DRUM_H_
 #define PERIPHERALS_DRUM_H_
@@ -66,127 +66,209 @@ class Drum {
     };
 
     // ============================================================================
-    // AUTO CALIBRATE - Single 5-second calibration phase (matches web tool algorithm)
+    // ============================================================================
+    // AUTO CALIBRATE - Guided per-pad wizard (matches web tool algorithm exactly)
+    //
+    // Flow per pad (4 pads total, order: DON_LEFT, DON_RIGHT, KA_LEFT, KA_RIGHT):
+    //   Step 0 - Normal hits x3  -> median -> normalRef[pad]
+    //   Step 1 - Hard hits x3    -> median -> maxHit[pad]
+    //   Step 2 - Roll 3s         -> crosstalk on other 3 sensors -> maxCrosstalk[pad]
+    //   Threshold = max(maxCrosstalk + margin, normalRef * 0.45)
+    //               capped at min(normalRef * 0.55, maxHit * 0.50)
     // ============================================================================
 
     struct TantrumState {
+        static constexpr uint8_t PAD_ORDER[4] = {0, 2, 1, 3};
+        static constexpr const char* PAD_NAMES[4] = {
+            "Don Left", "Don Right", "Ka Left", "Ka Right"
+        };
+
         enum class Mode {
             Inactive,
-            Instructions,   // Instructions screen - wait for user to press CONFIRM
-            Countdown,      // 3s - "DON'T HIT YET!" - Sampling silence
-            Calibrating,    // 20s - "HIT THE DRUMS!" - Mix rolls & standard hits
-            ShowingResults, // 5s - Display calculated thresholds
-            NeedsRedo
+            Welcome,
+            PadNormal,
+            PadHard,
+            PadRoll,
+            PhaseTransition,  // 2s buffer between phases -- prevents accidental double-hit advancing
+            PadDone,
+            Overview,
+            Saving,
+            Complete,
+            Error,
         };
 
         Mode current_mode{Mode::Inactive};
-        uint32_t countdown_start{0};
-        uint32_t calibration_start{0};
-        uint32_t last_hit_time{0};  // For hit cooldown tracking
+        uint8_t current_pad{0};
+        uint8_t current_step{0};
 
-        // Per-sensor tracking (indexed by Id enum value: 0=DON_LEFT, 1=KA_LEFT, 2=DON_RIGHT, 3=KA_RIGHT)
-        std::array<uint16_t, 4> max_hit_value{};       // Highest value seen on this sensor
-        std::array<uint16_t, 4> max_crosstalk_to{};    // Highest crosstalk seen TO this sensor
+        static constexpr uint8_t MAX_HITS = 5;
+        uint16_t hit_peaks[MAX_HITS]{};
+        uint8_t  hit_count{0};
+        uint32_t last_hit_time{0};
 
-        // Results
-        std::array<uint16_t, 4> recommended_thresholds{};
-        uint32_t total_hits_detected{0};
+        uint32_t roll_start{0};
+        bool roll_started{false};  // true once first hit detected during roll phase
+
+        uint16_t normal_ref[4]{};
+        uint16_t max_hit[4]{};
+        uint16_t max_crosstalk[4]{};
+        uint16_t recommended_thresholds[4]{};
+        bool     pad_done[4]{};
+
         bool high_crosstalk_warning{false};
-        bool needs_redo{false};
-        const char* redo_reason{nullptr};  // Points to string literals only — no heap allocation
+        const char* error_msg{nullptr};
 
-        // Single-phase timing constants — matched to web tool for consistent results
-        static constexpr uint32_t COUNTDOWN_DURATION_MS = 3000;      // 3s countdown
-        static constexpr uint32_t CALIBRATION_DURATION_MS = 5000;    // 5s calibration (matches web tool)
-        static constexpr uint32_t RESULTS_DURATION_MS = 5000;        // 5s results display
-        
-        // Detection thresholds — matched to web tool algorithm
-        static constexpr uint16_t MIN_HIT_STRENGTH = 30;            // Minimum to count as hit (matches web tool)
-        static constexpr uint16_t MIN_ACCEPTABLE_MAX = 300;         // User must hit at least this hard
-        static constexpr uint16_t SAFETY_MARGIN_DON = 20;           // Safety margin for Don surface pads
-        static constexpr uint16_t SAFETY_MARGIN_KA  = 35;           // Ka pads share rigid steel rim — transmits vibration more efficiently
-        static constexpr uint32_t HIT_COOLDOWN_MS = 80;             // 80ms between hits (matches web tool)
+        static constexpr uint32_t ROLL_DURATION_MS          = 3000;
+        static constexpr uint32_t ROLL_START_TIMEOUT_MS     = 4000;
+        static constexpr uint32_t PAD_DONE_DISPLAY_MS        = 1500;
+        static constexpr uint32_t COMPLETE_DISPLAY_MS        = 3000;
+        static constexpr uint32_t SAVING_DISPLAY_MS          = 800;
+        static constexpr uint32_t PHASE_TRANSITION_DELAY_MS  = 2000;  // 2s buffer between phases
+
+        // Phase transition: what's coming next (points to string literal)
+        const char* transition_next_label{nullptr};
+        Mode transition_next_mode{Mode::PadNormal};
+
+        static constexpr uint16_t MIN_HIT_STRENGTH    = 30;
+        static constexpr uint16_t MIN_ACCEPTABLE_MAX  = 200;
+        static constexpr uint16_t MIN_STRONG_DELTA    = 35;
+        static constexpr uint32_t HIT_COOLDOWN_MS     = 80;
+        static constexpr uint16_t SAFETY_MARGIN_DON   = 20;
+        static constexpr uint16_t SAFETY_MARGIN_KA    = 35;
+        static constexpr uint16_t MIN_THRESHOLD_DON   = 70;
+        static constexpr uint16_t MIN_THRESHOLD_KA    = 95;
+
+        uint32_t phase_start{0};
 
         void reset() {
-            current_mode = Mode::Inactive;
-            max_hit_value.fill(0);
-            max_crosstalk_to.fill(0);
-            recommended_thresholds.fill(0);
-            total_hits_detected = 0;
+            current_mode  = Mode::Inactive;
+            current_pad   = 0;
+            current_step  = 0;
+            hit_count     = 0;
+            last_hit_time = 0;
+            roll_start    = 0;
+            roll_started  = false;
+            phase_start   = 0;
+            for (uint8_t i = 0; i < 4; ++i) {
+                normal_ref[i] = max_hit[i] = max_crosstalk[i] = 0;
+                recommended_thresholds[i] = 0;
+                pad_done[i] = false;
+            }
+            for (uint8_t i = 0; i < MAX_HITS; ++i) hit_peaks[i] = 0;
             high_crosstalk_warning = false;
-            needs_redo = false;
-            redo_reason = nullptr;
+            error_msg = nullptr;
+            transition_next_mode = Mode::PadNormal;
         }
 
-        void startInstructions() {
-            reset();
-            current_mode = Mode::Instructions;
+        void startWelcome() { reset(); current_mode = Mode::Welcome; }
+
+        void _beginHitPhase(Mode m) {
+            current_mode  = m;
+            hit_count     = 0;
+            last_hit_time = 0;
+            for (uint8_t i = 0; i < MAX_HITS; ++i) hit_peaks[i] = 0;
+            phase_start = to_ms_since_boot(get_absolute_time());
         }
 
-        void startCountdown() {
-            current_mode = Mode::Countdown;
-            countdown_start = to_ms_since_boot(get_absolute_time());
+        void startPadNormal() { _beginHitPhase(Mode::PadNormal); }
+        void startPadHard()   { _beginHitPhase(Mode::PadHard);   }
+
+        void startPadRoll() {
+            current_mode = Mode::PadRoll;
+            roll_start   = 0;        // Timer starts on first hit, not on entry
+            roll_started = false;
+            phase_start  = to_ms_since_boot(get_absolute_time());
         }
 
-        void startCalibration() {
-            current_mode = Mode::Calibrating;
-            calibration_start = to_ms_since_boot(get_absolute_time());
-            last_hit_time = 0;  // Reset hit cooldown timer
+        void startPhaseTransition(const char* next_label, Mode next_mode) {
+            current_mode         = Mode::PhaseTransition;
+            transition_next_label = next_label;
+            transition_next_mode  = next_mode;
+            phase_start          = to_ms_since_boot(get_absolute_time());
         }
 
-        [[nodiscard]] bool isActive() const {
-            return current_mode == Mode::Instructions ||
-                   current_mode == Mode::Countdown || 
-                   current_mode == Mode::Calibrating;
+        void startPadDone()  { current_mode = Mode::PadDone;   phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startOverview() { current_mode = Mode::Overview;  phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startSaving()   { current_mode = Mode::Saving;    phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startComplete() { current_mode = Mode::Complete;  phase_start = to_ms_since_boot(get_absolute_time()); }
+
+        [[nodiscard]] bool isActive() const { return current_mode != Mode::Inactive; }
+
+        [[nodiscard]] uint8_t currentPadIndex() const { return PAD_ORDER[current_pad]; }
+        [[nodiscard]] const char* currentPadName() const { return PAD_NAMES[current_pad]; }
+
+        [[nodiscard]] float getRollProgress() const {
+            if (!roll_started) return 0.0f;
+            uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - roll_start;
+            if (elapsed >= ROLL_DURATION_MS) return 1.0f;
+            return static_cast<float>((elapsed * 1000u) / ROLL_DURATION_MS) * 0.001f;
         }
 
-        [[nodiscard]] uint32_t getSecondsRemaining() const {
-            uint32_t now = to_ms_since_boot(get_absolute_time());
-
-            if (current_mode == Mode::Countdown) {
-                uint32_t elapsed = now - countdown_start;
-                if (elapsed >= COUNTDOWN_DURATION_MS) return 0;
-                return (COUNTDOWN_DURATION_MS - elapsed + 999) / 1000; // Round up
-            }
-
-            if (current_mode == Mode::Calibrating) {
-                uint32_t elapsed = now - calibration_start;
-                if (elapsed >= CALIBRATION_DURATION_MS) return 0;
-                return (CALIBRATION_DURATION_MS - elapsed + 999) / 1000;
-            }
-
-            return 0;
+        [[nodiscard]] uint32_t getRollSecondsRemaining() const {
+            if (!roll_started) return ROLL_DURATION_MS / 1000;
+            uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - roll_start;
+            if (elapsed >= ROLL_DURATION_MS) return 0;
+            return (ROLL_DURATION_MS - elapsed + 999) / 1000;
         }
 
-        [[nodiscard]] float getProgress() const {
-            uint32_t now = to_ms_since_boot(get_absolute_time());
-            uint32_t elapsed = 0;
-            uint32_t total_duration = 0;
-
-            if (current_mode == Mode::Calibrating) {
-                elapsed = now - calibration_start;
-                total_duration = CALIBRATION_DURATION_MS;
-            } else {
-                return 0.0f;
-            }
-
-            // Clamp to [0.0, 1.0] range
-            if (elapsed >= total_duration) {
-                return 1.0f;
-            }
-
-            // Integer-based calculation: (elapsed * 1000) / total_duration / 1000.0f
-            uint32_t progress_permille = (elapsed * 1000u) / total_duration;
-            return static_cast<float>(progress_permille) * 0.001f;
+        [[nodiscard]] uint16_t medianOfHits() const {
+            uint8_t n = hit_count < 3 ? hit_count : 3;
+            if (n == 0) return 0;
+            if (n == 1) return hit_peaks[0];
+            if (n == 2) return (hit_peaks[0] + hit_peaks[1]) / 2;
+            uint16_t a = hit_peaks[0], b = hit_peaks[1], c = hit_peaks[2];
+            if (a > b) { uint16_t t = a; a = b; b = t; }
+            if (b > c) { uint16_t t = b; b = c; c = t; }
+            if (a > b) { uint16_t t = a; a = b; b = t; }
+            (void)a; (void)c;
+            return b;
         }
 
-        // Convenience accessors for recommended thresholds (used by Display and applyTantrumRecommendations)
-        [[nodiscard]] uint16_t getRecommendedThreshold(Id id) const {
-            return recommended_thresholds[static_cast<uint8_t>(id)];
-        }
         [[nodiscard]] bool hasRecommendations() const {
-            for (auto v : recommended_thresholds) { if (v > 0) return true; }
+            for (uint8_t i = 0; i < 4; ++i) { if (recommended_thresholds[i] > 0) return true; }
             return false;
+        }
+
+        void computeThreshold(uint8_t i) {
+            // Guard: if we have no valid hit data, use a safe default rather than 0
+            if (normal_ref[i] == 0 || max_hit[i] == 0) {
+                recommended_thresholds[i] = 150;  // Safe fallback - won't break detection
+                return;
+            }
+            bool is_ka = (i == 1 || i == 3);
+            uint16_t margin = is_ka ? SAFETY_MARGIN_KA : SAFETY_MARGIN_DON;
+            uint16_t min_floor = is_ka ? MIN_THRESHOLD_KA : MIN_THRESHOLD_DON;
+            if (max_hit[i] > 0) {
+                uint32_t crosstalk_ratio_permille = (static_cast<uint32_t>(max_crosstalk[i]) * 1000u) / max_hit[i];
+                if (crosstalk_ratio_permille >= 450u) {
+                    margin += 24;
+                } else if (crosstalk_ratio_permille >= 350u) {
+                    margin += 14;
+                } else if (crosstalk_ratio_permille >= 250u) {
+                    margin += 8;
+                }
+            }
+            uint16_t crosstalk_thr = max_crosstalk[i] + margin;
+            uint16_t floor_thr = static_cast<uint16_t>((static_cast<uint32_t>(normal_ref[i]) * 45u) / 100u);
+            if (floor_thr < min_floor) floor_thr = min_floor;
+            uint16_t candidate = crosstalk_thr > floor_thr ? crosstalk_thr : floor_thr;
+            uint16_t cap_normal = static_cast<uint16_t>((static_cast<uint32_t>(normal_ref[i]) * 55u) / 100u);
+            uint16_t cap_hit    = max_hit[i] >> 1;
+            uint16_t cap = cap_normal < cap_hit ? cap_normal : cap_hit;
+            if (cap < min_floor) cap = min_floor;
+            if (candidate > cap) {
+                candidate = cap;
+                if (max_crosstalk[i] > (max_hit[i] >> 1)) high_crosstalk_warning = true;
+            }
+            recommended_thresholds[i] = candidate;
+        }
+
+        // Compute all 4 thresholds at once -- called AFTER all pads have rolled
+        // so max_crosstalk[] is fully populated for every pad before any threshold is computed.
+        void computeAllThresholds() {
+            for (uint8_t i = 0; i < 4; ++i) {
+                computeThreshold(i);
+            }
         }
     };
 
@@ -286,7 +368,8 @@ class Drum {
     void updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
     void updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
     std::array<uint16_t, 4> readInputs();
-    void processCalibrationData(const std::array<uint16_t, 4> &raw_values);
+    void _finishCurrentPadRoll();
+    void _advanceToNextPad();
 
   public:
     Drum(const Config &config);
@@ -296,12 +379,11 @@ class Drum {
     void setDebounceDelay(uint16_t delay);
     void setTriggerThresholds(const Config::Thresholds &thresholds);
 
-    // Taiko Tantrum public interface
-    void startTaikoTantrum();
-    void startTantrumCountdown();  // Start countdown from instructions screen
+    // Guided calibration wizard public interface
+    void startTaikoTantrum();          // Entry point: begins at Welcome screen
     void updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values);
-    void finishTaikoTantrum();
-    void cancelTaikoTantrum();
+    void advanceCalibWizard();         // A button: advance through wizard steps
+    void cancelTaikoTantrum();         // B button: cancel at any point
     void applyTantrumRecommendations();
     [[nodiscard]] bool isTantrumActive() const { return m_tantrum_state.isActive(); }
     [[nodiscard]] const TantrumState& getTantrumState() const { return m_tantrum_state; }

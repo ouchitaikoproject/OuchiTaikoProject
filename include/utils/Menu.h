@@ -163,6 +163,11 @@ class Menu {
 
     // NEW: Wait for ALL buttons to be released before processing any input
     bool m_waiting_for_button_release{false};
+    uint32_t m_confirm_unlock_until_ms{0};
+    uint32_t m_last_input_accept_ms{0};
+    static constexpr uint32_t CONFIRM_GUARD_AFTER_NAV_MS = 220;
+    static constexpr uint32_t CONFIRM_GUARD_AFTER_PAGE_MS = 300;
+    static constexpr uint32_t INPUT_ACCEPT_DEBOUNCE_MS = 120;
 
     // Unified threshold page: Store original values for cancel operation
     Peripherals::Drum::Config::Thresholds m_unified_thresholds_original{};

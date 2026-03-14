@@ -1,4 +1,4 @@
-﻿//beginning of Main.cpp
+//beginning of Main.cpp
 
 #include "peripherals/Controller.h"
 #include "peripherals/Display.h"
@@ -139,40 +139,37 @@ void core1_task() {
             display.setMenuState(menu_display_msg);
         }
         
-        // Handle Tantrum calibration display updates
-        // Check if Tantrum is active and show appropriate screen
-        static bool was_tantrum_active = false;
-        static bool was_showing_instructions = false;
-        
-        if (drum_ptr && drum_ptr->isTantrumActive()) {
-            const auto& ts = drum_ptr->getTantrumState();
-            
-            // Show instructions screen when in Instructions mode
-            if (ts.current_mode == Peripherals::Drum::TantrumState::Mode::Instructions && !was_showing_instructions) {
-                display.showTantrumInstructions();
-                was_showing_instructions = true;
-                was_tantrum_active = true;
-            }
-            // Show countdown when countdown starts
-            else if (ts.current_mode == Peripherals::Drum::TantrumState::Mode::Countdown && was_showing_instructions) {
-                display.showTantrumCountdown();
-                was_showing_instructions = false;
-            }
-            // Show initial screen when Tantrum first becomes active (fallback)
-            else if (!was_tantrum_active) {
-                display.showTantrumInstructions();
-                was_tantrum_active = true;
-                was_showing_instructions = true;
-            }
+        // Drive calibration wizard display from TantrumState mode
+        {
+            using Mode = Peripherals::Drum::TantrumState::Mode;
+            static Mode last_mode = Mode::Inactive;
 
-            // The draw functions in Display will auto-transition between states
-            // based on the current TantrumState mode
-        } else if (was_tantrum_active) {
-            // Tantrum just finished - display will have auto-returned to menu
-            was_tantrum_active = false;
-            was_showing_instructions = false;
+            if (drum_ptr && drum_ptr->isTantrumActive()) {
+                const auto& ts = drum_ptr->getTantrumState();
+
+                // Only call show* when mode changes -- avoids thrashing display state every frame
+                if (ts.current_mode != last_mode) {
+                    switch (ts.current_mode) {
+                    case Mode::Welcome:    display.showTantrumWelcome();    break;
+                    case Mode::PadNormal:
+                    case Mode::PadHard:    display.showTantrumPadHitting(); break;
+                    case Mode::PhaseTransition: display.showTantrumPhaseTransition(); break;
+                    case Mode::PadRoll:    display.showTantrumPadRoll();    break;
+                    case Mode::PadDone:    display.showTantrumPadDone();    break;
+                    case Mode::Overview:   display.showTantrumOverview();   break;
+                    case Mode::Saving:     display.showTantrumSaving();     break;
+                    case Mode::Complete:   display.showTantrumComplete();   break;
+                    case Mode::Error:      display.showTantrumError();      break;
+                    default: break;
+                    }
+                    last_mode = ts.current_mode;
+                }
+            } else {
+                // Reset last_mode when wizard is inactive so the NEXT run fires all transitions correctly
+                last_mode = Mode::Inactive;
+            }
         }
-        
+
         if (queue_try_remove(&auth_challenge_queue, auth_challenge.data())) {
             const auto signed_challenge = ps4authprovider.sign(auth_challenge);
             queue_try_remove(&auth_signed_challenge_queue, nullptr);
@@ -211,18 +208,17 @@ int main() {
     // NEW: Hotkey state variables are now local to main, allowing manual reset
     uint32_t select_menu_hold_start = 0;
     bool select_menu_was_held = false;
+    uint8_t select_menu_press_count = 0;
 
     // NEW: Function to manually reset the hotkey state
     const auto resetHotkeyState = [&]() {
         select_menu_hold_start = 0;
         select_menu_was_held = false;
+        select_menu_press_count = 0;
     };
     
     // Hold SELECT for menu (1 second hold) with debouncing
-    const auto checkHoldSelect = [&input_state]() {
-        static uint32_t select_hold_start = 0;
-        static bool was_held = false;
-        static uint8_t press_count = 0;  // Debounce counter
+    const auto checkHoldSelect = [&input_state, &select_menu_hold_start, &select_menu_was_held, &select_menu_press_count]() {
         static const uint32_t HOLD_DURATION_MS = 1000;
         static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
@@ -230,33 +226,34 @@ int main() {
         uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
         if (select_pressed) {
-            press_count++;
+            select_menu_press_count++;
 
             // Start timer once we've seen button pressed for multiple frames (debounced)
-            if (press_count >= DEBOUNCE_THRESHOLD && select_hold_start == 0) {
-                select_hold_start = current_time;
-                was_held = false;
+            if (select_menu_press_count >= DEBOUNCE_THRESHOLD && select_menu_hold_start == 0) {
+                select_menu_hold_start = current_time;
+                select_menu_was_held = false;
             }
 
             // Check if hold duration met
-            if (select_hold_start != 0 && !was_held && (current_time - select_hold_start) >= HOLD_DURATION_MS) {
-                was_held = true;
-                press_count = 0;
-                select_hold_start = 0;
+            if (select_menu_hold_start != 0 && !select_menu_was_held &&
+                (current_time - select_menu_hold_start) >= HOLD_DURATION_MS) {
+                select_menu_was_held = true;
+                select_menu_press_count = 0;
+                select_menu_hold_start = 0;
                 return true;
             }
         } else {
             // Button released - reset everything
-            press_count = 0;
-            select_hold_start = 0;
-            was_held = false;
+            select_menu_press_count = 0;
+            select_menu_hold_start = 0;
+            select_menu_was_held = false;
         }
 
         return false;
     };
 
     // Hold HOME for 5 seconds to reboot into bootloader (BOOTSEL) mode.
-    // Saves wear on physical BOOTSEL button — no need to hold while plugging in.
+    // Saves wear on physical BOOTSEL button -- no need to hold while plugging in.
     const auto checkHoldHome = [&input_state]() {
         static uint32_t home_hold_start = 0;
         static bool was_held = false;
@@ -282,6 +279,38 @@ int main() {
         } else {
             press_count = 0;
             home_hold_start = 0;
+            was_held = false;
+        }
+        return false;
+    };
+
+    // Hold START for 5 seconds to reboot into bootloader (BOOTSEL) mode.
+    // Same behaviour as hold HOME — goes through the BootselMsg countdown splash.
+    const auto checkHoldStart = [&input_state]() {
+        static uint32_t start_hold_start = 0;
+        static bool was_held = false;
+        static uint8_t press_count = 0;
+        static const uint32_t HOLD_DURATION_MS = 5000;
+        static const uint8_t DEBOUNCE_THRESHOLD = 3;
+
+        bool start_pressed = input_state.controller.buttons.start;
+        uint32_t current_time = to_ms_since_boot(get_absolute_time());
+
+        if (start_pressed) {
+            press_count++;
+            if (press_count >= DEBOUNCE_THRESHOLD && start_hold_start == 0) {
+                start_hold_start = current_time;
+                was_held = false;
+            }
+            if (start_hold_start != 0 && !was_held && (current_time - start_hold_start) >= HOLD_DURATION_MS) {
+                was_held = true;
+                press_count = 0;
+                start_hold_start = 0;
+                return true;
+            }
+        } else {
+            press_count = 0;
+            start_hold_start = 0;
             was_held = false;
         }
         return false;
@@ -332,7 +361,6 @@ int main() {
     bool last_analysis_active = false;
     
     // Tantrum results display timing
-    uint32_t results_display_start = 0;
     bool results_displaying = false;
 
     while (true) {
@@ -351,84 +379,56 @@ int main() {
             queue_try_add(&thresholds_queue, &fresh_thresholds);
         }
 
-        // Check for button presses during Tantrum calibration
+        // Drive calibration wizard A/B buttons in main loop (Core 0)
         const auto& tantrum_state = drum.getTantrumState();
         bool tantrum_active = tantrum_state.isActive();
-        
-        // Check for A button press to start countdown from instructions screen
-        // Track when we entered Instructions mode to debounce button
-        static uint32_t instructions_start_time = 0;
-        static bool in_instructions = false;
-        
-        if (tantrum_state.current_mode == Peripherals::Drum::TantrumState::Mode::Instructions) {
-            if (!in_instructions) {
-                // Just entered Instructions mode - record time
-                instructions_start_time = to_ms_since_boot(get_absolute_time());
-                in_instructions = true;
+        using TMode = Peripherals::Drum::TantrumState::Mode;
+
+        if (tantrum_active) {
+            // Debounce: track A button edge
+            static bool last_east = false;
+            static bool last_south = false;
+            bool east_pressed  = input_state.controller.buttons.east  && !last_east;
+            bool south_pressed = input_state.controller.buttons.south && !last_south;
+            last_east  = input_state.controller.buttons.east;
+            last_south = input_state.controller.buttons.south;
+
+            // A button: advance wizard
+            if (east_pressed) {
+                drum.advanceCalibWizard();
             }
-            
-            // Only accept A button after 300ms delay to prevent accidental skip
-            uint32_t now = to_ms_since_boot(get_absolute_time());
-            if (input_state.controller.buttons.east && (now - instructions_start_time) >= 500) {
-                // User pressed A after debounce period - start the countdown
-                drum.startTantrumCountdown();
-                in_instructions = false;
+
+            // B button: cancel at any point
+            if (south_pressed) {
+                drum.cancelTaikoTantrum();
+                last_analysis_active = false;
+                results_displaying = false;
+                ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
+                queue_add_blocking(&control_queue, &ctrl_message);
             }
-        } else {
-            // Not in Instructions mode anymore
-            in_instructions = false;
-        }
-        
-        // Check for B button press to cancel Tantrum calibration
-        if (tantrum_active && input_state.controller.buttons.south) {
-            drum.cancelTaikoTantrum();
-            
-            // CRITICAL: Reset ALL state tracking so Hold START works again immediately
-            last_analysis_active = false;
-            results_displaying = false;
-            results_display_start = 0;
-            
-            // Return to idle screen (not menu - menu is already closed)
-            ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
-            queue_add_blocking(&control_queue, &ctrl_message);
         }
 
-        // Detect Tantrum completion: finished showing results, apply thresholds and save
-        bool just_finished_tantrum = last_analysis_active && !tantrum_active &&
-                                     (tantrum_state.current_mode == Peripherals::Drum::TantrumState::Mode::ShowingResults ||
-                                      tantrum_state.current_mode == Peripherals::Drum::TantrumState::Mode::Inactive);
-
-        // Handle Tantrum completion: apply thresholds and save
-        if (just_finished_tantrum) {
-            // Apply the calculated thresholds
+        // Detect wizard completion: Saving mode triggers apply+save, then return to menu
+        bool just_entered_saving = last_analysis_active &&
+                                   tantrum_state.current_mode == TMode::Saving &&
+                                   !results_displaying;
+        if (just_entered_saving) {
             drum.applyTantrumRecommendations();
-
-            // Save to persistent storage
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
             settings_store->store();
             readSettings();
-
-            // Start the results display timer
-            results_display_start = to_ms_since_boot(get_absolute_time());
             results_displaying = true;
         }
-        
+
         if (results_displaying) {
-            uint32_t now = to_ms_since_boot(get_absolute_time());
-            if ((now - results_display_start) >= 3000) {  // 3 seconds instead of 5
-                // Results have been displayed long enough - return to Drum Tuning menu
+            // Wait for Complete state to finish displaying, then return to Drum Tuning menu
+            if (!tantrum_active || tantrum_state.current_mode == TMode::Inactive) {  // NOLINT
                 menu.activate();
-                menu.goBackToParent();  // Pop TaikoTantrum page to return to Drum Tuning
-                
-                // Tell display to show menu
+                menu.goBackToParent();
                 ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
-                
-                // Send menu state to display
                 const auto display_msg = menu.getState();
                 queue_add_blocking(&menu_display_queue, &display_msg);
-                
-                // Reset for next calibration
                 results_displaying = false;
             }
         }
@@ -458,7 +458,7 @@ int main() {
         // HOLD HOME 5s to reboot into bootloader (BOOTSEL) mode
         // Goes through the same BootselMsg splash path as the menu so the user
         // sees the countdown screen instead of the display freezing on main.
-        if (checkHoldHome()) {
+        if (checkHoldHome() || checkHoldStart()) {
             menu.enterBootloaderSplash();
             ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
             queue_add_blocking(&control_queue, &ctrl_message);
@@ -484,15 +484,15 @@ int main() {
                 // Start Tantrum calibration on Core 0
                 drum.startTaikoTantrum();
 
-                // CRITICAL: Deactivate menu on Core 0 so it stops overwriting Instructions screen
+                // Deactivate menu so it doesn't overwrite wizard screens
                 menu.deactivate();
 
-                // Exit menu and show Tantrum countdown screen on Core 1
+                // Tell display to exit menu -- wizard screens now driven by core1 state tracker
                 ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
 
                 // Core 1's display.update() will automatically show the Tantrum screens
-                // based on the Drum's TantrumState (countdown → recording → results)
+                // based on the Drum's TantrumState (countdown -> recording -> results)
             }
 
             // Check menu.active() again BEFORE sending display state
@@ -519,9 +519,9 @@ int main() {
                 // The menu's own deactivate() now handles m_buttons.reset()
             }
             
-            // CRITICAL: Clear all input state after menu processing
-            // This prevents held buttons from carrying over to next frame
-            input_state.releaseAll();
+            // Keep real controller hold state intact while in menu.
+            // Forcing releaseAll() here can synthesize false rising edges when
+            // controller queue updates are missed for a frame.
         }
         
         // Menu just closed during update() - no special handling needed
@@ -550,14 +550,14 @@ int main() {
                 tud_cdc_write(buf, strlen(buf));
                 tud_cdc_write_flush();
             } else if (rx_pos == 0 && byte != 0xAA) {
-                // Not a start byte — ignore and stay ready
+                // Not a start byte -- ignore and stay ready
             } else {
                 rx_buf[rx_pos++] = byte;
 
                 if (rx_pos == 10) {
                     rx_pos = 0;
                     if (rx_buf[9] == 0x55) {
-                        // Valid packet — apply and save thresholds
+                        // Valid packet -- apply and save thresholds
                         Peripherals::Drum::Config::Thresholds t;
                         t.don_left  = (static_cast<uint16_t>(rx_buf[1]) << 8) | rx_buf[2];
                         t.don_right = (static_cast<uint16_t>(rx_buf[3]) << 8) | rx_buf[4];
@@ -573,7 +573,7 @@ int main() {
                         tud_cdc_write(ack, 3);
                         tud_cdc_write_flush();
                     }
-                    // Bad end byte — silently discard, rx_pos already reset
+                    // Bad end byte -- silently discard, rx_pos already reset
                 }
             }
         }
