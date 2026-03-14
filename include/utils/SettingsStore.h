@@ -26,10 +26,12 @@ class SettingsStore {
         uint8_t led_brightness;
         bool led_enable_player_color;
         uint16_t debounce_delay;
+        uint32_t tantrum_report_version;
+        std::array<char, 192> tantrum_report;
 
         std::array<uint8_t, m_store_size - sizeof(uint8_t) - sizeof(uint8_t) - sizeof(usb_mode_t) -
                                 sizeof(Peripherals::Drum::Config::Thresholds) - sizeof(uint8_t) - sizeof(bool) -
-                                sizeof(uint16_t)>
+                                sizeof(uint16_t) - sizeof(uint32_t) - sizeof(std::array<char, 192>)>
             _padding;
     };
     static_assert(sizeof(Storecache) == m_store_size);
@@ -63,6 +65,10 @@ class SettingsStore {
 
     void setDebounceDelay(uint16_t delay);
     [[nodiscard]] uint16_t getDebounceDelay() const;
+
+    void setLastTantrumReport(uint32_t version, const char* report);
+    [[nodiscard]] uint32_t getLastTantrumReportVersion() const;
+    [[nodiscard]] const char* getLastTantrumReport() const;
 
     void scheduleReboot(bool bootsel = false);
 

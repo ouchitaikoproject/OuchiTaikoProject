@@ -137,6 +137,9 @@ class Menu {
             Repeat repeat;
             uint32_t pressed_since;
             uint32_t last_repeat;
+            uint32_t released_since;
+            uint32_t last_press_ms;
+            bool raw_down;
             bool pressed;
         };
 
@@ -167,7 +170,7 @@ class Menu {
     uint32_t m_last_input_accept_ms{0};
     static constexpr uint32_t CONFIRM_GUARD_AFTER_NAV_MS = 220;
     static constexpr uint32_t CONFIRM_GUARD_AFTER_PAGE_MS = 300;
-    static constexpr uint32_t INPUT_ACCEPT_DEBOUNCE_MS = 120;
+    static constexpr uint32_t INPUT_ACCEPT_DEBOUNCE_MS = 80;
 
     // Unified threshold page: Store original values for cancel operation
     Peripherals::Drum::Config::Thresholds m_unified_thresholds_original{};

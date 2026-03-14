@@ -10,6 +10,7 @@
 #include "pico/time.h"
 
 #include <array>
+#include <cstddef>
 #include <memory>
 #include <stdint.h>
 #include <variant>
@@ -78,9 +79,11 @@ class Drum {
     // ============================================================================
 
     struct TantrumState {
-        static constexpr uint8_t PAD_ORDER[4] = {0, 2, 1, 3};
+        // Natural physical order, left-to-right across the drum:
+        // Ka Left, Don Left, Don Right, Ka Right
+        static constexpr uint8_t PAD_ORDER[4] = {1, 0, 2, 3};
         static constexpr const char* PAD_NAMES[4] = {
-            "Don Left", "Don Right", "Ka Left", "Ka Right"
+            "Ka Left", "Don Left", "Don Right", "Ka Right"
         };
 
         enum class Mode {
@@ -121,6 +124,7 @@ class Drum {
         static constexpr uint32_t ROLL_DURATION_MS          = 3000;
         static constexpr uint32_t ROLL_START_TIMEOUT_MS     = 4000;
         static constexpr uint32_t PAD_DONE_DISPLAY_MS        = 1500;
+        static constexpr uint32_t OVERVIEW_DISPLAY_MS        = 2200;
         static constexpr uint32_t COMPLETE_DISPLAY_MS        = 3000;
         static constexpr uint32_t SAVING_DISPLAY_MS          = 800;
         static constexpr uint32_t PHASE_TRANSITION_DELAY_MS  = 2000;  // 2s buffer between phases
@@ -362,6 +366,8 @@ class Drum {
     RollCounter m_roll_counter;
 
     TantrumState m_tantrum_state;
+    uint32_t m_last_tantrum_report_version{0};
+    char m_last_tantrum_report[512]{};
 
 
 
@@ -387,6 +393,8 @@ class Drum {
     void applyTantrumRecommendations();
     [[nodiscard]] bool isTantrumActive() const { return m_tantrum_state.isActive(); }
     [[nodiscard]] const TantrumState& getTantrumState() const { return m_tantrum_state; }
+    [[nodiscard]] const char* getLastTantrumReport() const { return m_last_tantrum_report; }
+    [[nodiscard]] uint32_t getLastTantrumReportVersion() const { return m_last_tantrum_report_version; }
 
     const Config::Thresholds& getCurrentThresholds() const {
         return m_config.trigger_thresholds;

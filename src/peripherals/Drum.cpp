@@ -7,6 +7,7 @@
 #include <mcp3204/Mcp3204Dma.h>
 
 #include <algorithm>
+#include <cstdio>
 
 namespace OuchiTaiko::Peripherals {
 
@@ -405,14 +406,10 @@ void Drum::advanceCalibWizard() {
         case TantrumState::Mode::PadHard:
         case TantrumState::Mode::PadRoll:
         case TantrumState::Mode::PhaseTransition:
+        case TantrumState::Mode::PadDone:
+        case TantrumState::Mode::Overview:
             // These phases are hit/time-driven -- A button does nothing here.
             // They auto-advance once the required hits or roll timer completes.
-            break;
-        case TantrumState::Mode::PadDone:
-            _advanceToNextPad();
-            break;
-        case TantrumState::Mode::Overview:
-            s.startSaving();
             break;
         case TantrumState::Mode::Error:
             // Redo current pad from Normal phase
@@ -437,11 +434,23 @@ void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
     switch (s.current_mode) {
 
     case TantrumState::Mode::Welcome:
-    case TantrumState::Mode::PadDone:
-    case TantrumState::Mode::Overview:
     case TantrumState::Mode::Error:
         // Waiting for user input (A/B) -- handled in advanceCalibWizard / cancelTaikoTantrum
         break;
+
+    case TantrumState::Mode::PadDone: {
+        if ((now - s.phase_start) >= TantrumState::PAD_DONE_DISPLAY_MS) {
+            _advanceToNextPad();
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Overview: {
+        if ((now - s.phase_start) >= TantrumState::OVERVIEW_DISPLAY_MS) {
+            s.startSaving();
+        }
+        break;
+    }
 
     case TantrumState::Mode::PadNormal:
     case TantrumState::Mode::PadHard: {
@@ -573,6 +582,35 @@ void Drum::applyTantrumRecommendations() {
     m_config.trigger_thresholds.ka_left   = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
     m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
     m_config.trigger_thresholds.ka_right  = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
+
+    m_last_tantrum_report_version++;
+    snprintf(
+        m_last_tantrum_report,
+        sizeof(m_last_tantrum_report),
+        "VER=%lu;"
+        "NR=%u,%u,%u,%u;"
+        "MH=%u,%u,%u,%u;"
+        "XT=%u,%u,%u,%u;"
+        "TH=%u,%u,%u,%u;"
+        "WARN=%u",
+        static_cast<unsigned long>(m_last_tantrum_report_version),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[0]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[1]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[2]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[3]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[0]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[1]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[2]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[3]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[0]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[1]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[2]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[3]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[0]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[1]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[2]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[3]),
+        m_tantrum_state.high_crosstalk_warning ? 1u : 0u);
 }
 } // namespace OuchiTaiko::Peripherals
 

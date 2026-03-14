@@ -93,10 +93,12 @@ void core1_task() {
     while (true) {
         controller.updateInputState(input_state);
 
-        // CRITICAL: Remove any stale data first, then add fresh data
-        // This ensures Core 0 always gets the latest controller state
-        queue_try_remove(&controller_input_queue, nullptr);
-        queue_add_blocking(&controller_input_queue, &input_state.controller);
+        // Queue controller samples so short taps are not overwritten before Core 0 sees them.
+        if (!queue_try_add(&controller_input_queue, &input_state.controller)) {
+            Utils::InputState::Controller dropped{};
+            queue_try_remove(&controller_input_queue, &dropped);
+            queue_try_add(&controller_input_queue, &input_state.controller);
+        }
         
         queue_try_remove(&drum_input_queue, &input_state.drum);
 
@@ -139,34 +141,26 @@ void core1_task() {
             display.setMenuState(menu_display_msg);
         }
         
-        // Drive calibration wizard display from TantrumState mode
+        // Drive calibration wizard display from TantrumState mode.
+        // Fail-safe: force the wizard screen state every frame while active so we never
+        // remain on Idle/Menu due to a missed mode-change edge.
         {
             using Mode = Peripherals::Drum::TantrumState::Mode;
-            static Mode last_mode = Mode::Inactive;
-
             if (drum_ptr && drum_ptr->isTantrumActive()) {
                 const auto& ts = drum_ptr->getTantrumState();
-
-                // Only call show* when mode changes -- avoids thrashing display state every frame
-                if (ts.current_mode != last_mode) {
-                    switch (ts.current_mode) {
-                    case Mode::Welcome:    display.showTantrumWelcome();    break;
-                    case Mode::PadNormal:
-                    case Mode::PadHard:    display.showTantrumPadHitting(); break;
-                    case Mode::PhaseTransition: display.showTantrumPhaseTransition(); break;
-                    case Mode::PadRoll:    display.showTantrumPadRoll();    break;
-                    case Mode::PadDone:    display.showTantrumPadDone();    break;
-                    case Mode::Overview:   display.showTantrumOverview();   break;
-                    case Mode::Saving:     display.showTantrumSaving();     break;
-                    case Mode::Complete:   display.showTantrumComplete();   break;
-                    case Mode::Error:      display.showTantrumError();      break;
-                    default: break;
-                    }
-                    last_mode = ts.current_mode;
+                switch (ts.current_mode) {
+                case Mode::Welcome:    display.showTantrumWelcome();    break;
+                case Mode::PadNormal:
+                case Mode::PadHard:    display.showTantrumPadHitting(); break;
+                case Mode::PhaseTransition: display.showTantrumPhaseTransition(); break;
+                case Mode::PadRoll:    display.showTantrumPadRoll();    break;
+                case Mode::PadDone:    display.showTantrumPadDone();    break;
+                case Mode::Overview:   display.showTantrumOverview();   break;
+                case Mode::Saving:     display.showTantrumSaving();     break;
+                case Mode::Complete:   display.showTantrumComplete();   break;
+                case Mode::Error:      display.showTantrumError();      break;
+                default: break;
                 }
-            } else {
-                // Reset last_mode when wizard is inactive so the NEXT run fires all transitions correctly
-                last_mode = Mode::Inactive;
             }
         }
 
@@ -190,7 +184,7 @@ int main() {
     queue_init(&control_queue, sizeof(ControlMessage), 1);
     queue_init(&menu_display_queue, sizeof(Utils::Menu::State), 1);
     queue_init(&drum_input_queue, sizeof(Utils::InputState::Drum), 1);
-    queue_init(&controller_input_queue, sizeof(Utils::InputState::Controller), 1);
+    queue_init(&controller_input_queue, sizeof(Utils::InputState::Controller), 8);
     queue_init(&auth_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&auth_signed_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&drum_reference_queue, sizeof(Peripherals::Drum*), 1);
@@ -204,6 +198,7 @@ int main() {
 
     Utils::InputReport input_report;
     Utils::InputState input_state;
+    Utils::InputState::Controller latest_controller_state{};
     
     // NEW: Hotkey state variables are now local to main, allowing manual reset
     uint32_t select_menu_hold_start = 0;
@@ -284,13 +279,13 @@ int main() {
         return false;
     };
 
-    // Hold START for 5 seconds to reboot into bootloader (BOOTSEL) mode.
+    // Hold START for 2 seconds to reboot into bootloader (BOOTSEL) mode.
     // Same behaviour as hold HOME — goes through the BootselMsg countdown splash.
     const auto checkHoldStart = [&input_state]() {
         static uint32_t start_hold_start = 0;
         static bool was_held = false;
         static uint8_t press_count = 0;
-        static const uint32_t HOLD_DURATION_MS = 5000;
+        static const uint32_t HOLD_DURATION_MS = 2000;
         static const uint8_t DEBOUNCE_THRESHOLD = 3;
 
         bool start_pressed = input_state.controller.buttons.start;
@@ -363,13 +358,20 @@ int main() {
     // Tantrum results display timing
     bool results_displaying = false;
 
+    // Prevent the same A press used to select "Start Wizard" from immediately
+    // advancing Welcome -> PadNormal in the first active frame.
+    bool tantrum_wait_for_confirm_release = false;
+
     while (true) {
         drum.updateInputState(input_state, mode);
 
-        // CRITICAL: Always try to get fresh controller data
-        // If queue is empty, keep last known state - edge detection in menu handles repeats
-        // Don't clear stale data as it creates false rising edges
-        queue_try_remove(&controller_input_queue, &input_state.controller);
+        // Drain queue to the most recent controller sample each frame.
+        // This avoids stale "button still down" states that can block edge detection.
+        Utils::InputState::Controller sampled_controller{};
+        while (queue_try_remove(&controller_input_queue, &sampled_controller)) {
+            latest_controller_state = sampled_controller;
+        }
+        input_state.controller = latest_controller_state;
 
         // NEW: Send fresh threshold data to Display on every frame when menu is active
         // This ensures Display always shows current values from SettingsStore
@@ -393,6 +395,13 @@ int main() {
             last_east  = input_state.controller.buttons.east;
             last_south = input_state.controller.buttons.south;
 
+            if (tantrum_wait_for_confirm_release) {
+                if (!input_state.controller.buttons.east) {
+                    tantrum_wait_for_confirm_release = false;
+                }
+                east_pressed = false;
+            }
+
             // A button: advance wizard
             if (east_pressed) {
                 drum.advanceCalibWizard();
@@ -415,6 +424,7 @@ int main() {
         if (just_entered_saving) {
             drum.applyTantrumRecommendations();
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
+            settings_store->setLastTantrumReport(drum.getLastTantrumReportVersion(), drum.getLastTantrumReport());
             settings_store->store();
             readSettings();
             results_displaying = true;
@@ -483,6 +493,7 @@ int main() {
             if (menu.isTantrumStartRequested()) {
                 // Start Tantrum calibration on Core 0
                 drum.startTaikoTantrum();
+                tantrum_wait_for_confirm_release = true;
 
                 // Deactivate menu so it doesn't overwrite wizard screens
                 menu.deactivate();
@@ -519,9 +530,12 @@ int main() {
                 // The menu's own deactivate() now handles m_buttons.reset()
             }
             
-            // Keep real controller hold state intact while in menu.
-            // Forcing releaseAll() here can synthesize false rising edges when
-            // controller queue updates are missed for a frame.
+            // Clear local input state after menu processing.
+            // Menu keeps its own edge state; this prevents carryover into gameplay/reporting path.
+            input_state.releaseAll();
+            // Restore persisted controller state after local clear so held buttons
+            // remain stable across frames for edge detection.
+            input_state.controller = latest_controller_state;
         }
         
         // Menu just closed during update() - no special handling needed
@@ -547,6 +561,19 @@ int main() {
                 char buf[32];
                 snprintf(buf, sizeof(buf), "THR:%u,%u,%u,%u\n",
                     t.don_left, t.don_right, t.ka_left, t.ka_right);
+                tud_cdc_write(buf, strlen(buf));
+                tud_cdc_write_flush();
+            } else if (byte == 0xBC && rx_pos == 0) {
+                const char* report = drum.getLastTantrumReport();
+                if (report[0] == '\0') {
+                    report = settings_store->getLastTantrumReport();
+                }
+                char buf[640];
+                if (report[0] != '\0') {
+                    snprintf(buf, sizeof(buf), "TLG:%s\n", report);
+                } else {
+                    snprintf(buf, sizeof(buf), "TLG:EMPTY\n");
+                }
                 tud_cdc_write(buf, strlen(buf));
                 tud_cdc_write_flush();
             } else if (rx_pos == 0 && byte != 0xAA) {

@@ -32,6 +32,8 @@ SettingsStore::SettingsStore()
                      .led_brightness = Config::Default::led_config.brightness,
                      .led_enable_player_color = Config::Default::led_config.enable_player_color,
                      .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
+                     .tantrum_report_version = 0,
+                     .tantrum_report = {},
                      ._padding = {}}) {
     uint32_t current_page = m_flash_offset + m_flash_size - m_store_size;
     bool found_valid = false;
@@ -100,6 +102,29 @@ void SettingsStore::setDebounceDelay(const uint16_t delay) {
     }
 }
 uint16_t SettingsStore::getDebounceDelay() const { return m_store_cache.debounce_delay; }
+
+void SettingsStore::setLastTantrumReport(uint32_t version, const char* report) {
+    if (report == nullptr) {
+        report = "";
+    }
+
+    constexpr size_t max_len = sizeof(m_store_cache.tantrum_report) - 1;
+    char normalized[sizeof(m_store_cache.tantrum_report)]{};
+    std::strncpy(normalized, report, max_len);
+    normalized[max_len] = '\0';
+
+    if (m_store_cache.tantrum_report_version != version ||
+        std::strncmp(m_store_cache.tantrum_report.data(), normalized, sizeof(m_store_cache.tantrum_report)) != 0) {
+        m_store_cache.tantrum_report_version = version;
+        std::memcpy(m_store_cache.tantrum_report.data(), normalized, sizeof(m_store_cache.tantrum_report));
+        m_store_cache.tantrum_report.back() = '\0';
+        m_dirty = true;
+    }
+}
+
+uint32_t SettingsStore::getLastTantrumReportVersion() const { return m_store_cache.tantrum_report_version; }
+
+const char* SettingsStore::getLastTantrumReport() const { return m_store_cache.tantrum_report.data(); }
 
 void SettingsStore::store() {
     bool force_write = (m_scheduled_reboot != RebootType::None);
@@ -203,6 +228,8 @@ void SettingsStore::reset() {
         .led_brightness = Config::Default::led_config.brightness,
         .led_enable_player_color = Config::Default::led_config.enable_player_color,
         .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
+        .tantrum_report_version = 0,
+        .tantrum_report = {},
         ._padding = {}
     };
     

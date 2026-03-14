@@ -480,7 +480,7 @@ void Display::drawIdleScreen() {
 void Display::drawNavigationBar(const Utils::Menu::Descriptor &descriptor) {
     ssd1306_draw_line(&m_display, 0, 54, 127, 54);
     
-    std::string left_label = "Back";
+    std::string left_label = "Cancel";
     std::string right_label = "OK";
     bool show_left_right_arrows = false;
     bool show_up_down_arrows = false;
@@ -649,7 +649,7 @@ void Display::drawMenuScreen() {
 
         // Footer
         ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-        ssd1306_draw_string(&m_display, 14, 56, 1, "A:Save   B:Cancel");
+        ssd1306_draw_string(&m_display, 14, 56, 1, "B:Cancel  A:Save");
 
         return;
     }
@@ -870,14 +870,14 @@ void Display::drawTantrumWelcomeScreen() {
     ssd1306_draw_string(&m_display, (128 - (int)strlen(hdr)*6)/2, 0, 1, hdr);
     ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 
-    ssd1306_draw_string(&m_display, 4, 14, 1, "Hit only shown pad.");
+    ssd1306_draw_string(&m_display, 4, 14, 1, "Use one hand only.");
     ssd1306_draw_string(&m_display, 4, 23, 1, "Use game-like force.");
 
     ssd1306_draw_line(&m_display, 0, 34, 127, 34);
     ssd1306_draw_string(&m_display, 4, 37, 1, "3 phases per pad:");
-    ssd1306_draw_string(&m_display, 4, 46, 1, "normal, strong, rapid");
+    ssd1306_draw_string(&m_display, 4, 46, 1, "normal, hard, rapid");
 
-    const char* begin = "A: Begin  B: Cancel";
+    const char* begin = "B: Cancel  A: Begin";
     ssd1306_draw_string(&m_display, (128 - (int)strlen(begin)*6)/2, 56, 1, begin);
 }
 
@@ -911,7 +911,7 @@ void Display::drawTantrumPadHittingScreen() {
 
     ssd1306_draw_line(&m_display, 0, 54, 127, 54);
     // Bottom instruction
-    const char* instr = is_hard ? "Hardest game hit" : "Hit normally";
+    const char* instr = is_hard ? "One hand hardest hit" : "One hand normal hit";
     int iw = (int)strlen(instr) * 6;
     ssd1306_draw_string(&m_display, (128 - iw)/2, 57, 1, instr);
 }
@@ -951,7 +951,7 @@ void Display::drawTantrumPadRollScreen() {
     ssd1306_draw_string(&m_display, 114, BAR_Y+1, 1, ts);
 
     // Instruction
-    const char* instr = s.roll_started ? "Keep going!" : "Rapid hits - hit to start";
+    const char* instr = s.roll_started ? "One hand keep going" : "One hand rapid start";
     int iw = (int)strlen(instr) * 6;
     ssd1306_draw_string(&m_display, (128 - iw)/2, 56, 1, instr);
 }
@@ -1008,7 +1008,7 @@ void Display::drawTantrumPadDoneScreen() {
     ssd1306_draw_string(&m_display, (128 - tw)/2, 33, 2, tstr);
 
     ssd1306_draw_line(&m_display, 0, 52, 127, 52);
-    const char* next = s.current_pad < 3 ? "A:Next pad" : "A:Continue";
+    const char* next = s.current_pad < 3 ? "Next pad loading..." : "Finalizing results...";
     int nextw = (int)strlen(next) * 6;
     ssd1306_draw_string(&m_display, (128 - nextw)/2, 55, 1, next);
 }
@@ -1034,31 +1034,13 @@ void Display::drawTantrumOverviewScreen() {
     ssd1306_draw_string(&m_display, 66, 21, 1, kr);
     ssd1306_draw_line(&m_display, 0, 31, 127, 31);
 
-    // Live drum animation
-    const char* hint = s.high_crosstalk_warning ? "High XTALK-check isolate" : "Hit pads to verify";
+    // Keep final review screen clean and static for readability.
+    const char* hint = s.high_crosstalk_warning ? "High XTALK-check isolate" : "Review before apply";
     int hw = (int)strlen(hint) * 6;
     ssd1306_draw_string(&m_display, (128 - hw)/2, 33, 1, hint);
 
-    bool kl_hit = m_input_state.drum.ka_left.triggered   && !m_last_ka_left;
-    bool dl_hit = m_input_state.drum.don_left.triggered  && !m_last_don_left;
-    bool dr_hit = m_input_state.drum.don_right.triggered && !m_last_don_right;
-    bool kr_hit = m_input_state.drum.ka_right.triggered  && !m_last_ka_right;
-    if (kl_hit) activateRing(0);
-    if (dl_hit) activateRing(1);
-    if (dr_hit) activateRing(2);
-    if (kr_hit) activateRing(3);
-    m_last_ka_left   = m_input_state.drum.ka_left.triggered;
-    m_last_don_left  = m_input_state.drum.don_left.triggered;
-    m_last_don_right = m_input_state.drum.don_right.triggered;
-    m_last_ka_right  = m_input_state.drum.ka_right.triggered;
-    updateRings(); drawRings();
-    for (int i = 0; i < 4; i++) {
-        uint8_t x = DRUM_CENTERS[i][0], y = DRUM_CENTERS[i][1];
-        for (int dy=-1;dy<=1;dy++) for (int dx=-1;dx<=1;dx++) ssd1306_draw_pixel(&m_display,x+dx,y+dy);
-    }
-
     ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    const char* foot = "B:Redo  A:Apply";
+    const char* foot = "Applying... B:Cancel";
     int fw = (int)strlen(foot) * 6;
     ssd1306_draw_string(&m_display, (128 - fw)/2, 56, 1, foot);
 }
@@ -1084,19 +1066,15 @@ void Display::drawTantrumCompleteScreen() {
     const char* line3 = "Play mode resumed.";
     int l3w = (int)strlen(line3) * 6;
     ssd1306_draw_string(&m_display, (128 - l3w)/2, 36, 1, line3);
-    // All 4 drum dots with double rings = all calibrated
-    for (int i = 0; i < 4; i++) {
-        uint8_t x = DRUM_CENTERS[i][0], y = DRUM_CENTERS[i][1];
-        for (int dy=-1;dy<=1;dy++) for (int dx=-1;dx<=1;dx++) ssd1306_draw_pixel(&m_display,x+dx,y+dy);
-        drawCircleRing(x, y, 5);
-        drawCircleRing(x, y, 9);
-    }
+    const char* line4 = "Calibration complete";
+    int l4w = (int)strlen(line4) * 6;
+    ssd1306_draw_string(&m_display, (128 - l4w)/2, 45, 1, line4);
 }
 
 void Display::drawTantrumErrorScreen() {
     if (!m_drum) return;
     const auto& s = m_drum->getTantrumState();
-    const char* title = "Redo Needed";
+    const char* title = "Redo";
     int titw = (int)strlen(title) * 12;
     ssd1306_draw_string(&m_display, (128 - titw)/2, 4, 2, title);
     ssd1306_draw_line(&m_display, 0, 22, 127, 22);
@@ -1104,7 +1082,7 @@ void Display::drawTantrumErrorScreen() {
     int mw = (int)strlen(msg) * 6;
     ssd1306_draw_string(&m_display, (128 - mw)/2, 30, 1, msg);
     ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    const char* foot = "A:Retry  B:Cancel";
+    const char* foot = "B:Cancel  A:Retry";
     int fw = (int)strlen(foot) * 6;
     ssd1306_draw_string(&m_display, (128 - fw)/2, 56, 1, foot);
 }
