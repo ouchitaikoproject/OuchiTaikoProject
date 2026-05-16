@@ -1,0 +1,3442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OuchiTaiko Live Calibrate</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f4efe7; --surface:#fffaf2; --surface2:#f2e7d8; --surface3:#ead9c4;
+  --border:#dfcdb8; --border2:#c9ac90;
+  --don:#df542d; --don-dim:rgba(223,84,45,0.12); --don-glow:rgba(223,84,45,0.26);
+  --ka:#169fb0;  --ka-dim:rgba(22,159,176,0.12);  --ka-glow:rgba(22,159,176,0.25);
+  --green:#064f32; --green-dim:rgba(6,79,50,0.18); --green-glow:rgba(6,79,50,0.30);
+  --amber:#c57814; --red:#d43f3f;
+  --text:#241b15; --text2:#6f5e51; --text3:#9a8776;
+  --f:'Figtree',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+body{background:linear-gradient(180deg,#fff7ed 0%,var(--bg) 42%,#ead7c0 100%);font-family:var(--f);color:var(--text);min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased;}
+
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);height:52px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-text{font-weight:900;font-size:15px;letter-spacing:-0.3px;}
+.logo-text span{color:var(--don);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.rate-badge{font-size:11px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px 10px;font-family:var(--mono);}
+.rate-badge.active{color:var(--green);border-color:rgba(34,201,122,0.3);background:var(--green-dim);}
+.conn-pill{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;}
+.conn-pill.on{color:var(--green);border-color:rgba(34,201,122,0.3);background:var(--green-dim);}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);}
+.conn-pill.on .conn-dot{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* TABS */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;display:flex;}
+.tab{font-family:var(--f);font-weight:700;font-size:12px;color:var(--text3);padding:10px 14px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.02em;text-transform:uppercase;}
+.tab:hover{color:var(--text2);}
+.tab.on{color:var(--don);border-bottom-color:var(--don);}
+
+/* PAGES */
+.pg{display:none;max-width:760px;margin:0 auto;padding:26px 20px 60px;}
+.pg.on{display:block;}
+
+/* SPLASH */
+.splash{text-align:center;padding:64px 20px;}
+.splash h2{font-size:22px;font-weight:900;margin-bottom:10px;}
+.splash p{color:var(--text2);font-size:14px;margin-bottom:28px;line-height:1.8;}
+.splash p strong{color:var(--don);}
+.btn-connect{padding:13px 34px;border-radius:99px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 22px var(--don-glow);transition:all .2s;}
+.btn-connect:hover{background:#d04820;transform:translateY(-2px);}
+.conn-err{margin-top:14px;font-size:12px;color:var(--red);font-weight:700;min-height:18px;}
+.splash.hide{display:none;}
+
+.mode-home{display:none;margin-bottom:20px;}
+.mode-home.on{display:block;}
+.mode-pick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.mode-pick{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;cursor:pointer;transition:all .18s;text-align:left;}
+.mode-pick:hover{border-color:var(--border2);transform:translateY(-1px);}
+.mode-pick h3{font-size:16px;font-weight:900;margin-bottom:6px;}
+.mode-pick p{font-size:12px;line-height:1.6;color:var(--text2);}
+.mode-pick .accent{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;display:block;}
+.mode-shell{display:none;}
+.mode-shell.on{display:block;}
+.mode-strip{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+.mode-btn{padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-family:var(--f);font-size:12px;font-weight:800;cursor:pointer;transition:all .18s;}
+.mode-btn:hover{color:var(--text);border-color:var(--text3);}
+.mode-btn.on{background:var(--don-dim);border-color:rgba(232,87,42,.45);color:var(--don);}
+.mode-back{margin-left:auto;}
+.mode-panel{display:none;}
+.mode-panel.on{display:block;}
+.iso-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 18px 16px;margin-bottom:16px;}
+.iso-title{font-size:18px;font-weight:900;margin-bottom:6px;}
+.iso-sub{font-size:13px;line-height:1.7;color:var(--text2);margin-bottom:14px;}
+.iso-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.iso-state{font-size:12px;font-weight:700;color:var(--text2);min-height:18px;}
+.iso-pad-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px;}
+.iso-pad{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 10px;text-align:center;transition:all .18s;min-height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.iso-pad svg{width:54px;height:54px;display:block;}
+.iso-pad .iso-pad-name{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);}
+.iso-pad.idle{opacity:.9;}
+.iso-pad.primary{border-color:rgba(6,79,50,.78);background:rgba(6,79,50,.22);box-shadow:0 0 0 2px rgba(6,79,50,.26),0 0 18px rgba(6,79,50,.18);}
+.iso-pad.primary .iso-pad-name{color:var(--green);}
+.iso-pad.secondary{border-color:rgba(255,85,85,.55);background:rgba(255,85,85,.12);box-shadow:0 0 0 1px rgba(255,85,85,.18),0 0 18px rgba(255,85,85,.16);}
+.iso-pad.secondary .iso-pad-name{color:var(--red);}
+.iso-pad.flash{animation:isoPulse .5s ease-out 1;}
+@keyframes isoPulse{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(6,79,50,.48);}50%{transform:scale(1.03);box-shadow:0 0 0 7px rgba(6,79,50,.28);}100%{transform:scale(1);box-shadow:none;}}
+.iso-stats{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px;margin-bottom:14px;}
+.iso-stat{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.iso-stat-k{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.iso-stat-v{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text);}
+.iso-log{background:#0a0908;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--text3);max-height:160px;overflow:auto;}
+.iso-log .good{color:var(--green);}
+.iso-log .bad{color:var(--red);}
+.iso-log .muted{color:var(--text3);}
+@media (max-width: 760px){.mode-pick-grid,.iso-pad-grid,.iso-stats{grid-template-columns:1fr 1fr;}}
+
+/* SECTION LABEL */
+.sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:11px;}
+
+/* BARS */
+.bars-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.hit-ind{position:relative;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:none;}
+.hit-ind.flash{animation:hit-flash-don 0.45s ease-out forwards;}
+.col-ka_l .hit-ind.flash,.col-ka_r .hit-ind.flash{animation-name:hit-flash-ka;}
+@keyframes hit-flash-ka{
+  0%{filter:drop-shadow(0 0 18px var(--ka)) drop-shadow(0 0 6px var(--ka));}
+  100%{filter:none;}
+}
+@keyframes hit-flash-don{
+  0%{filter:drop-shadow(0 0 18px var(--don)) drop-shadow(0 0 6px var(--don));}
+  100%{filter:none;}
+}
+.hit-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text3);
+  height:18px;line-height:18px;text-align:center;min-width:40px;transition:color .15s;}
+.hit-val.lit{color:var(--text);}
+.drum-icon{width:86px;height:86px;flex-shrink:0;}
+.thr-row{display:flex;align-items:center;gap:6px;}
+.nudge{width:26px;height:26px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--f);line-height:1;padding:0;transition:all .15s;}
+.nudge:hover{background:var(--border2);color:var(--text);}
+.thr-val{font-family:var(--mono);font-size:13px;font-weight:700;min-width:32px;text-align:center;}
+.col-ka_l .thr-val,.col-ka_r .thr-val{color:var(--ka);}
+.col-don_l .thr-val,.col-don_r .thr-val{color:var(--don);}
+.pad-label{font-size:11px;font-weight:800;}
+.col-ka_l .pad-label,.col-ka_r .pad-label{color:var(--ka);}
+.col-don_l .pad-label,.col-don_r .pad-label{color:var(--don);}
+
+/* CALIBRATE CARD */
+.cal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;transition:border-color .3s;}
+.cal-card.recording{border-color:rgba(232,87,42,.45);}
+.cal-card.done{border-color:rgba(34,201,122,.45);}
+.cal-body{padding:20px;}
+.cal-title{font-size:17px;font-weight:900;margin-bottom:4px;}
+.cal-sub{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:17px;}
+.prog-wrap{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:14px;display:none;}
+.prog-wrap.vis{display:block;}
+.prog-fill{height:100%;width:0%;background:var(--don);border-radius:99px;transition:width .25s linear,background .5s;}
+.prog-fill.done{background:var(--green);}
+.hc-row{display:none;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.hc-row.vis{display:grid;}
+.hc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;transition:border-color .3s,background .3s;}
+.hc.active-pad{border-color:var(--don);background:rgba(232,87,42,0.10);box-shadow:0 0 0 2px rgba(232,87,42,0.18);}
+.hc.active-pad .hc-n{transform:scale(1.18);}
+.hc.ok{border-color:rgba(34,201,122,.4);background:var(--green-dim);}
+.hc-n{font-family:var(--mono);font-size:22px;font-weight:700;}
+.hc-n.ka{color:var(--ka);}.hc-n.don{color:var(--don);}
+.hc-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-top:2px;}
+.cal-status{font-size:13px;font-weight:700;color:var(--text2);min-height:18px;margin-bottom:12px;display:none;}
+.cal-status.vis{display:block;}
+.cal-status.go{color:var(--green);}
+.cal-status.warn{color:var(--amber);}
+.btn-start{width:100%;padding:13px;border-radius:10px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 4px 18px var(--don-glow);letter-spacing:.02em;}
+.btn-start:hover{background:#d04820;transform:translateY(-1px);}
+.btn-start.recording{background:#c0392b;color:#fff;box-shadow:0 4px 18px rgba(192,57,43,0.45);border:none;animation:pulse-red 1.2s infinite;}
+.btn-start.recording:hover{background:#a93226;transform:translateY(-1px);}
+@keyframes pulse-red{0%,100%{box-shadow:0 4px 18px rgba(192,57,43,0.45);}50%{box-shadow:0 4px 28px rgba(192,57,43,0.8);}}
+.btn-start.ready{background:var(--green);box-shadow:0 4px 18px var(--green-glow);}
+.btn-start.ready:hover{background:#1aaa66;}
+.results-box{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:17px;margin-top:15px;display:none;animation:fadeUp .35s ease;}
+.results-box.vis{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.results-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.result-item{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:7px;padding:10px 13px;border:1px solid var(--border);}
+.result-label{font-size:13px;font-weight:700;}
+.result-label.ka{color:var(--ka);}.result-label.don{color:var(--don);}
+.result-value{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);}
+
+/* ADVANCED DROPDOWN */
+.adv-toggle{display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--surface2);border-top:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:700;color:var(--text3);user-select:none;transition:color .2s;}
+.adv-toggle:hover{color:var(--text2);}
+.adv-chevron{margin-left:auto;font-size:10px;transition:transform .25s;}
+.adv-toggle.open .adv-chevron{transform:rotate(180deg);}
+.adv-panel{display:none;padding:20px;border-top:1px solid var(--border);background:var(--surface2);}
+.adv-panel.open{display:block;}
+.adv-section{margin-bottom:20px;}
+.adv-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:9px;}
+.adv-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;}
+.mini-btn{height:24px;padding:0 10px;border-radius:6px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;}
+.mini-btn.on{color:var(--green);border-color:rgba(27,190,128,.45);}
+.sug-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:4px;}
+.sug-table th{padding:5px 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);text-align:left;}
+.sug-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.sug-table tr:last-child td{border-bottom:none;}
+.sug-pad{font-weight:800;font-size:13px;}
+.sug-pad.don{color:var(--don);}.sug-pad.ka{color:var(--ka);}
+.sug-cur{font-family:var(--mono);color:var(--text3);}
+.sug-arrow{color:var(--border2);padding:0 4px;}
+.sug-new{font-family:var(--mono);font-weight:800;font-size:14px;}
+.sug-new.better{color:var(--green);}.sug-new.same{color:var(--text3);}.sug-new.worse{color:var(--red);}
+.conf-bar{display:inline-block;vertical-align:middle;width:60px;height:5px;border-radius:99px;background:var(--border2);margin-right:5px;}
+.conf-fill{height:100%;border-radius:99px;background:var(--green);}
+.sug-reason-txt{font-size:11px;color:var(--text3);}
+.sug-reason-txt.warn{color:var(--amber);}
+.mx-wrap{overflow-x:auto;}
+.mx{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:9px;overflow:hidden;width:max-content;min-width:100%;}
+.mc{background:var(--surface3);padding:9px 7px;font-size:12px;font-weight:700;text-align:center;font-family:var(--mono);}
+.mh{background:var(--surface2);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:7px 6px;font-family:var(--f);}
+.ml{background:var(--surface2);color:var(--text2);font-size:10px;font-weight:700;text-align:left;padding:9px 10px;font-family:var(--f);}
+.ms{background:var(--surface2);color:var(--border2);}
+.m-red{background:rgba(255,85,85,.12);color:var(--red);}
+.m-amb{background:rgba(240,160,48,.1);color:var(--amber);}
+.m-grn{background:rgba(34,201,122,.08);color:var(--green);}
+.mx-hint{font-size:11px;color:var(--text3);margin-top:8px;line-height:1.7;}
+.debug-log{background:#0a0908;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-family:var(--mono);font-size:11px;color:var(--text3);max-height:80px;overflow-y:auto;line-height:1.75;}
+.debug-log .hit{color:#c8956a;}
+.action-row{display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap;}
+.btn-save{padding:11px 22px;border-radius:9px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 3px 14px var(--don-glow);}
+.btn-save:hover{background:#d04820;}
+.btn-apply{padding:13px 22px;border-radius:9px;border:none;background:var(--green);color:#0f0e0d;font-family:var(--f);font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px var(--green-glow);}
+.btn-apply:hover{background:#1aaa66;transform:translateY(-1px);}
+.btn-disc{padding:10px 18px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-disc:hover{color:var(--text);border-color:var(--text3);}
+.btn-clear{padding:10px 18px;border-radius:9px;border:1px solid rgba(42,184,200,0.45);background:rgba(42,184,200,0.08);color:var(--ka);font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-clear:hover{background:rgba(42,184,200,0.16);border-color:rgba(42,184,200,0.7);color:#75d7e1;}
+.save-note{font-size:12px;font-weight:700;color:var(--text3);margin-left:auto;}
+.save-note.ok{color:var(--green);}.save-note.err{color:var(--red);}
+.live-pill{font-size:11px;font-weight:700;font-family:var(--mono);padding:6px 10px;border-radius:99px;border:1px solid var(--border2);background:var(--surface2);color:var(--text3);transition:all .18s;}
+.live-pill.on{color:var(--green);border-color:rgba(34,201,122,0.45);background:var(--green-dim);}
+.live-pill.sending{color:var(--ka);border-color:rgba(42,184,200,0.55);background:rgba(42,184,200,0.12);}
+.live-pill.err{color:var(--red);border-color:rgba(255,85,85,0.5);background:rgba(255,85,85,0.12);}
+.thresh-tools{display:flex;align-items:center;gap:10px;margin:-2px 0 12px 0;flex-wrap:wrap;}
+.btn-save-quick{padding:8px 12px;border-radius:8px;border:none;background:var(--don);color:#fff;font-family:var(--f);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 3px 10px var(--don-glow);}
+.btn-save-quick:hover{background:#d04820;}
+.btn-profile{padding:8px 12px;border-radius:8px;border:1px solid rgba(42,184,200,0.5);background:rgba(42,184,200,0.10);color:var(--ka);font-family:var(--f);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;}
+.btn-profile:hover{background:rgba(42,184,200,0.18);}
+.diag-grid{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px;margin:0 0 14px 0;}
+.diag-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.diag-k{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.diag-v{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text);}
+.diag-v.warn{color:var(--amber);}
+.diag-v.bad{color:var(--red);}
+.diag-v.good{color:var(--green);}
+/* Toast popup */
+#toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,0.45);z-index:9999;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;display:flex;align-items:center;gap:10px;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.ok .toast-icon{color:var(--green);}
+#toast.err .toast-icon{color:var(--red);}
+#toast.warn .toast-icon{color:#f0a500;}
+.toast-icon{font-size:18px;line-height:1;}
+
+/* CALIBRATION WIZARD MODAL */
+#cal-wiz{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:10001;display:none;align-items:center;justify-content:center;}
+#cal-wiz.show{display:flex;}
+#wiz-content{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:44px 42px 34px;max-width:660px;width:97%;box-shadow:0 24px 64px rgba(0,0,0,0.8);}
+.wiz-pips{display:flex;gap:6px;margin-bottom:20px;}
+.wiz-pip{height:5px;border-radius:99px;background:var(--surface3);flex:1;transition:all .3s;}
+.wiz-pip.done{background:var(--green);}
+.wiz-pip.active-ka{background:var(--ka);}
+.wiz-pip.active-don{background:var(--don);}
+.wiz-pip.active-mix{background:var(--amber);}
+.wiz-step-num{font-size:15px;font-weight:800;text-transform:uppercase;color:var(--text3);letter-spacing:.1em;margin-bottom:5px;}
+.wiz-title{font-size:34px;font-weight:900;margin-bottom:12px;}
+.wiz-title.ka{color:var(--ka);}.wiz-title.don{color:var(--don);}.wiz-title.mix{color:var(--amber);}.wiz-title.complete{color:var(--green);}
+.wiz-instr{font-size:19px;color:var(--text2);line-height:1.65;margin-bottom:22px;}
+.wiz-timer-bg{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:18px;}
+.wiz-timer-fill{height:100%;width:0%;border-radius:99px;background:var(--don);transition:width .2s linear;}
+.wiz-timer-fill.ka{background:var(--ka);}.wiz-timer-fill.mix{background:var(--amber);}.wiz-timer-fill.complete{background:var(--green)!important;}
+.wiz-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.wiz-stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;}
+.wiz-stat-val{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--text);line-height:1;}
+.wiz-stat-val.ka{color:var(--ka);}.wiz-stat-val.don{color:var(--don);}.wiz-stat-val.ok{color:var(--green)!important;}
+.wiz-stat-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-top:5px;}
+.wiz-status-msg{font-size:16px;font-weight:700;text-align:center;min-height:20px;margin-bottom:18px;color:var(--text3);}
+.wiz-status-msg.ready{color:var(--green);}
+.wiz-substeps{display:flex;gap:10px;margin-bottom:22px;justify-content:center;}
+.wiz-substep{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.wiz-substep-dot{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--text3);transition:all .25s;}
+.wiz-substep-dot.active{border-color:currentColor;}
+.wiz-substep-dot.active.don{color:var(--don);background:var(--don-dim);}
+.wiz-substep-dot.active.ka{color:var(--ka);background:var(--ka-dim);}
+.wiz-substep-dot.done{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.wiz-substep-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.wiz-big-prompt{font-size:26px;font-weight:900;text-align:center;margin-bottom:8px;}
+.wiz-sub-hint{font-size:17px;color:var(--text2);text-align:center;margin-bottom:22px;line-height:1.5;}
+.wiz-hit-flash{font-family:var(--mono);font-size:52px;font-weight:700;text-align:center;margin-bottom:8px;transition:opacity .3s;}
+.btn-wiz-primary{width:100%;padding:20px;border-radius:11px;border:none;font-family:var(--f);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;background:var(--surface2);color:var(--text3);}
+.btn-wiz-primary.go-don{background:var(--don);color:#fff;box-shadow:0 4px 18px var(--don-glow);}
+.btn-wiz-primary.go-ka{background:var(--ka);color:#fff;box-shadow:0 4px 18px var(--ka-glow);}
+.btn-wiz-primary.go-mix{background:var(--amber);color:#0f0e0d;}
+.btn-wiz-primary.go-save{background:var(--green);color:#0f0e0d;box-shadow:0 4px 18px var(--green-glow);animation:wiz-pulse 1.5s infinite;}
+.btn-wiz-primary:disabled{opacity:0.4;cursor:not-allowed;animation:none!important;}
+.btn-wiz-primary.ready{background:var(--green);color:#0f0e0d;box-shadow:0 4px 18px var(--green-glow);animation:wiz-pulse 1.5s infinite;}
+@keyframes wiz-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.02);box-shadow:0 0 22px var(--green-glow);}}
+.wiz-cancel{display:block;text-align:center;margin-top:14px;font-size:12px;color:var(--text3);cursor:pointer;text-decoration:none;}
+.wiz-cancel:hover{color:var(--red);}
+.wiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 20px;}
+.wiz-grid-item{background:var(--surface2);border:1px solid var(--border);padding:11px 13px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;}
+.wiz-grid-val{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--green);}
+
+/* GUIDED TEST SUITE MODAL */
+#test-suite{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:10002;display:none;align-items:center;justify-content:center;}
+#test-suite.show{display:flex;}
+#test-suite-content{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:28px 24px;max-width:720px;width:min(96%,720px);max-height:88vh;overflow:auto;box-shadow:0 24px 64px rgba(0,0,0,0.8);}
+.ts-k{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.ts-title{font-size:28px;font-weight:900;margin-bottom:8px;line-height:1.15;}
+.ts-sub{font-size:16px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+.ts-step{font-size:24px;font-weight:900;color:var(--don);margin-bottom:6px;line-height:1.15;}
+.ts-instr{font-size:18px;font-weight:800;margin-bottom:8px;line-height:1.5;}
+.ts-time{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--green);margin-bottom:16px;}
+.ts-pad-wrap{display:flex;justify-content:center;margin:10px 0 16px 0;}
+.ts-pad-svg{width:92px;height:92px;filter:drop-shadow(0 0 12px rgba(0,0,0,0.4));}
+.ts-live-box{margin:12px 0 14px 0;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--border);}
+.ts-live-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:10px;}
+.ts-live-stat{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;}
+.ts-live-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px;}
+.ts-live-value{font-size:24px;font-weight:900;line-height:1;}
+.ts-live-status{font-size:14px;color:var(--text2);min-height:22px;}
+.ts-live-status.ok{color:var(--green);}
+.ts-live-status.warn{color:var(--amber);}
+.ts-live-status.err{color:var(--don);}
+.ts-live-box.flash{box-shadow:0 0 0 1px rgba(245,94,40,.55), 0 0 18px rgba(245,94,40,.25);}
+.ts-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.ts-btn{padding:14px 18px;border-radius:9px;border:none;background:var(--don);color:#fff;font-weight:800;cursor:pointer;font-size:16px;}
+.ts-btn.alt{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);}
+
+/* -- BUTTON TESTER -------------------------------------- */
+.bt-status{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.bt-dot{width:10px;height:10px;border-radius:50%;background:var(--text3);flex-shrink:0;}
+.bt-dot.on{background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.4s infinite;}
+.bt-msg{font-size:13px;color:var(--text2);}
+.bt-msg strong{color:var(--text);}
+.bt-mode-badge{margin-left:auto;font-size:11px;font-weight:700;font-family:var(--mono);color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px 10px;}
+.bt-mode-badge.on{color:var(--don);border-color:var(--don-dim);background:var(--don-dim);}
+
+/* -- PCB BOARD LAYOUT ------------------------------------ */
+.controller{margin-bottom:14px;}
+.pcb{
+  background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  padding:20px 16px;
+  display:grid;
+  grid-template-columns:1fr 168px 1fr;
+  gap:10px;
+  align-items:center;
+}
+
+/* Left / right panels */
+.pcb-half{display:flex;flex-direction:column;gap:11px;}
+.pcb-half.right{align-items:flex-end;}
+
+/* Shoulder pair row */
+.sh-pair{display:flex;gap:7px;}
+.sh-pair.right{justify-content:flex-end;}
+
+/* Generic button */
+.nb{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default;}
+.nb-cap{
+  border-radius:8px;background:var(--surface2);border:2px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:var(--text3);letter-spacing:.02em;
+  transition:background .08s,border-color .08s,color .08s,box-shadow .08s;
+  font-family:var(--f);
+}
+.nb-lbl{font-size:8px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+/* sizes */
+.nb.sz-md .nb-cap{width:40px;height:40px;font-size:10px;}
+.nb.sz-sh .nb-cap{width:52px;height:26px;border-radius:6px;font-size:10px;}
+.nb.sz-sm .nb-cap{width:32px;height:28px;border-radius:6px;font-size:9px;}
+/* active colours */
+.nb.active-don .nb-cap{background:var(--don-dim);border-color:var(--don);color:var(--don);box-shadow:0 0 14px var(--don-glow);}
+.nb.active-ka  .nb-cap{background:var(--ka-dim); border-color:var(--ka); color:var(--ka); box-shadow:0 0 14px var(--ka-glow);}
+.nb.active-grn .nb-cap{background:var(--green-dim);border-color:var(--green);color:var(--green);box-shadow:0 0 14px var(--green-glow);}
+
+/* D-Pad */
+.dpad{display:grid;grid-template-columns:40px 40px 40px;grid-template-rows:40px 40px 40px;gap:3px;}
+.dp{
+  background:var(--surface2);border:2px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--text3);transition:all .08s;
+}
+.dp.up{border-radius:8px 8px 2px 2px;grid-column:2;grid-row:1;}
+.dp.left{border-radius:8px 2px 2px 8px;grid-column:1;grid-row:2;}
+.dp.cx{border-radius:3px;grid-column:2;grid-row:2;background:var(--surface3);}
+.dp.right{border-radius:2px 8px 8px 2px;grid-column:3;grid-row:2;}
+.dp.down{border-radius:2px 2px 8px 8px;grid-column:2;grid-row:3;}
+.dp.active{background:var(--ka-dim);border-color:var(--ka);color:var(--ka);box-shadow:0 0 10px var(--ka-glow);}
+
+/* Face buttons */
+.face{display:grid;grid-template-columns:40px 40px 40px;grid-template-rows:40px 40px 40px;gap:3px;}
+.fc{
+  background:var(--surface2);border:2px solid var(--border2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--text3);transition:all .08s;font-family:var(--f);
+}
+.fc.north{grid-column:2;grid-row:1;}
+.fc.west {grid-column:1;grid-row:2;}
+.fc.blank{grid-column:2;grid-row:2;background:transparent;border-color:transparent;}
+.fc.east {grid-column:3;grid-row:2;}
+.fc.south{grid-column:2;grid-row:3;}
+.fc.active{background:var(--don-dim);border-color:var(--don);color:var(--don);box-shadow:0 0 10px var(--don-glow);}
+
+/* PCB center column */
+.pcb-center{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.oled-mock{
+  width:134px;height:70px;background:#04080c;border:2px solid #1a3a4a;
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px rgba(42,184,200,.15);
+}
+.oled-inner{
+  width:118px;height:56px;background:#050e14;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;
+}
+.oled-txt{font-family:var(--mono);font-size:8px;color:#2ab8c8;opacity:.5;text-transform:uppercase;letter-spacing:.08em;}
+
+/* Drum pads */
+.drum-row{display:flex;justify-content:center;gap:8px;}
+.drum-pad{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.drum-pad-icon{width:44px;height:44px;flex-shrink:0;}
+.drum-pad-lbl{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);}
+.drum-pad.ka-active .drum-pad-lbl{color:var(--ka);}
+.drum-pad.don-active .drum-pad-lbl{color:var(--don);}
+
+/* Info bar */
+.bt-info{font-size:11px;color:var(--text3);text-align:center;margin-top:4px;line-height:1.7;}
+.bt-tip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.8;}
+.bt-tip b{color:var(--text);}
+.bt-tip code{font-family:var(--mono);font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:4px;color:var(--ka);}
+</style>
+</head>
+<body>
+<div id="toast"><span class="toast-icon"></span><span id="toast-msg"></span></div>
+
+<!-- CALIBRATION WIZARD MODAL -->
+<div id="cal-wiz">
+  <div id="wiz-content"></div>
+</div>
+<div id="test-suite">
+  <div id="test-suite-content"></div>
+</div>
+
+<header>
+  <div class="logo">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="12" fill="#1a1816" stroke="#3d3a36" stroke-width="1"/>
+      <circle cx="13" cy="13" r="12" fill="none" stroke="#2ab8c8" stroke-width="5"/>
+      <circle cx="13" cy="13" r="7" fill="#e8572a" opacity=".9"/>
+      <circle cx="13" cy="13" r="3" fill="#ff7a50"/>
+    </svg>
+    <span class="logo-text">Ouchi<span>Taiko</span> Live Calibrate</span>
+  </div>
+  <div class="header-right">
+    <div class="conn-pill" id="pill"><div class="conn-dot"></div><span id="pill-txt">Not connected</span></div>
+  </div>
+</header>
+
+<nav>
+  <button class="tab on" data-tab="cal">Live Calibrate</button>
+  <button class="tab" data-tab="btn">Button Tester</button>
+</nav>
+
+<!-- -- CALIBRATE PAGE -- -->
+<div class="pg on" id="pg-cal">
+  <div class="splash" id="sp-cal">
+    <svg width="90" height="90" viewBox="0 0 90 90" fill="none" style="margin:0 auto 20px;display:block">
+      <circle cx="45" cy="45" r="43" fill="#1a1816" stroke="#2e2b28" stroke-width="2"/>
+      <circle cx="45" cy="45" r="43" fill="none" stroke="#2ab8c8" stroke-width="13"/>
+      <circle cx="45" cy="45" r="29" fill="#e8572a" opacity=".2"/>
+      <circle cx="45" cy="45" r="20" fill="#e8572a" opacity=".75"/>
+      <circle cx="45" cy="45" r="8"  fill="#ff7a50"/>
+    </svg>
+    <h2>Connect your drum in Debug/Calibrate mode</h2>
+    <p>Set your drum to <strong>Calibrate/Debug</strong> USB mode using the on-device menu.<br>
+    Plug in via USB, then click Connect.<br>
+    <strong>Requires Chrome or Edge.</strong></p>
+    <button class="btn-connect" onclick="connectSerial()">Connect Serial Port</button>
+    <div class="conn-err" id="conn-err"></div>
+  </div>
+
+  <div id="cal-body" style="display:none">
+    <div class="mode-home on" id="mode-home">
+      <div class="sec">Choose Mode</div>
+      <div class="mode-pick-grid">
+        <button class="mode-pick" onclick="openMode('live')">
+          <span class="accent">Thresholds</span>
+          <h3>Live Calibrate</h3>
+          <p>Live thresholds, signal trace, lane validation, and guided calibration.</p>
+        </button>
+        <button class="mode-pick" onclick="openMode('isolation')">
+          <span class="accent">Crosstalk</span>
+          <h3>Pad Isolation Test</h3>
+          <p>Sticky green/red result view for finding which extra pad leaks when you strike hard.</p>
+        </button>
+        <button class="mode-pick" onclick="activateTab('btn')">
+          <span class="accent">Buttons</span>
+          <h3>Button Tester</h3>
+          <p>Jump to the browser gamepad tester to confirm non-debug gamepad mappings.</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="mode-shell" id="mode-shell">
+      <div class="mode-strip">
+        <button class="mode-btn" id="mode-btn-live" onclick="openMode('live')">Live Calibrate</button>
+        <button class="mode-btn" id="mode-btn-isolation" onclick="openMode('isolation')">Pad Isolation Test</button>
+        <button class="mode-btn mode-back" onclick="openModeHome()">Mode Home</button>
+      </div>
+
+      <div class="mode-panel on" id="mode-panel-live">
+    <div class="sec">Live Signal and Hit Lane</div>
+    <div class="thresh-tools">
+      <span class="live-pill" id="live-pill">Live Apply: Off</span>
+      <button class="btn-save-quick" onclick="saveThresholds()">Save to Drum</button>
+      <button class="btn-profile" onclick="applyReleaseBaseline()">Load Release Baseline</button>
+    </div>
+    <div class="bars-row">
+      <div class="bar-col col-ka_l">
+        <div class="hit-val" id="val-ka_l"></div>
+        <div class="hit-ind" id="hi-ka_l"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-kal"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="32" fill="none" stroke="#2ab8c8" stroke-width="14" clip-path="url(#c-kal)"/>
+        </svg></div>
+        <div class="thr-row">
+          <button class="nudge" data-p="ka_l" data-d="-1">-</button>
+          <span class="thr-val" id="tv-ka_l">200</span>
+          <button class="nudge" data-p="ka_l" data-d="+1">+</button>
+        </div>
+        <div class="pad-label">Ka Left</div>
+      </div>
+      <div class="bar-col col-don_l">
+        <div class="hit-val" id="val-don_l"></div>
+        <div class="hit-ind" id="hi-don_l"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donl"><rect x="0" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donl)"/>
+        </svg></div>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_l" data-d="-1">-</button>
+          <span class="thr-val" id="tv-don_l">175</span>
+          <button class="nudge" data-p="don_l" data-d="+1">+</button>
+        </div>
+        <div class="pad-label">Don Left</div>
+      </div>
+      <div class="bar-col col-don_r">
+        <div class="hit-val" id="val-don_r"></div>
+        <div class="hit-ind" id="hi-don_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-donr"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="27" fill="#e8572a" clip-path="url(#c-donr)"/>
+        </svg></div>
+        <div class="thr-row">
+          <button class="nudge" data-p="don_r" data-d="-1">-</button>
+          <span class="thr-val" id="tv-don_r">175</span>
+          <button class="nudge" data-p="don_r" data-d="+1">+</button>
+        </div>
+        <div class="pad-label">Don Right</div>
+      </div>
+      <div class="bar-col col-ka_r">
+        <div class="hit-val" id="val-ka_r"></div>
+        <div class="hit-ind" id="hi-ka_r"><svg class="drum-icon" viewBox="0 0 86 86" fill="none">
+          <defs><clipPath id="c-kar"><rect x="43" y="0" width="43" height="86"/></clipPath></defs>
+          <circle cx="43" cy="43" r="41" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1.5"/>
+          <circle cx="43" cy="43" r="32" fill="none" stroke="#2ab8c8" stroke-width="14" clip-path="url(#c-kar)"/>
+        </svg></div>
+        <div class="thr-row">
+          <button class="nudge" data-p="ka_r" data-d="-1">-</button>
+          <span class="thr-val" id="tv-ka_r">200</span>
+          <button class="nudge" data-p="ka_r" data-d="+1">+</button>
+        </div>
+        <div class="pad-label">Ka Right</div>
+      </div>
+    </div>
+    <div class="sec" style="margin-top:6px">Hit Scope <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">- fast 4-lane hit timeline. Each dot is one accepted hit; double hits appear as stacked or closely-spaced dots.</span></div>
+    <canvas id="scope-cv" style="width:100%;height:148px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);display:block;margin-bottom:22px;"></canvas>
+    <div class="sec" style="margin-top:-4px">Live Accuracy Diagnostics</div>
+    <div class="diag-grid">
+      <div class="diag-card"><div class="diag-k">Total Hits</div><div class="diag-v good" id="diag-total-hits">0</div></div>
+      <div class="diag-card"><div class="diag-k">Ka L / Don L</div><div class="diag-v" id="diag-left-pair">0 / 0</div></div>
+      <div class="diag-card"><div class="diag-k">Don R / Ka R</div><div class="diag-v" id="diag-right-pair">0 / 0</div></div>
+      <div class="diag-card"><div class="diag-k">Cross-Blocked</div><div class="diag-v warn" id="diag-cross-blocked">0</div></div>
+      <div class="diag-card"><div class="diag-k">Arb-Blocked</div><div class="diag-v warn" id="diag-arb-blocked">0</div></div>
+      <div class="diag-card"><div class="diag-k">Held-High Suppress</div><div class="diag-v bad" id="diag-held-suppress">0</div></div>
+      <div class="diag-card"><div class="diag-k">Last Event</div><div class="diag-v" id="diag-last-event">-</div></div>
+      <div class="diag-card"><div class="diag-k">Interpretation</div><div class="diag-v" id="diag-summary">Stable</div></div>
+      <div class="diag-card"><div class="diag-k">Hits / Sec</div><div class="diag-v good" id="diag-hits-per-sec">0.0</div></div>
+      <div class="diag-card"><div class="diag-k">Peak Hits / Sec</div><div class="diag-v good" id="diag-peak-hits-per-sec">0.0</div></div>
+    </div>
+
+    <div class="sec">Auto-Calibrate</div>
+    <div class="cal-card" id="cal-card">
+      <div class="cal-body">
+        <div class="cal-title">Calibrate Thresholds</div>
+        <div class="cal-sub" id="cal-sub">Deep auto-calibration (about 3 minutes) — repetitive high-speed and stress passes for each pad to maximize out-of-box reliability. Click Start Calibration to begin.</div>
+        <div class="prog-wrap" id="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+        <div class="hc-row" id="hc-row">
+          <div class="hc" id="hc-ka_l"><div class="hc-n ka" id="hcn-ka_l">0</div><div class="hc-lbl">Ka Left</div></div>
+          <div class="hc" id="hc-don_l"><div class="hc-n don" id="hcn-don_l">0</div><div class="hc-lbl">Don Left</div></div>
+          <div class="hc" id="hc-don_r"><div class="hc-n don" id="hcn-don_r">0</div><div class="hc-lbl">Don Right</div></div>
+          <div class="hc" id="hc-ka_r"><div class="hc-n ka" id="hcn-ka_r">0</div><div class="hc-lbl">Ka Right</div></div>
+        </div>
+        <div class="cal-status" id="cal-status"></div>
+        <button class="btn-start" id="btn-start" onclick="toggleCal()">Start Calibration</button>
+        <div class="results-box" id="results-box">
+          <div class="results-title">Suggested Thresholds</div>
+          <div class="results-grid">
+            <div class="result-item"><span class="result-label ka">Ka Left</span><span class="result-value" id="res-ka_l">—</span></div>
+            <div class="result-item"><span class="result-label ka">Ka Right</span><span class="result-value" id="res-ka_r">—</span></div>
+            <div class="result-item"><span class="result-label don">Don Left</span><span class="result-value" id="res-don_l">—</span></div>
+            <div class="result-item"><span class="result-label don">Don Right</span><span class="result-value" id="res-don_r">—</span></div>
+          </div>
+          <button class="btn-apply" id="btn-apply" onclick="applyAndSave()" style="display:none;width:100%;margin-top:14px;">Apply &amp; Save to Drum</button>
+        </div>
+      </div>
+      <div class="adv-toggle" id="adv-toggle" onclick="toggleAdv()">
+        <span>? Advanced — confidence levels, crosstalk matrix &amp; debug log</span>
+        <span class="adv-chevron">?</span>
+      </div>
+      <div class="adv-panel" id="adv-panel">
+        <div class="adv-section" id="adv-sug-section" style="display:none">
+          <div class="adv-label">Threshold Analysis</div>
+          <table class="sug-table">
+            <thead><tr><th>Pad</th><th>Current</th><th></th><th>Suggested</th><th>Confidence</th><th>Reason</th></tr></thead>
+            <tbody id="sug-tbody"></tbody>
+          </table>
+        </div>
+        <div class="adv-section">
+          <div class="adv-label">Crosstalk Matrix</div>
+          <div class="mx-wrap"><div class="mx" id="mx" style="grid-template-columns:64px repeat(4,1fr)"></div></div>
+          <div class="mx-hint">Columns = pad hit · Rows = bleed onto · <span style="color:var(--red);font-weight:700">Red</span> = above threshold · <span style="color:var(--amber);font-weight:700">Amber</span> = close · <span style="color:var(--green);font-weight:700">Green</span> = fine</div>
+        </div>
+        <div class="adv-section" style="margin-bottom:0">
+          <div class="adv-label-row">
+            <div class="adv-label" style="margin-bottom:0">Serial Log</div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="mini-btn" id="btn-hit5" onclick="hitFiveCapture()">Hit 5 Times</button>
+              <button class="mini-btn" id="btn-lane-validation" onclick="openLaneValidationSuite()">Lane Validation</button>
+              <button class="mini-btn" id="btn-guided-tests" onclick="openGuidedSuite()">Guided Test Suite</button>
+              <button class="mini-btn" id="btn-log-copy" onclick="copyLog()">Copy Log</button>
+              <button class="mini-btn" id="btn-log-pause" onclick="toggleLogPause()">Pause Log</button>
+            </div>
+          </div>
+          <div class="debug-log" id="debug-log"><span>Waiting for hits…</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-save" onclick="saveThresholds()">Save to Drum</button>
+      <button class="btn-clear" onclick="clearRealTimeData()">Clear Real-Time Hit Data</button>
+      <button class="btn-disc" onclick="disconnect()">Disconnect</button>
+      <span class="save-note" id="save-note"></span>
+    </div>
+      </div>
+
+      <div class="mode-panel" id="mode-panel-isolation">
+        <div class="iso-card">
+          <div class="iso-title">Sticky Pad Isolation Test</div>
+          <div class="iso-sub">Strike any pad firmly. A clean hit flashes <span style="color:var(--green);font-weight:800">green</span> and clears automatically. If any extra pad triggers, the intended pad stays green and the extra pad sticks <span style="color:var(--red);font-weight:800">red</span> until Reset.</div>
+          <div class="iso-actions">
+            <button class="btn-clear" onclick="resetIsolationTest()">Reset Sticky Result</button>
+            <button class="btn-disc" onclick="copyIsolationSummary()">Copy Summary</button>
+            <span class="iso-state" id="iso-state">Live. Strike any pad.</span>
+          </div>
+          <div class="iso-pad-grid">
+            <div class="iso-pad idle" id="iso-pad-ka_l"><svg viewBox="0 0 44 44" fill="none"><defs><clipPath id="iso-kal"><rect x="0" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/><circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#iso-kal)"/></svg><div class="iso-pad-name">KA LEFT</div></div>
+            <div class="iso-pad idle" id="iso-pad-don_l"><svg viewBox="0 0 44 44" fill="none"><defs><clipPath id="iso-donl"><rect x="22" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/><circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#iso-donl)"/></svg><div class="iso-pad-name">DON LEFT</div></div>
+            <div class="iso-pad idle" id="iso-pad-don_r"><svg viewBox="0 0 44 44" fill="none"><defs><clipPath id="iso-donr"><rect x="0" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/><circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#iso-donr)"/></svg><div class="iso-pad-name">DON RIGHT</div></div>
+            <div class="iso-pad idle" id="iso-pad-ka_r"><svg viewBox="0 0 44 44" fill="none"><defs><clipPath id="iso-kar"><rect x="22" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/><circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#iso-kar)"/></svg><div class="iso-pad-name">KA RIGHT</div></div>
+          </div>
+          <div class="iso-stats">
+            <div class="iso-stat"><div class="iso-stat-k">Strikes</div><div class="iso-stat-v" id="iso-strikes">0</div></div>
+            <div class="iso-stat"><div class="iso-stat-k">Clean</div><div class="iso-stat-v" id="iso-clean">0</div></div>
+            <div class="iso-stat"><div class="iso-stat-k">Doubles</div><div class="iso-stat-v" id="iso-doubles">0</div></div>
+            <div class="iso-stat"><div class="iso-stat-k">Last Pair</div><div class="iso-stat-v" id="iso-last">-</div></div>
+          </div>
+          <div class="iso-log" id="iso-log"><span class="muted">Strike a pad. Clean hits clear automatically; red bleed pads stay sticky until Reset.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -- BUTTON TESTER PAGE -- -->
+<div class="pg" id="pg-btn">
+
+  <!-- Status bar -->
+  <div class="bt-status">
+    <div class="bt-dot" id="bt-dot"></div>
+    <div class="bt-msg" id="bt-msg">Switch your drum to any <strong>non-Debug</strong> mode, then press any button to detect it.</div>
+    <div class="bt-mode-badge" id="bt-mode-badge">No gamepad</div>
+  </div>
+
+  <!-- PCB-matched controller layout -->
+  <div class="controller">
+  <div class="pcb">
+
+    <!-- -- LEFT HALF -- -->
+    <div class="pcb-half left">
+
+      <!-- Row 1: L + SHARE shoulders -->
+      <div class="sh-pair">
+        <div class="nb sz-sh" id="nb-l">
+          <div class="nb-cap">L</div>
+          <div class="nb-lbl">L</div>
+        </div>
+        <div class="nb sz-sh" id="nb-share">
+          <div class="nb-cap">Share</div>
+          <div class="nb-lbl">Share</div>
+        </div>
+      </div>
+
+      <!-- Row 2: D-Pad -->
+      <div class="dpad">
+        <div class="dp up"    id="dp-up">?</div>
+        <div class="dp left"  id="dp-left">?</div>
+        <div class="dp cx"></div>
+        <div class="dp right" id="dp-right">?</div>
+        <div class="dp down"  id="dp-down">?</div>
+      </div>
+
+      <!-- Row 3: SELECT -->
+      <div class="nb sz-md" id="nb-select">
+        <div class="nb-cap">-</div>
+        <div class="nb-lbl">Select</div>
+      </div>
+
+    </div><!-- /left -->
+
+    <!-- -- CENTER -- -->
+    <div class="pcb-center">
+
+      <!-- OLED mock -->
+      <div class="oled-mock">
+        <div class="oled-inner">
+          <div class="oled-txt">OuchiTaiko</div>
+          <div class="oled-txt" style="opacity:.3">? ? ? ?</div>
+        </div>
+      </div>
+
+      <!-- Drum pads -->
+      <div class="drum-row">
+        <div class="drum-pad" id="pad-ka_l">
+          <svg class="drum-pad-icon" viewBox="0 0 44 44" fill="none">
+            <defs><clipPath id="pd-kal"><rect x="0" y="0" width="22" height="44"/></clipPath></defs>
+            <circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/>
+            <circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#pd-kal)"/>
+          </svg>
+          <div class="drum-pad-lbl">Ka L</div>
+        </div>
+        <div class="drum-pad" id="pad-don_l">
+          <svg class="drum-pad-icon" viewBox="0 0 44 44" fill="none">
+            <defs><clipPath id="pd-donl"><rect x="22" y="0" width="22" height="44"/></clipPath></defs>
+            <circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/>
+            <circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#pd-donl)"/>
+          </svg>
+          <div class="drum-pad-lbl">Don L</div>
+        </div>
+        <div class="drum-pad" id="pad-don_r">
+          <svg class="drum-pad-icon" viewBox="0 0 44 44" fill="none">
+            <defs><clipPath id="pd-donr"><rect x="0" y="0" width="22" height="44"/></clipPath></defs>
+            <circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/>
+            <circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#pd-donr)"/>
+          </svg>
+          <div class="drum-pad-lbl">Don R</div>
+        </div>
+        <div class="drum-pad" id="pad-ka_r">
+          <svg class="drum-pad-icon" viewBox="0 0 44 44" fill="none">
+            <defs><clipPath id="pd-kar"><rect x="22" y="0" width="22" height="44"/></clipPath></defs>
+            <circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#2e2b28" stroke-width="1"/>
+            <circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#pd-kar)"/>
+          </svg>
+          <div class="drum-pad-lbl">Ka R</div>
+        </div>
+      </div>
+
+      <!-- Home -->
+      <div class="nb sz-sm" id="nb-home">
+        <div class="nb-cap">¦</div>
+        <div class="nb-lbl">Home</div>
+      </div>
+
+    </div><!-- /center -->
+
+    <!-- -- RIGHT HALF -- -->
+    <div class="pcb-half right">
+
+      <!-- Row 1: HOME + R shoulders -->
+      <div class="sh-pair right">
+        <div class="nb sz-sh" id="nb-start">
+          <div class="nb-cap">+</div>
+          <div class="nb-lbl">Start</div>
+        </div>
+        <div class="nb sz-sh" id="nb-r">
+          <div class="nb-cap">R</div>
+          <div class="nb-lbl">R</div>
+        </div>
+      </div>
+
+      <!-- Row 2: Face buttons diamond -->
+      <div class="face">
+        <div class="fc north" id="fc-north">X</div>
+        <div class="fc west"  id="fc-west">Y</div>
+        <div class="fc blank"></div>
+        <div class="fc east"  id="fc-east">A</div>
+        <div class="fc south" id="fc-south">B</div>
+      </div>
+
+      <!-- Row 3: START (aligned right) -->
+      <div style="display:flex;justify-content:flex-end">
+        <div class="nb sz-md" id="nb-home-dummy" style="display:none"></div>
+      </div>
+
+    </div><!-- /right -->
+
+  </div><!-- /pcb -->
+  <div class="bt-info" id="bt-info">Switch to a gamepad mode (e.g. Switch Tatacon) and press any button</div>
+  </div><!-- /controller -->
+
+  <div class="sec" style="margin-top:6px">Gamepad Hit Scope <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">— logical button hits detected through the browser Gamepad API.</span></div>
+  <canvas id="scope-gp-cv" style="width:100%;height:76px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);display:block;margin-bottom:22px;"></canvas>
+
+  <div class="bt-tip">
+    <b>How to use:</b> Switch your drum out of Debug/Calibrate mode into any gamepad mode (Switch Tatacon, PS4, XInput, etc.).<br>
+    Plug in via USB — it appears as a gamepad. Press any button and it lights up above matching your actual PCB.<br><br>
+    <b>Drum hits:</b> <span style="color:var(--ka)">Ka</span> pads = ZL/ZR · <span style="color:var(--don)">Don</span> pads = L3/R3 in Switch Tatacon mode ·
+    Face: <code>X=North</code> <code>B=South</code> <code>Y=West</code> <code>A=East</code>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+const PADS   = ['ka_l','don_l','don_r','ka_r'];
+const SH     = {ka_l:'Ka L', don_l:'Don L', don_r:'Don R', ka_r:'Ka R'};
+const LABELS = {ka_l:'Ka Left', don_l:'Don Left', don_r:'Don Right', ka_r:'Ka Right'};
+const DECAY  = 0.82;
+const MIN_HIT = 30;
+const PAD_COLOR = {ka_l:'#2ab8c8', don_l:'#e8572a', don_r:'#e8572a', ka_r:'#2ab8c8'};
+
+const CROSS_COOLDOWN = 80; // ms — after Don fires, Ka is suppressed and vice versa
+const UI = { mode:'home' };
+const ISO_CAPTURE_MS = 120;
+const ISO_CLEAN_FLASH_MS = 520;
+const ISO = {
+  winner:null,
+  bleed:[],
+  timer:null,
+  strikes:0,
+  clean:0,
+  doubles:0,
+  last:'-',
+  captureStart:0,
+};
+const S = {
+  port:null, reader:null, writer:null, connected:false,
+  pendingAck:false, ackTimeout:null,
+  liveApplyTimer:null,
+  fwEvtSeen:false,
+  prevHitMask:0,
+  prevCrossMask:0,
+  prevArbMask:0,
+  prevHeldMask:0,
+  // Release baseline start profile (stress-test tuned)
+  thr:{ka_l:200, don_l:105, don_r:105, ka_r:200},
+  pk:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  pv:{ka_l:false,don_l:false,don_r:false,ka_r:false},
+  lastZoneFire:{don:0, ka:0},
+  stats:{
+    totalHits:0,
+    perPad:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+    crossBlocked:0,
+    arbBlocked:0,
+    heldSuppress:0,
+    lastEvent:'-',
+    hitTimes:[],
+    hitsPerSec:0,
+    peakHitsPerSec:0,
+  },
+  xt:{}, msgCount:0, lastRateTime:Date.now(),
+};
+PADS.forEach(h=>{ S.xt[h]={}; PADS.forEach(v=>S.xt[h][v]=0); });
+
+function resetLiveDiagnostics(){
+  S.stats.totalHits=0;
+  S.stats.crossBlocked=0;
+  S.stats.arbBlocked=0;
+  S.stats.heldSuppress=0;
+  S.stats.lastEvent='-';
+  S.stats.hitTimes=[];
+  S.stats.hitsPerSec=0;
+  S.stats.peakHitsPerSec=0;
+  S.prevHitMask=0;
+  S.prevCrossMask=0;
+  S.prevArbMask=0;
+  S.prevHeldMask=0;
+  PADS.forEach(p=>{ S.stats.perPad[p]=0; });
+  renderLiveDiagnostics();
+}
+
+function renderLiveDiagnostics(){
+  const totalEl=document.getElementById('diag-total-hits');
+  const leftPairEl=document.getElementById('diag-left-pair');
+  const rightPairEl=document.getElementById('diag-right-pair');
+  const crossEl=document.getElementById('diag-cross-blocked');
+  const arbEl=document.getElementById('diag-arb-blocked');
+  const heldEl=document.getElementById('diag-held-suppress');
+  const lastEl=document.getElementById('diag-last-event');
+  const summaryEl=document.getElementById('diag-summary');
+  const hpsEl=document.getElementById('diag-hits-per-sec');
+  const peakHpsEl=document.getElementById('diag-peak-hits-per-sec');
+  if(!totalEl) return;
+
+  totalEl.textContent=String(S.stats.totalHits);
+  leftPairEl.textContent=`${S.stats.perPad.ka_l} / ${S.stats.perPad.don_l}`;
+  rightPairEl.textContent=`${S.stats.perPad.don_r} / ${S.stats.perPad.ka_r}`;
+  crossEl.textContent=String(S.stats.crossBlocked);
+  arbEl.textContent=String(S.stats.arbBlocked);
+  heldEl.textContent=String(S.stats.heldSuppress);
+  lastEl.textContent=S.stats.lastEvent;
+  if(hpsEl) hpsEl.textContent=S.stats.hitsPerSec.toFixed(1);
+  if(peakHpsEl) peakHpsEl.textContent=S.stats.peakHitsPerSec.toFixed(1);
+
+  const summary=getDiagnosticsSummaryLabel();
+  summaryEl.textContent=summary;
+}
+
+function getDiagnosticsSummaryLabel(){
+  if(S.stats.heldSuppress > 0 && S.stats.heldSuppress >= (S.stats.totalHits * 0.10)){
+    return 'Possible missed doubles';
+  }
+  if((S.stats.crossBlocked + S.stats.arbBlocked) > 0 &&
+     (S.stats.crossBlocked + S.stats.arbBlocked) >= (S.stats.totalHits * 0.15)){
+    return 'Crosstalk pressure high';
+  }
+  return 'Stable';
+}
+
+function clearRealTimeData(){
+  resetLiveDiagnostics();
+  PADS.forEach(h=>PADS.forEach(v=>{ S.xt[h][v]=0; }));
+  updateMx();
+  SC2.notes=[];
+  logLines=[];
+  requestLogRender();
+  toast('Real-time hit data cleared (thresholds unchanged)','ok');
+}
+
+function applyReleaseBaseline(){
+  S.thr.ka_l = 200;
+  S.thr.don_l = 105;
+  S.thr.don_r = 105;
+  S.thr.ka_r = 200;
+  syncAllThr();
+  updateMx();
+  queueLiveApply();
+  note('Release baseline loaded (live only). Click Save to Drum to keep it.','ok');
+  toast('Release baseline applied live','ok');
+}
+
+function setLivePill(state, text){
+  const el=document.getElementById('live-pill');
+  if(!el) return;
+  el.className='live-pill'+(state?(' '+state):'');
+  el.textContent=text;
+}
+
+const AC = {
+  active:false, phase:0, phaseStart:0,
+  HIT_COOLDOWN:80,
+  PHASE_MS:7000,   // ms per isolated pad phase
+  RANDOM_MS:6000,  // ms for random mix phase
+  padOrder:['ka_l','don_l','don_r','ka_r'],
+  lastHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  hitCount:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  maxHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  normalHit:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  minHit:{ka_l:9999,don_l:9999,don_r:9999,ka_r:9999},
+  subHitBuf:{ka_l:[],don_l:[],don_r:[],ka_r:[]},
+  maxCrosstalk:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+  simHitCount:0, _lastWrongWarn:0, _lastSimWarn:0,
+  suggestions:null, timer:null,
+};
+
+function openModeHome(){
+  UI.mode='home';
+  const home=document.getElementById('mode-home');
+  const shell=document.getElementById('mode-shell');
+  if(home) home.classList.add('on');
+  if(shell) shell.classList.remove('on');
+  document.getElementById('mode-btn-live')?.classList.remove('on');
+  document.getElementById('mode-btn-isolation')?.classList.remove('on');
+}
+
+function openMode(name){
+  UI.mode=name;
+  const home=document.getElementById('mode-home');
+  const shell=document.getElementById('mode-shell');
+  if(home) home.classList.remove('on');
+  if(shell) shell.classList.add('on');
+  document.querySelectorAll('.mode-panel').forEach(el=>el.classList.remove('on'));
+  document.getElementById('mode-panel-'+name)?.classList.add('on');
+  document.getElementById('mode-btn-live')?.classList.toggle('on', name==='live');
+  document.getElementById('mode-btn-isolation')?.classList.toggle('on', name==='isolation');
+  if(name==='isolation') renderIsolation();
+  if(name==='live') requestAnimationFrame(sizeAllScopes);
+}
+
+function resetIsolationVisuals(){
+  PADS.forEach(p=>{
+    const el=document.getElementById('iso-pad-'+p);
+    if(el) el.className='iso-pad idle';
+  });
+}
+
+function renderIsolation(){
+  resetIsolationVisuals();
+  if(ISO.winner){
+    const winnerEl=document.getElementById('iso-pad-'+ISO.winner);
+    if(winnerEl) winnerEl.className='iso-pad primary';
+  }
+  ISO.bleed.forEach(p=>{
+    const el=document.getElementById('iso-pad-'+p);
+    if(el) el.className='iso-pad secondary';
+  });
+  const stateEl=document.getElementById('iso-state');
+  if(stateEl){
+    if(ISO.winner && ISO.bleed.length){
+      stateEl.textContent='Sticky crosstalk captured. Adjust thresholds, then Reset and hit again.';
+    }else if(ISO.winner){
+      stateEl.textContent='Clean hit.';
+    }else{
+      stateEl.textContent='Live. Strike any pad.';
+    }
+  }
+  document.getElementById('iso-strikes').textContent=String(ISO.strikes);
+  document.getElementById('iso-clean').textContent=String(ISO.clean);
+  document.getElementById('iso-doubles').textContent=String(ISO.doubles);
+  document.getElementById('iso-last').textContent=ISO.last;
+}
+
+function appendIsolationLog(html){
+  const log=document.getElementById('iso-log');
+  if(!log) return;
+  if(log.dataset.seeded !== '1'){
+    log.innerHTML='';
+    log.dataset.seeded='1';
+  }
+  const row=document.createElement('div');
+  row.innerHTML=html;
+  log.prepend(row);
+}
+
+function armIsolationTest(){
+  resetIsolationTest();
+}
+
+function resetIsolationTest(){
+  if(ISO.timer){ clearTimeout(ISO.timer); ISO.timer=null; }
+  ISO.winner=null;
+  ISO.bleed=[];
+  ISO.captureStart=0;
+  ISO.last='-';
+  renderIsolation();
+}
+
+function finalizeIsolationCapture(){
+  if(!ISO.winner) return;
+  if(ISO.bleed.length===0){
+    ISO.clean++;
+    ISO.last=SH[ISO.winner] || '-';
+    appendIsolationLog('<span class="good">Clean:</span> '+(SH[ISO.winner] || '-'));
+    const cleanWinner=ISO.winner;
+    const el=document.getElementById('iso-pad-'+cleanWinner);
+    if(el){ el.classList.add('flash'); }
+    ISO.timer=setTimeout(()=>{
+      ISO.timer=null;
+      ISO.winner=null;
+      ISO.bleed=[];
+      ISO.last='-';
+      renderIsolation();
+    }, ISO_CLEAN_FLASH_MS);
+  }else{
+    ISO.doubles++;
+    ISO.last=(SH[ISO.winner] || '-')+' -> '+ISO.bleed.map(p=>SH[p]).join(', ');
+    appendIsolationLog('<span class="bad">Bleed:</span> '+ISO.last);
+    ISO.timer=null;
+  }
+  renderIsolation();
+}
+
+function handleIsolationHit(hitPads, vals){
+  if(UI.mode!=='isolation' || hitPads.length===0) return;
+
+  const now=performance.now();
+  const stickyProblem = ISO.winner && ISO.bleed.length > 0 && !ISO.timer;
+  if(stickyProblem) return;
+
+  if(!ISO.winner){
+    let winner=hitPads[0];
+    let winnerVal=vals[winner] || 0;
+    hitPads.forEach(p=>{
+      if((vals[p] || 0) > winnerVal){
+        winner=p;
+        winnerVal=vals[p] || 0;
+      }
+    });
+    ISO.strikes++;
+    ISO.winner=winner;
+    ISO.captureStart=now;
+    ISO.bleed=hitPads.filter(p=>p!==winner);
+    if(ISO.timer){ clearTimeout(ISO.timer); }
+    ISO.timer=setTimeout(finalizeIsolationCapture, ISO_CAPTURE_MS);
+    renderIsolation();
+    return;
+  }
+
+  if((now - ISO.captureStart) <= ISO_CAPTURE_MS){
+    hitPads.forEach(p=>{
+      if(p!==ISO.winner && !ISO.bleed.includes(p)) ISO.bleed.push(p);
+    });
+    renderIsolation();
+  }
+}
+function copyIsolationSummary(){
+  const lines=[
+    '[pad_isolation]',
+    'strikes='+ISO.strikes,
+    'clean='+ISO.clean,
+    'doubles='+ISO.doubles,
+    'last='+(ISO.last || '-')
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(
+    ()=>toast('Isolation summary copied','ok'),
+    ()=>toast('Copy failed','err')
+  );
+}
+// -- TABS --------------------------------------------------
+function activateTab(name){
+  document.querySelectorAll('.tab,.pg').forEach(x=>x.classList.remove('on'));
+  const tab=document.querySelector(`.tab[data-tab="${name}"]`);
+  const page=document.getElementById('pg-'+name);
+  if(tab) tab.classList.add('on');
+  if(page) page.classList.add('on');
+  if(name !== 'btn'){
+    Object.keys(KEY_HELD).forEach(k=>KEY_HELD[k]=false);
+    if(_kbInterval){ clearInterval(_kbInterval); _kbInterval=null; }
+  }
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>activateTab(t.dataset.tab)));
+
+// -- NUDGE -------------------------------------------------
+let _nudgeTimer=null;
+let _nudgeInterval=null;
+let _nudgeStep=0;
+let _nudgePad='';
+
+function applyNudge(pad, step){
+  S.thr[pad]=Math.max(0,Math.min(4095,S.thr[pad]+step));
+  syncThr(pad);
+  updateMx();
+  queueLiveApply();
+}
+
+function stopNudge(){
+  if(_nudgeTimer){ clearTimeout(_nudgeTimer); _nudgeTimer=null; }
+  if(_nudgeInterval){ clearInterval(_nudgeInterval); _nudgeInterval=null; }
+  _nudgeStep=0;
+  _nudgePad='';
+}
+
+function startNudge(button){
+  if(!button) return;
+  stopNudge();
+  const pad=button.dataset.p;
+  const base=Number(button.dataset.d)||0;
+  const step=base>=0 ? Math.max(1, Math.abs(base)) : -Math.max(1, Math.abs(base));
+  _nudgePad=pad;
+  _nudgeStep=step;
+  applyNudge(_nudgePad, _nudgeStep); // immediate click
+  _nudgeTimer=setTimeout(()=>{
+    _nudgeInterval=setInterval(()=>{ applyNudge(_nudgePad, _nudgeStep); }, 70);
+  }, 220);
+}
+
+document.addEventListener('mousedown',e=>{
+  const b=e.target.closest('.nudge'); if(!b) return;
+  e.preventDefault();
+  startNudge(b);
+});
+document.addEventListener('touchstart',e=>{
+  const b=e.target.closest('.nudge'); if(!b) return;
+  e.preventDefault();
+  startNudge(b);
+},{passive:false});
+document.addEventListener('mouseup',stopNudge);
+document.addEventListener('mouseleave',stopNudge);
+document.addEventListener('touchend',stopNudge);
+document.addEventListener('touchcancel',stopNudge);
+window.addEventListener('blur',stopNudge);
+function syncThr(p){
+  const v=S.thr[p];
+  const tv=document.getElementById('tv-'+p);
+  if(tv){
+    tv.textContent=v;
+    tv.style.transition='color 0.1s';
+    tv.style.color='var(--green)';
+    setTimeout(()=>{ tv.style.color=''; }, 800);
+  }
+  const bt=document.getElementById('bt-'+p); if(bt) bt.style.bottom=(v/4095*100).toFixed(2)+'%';
+}
+function syncAllThr(){ PADS.forEach(syncThr); }
+
+// -- SERIAL ------------------------------------------------
+async function connectSerial(){
+  if(!('serial' in navigator)){ showConnErr('Web Serial not supported — use Chrome or Edge.'); return; }
+  // Clean up any leftover port from a previous session (e.g. page refresh without disconnect)
+  if(S.port){
+    try{ if(S.reader){ await S.reader.cancel(); S.reader=null; } }catch(_){}
+    try{ if(S.writer){ S.writer.releaseLock(); S.writer=null; } }catch(_){}
+    try{ await S.port.close(); }catch(_){}
+    S.port=null;
+  }
+  try{
+    S.port=await navigator.serial.requestPort();
+    await S.port.open({baudRate:115200});
+    S.writer=S.port.writable.getWriter();
+    S.fwEvtSeen=false;
+    setLivePill('on','Live Apply: On');
+    resetLiveDiagnostics();
+    S.connected=true; showConn(); readLoop();
+    setTimeout(async()=>{
+      try{ await S.writer.write(new Uint8Array([0xBB])); }catch(_){}
+    }, 300);
+  }catch(e){
+    const msg=e.message||String(e);
+    if(msg.includes('already open')) showConnErr('Port in use — close Arduino IDE or other serial apps and try again.');
+    else showConnErr(msg);
+  }
+}
+async function disconnect(){
+  S.connected=false;
+  S.fwEvtSeen=false;
+  if(S.liveApplyTimer){ clearTimeout(S.liveApplyTimer); S.liveApplyTimer=null; }
+  setLivePill('','Live Apply: Off');
+  if(AC.active) stopCal(true);
+  try{ if(S.reader){await S.reader.cancel();S.reader=null;} }catch(_){}
+  try{ if(S.writer){S.writer.releaseLock();S.writer=null;} }catch(_){}
+  try{ if(S.port) await S.port.close(); }catch(_){}
+  S.port=null; showDisc();
+}
+
+// Close port cleanly on page refresh/close
+window.addEventListener('beforeunload', ()=>{
+  if(S.port){
+    try{ if(S.writer){ S.writer.releaseLock(); } }catch(_){}
+    try{ S.port.close(); }catch(_){}
+  }
+});
+
+// Handle physical USB disconnect
+navigator.serial && navigator.serial.addEventListener('disconnect', e=>{
+  if(S.port===e.target){
+    S.connected=false;
+    S.fwEvtSeen=false;
+    if(AC.active) stopCal(true);
+    S.reader=null; S.writer=null; S.port=null;
+    showDisc();
+    note('Drum disconnected','err');
+    toast('Drum disconnected — reconnect USB and click Connect','err');
+  }
+});
+function showConn(){
+  document.getElementById('pill').classList.add('on');
+  document.getElementById('pill-txt').textContent='Debug/Calibrate connected';
+  document.getElementById('sp-cal').classList.add('hide');
+  document.getElementById('cal-body').style.display='block';
+  buildMx(); syncAllThr();
+  openModeHome();
+  renderIsolation();
+  renderLiveDiagnostics();
+  // Re-measure scope canvas now that it's visible
+  requestAnimationFrame(()=>sizeScope());
+}
+function showDisc(){
+  document.getElementById('pill').classList.remove('on');
+  document.getElementById('pill-txt').textContent='Not connected';
+  document.getElementById('sp-cal').classList.remove('hide');
+  document.getElementById('cal-body').style.display='none';
+  resetLiveDiagnostics();
+  resetIsolationTest();
+  openModeHome();
+}
+function showConnErr(msg){
+  const el=document.getElementById('conn-err');
+  el.textContent='Warning: '+msg;
+  setTimeout(()=>el.textContent='',6000);
+}
+async function readLoop(){
+  try{
+    // Guard: if readable is already locked, the port wasn't fully released after last session
+    if(S.port.readable.locked){
+      note('Serial stream locked - try unplugging and replugging the drum','err');
+      disconnect(); return;
+    }
+    const decoder=new TextDecoderStream();
+    S.port.readable.pipeTo(decoder.writable);
+    const lr=decoder.readable.pipeThrough(new TransformStream(new LineBreakTransformer())).getReader();
+    S.reader=lr;
+    while(S.connected){
+      const{value,done}=await lr.read(); if(done) break;
+      if(value) parseLine(value.trim());
+    }
+  }catch(e){ if(S.connected){ note('Serial error: '+(e.message||e),'err'); disconnect(); } }
+}
+class LineBreakTransformer{
+  constructor(){this.buf='';}
+  transform(chunk,ctrl){this.buf+=chunk;const l=this.buf.split('\n');this.buf=l.pop();l.forEach(x=>ctrl.enqueue(x));}
+  flush(ctrl){if(this.buf)ctrl.enqueue(this.buf);}
+}
+function parseLine(line){
+  if(!line) return;
+  captureHit5Line(line);
+  captureGuidedLine(line);
+  if(line.trim()==='LIVE'){
+    return;
+  }
+  if(line.trim()==='OK'){
+    if(S.pendingAck){
+      S.pendingAck=false; clearTimeout(S.ackTimeout);
+      note('Saved to drum - '+new Date().toLocaleTimeString(),'ok');
+      toast('Thresholds saved to drum!','ok');
+      setTimeout(()=>note('',''),4000);
+    }
+    return;
+  }
+  // THR: response — firmware sending current thresholds on connect
+  // Format: "THR:donL,donR,kaL,kaR"
+  if(line.startsWith('THR:')){
+    const parts=line.slice(4).split(',').map(Number);
+    if(parts.length===4&&parts.every(n=>!isNaN(n))){
+      S.thr.don_l=parts[0]; S.thr.don_r=parts[1];
+      S.thr.ka_l=parts[2];  S.thr.ka_r=parts[3];
+      syncAllThr();
+      note('Thresholds loaded from drum','ok');
+      toast('Thresholds loaded from drum','ok');
+      setTimeout(()=>note('',''),3000);
+    }
+    return;
+  }
+  if(line.startsWith('EVT:')){
+    logEvt(line);
+    const m=line.match(/^EVT:(\d+),(\d+),(\d+),(\d+);H=(\d+);X=(\d+);A=(\d+);D=(\d+);T=(\d+)$/);
+    if(!m) return;
+    S.fwEvtSeen=true;
+    processFirmwareEvent({
+      vals:{ka_l:+m[1],don_l:+m[2],don_r:+m[3],ka_r:+m[4]},
+      hitMask:+m[5],
+      crossMask:+m[6],
+      arbMask:+m[7],
+      heldMask:+m[8],
+      timestamp:+m[9],
+    });
+    S.msgCount++;
+    return;
+  }
+  let v=null;
+  // Sample raw-text logging to reduce UI churn under high serial rates.
+  if((S.msgCount % 5) === 0){
+    logRaw(line);
+  }
+  // Format A: space-separated  "123 456 789 012"
+  const parts=line.trim().split(/\s+/).map(Number);
+  if(parts.length>=4 && parts.slice(0,4).every(n=>!isNaN(n)&&n>=0&&n<=4095)){
+    v=parts.slice(0,4);
+  }
+  // Format B: bracket  "123[...456[..."
+  if(!v){
+    const m=[...line.matchAll(/(\d{1,4})\[/g)];
+    if(m.length>=4) v=[parseInt(m[0][1]),parseInt(m[1][1]),parseInt(m[2][1]),parseInt(m[3][1])];
+  }
+  if(!v) return;
+  const vals={ka_l:v[0],don_l:v[1],don_r:v[2],ka_r:v[3]};
+  if(S.fwEvtSeen){
+    PADS.forEach(p=>{
+      const n=vals[p]/4095;
+      if(n>S.pk[p]) S.pk[p]=n;
+    });
+    if(AC.active) collectAC(vals);
+    return;
+  }
+  processPads(vals); S.msgCount++;
+}
+
+function bitForPad(p){
+  switch(p){
+    case 'don_l': return 1<<0;
+    case 'ka_l':  return 1<<1;
+    case 'don_r': return 1<<2;
+    case 'ka_r':  return 1<<3;
+    default: return 0;
+  }
+}
+
+function countBits4(mask){
+  let m=mask&0x0F, n=0;
+  while(m){ n+=m&1; m>>=1; }
+  return n;
+}
+
+function processFirmwareEvent(evt){
+  const vals=evt.vals;
+  const nowPerf = performance.now();
+  traceSample(vals);
+  while(S.stats.hitTimes.length && (nowPerf - S.stats.hitTimes[0]) > 1000){
+    S.stats.hitTimes.shift();
+  }
+  S.stats.hitsPerSec = S.stats.hitTimes.length;
+  PADS.forEach(p=>{
+    const n=vals[p]/4095;
+    if(n>S.pk[p]) S.pk[p]=n;
+  });
+
+  const hitEdgeMask = evt.hitMask & (~S.prevHitMask);
+  const crossEdgeMask = evt.crossMask & (~S.prevCrossMask);
+  const arbEdgeMask = evt.arbMask & (~S.prevArbMask);
+
+  const hitPads=PADS.filter(p=>(hitEdgeMask & bitForPad(p))!==0);
+  const crossPads=PADS.filter(p=>(crossEdgeMask & bitForPad(p))!==0);
+  const arbPads=PADS.filter(p=>(arbEdgeMask & bitForPad(p))!==0);
+  const heldPads=PADS.filter(p=>(evt.heldMask & bitForPad(p))!==0);
+
+  if(crossPads.length){
+    S.stats.crossBlocked += countBits4(crossEdgeMask);
+    S.stats.lastEvent=`Cross blocked ${crossPads.map(p=>SH[p]).join(', ')}`;
+  }
+  if(arbPads.length){
+    S.stats.arbBlocked += countBits4(arbEdgeMask);
+    S.stats.lastEvent=`Arb blocked ${arbPads.map(p=>SH[p]).join(', ')}`;
+  }
+  const heldEdgeMask = evt.heldMask & (~S.prevHeldMask);
+  if(heldEdgeMask){
+    S.stats.heldSuppress += countBits4(heldEdgeMask);
+    S.stats.lastEvent=`Held-high ${heldPads.map(p=>SH[p]).join(', ')}`;
+  }
+  S.prevHitMask = evt.hitMask;
+  S.prevCrossMask = evt.crossMask;
+  S.prevArbMask = evt.arbMask;
+  S.prevHeldMask = evt.heldMask;
+
+  if(hitPads.length){
+    captureLaneValidationHit(hitPads, vals);
+    handleIsolationHit(hitPads, vals);
+    hitPads.forEach(h=>{
+      S.stats.totalHits++;
+      S.stats.perPad[h]++;
+      S.stats.lastEvent=`Hit ${SH[h]}`;
+      S.stats.hitTimes.push(nowPerf);
+      while(S.stats.hitTimes.length && (nowPerf - S.stats.hitTimes[0]) > 1000){
+        S.stats.hitTimes.shift();
+      }
+      S.stats.hitsPerSec = S.stats.hitTimes.length;
+      if(S.stats.hitsPerSec > S.stats.peakHitsPerSec) S.stats.peakHitsPerSec = S.stats.hitsPerSec;
+      PADS.forEach(v=>{ if(v!==h&&vals[v]>S.xt[h][v]) S.xt[h][v]=vals[v]/4095; });
+      scopeHit(h);
+      const hi=document.getElementById('hi-'+h);
+      if(hi){ hi.classList.remove('flash'); void hi.offsetWidth; hi.classList.add('flash'); }
+      const valEl=document.getElementById('val-'+h);
+      if(valEl){
+        valEl.textContent=vals[h];
+        valEl.className='hit-val lit';
+        setTimeout(()=>{ valEl.textContent=''; valEl.className='hit-val'; },600);
+      }
+    });
+    updateMx();
+    logHit(vals);
+  }
+
+  if(AC.active) collectAC(vals);
+  renderLiveDiagnostics();
+}
+function processPads(vals){
+  traceSample(vals);
+  const nowPerf = performance.now();
+  while(S.stats.hitTimes.length && (nowPerf - S.stats.hitTimes[0]) > 1000){
+    S.stats.hitTimes.shift();
+  }
+  S.stats.hitsPerSec = S.stats.hitTimes.length;
+  PADS.forEach(p=>{
+    const n=vals[p]/4095;
+    if(n>S.pk[p]) S.pk[p]=n; // only update upward - decay handled by rAF
+  });
+
+  // Mirror firmware Don/Ka zone arbitration: whichever zone has the highest
+  // raw value wins; the entire losing zone is zeroed before threshold testing.
+  const maxDon=Math.max(vals.don_l, vals.don_r);
+  const maxKa =Math.max(vals.ka_l,  vals.ka_r);
+  const arbVals={...vals};
+  if(maxDon >= maxKa){ arbVals.ka_l=0; arbVals.ka_r=0; }
+  else               { arbVals.don_l=0; arbVals.don_r=0; }
+
+  // Count strong raw signals that were removed by arbitration.
+  PADS.forEach(p=>{
+    const thrRaw=S.thr[p];
+    if(vals[p] > thrRaw && arbVals[p] === 0){
+      S.stats.arbBlocked++;
+      S.stats.lastEvent=`Arb blocked ${SH[p]}`;
+    }
+  });
+
+  const now=Date.now();
+  const rising={};
+  PADS.forEach(p=>{
+    const thr=S.thr[p]/4095, active=arbVals[p]/4095>thr;
+    const prev=S.pv[p];
+    const isKa=p.startsWith('ka');
+    const oppZoneFiredAt=isKa?S.lastZoneFire.don:S.lastZoneFire.ka;
+    const crossBlocked=(now-oppZoneFiredAt)<CROSS_COOLDOWN;
+    const wouldRise=active&&!prev;
+    if(wouldRise&&crossBlocked){
+      S.stats.crossBlocked++;
+      S.stats.lastEvent=`Cross blocked ${SH[p]}`;
+    }
+    // If signal remains high while already active, this can suppress fast re-triggers.
+    const heldSuppress = active && prev && (arbVals[p] > (S.thr[p] + Math.max(12, Math.round(S.thr[p] * 0.25))));
+    if(heldSuppress){
+      S.stats.heldSuppress++;
+      S.stats.lastEvent=`Held-high ${SH[p]}`;
+    }
+    rising[p]=wouldRise&&!crossBlocked;
+    S.pv[p]=active;
+  });
+  // Record zone fire times
+  if(PADS.some(p=>rising[p]&&p.startsWith('don'))) S.lastZoneFire.don=now;
+  if(PADS.some(p=>rising[p]&&p.startsWith('ka')))  S.lastZoneFire.ka=now;
+    if(PADS.some(p=>rising[p])){
+    const hitPads=PADS.filter(p=>rising[p]);
+    captureLaneValidationHit(hitPads, vals);
+    handleIsolationHit(hitPads, vals);
+    hitPads.forEach(h=>{
+      S.stats.totalHits++;
+      S.stats.perPad[h]++;
+      S.stats.lastEvent=`Hit ${SH[h]}`;
+      // FIX: Use instantaneous ADC value, not decaying peak.
+      // S.pk[v] decays over time — during fast rolls the decay has not finished before
+      // the next hit fires, so S.pk[v] is inflated by leftover signal from the previous hit.
+      // vals[v] is the raw value at the exact moment of the rising edge — always accurate.
+      PADS.forEach(v=>{ if(v!==h&&vals[v]>S.xt[h][v]) S.xt[h][v]=vals[v]/4095; });
+      scopeHit(h);
+    });
+    updateMx();
+    logHit(vals);
+  }
+  if(AC.active) collectAC(vals);
+  renderLiveDiagnostics();
+  PADS.forEach(p=>{
+    const v=vals[p];
+    // Dead-band: suppress display flicker below MIN_HIT (ADC noise floor)
+    // Flash the drum icon on threshold-crossing rising edge only
+    if(rising[p]){
+      const hi=document.getElementById('hi-'+p);
+      if(hi){ hi.classList.remove('flash'); void hi.offsetWidth; hi.classList.add('flash'); }
+      const valEl=document.getElementById('val-'+p);
+      if(valEl){ valEl.textContent=vals[p]; valEl.className='hit-val lit';
+        setTimeout(()=>{ valEl.textContent=''; valEl.className='hit-val'; },600);
+      }
+    }
+  });
+}
+
+// -- GUIDED CALIBRATION WIZARD ----------------------------
+// -- GUIDED CALIBRATION WIZARD ------------------------------------------
+// _wizPhase: 0-4 = which step. _wizRecording: whether timer is running.
+let _wizPhase=0, _wizSubStep=0, _wizSubCaptured=false, _wizTimerMs=0, _wizTimerLimit=7000, _wizRecording=false;
+
+function toggleCal(){
+  if(DEEP_CAL.active){
+    closeGuidedSuite();
+    setDeepCalRunning(false);
+    return;
+  }
+  startCal();
+}
+function showCalModal(){ startCal(); }
+function confirmCalStart(){ startCal(); }
+
+function startCal(){
+  startDeepAutoCalibration();
+}
+
+function startLegacyCal(){
+  // Full reset of all calibration data
+  PADS.forEach(p=>{
+    AC.hitCount[p]=0; AC.normalHit[p]=0; AC.maxHit[p]=0; AC.minHit[p]=9999; AC.maxCrosstalk[p]=0; AC.lastHit[p]=0; AC.subHitBuf[p]=[];
+    document.getElementById('hcn-'+p).textContent='0';
+    document.getElementById('hc-'+p).classList.remove('ok','active-pad');
+  });
+  AC.suggestions=null; AC.active=true; AC.phase=0; AC.simHitCount=0;
+  AC._lastWrongWarn=0; AC._lastSimWarn=0;
+  _wizPhase=0; _wizRecording=false; _wizTimerMs=0;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+  document.getElementById('cal-card').classList.add('recording');
+  document.getElementById('cal-card').classList.remove('done');
+  document.getElementById('prog-wrap').classList.add('vis');
+  document.getElementById('hc-row').classList.add('vis');
+  document.getElementById('cal-status').classList.add('vis');
+  document.getElementById('results-box').classList.remove('vis');
+  document.getElementById('adv-sug-section').style.display='none';
+  document.getElementById('btn-apply').style.display='none';
+  document.getElementById('prog-fill').className='prog-fill';
+  document.getElementById('prog-fill').style.width='0%';
+  document.getElementById('btn-start').className='btn-start recording';
+  document.getElementById('btn-start').textContent='Stop';
+  // Open wizard to Step 1 instructions -- timer does NOT start yet
+  document.getElementById('cal-wiz').classList.add('show');
+  wizShowInstructions(0);
+}
+
+function wizClose(){
+  document.getElementById('cal-wiz').classList.remove('show');
+}
+
+// Build the 5 pip dots as an HTML string
+function _wizPips(activeStep){
+  let h='<div class="wiz-pips">';
+  for(let i=0;i<5;i++){
+    let c='wiz-pip';
+    if(i<activeStep) c+=' done';
+    else if(i===activeStep){
+      const pad=(i<4)?AC.padOrder[i]:null;
+      c+=(i===4)?' active-mix':(pad&&pad.startsWith('ka'))?' active-ka':' active-don';
+    }
+    h+='<div class="'+c+'"></div>';
+  }
+  return h+'</div>';
+}
+
+// Phase A: show instructions, wait for user to click "I'm Ready"
+function wizShowInstructions(step){
+  _wizPhase=step;
+  _wizRecording=false;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+
+  const isMix=(step===4);
+  const pad=isMix?null:AC.padOrder[step];
+  const isKa=pad&&pad.startsWith('ka');
+  const col=isMix?'mix':(isKa?'ka':'don');
+  const title=isMix?'Random Mix':LABELS[pad];
+  const btnCls=isMix?'go-mix':(isKa?'go-ka':'go-don');
+
+  const instrLines=[
+    'Strike the <strong>LEFT RIM</strong> (outer edge). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>LEFT FACE</strong> (centre). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>RIGHT FACE</strong> (centre). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'Strike the <strong>RIGHT RIM</strong> (outer edge). You\u2019ll hit it three times each: three normal hits, then three hits as hard as you\u2019d ever play, then roll for about 2 seconds. Do not hit any other pad.',
+    'For the final measurement, use <strong>ONE hand only</strong> and hit all over the drum &mdash; light, hard, normal, slow, fast, single taps, one-handed rolls, whatever you want, it&rsquo;s totally up to you&hellip;'
+  ];
+
+  // Highlight active pad on the hit counter row visible behind the overlay
+  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
+  if(pad) document.getElementById('hc-'+pad).classList.add('active-pad');
+
+  document.getElementById('wiz-content').innerHTML=
+    _wizPips(step)+
+    '<div class="wiz-step-num">Step '+(step+1)+' of 5</div>'+
+    '<div class="wiz-title '+col+'">'+title+'</div>'+
+    '<p class="wiz-instr">'+instrLines[step]+'</p>'+
+    '<button class="btn-wiz-primary '+btnCls+'" onclick="wizStartPhase('+step+')">I\'m Ready &mdash; Start</button>'+
+    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
+}
+
+// Phase B: user clicked Ready -- start timer and data collection
+function wizStartPhase(step){
+  _wizPhase=step;
+  _wizSubStep=0;
+  _wizSubCaptured=false;
+  _wizTimerMs=0;
+  _wizRecording=false;
+  AC.phase=step+1;
+  AC.phaseStart=Date.now();
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+
+  const pad=(step<4)?AC.padOrder[step]:null;
+  if(pad){
+    // Reset this pad's data for a fresh measurement
+    AC.hitCount[pad]=0; AC.normalHit[pad]=0; AC.maxHit[pad]=0; AC.minHit[pad]=9999; AC.subHitBuf[pad]=[];
+    document.getElementById('hcn-'+pad).textContent='0';
+    document.getElementById('hc-'+pad).classList.remove('ok');
+    document.getElementById('hc-'+pad).classList.add('active-pad');
+  }
+
+  if(step===4){
+    // Mix phase: one-hand timer only, 4 seconds, no sub-steps
+    _wizTimerLimit=4000;
+    _wizRecording=true;
+    const col='mix';
+    document.getElementById('wiz-content').innerHTML=
+      _wizPips(step)+
+      '<div class="wiz-step-num">Step 5 of 5 &mdash; Recording</div>'+
+      '<div class="wiz-title mix">Random Mix</div>'+
+      '<div class="wiz-timer-bg"><div id="wiz-bar" class="wiz-timer-fill mix"></div></div>'+
+      '<div class="wiz-stats"><div class="wiz-stat-card"><div id="wiz-time" class="wiz-stat-val">4s</div><div class="wiz-stat-lbl">Timer</div></div></div>'+
+      '<div id="wiz-status" class="wiz-status-msg">Keep hitting all over...</div>'+
+      '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
+    AC.timer=setInterval(tickAC,200);
+  } else {
+    // Pad phases: sub-step flow — Normal ? Light ? Hard ? Roll
+    wizShowSubStep(step, 0);
+  }
+}
+
+// Render a hit-wait sub-step (subStep 0=Normal, 1=Light, 2=Hard)
+function wizShowSubStep(step, subStep){
+  _wizSubStep=subStep;
+  _wizSubCaptured=false;
+  _wizRecording=true;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+
+  const pad=AC.padOrder[step];
+  const isKa=pad.startsWith('ka');
+  const col=isKa?'ka':'don';
+  const title=LABELS[pad];
+  const subLabels=['Normal','Hardest','Roll'];
+  const prompts=[
+    {big:'Hit it NORMALLY',   hint:'How you\'d play in a real song &mdash; 3 hits'},
+    {big:'Hardest you\'d ever play', hint:'Your absolute maximum hit force &mdash; 3 hits'}
+  ];
+
+  let dotsHtml='<div class="wiz-substeps">';
+  for(let i=0;i<3;i++){
+    const cls=i<subStep?'done':(i===subStep?'active '+col:'');
+    const icon=i<subStep?'&#10003;':(i+1);
+    dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
+  }
+  dotsHtml+='</div>';
+
+  document.getElementById('wiz-content').innerHTML=
+    _wizPips(step)+
+    '<div class="wiz-step-num">Step '+(step+1)+' of 5</div>'+
+    '<div class="wiz-title '+col+'">'+title+'</div>'+
+    dotsHtml+
+    '<div class="wiz-big-prompt">'+prompts[subStep].big+'</div>'+
+    '<div class="wiz-sub-hint">'+prompts[subStep].hint+'</div>'+
+    '<div id="wiz-status" class="wiz-status-msg">Waiting for hit...</div>'+
+    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
+}
+
+// Called by collectAC when a valid hit is detected during sub-steps 0-2
+function wizSubHitDetected(step, subStep, value){
+  _wizSubCaptured=true;
+  const pad=AC.padOrder[step];
+  const isKa=pad.startsWith('ka');
+  const col=isKa?'ka':'don';
+
+  // Store the measured value (subStep 0=Normal, 1=Hardest — Light removed)
+  if(subStep===0){ AC.normalHit[pad]=value; AC.minHit[pad]=value; }  // Normal — also use as minHit fallback
+  else if(subStep===1){ AC.maxHit[pad]=value; AC.hitCount[pad]=3; document.getElementById('hc-'+pad).classList.add('ok'); }  // Hardest
+
+  // Flash confirmation
+  const statusEl=document.getElementById('wiz-status');
+  if(statusEl){ statusEl.textContent='Got it! ('+value+')'; statusEl.className='wiz-status-msg ready'; }
+
+  setTimeout(()=>{
+    _wizSubCaptured=false;
+    if(subStep+1<2) wizShowSubStep(step, subStep+1);
+    else wizStartRoll(step);
+  }, 500);
+}
+
+// Sub-step 3: roll timer — collects crosstalk, then auto-advances
+function wizStartRoll(step){
+  _wizSubStep=3;
+  _wizSubCaptured=false;
+  _wizTimerMs=0;
+  _wizTimerLimit=3000;
+  _wizRecording=true;
+  AC.phaseStart=Date.now();
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+
+  const pad=AC.padOrder[step];
+  const isKa=pad.startsWith('ka');
+  const col=isKa?'ka':'don';
+  const title=LABELS[pad];
+  const subLabels=['Normal','Hardest','Roll'];
+
+  let dotsHtml='<div class="wiz-substeps">';
+  for(let i=0;i<3;i++){
+    const cls=i<2?'done':('active '+col);
+    const icon=i<2?'&#10003;':(i+1);
+    dotsHtml+='<div class="wiz-substep"><div class="wiz-substep-dot '+cls+'">'+icon+'</div><div class="wiz-substep-lbl">'+subLabels[i]+'</div></div>';
+  }
+  dotsHtml+='</div>';
+
+  document.getElementById('wiz-content').innerHTML=
+    _wizPips(step)+
+    '<div class="wiz-step-num">Step '+(step+1)+' of 5 &mdash; Roll Phase</div>'+
+    '<div class="wiz-title '+col+'">'+title+'</div>'+
+    dotsHtml+
+    '<div class="wiz-big-prompt">Now roll!</div>'+
+    '<div class="wiz-sub-hint">Keep rolling for 3 seconds &mdash; any speed</div>'+
+    '<div class="wiz-timer-bg"><div id="wiz-bar" class="wiz-timer-fill '+col+'"></div></div>'+
+    '<div class="wiz-stats"><div class="wiz-stat-card"><div id="wiz-time" class="wiz-stat-val">3s</div><div class="wiz-stat-lbl">Timer</div></div></div>'+
+    '<div id="wiz-status" class="wiz-status-msg">Rolling...</div>'+
+    '<a class="wiz-cancel" onclick="stopCal(false)">Cancel calibration</a>';
+
+  AC.timer=setInterval(tickAC,200);
+}
+
+// Called when user clicks Continue/Finish
+function wizAdvanceTo(step){
+  _wizRecording=false;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+  if(step>=5) finishCal();
+  else wizShowInstructions(step);
+}
+
+function calWizNext(){ wizAdvanceTo(_wizPhase+1); }
+
+function wizShowComplete(){
+  const sugs=AC.suggestions;
+  function sv(pad){ return (sugs&&sugs[pad])?sugs[pad].suggested:'--'; }
+  document.getElementById('wiz-content').innerHTML=
+    '<div class="wiz-pips">'+Array(5).fill('<div class="wiz-pip done"></div>').join('')+'</div>'+
+    '<div class="wiz-step-num">Complete</div>'+
+    '<div class="wiz-title complete">Calibration Done</div>'+
+    '<p class="wiz-instr">Suggested thresholds based on your hits. Click Save to apply them to the drum.</p>'+
+    '<div class="wiz-grid">'+
+      '<div class="wiz-grid-item"><span class="pad-label ka">Ka Left</span><span class="wiz-grid-val">'+sv('ka_l')+'</span></div>'+
+      '<div class="wiz-grid-item"><span class="pad-label ka">Ka Right</span><span class="wiz-grid-val">'+sv('ka_r')+'</span></div>'+
+      '<div class="wiz-grid-item"><span class="pad-label don">Don Left</span><span class="wiz-grid-val">'+sv('don_l')+'</span></div>'+
+      '<div class="wiz-grid-item"><span class="pad-label don">Don Right</span><span class="wiz-grid-val">'+sv('don_r')+'</span></div>'+
+    '</div>'+
+    '<button class="btn-wiz-primary go-save" onclick="wizSaveAndClose()">Save to Drum</button>'+
+    '<a class="wiz-cancel" onclick="wizClose()">Close without saving</a>';
+}
+
+function wizSaveAndClose(){ wizClose(); applyAndSave(); }
+
+function finishCal(){
+  AC.active=false; _wizRecording=false;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
+  calcSuggestions(false);
+  wizShowComplete();
+}
+
+function stopCal(silent){
+  AC.active=false; _wizRecording=false; AC.phase=0;
+  if(AC.timer){ clearInterval(AC.timer); AC.timer=null; }
+  PADS.forEach(p=>document.getElementById('hc-'+p).classList.remove('active-pad'));
+  wizClose();
+  document.getElementById('cal-card').classList.remove('recording');
+  document.getElementById('btn-start').className='btn-start';
+  document.getElementById('btn-start').textContent='Start Calibration';
+  document.getElementById('prog-fill').style.width='0%';
+  if(silent) return;
+  setStatus('Calibration stopped.','warn');
+  document.getElementById('cal-sub').textContent='Click Start Calibration to run deep auto-calibration (thorough mode).';
+}
+function collectAC(vals){
+  const now=Date.now();
+  if(AC.phase>=1&&AC.phase<=4){
+    const pad=AC.padOrder[AC.phase-1];
+    const v=vals[pad];
+
+    if(_wizSubStep<2 && _wizRecording){  // 2 sub-steps now: Normal(0) + Hardest(1)
+      // Sub-steps 0-2: capture 3 clean hits, store the median
+      if(v>MIN_HIT && now-AC.lastHit[pad]>AC.HIT_COOLDOWN){
+        AC.lastHit[pad]=now;
+        if(!AC.subHitBuf[pad]) AC.subHitBuf[pad]=[];
+        AC.subHitBuf[pad].push(v);
+        const remaining=3-AC.subHitBuf[pad].length;
+        const statusEl=document.getElementById('wiz-status');
+        if(statusEl){
+          if(remaining>0){ statusEl.textContent='Got one! '+remaining+' more...'; statusEl.className='wiz-status-msg ready'; }
+        }
+        if(AC.subHitBuf[pad].length>=3){
+          const sorted=[...AC.subHitBuf[pad]].sort((a,b)=>a-b);
+          const median=sorted[1];
+          AC.subHitBuf[pad]=[];
+          wizSubHitDetected(_wizPhase, _wizSubStep, median);
+        }
+      }
+    } else if(_wizSubStep===3 && _wizRecording){
+      // Roll sub-step: count hits for display, use lower cooldown for fast rolls
+      if(v>MIN_HIT && now-AC.lastHit[pad]>25){
+        AC.lastHit[pad]=now;
+        AC.hitCount[pad]++;
+        const el=document.getElementById('hcn-'+pad);
+        if(el) el.textContent=AC.hitCount[pad];
+      }
+    }
+
+    // BUG FIX: Only record crosstalk during the ROLL sub-step (subStep===3), NOT during
+    // hit-capture sub-steps 0-2. During sub-steps 0-2 the user is deliberately striking
+    // one pad 3 times — that bleed onto other pads is NOT representative crosstalk from
+    // normal play; it would inflate those pads' thresholds unfairly. The earlier pads in
+    // the wizard order (ka_l is first) would accumulate more inflated crosstalk than later
+    // pads, causing ka_l to always get an artificially high threshold. Roll phase bleed
+    // is the correct signal — that is actual play-speed crosstalk.
+    if(_wizSubStep === 3){
+      PADS.forEach(p=>{ if(p!==pad&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
+    }
+
+  } else if(AC.phase===5){
+    // Discard simultaneous Don+Ka
+    const donMax=Math.max(vals.don_l||0,vals.don_r||0);
+    const kaMax=Math.max(vals.ka_l||0,vals.ka_r||0);
+    if(donMax>MIN_HIT&&kaMax>MIN_HIT){ AC.simHitCount++; return; }
+    // Supplement random-phase crosstalk
+    let strongest=null, maxVal=MIN_HIT;
+    PADS.forEach(p=>{ if(vals[p]>maxVal){ maxVal=vals[p]; strongest=p; } });
+    if(!strongest) return;
+    // FIX: Use a shorter cooldown during the mix phase so fast one-handed rolls are captured.
+    // 80ms drops hits above ~750BPM; 30ms captures rolls up to ~2000BPM.
+    // Confirmed correct by ShikyC/JoelPBR which both use ~40ms reset time for the same reason.
+    const phaseCooldown = (AC.phase === 5) ? 30 : AC.HIT_COOLDOWN;
+    if(now-AC.lastHit[strongest]<phaseCooldown) return;
+    AC.lastHit[strongest]=now;
+    PADS.forEach(p=>{ if(p!==strongest&&vals[p]>AC.maxCrosstalk[p]) AC.maxCrosstalk[p]=vals[p]; });
+  }
+}
+
+function tickAC(){
+  // Only runs during roll sub-step (subStep 3) and mix phase (step 4)
+  if(!_wizRecording) return;
+  _wizTimerMs=Math.min(_wizTimerMs+200, _wizTimerLimit+200);
+  const elapsed=_wizTimerMs;
+  const pct=Math.min(100, elapsed/_wizTimerLimit*100);
+  const sec=Math.max(0, Math.ceil((_wizTimerLimit-elapsed)/1000));
+  const timeOk=elapsed>=_wizTimerLimit;
+  const isMix=(_wizPhase===4);
+
+  const barEl=document.getElementById('wiz-bar');
+  const timeEl=document.getElementById('wiz-time');
+  const statusEl=document.getElementById('wiz-status');
+
+  if(barEl){ barEl.style.width=pct+'%'; if(timeOk) barEl.classList.add('complete'); }
+  if(timeEl){ timeEl.textContent=sec+'s'; }
+
+  if(timeOk){
+    if(statusEl){ statusEl.textContent='Done!'; statusEl.className='wiz-status-msg ready'; }
+    if(AC.timer){ clearInterval(AC.timer); AC.timer=null; _wizRecording=false; }
+    setTimeout(()=>{ wizAdvanceTo(_wizPhase+1); }, 400);
+  } else {
+    if(statusEl){ statusEl.textContent=isMix?('Keep hitting... '+sec+'s left'):('Keep rolling... '+sec+'s left'); }
+  }
+}
+function calcSuggestions(live){
+  const sugs={};
+  PADS.forEach(p=>{
+    const maxCross=AC.maxCrosstalk[p];
+    const maxHit=AC.maxHit[p]||0;
+    const minHit=AC.minHit[p]<9999?AC.minHit[p]:maxHit;
+    const normalHit=AC.normalHit[p]||minHit;  // explicitly measured normal playing hit
+    const isKa=p.startsWith('ka');
+    // Ka pads share a rigid steel rim — crosstalk bleeds more than Don surface.
+    // SAFETY_MARGIN_KA=35 in Drum.h is kept in sync with this value.
+    const crossMar=isKa?35:20;
+
+    // FIX: Anchor threshold to the explicitly-measured NORMAL playing hit, not the light tap.
+    // Light calibration taps may be softer than real gameplay and push the threshold too low,
+    // causing ambient vibration from adjacent pads to ghost-fire.
+    // Normal playing hit (Step 2 of wizard) is the true floor reference.
+    const normalRef = (normalHit > 0) ? normalHit : minHit;
+    let suggested=Math.max(maxCross+crossMar, Math.round(normalRef*(isKa?0.50:0.45)));
+
+    // Must also be well below the normal playing hit (most important reference)
+    const normalCap=Math.round(normalRef*(isKa?0.62:0.55));
+    if(normalCap>0&&suggested>normalCap) suggested=normalCap;
+
+    // Hard ceiling: never more than 45/38% of max hit (guards against crosstalk dominance)
+    const hardCap=Math.round(maxHit*(isKa?0.45:0.38));
+    const capped=hardCap>0&&suggested>hardCap;
+    if(capped) suggested=hardCap;
+
+    // Absolute floor — Ka pads share a rim so need more headroom against rim bleed
+    const floor=isKa?80:60;
+    suggested=Math.max(floor,Math.min(3000,suggested));
+    sugs[p]={suggested,current:S.thr[p],maxHit,minHit,normalHit,maxCross,capped,confidence:AC.hitCount[p]>=3?'high':'med'};
+  });
+  AC.suggestions=sugs;
+  PADS.forEach(p=>{
+    const el=document.getElementById('res-'+p); if(el) el.textContent=sugs[p].suggested;
+    // Preview suggested values in the top threshold display so they match the results box
+    const tv=document.getElementById('tv-'+p);
+    if(tv){ tv.textContent=sugs[p].suggested; tv.style.color='var(--green)'; }
+  });
+  document.getElementById('results-box').classList.add('vis');
+  renderAdvSuggestions();
+  if(!live){
+    document.getElementById('cal-card').classList.remove('recording');
+    document.getElementById('cal-card').classList.add('done');
+    document.getElementById('btn-start').className='btn-start';
+    document.getElementById('btn-start').textContent='Recalibrate';
+    document.getElementById('cal-sub').textContent='Calibration complete! Review the suggested thresholds below, then click Apply & Save to write them to your drum.';
+    setStatus('Calibration complete - ready to save','go');
+    document.getElementById('btn-apply').style.display='';
+    document.getElementById('adv-sug-section').style.display='';
+    toast('Calibration complete! Click Apply & Save to write to drum.','ok');
+  }
+}
+function renderAdvSuggestions(){
+  const tbody=document.getElementById('sug-tbody'); tbody.innerHTML='';
+  PADS.forEach(p=>{
+    const s=AC.suggestions[p]; if(!s) return;
+    const isDon=p.startsWith('don');
+    const diff=s.suggested-s.current;
+    const cls=diff<-5?'better':diff>5?'worse':'same';
+    const confPct={high:95,med:60,low:30}[s.confidence];
+    let reason='';
+    if(s.maxHit===0) reason='<span class="sug-reason-txt warn">? No hits recorded</span>';
+    else if(s.capped) reason='<span class="sug-reason-txt warn">? Capped — high crosstalk ('+s.maxCross+')</span>';
+    else if(s.maxCross<=5) reason='<span class="sug-reason-txt">No crosstalk — hit-strength based</span>';
+    else { const margin=p.startsWith('ka')?35:20; reason='<span class="sug-reason-txt">Max crosstalk: '+s.maxCross+' + '+margin+' margin</span>'; }
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><span class="sug-pad ${isDon?'don':'ka'}">${LABELS[p]}</span></td><td><span class="sug-cur">${s.current}</span></td><td><span class="sug-arrow">?</span></td><td><span class="sug-new ${cls}">${s.suggested}</span></td><td><div class="conf-bar"><div class="conf-fill" style="width:${confPct}%"></div></div><span style="font-size:11px;color:var(--text3)">${s.confidence}</span></td><td>${reason}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function applyAndSave(){
+  if(!AC.suggestions) return;
+  PADS.forEach(p=>{ if(AC.suggestions[p]&&AC.suggestions[p].confidence!=='low'){ S.thr[p]=AC.suggestions[p].suggested; syncThr(p); } });
+  // Re-render the results table so Current column reflects the newly-applied values —
+  // before nulling suggestions, update each suggestion's .current to match .suggested
+  PADS.forEach(p=>{ if(AC.suggestions[p]) AC.suggestions[p].current=AC.suggestions[p].suggested; });
+  renderAdvSuggestions();
+  AC.suggestions=null;
+  document.getElementById('btn-apply').style.display='none';
+  document.getElementById('cal-sub').textContent='Thresholds saved to drum! If any crosstalk remains, raise the threshold of the accidentally-triggering pad using the + button above until it stops, then click Save to Drum.';
+  updateMx(); saveThresholds();
+  toast('Saved! If you still get crosstalk, nudge that pad\u2019s threshold up and Save to Drum.','ok');
+}
+function setStatus(msg,cls){ const el=document.getElementById('cal-status'); el.textContent=msg; el.className='cal-status vis '+(cls||''); }
+function toggleAdv(force){
+  const panel = document.getElementById('adv-panel');
+  const toggle = document.getElementById('adv-toggle');
+  if(!panel || !toggle) return;
+
+  const shouldOpen = (typeof force === 'boolean') ? force : !panel.classList.contains('open');
+  panel.classList.toggle('open', shouldOpen);
+  toggle.classList.toggle('open', shouldOpen);
+  // Fallback so the accordion still works even if class styling is stale/cached.
+  panel.style.display = shouldOpen ? 'block' : 'none';
+}
+
+// Keep panel display in sync with class state on load.
+window.addEventListener('DOMContentLoaded', () => {
+  const panel = document.getElementById('adv-panel');
+  if(panel){
+    panel.style.display = panel.classList.contains('open') ? 'block' : 'none';
+  }
+});
+
+// -- CROSSTALK ---------------------------------------------
+function buildMx(){
+  const g=document.getElementById('mx'); g.innerHTML='';
+  const hdr=document.createElement('div'); hdr.className='mc mh'; hdr.innerHTML='&nbsp;'; g.appendChild(hdr);
+  PADS.forEach(p=>{ const h=document.createElement('div');h.className='mc mh';h.textContent=SH[p];g.appendChild(h); });
+  PADS.forEach(v=>{
+    const l=document.createElement('div');l.className='mc ml';l.textContent=SH[v];g.appendChild(l);
+    PADS.forEach(h=>{ const c=document.createElement('div');c.id='mx-'+h+'-'+v;c.className='mc'+(h===v?' ms':'');c.textContent=h===v?'—':'0';g.appendChild(c); });
+  });
+}
+function updateMx(){
+  PADS.forEach(h=>PADS.forEach(v=>{
+    if(h===v) return;
+    const raw=Math.round(S.xt[h][v]*4095), thr=S.thr[v];
+    const c=document.getElementById('mx-'+h+'-'+v); if(!c) return;
+    c.textContent=raw; c.className='mc';
+    if(raw>thr) c.classList.add('m-red');
+    else if(raw>thr*.5) c.classList.add('m-amb');
+    else if(raw>8) c.classList.add('m-grn');
+  }));
+}
+
+// -- DEBUG LOG ---------------------------------------------
+const MAX_LOG=120; let logLines=[];
+let _logRenderPending=false;
+let LOG_PAUSED=false;
+const LOG_AUTO_SCROLL=false;
+let _hit5Timer=null;
+const HIT5_CAPTURE = {
+  active:false,
+  lines:[],
+  maxLines:80,
+  rawEvery:50,
+  minSpike:40,
+  rawSeen:0,
+  evtSeen:0,
+  evtKept:0,
+  dropped:0,
+  maxSeen:{ka_l:0,don_l:0,don_r:0,ka_r:0}
+};
+let _evtLogSeen=0;
+const GUIDED_TEST_STEPS = [
+  {name:'Don L Singles x5', instruction:'Hit Don Left 5 times at the same force.', durationMs:5000, pad:'don_l'},
+  {name:'Don R Singles x5', instruction:'Hit Don Right 5 times at the same force.', durationMs:5000, pad:'don_r'},
+  {name:'Don L Fast Roll', instruction:'Do a fast Don Left roll for the full window.', durationMs:5000, pad:'don_l'},
+  {name:'Don R Fast Roll', instruction:'Do a fast Don Right roll for the full window.', durationMs:5000, pad:'don_r'},
+  {name:'Alternating Don L/R', instruction:'Alternate Left/Right Don quickly.', durationMs:6000, pad:'mix'},
+  {name:'Crosstalk Stress (Don L)', instruction:'Hit Don Left only, harder than normal gameplay force. Do not strike Ka.', durationMs:5000, pad:'don_l'},
+  {name:'Crosstalk Stress (Don R)', instruction:'Hit Don Right only, harder than normal gameplay force. Do not strike Ka.', durationMs:5000, pad:'don_r'},
+  {name:'Ka L Singles x5', instruction:'Hit Ka Left 5 times at the same force.', durationMs:5000, pad:'ka_l'},
+  {name:'Ka R Singles x5', instruction:'Hit Ka Right 5 times at the same force.', durationMs:5000, pad:'ka_r'},
+  {name:'Ka L Fast Roll', instruction:'Do a fast Ka Left roll for the full window.', durationMs:5000, pad:'ka_l'},
+  {name:'Ka R Fast Roll', instruction:'Do a fast Ka Right roll for the full window.', durationMs:5000, pad:'ka_r'}
+];
+const LANE_VALIDATION_STEPS = [
+  {name:'Left Ka x10', instruction:'Strike Ka Left 10 times. Press Miss only if a strike should have counted but did not.', pad:'ka_l', targetHits:10, falsePads:['don_l']},
+  {name:'Left Don x10', instruction:'Strike Don Left 10 times. Press Miss only if a strike should have counted but did not.', pad:'don_l', targetHits:10, falsePads:['ka_l']},
+  {name:'Right Don x10', instruction:'Strike Don Right 10 times. Press Miss only if a strike should have counted but did not.', pad:'don_r', targetHits:10, falsePads:['ka_r']},
+  {name:'Right Ka x10', instruction:'Strike Ka Right 10 times. Press Miss only if a strike should have counted but did not.', pad:'ka_r', targetHits:10, falsePads:['don_r']}
+];
+const GUIDED_SUITE = {
+  open:false,
+  active:false,
+  timer:null,
+  stepEndAt:0,
+  stepIndex:-1,
+  mode:'test',
+  title:'Release Reliability Run',
+  subtitle:'',
+  preCountdownSec:5,
+  sampleEvery:80,
+  minSpike:40,
+  maxLinesPerStep:36,
+  current:null,
+  results:[],
+  onComplete:null,
+  laneValidation:false,
+  steps:GUIDED_TEST_STEPS.map(s=>({...s}))
+};
+
+const DEEP_CAL = {
+  active:false,
+  lastSuggestions:null
+};
+
+const DEEP_AUTO_STEPS = [
+  {name:'Don L Singles x8', instruction:'Hit Don Left 8 times at real gameplay force.', durationMs:7000, pad:'don_l'},
+  {name:'Don R Singles x8', instruction:'Hit Don Right 8 times at real gameplay force.', durationMs:7000, pad:'don_r'},
+  {name:'Don L Fast Roll', instruction:'Fast Don Left roll for full window.', durationMs:7000, pad:'don_l'},
+  {name:'Don R Fast Roll', instruction:'Fast Don Right roll for full window.', durationMs:7000, pad:'don_r'},
+  {name:'Alternating Don L/R', instruction:'Alternate Don Left/Right as evenly as possible.', durationMs:8000, pad:'mix'},
+  {name:'Don L Hard Stress', instruction:'Don Left only, harder than normal gameplay.', durationMs:7000, pad:'don_l'},
+  {name:'Don R Hard Stress', instruction:'Don Right only, harder than normal gameplay.', durationMs:7000, pad:'don_r'},
+  {name:'Ka L Singles x8', instruction:'Hit Ka Left 8 times at real gameplay force.', durationMs:7000, pad:'ka_l'},
+  {name:'Ka R Singles x8', instruction:'Hit Ka Right 8 times at real gameplay force.', durationMs:7000, pad:'ka_r'},
+  {name:'Ka L Fast Roll', instruction:'Fast Ka Left roll for full window.', durationMs:7000, pad:'ka_l'},
+  {name:'Ka R Fast Roll', instruction:'Fast Ka Right roll for full window.', durationMs:7000, pad:'ka_r'},
+  {name:'Don L Validation Roll', instruction:'Repeat fast Don Left roll.', durationMs:6000, pad:'don_l'},
+  {name:'Don R Validation Roll', instruction:'Repeat fast Don Right roll.', durationMs:6000, pad:'don_r'},
+  {name:'Ka L Validation Roll', instruction:'Repeat fast Ka Left roll.', durationMs:6000, pad:'ka_l'},
+  {name:'Ka R Validation Roll', instruction:'Repeat fast Ka Right roll.', durationMs:6000, pad:'ka_r'},
+  {name:'Alternating Endurance', instruction:'Alternate Don L/R quickly for final validation.', durationMs:10000, pad:'mix'}
+];
+
+function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
+
+function setDeepCalRunning(on){
+  DEEP_CAL.active=on;
+  const card=document.getElementById('cal-card');
+  const btn=document.getElementById('btn-start');
+  if(card){
+    card.classList.toggle('recording', !!on);
+    if(!on){ card.classList.remove('done'); }
+  }
+  if(btn){
+    btn.className = on ? 'btn-start recording' : 'btn-start';
+    btn.textContent = on ? 'Stop Calibration' : 'Start Calibration';
+  }
+}
+
+function startDeepAutoCalibration(){
+  if(_hit5Timer){
+    toast('Finish Hit 5 capture first.','warn');
+    return;
+  }
+  if(LOG_PAUSED){
+    toggleLogPause();
+  }
+  document.getElementById('results-box').classList.remove('vis');
+  document.getElementById('adv-sug-section').style.display='none';
+  document.getElementById('btn-apply').style.display='none';
+  DEEP_CAL.lastSuggestions=null;
+  setDeepCalRunning(true);
+  setStatus('Deep calibration running...','warn');
+  document.getElementById('cal-sub').textContent='Deep auto-calibration running. This takes about 3 minutes and intentionally repeats high-speed tests.';
+  openGuidedSuite({
+    mode:'deep_auto',
+    title:'Deep Auto-Calibration',
+    subtitle:'16-step auto-calibration measurement run (about 3 minutes). It measures hit strength, speed, and crosstalk repeatedly, then computes suggested thresholds.',
+    steps:DEEP_AUTO_STEPS,
+    preCountdownSec:3,
+    sampleEvery:60,
+    minSpike:35,
+    maxLinesPerStep:44,
+    onComplete:(results)=>finalizeDeepAutoCalibration(results)
+  });
+}
+
+function openLaneValidationSuite(){
+  openGuidedSuite({
+    mode:'lane_validation',
+    title:'Lane Validation',
+    subtitle:'Run four focused 10-hit rounds. Correct hits and false paired hits are counted automatically. Use Miss only when a strike should have counted but did not.',
+    steps:LANE_VALIDATION_STEPS,
+    preCountdownSec:3,
+    sampleEvery:40,
+    minSpike:25,
+    maxLinesPerStep:20
+  });
+}
+
+function finalizeDeepAutoCalibration(results, _payload, _ok, precomputedOutcome){
+  const outcome=precomputedOutcome||deriveDeepAutoSuggestions(results||[]);
+  DEEP_CAL.lastSuggestions=outcome;
+  AC.suggestions=outcome.suggestions;
+
+  PADS.forEach(p=>{
+    const s=outcome.suggestions[p];
+    if(!s) return;
+    const r=document.getElementById('res-'+p);
+    if(r) r.textContent=s.suggested;
+  });
+  renderAdvSuggestions();
+  updateMx();
+  document.getElementById('results-box').classList.add('vis');
+  document.getElementById('adv-sug-section').style.display='';
+  document.getElementById('btn-apply').style.display='';
+  setStatus('Deep calibration complete — review and save','go');
+  document.getElementById('cal-sub').textContent='Deep calibration complete. Suggested thresholds are ready below. Your current thresholds are unchanged until you click Apply & Save.';
+  setDeepCalRunning(false);
+  toast('Deep auto-calibration complete — suggestions ready','ok');
+}
+
+function summarizeKaAsymmetry(results){
+  const kaLeftRuns=(results||[]).filter(r=>r.pad==='ka_l');
+  const kaRightRuns=(results||[]).filter(r=>r.pad==='ka_r');
+  const sumOf=(arr, fn)=>arr.reduce((s, x)=>s + (fn(x)||0), 0);
+  const maxOf=(arr, fn)=>arr.reduce((m, x)=>Math.max(m, fn(x)||0), 0);
+  return {
+    ka_l_to_ka_r_hits:sumOf(kaLeftRuns, r=>r.diag&&r.diag.perPad&&r.diag.perPad.ka_r),
+    ka_r_to_ka_l_hits:sumOf(kaRightRuns, r=>r.diag&&r.diag.perPad&&r.diag.perPad.ka_l),
+    ka_l_cross_peak:maxOf(kaLeftRuns, r=>r.maxRaw&&r.maxRaw.ka_r),
+    ka_r_cross_peak:maxOf(kaRightRuns, r=>r.maxRaw&&r.maxRaw.ka_l),
+    ka_l_cross_blocked:sumOf(kaLeftRuns, r=>r.diag&&r.diag.crossBlocked),
+    ka_r_cross_blocked:sumOf(kaRightRuns, r=>r.diag&&r.diag.crossBlocked),
+    ka_l_arb_blocked:sumOf(kaLeftRuns, r=>r.diag&&r.diag.arbBlocked),
+    ka_r_arb_blocked:sumOf(kaRightRuns, r=>r.diag&&r.diag.arbBlocked)
+  };
+}
+
+function deriveDeepAutoSuggestions(results){
+  const suggestions={};
+  const before={...S.thr};
+
+  function maxOf(arr, fn){
+    let m=0;
+    arr.forEach(x=>{ const v=fn(x)||0; if(v>m) m=v; });
+    return m;
+  }
+  function sumOf(arr, fn){
+    let s=0;
+    arr.forEach(x=>{ s+=(fn(x)||0); });
+    return s;
+  }
+
+  function twinPadOf(pad){
+    switch(pad){
+      case 'ka_l': return 'ka_r';
+      case 'ka_r': return 'ka_l';
+      case 'don_l': return 'don_r';
+      case 'don_r': return 'don_l';
+      default: return null;
+    }
+  }
+
+  PADS.forEach(pad=>{
+    const focused=results.filter(r=>r.pad===pad);
+    const notFocused=results.filter(r=>r.pad!==pad);
+    const nonStress=notFocused.filter(r=>!/stress/i.test(r.name||''));
+    const stress=notFocused.filter(r=>/stress/i.test(r.name||''));
+    const twin=twinPadOf(pad);
+
+    const focusPeak=maxOf(focused, r=>(r.maxRaw&&r.maxRaw[pad])||0);
+    const focusHits=sumOf(focused, r=>(r.diag&&r.diag.perPad&&r.diag.perPad[pad])||0);
+    const crossRegular=maxOf(nonStress, r=>(r.maxRaw&&r.maxRaw[pad])||0);
+    const crossStress=maxOf(stress, r=>(r.maxRaw&&r.maxRaw[pad])||0);
+    const crossBlend=Math.max(crossRegular, Math.round(crossRegular*0.75 + crossStress*0.25));
+    const focusedTwinHits=twin?sumOf(focused, r=>(r.diag&&r.diag.perPad&&r.diag.perPad[twin])||0):0;
+    const focusedCrossBlocked=sumOf(focused, r=>(r.diag&&r.diag.crossBlocked)||0);
+    const focusedArbBlocked=sumOf(focused, r=>(r.diag&&r.diag.arbBlocked)||0);
+    const focusedTwinPeak=twin?maxOf(focused, r=>(r.maxRaw&&r.maxRaw[twin])||0):0;
+
+    const isKa=pad.startsWith('ka');
+    const hitRatio=isKa?0.22:0.14;
+    const crossMargin=isKa?18:10;
+    const floor = isKa ? 150 : (pad==='don_r' ? 80 : 60);
+    const rawFromHit=Math.round(focusPeak*hitRatio);
+    const rawFromCross=crossBlend + crossMargin;
+    const rawFromAsymmetry=(isKa&&twin)
+      ? Math.round(Math.max(
+          focusedTwinPeak*0.65 + 10,
+          before[pad] + focusedTwinHits*2 + focusedCrossBlocked*3 + focusedArbBlocked
+        ))
+      : 0;
+    let suggested=Math.max(floor, rawFromHit, rawFromCross, rawFromAsymmetry);
+    const cap=Math.max(floor, Math.round(focusPeak*(isKa?0.46:0.30)));
+    suggested=clamp(suggested, floor, cap || 4095);
+
+    suggestions[pad]={
+      suggested,
+      current:before[pad],
+      maxHit:focusPeak,
+      minHit:Math.max(0,Math.round(focusPeak*0.55)),
+      normalHit:Math.max(0,Math.round(focusPeak*0.75)),
+      maxCross:crossBlend,
+      focusedTwinHits,
+      focusedTwinPeak,
+      focusedCrossBlocked,
+      focusedArbBlocked,
+      asymmetryBoost:rawFromAsymmetry,
+      capped:suggested>=cap && cap>0,
+      confidence:focusHits>=24?'high':(focusHits>=10?'med':'low')
+    };
+  });
+
+  if(suggestions.don_r && suggestions.don_l){
+    suggestions.don_r.suggested=Math.max(suggestions.don_r.suggested, suggestions.don_l.suggested+5);
+  }
+
+  return { suggestions, before };
+}
+
+function stepPadIconSvg(pad){
+  switch(pad){
+    case 'don_l':
+      return '<svg class="ts-pad-svg" viewBox="0 0 44 44" fill="none"><defs><clipPath id="ts-donl"><rect x="0" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#3d3a36" stroke-width="1"/><circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#ts-donl)"/></svg>';
+    case 'don_r':
+      return '<svg class="ts-pad-svg" viewBox="0 0 44 44" fill="none"><defs><clipPath id="ts-donr"><rect x="22" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#3d3a36" stroke-width="1"/><circle cx="22" cy="22" r="14" fill="#e8572a" clip-path="url(#ts-donr)"/></svg>';
+    case 'ka_l':
+      return '<svg class="ts-pad-svg" viewBox="0 0 44 44" fill="none"><defs><clipPath id="ts-kal"><rect x="0" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#3d3a36" stroke-width="1"/><circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#ts-kal)"/></svg>';
+    case 'ka_r':
+      return '<svg class="ts-pad-svg" viewBox="0 0 44 44" fill="none"><defs><clipPath id="ts-kar"><rect x="22" y="0" width="22" height="44"/></clipPath></defs><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#3d3a36" stroke-width="1"/><circle cx="22" cy="22" r="17" fill="none" stroke="#2ab8c8" stroke-width="7" clip-path="url(#ts-kar)"/></svg>';
+    case 'mix':
+      return '<svg class="ts-pad-svg" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" fill="#0f0e0d" stroke="#3d3a36" stroke-width="1"/><circle cx="22" cy="22" r="14" fill="#e8572a"/><circle cx="22" cy="22" r="18" fill="none" stroke="#2ab8c8" stroke-width="4"/></svg>';
+    default:
+      return '';
+  }
+}
+
+function resetForSuiteStep(){
+  try{
+    if(typeof resetLiveDiagnostics==='function') resetLiveDiagnostics();
+    PADS.forEach(h=>{
+      if(!S.xt[h]) S.xt[h]={};
+      PADS.forEach(v=>{ S.xt[h][v]=0; });
+    });
+    if(typeof updateMx==='function') updateMx();
+  }catch(err){
+    console.error('resetForSuiteStep failed', err);
+  }
+  if(typeof SC2!=='undefined' && SC2 && Array.isArray(SC2.notes)){
+    SC2.notes=[];
+  }
+  logLines=[];
+  if(typeof requestLogRender==='function') requestLogRender();
+}
+
+function openGuidedSuite(opts){
+  if(GUIDED_SUITE.open) return;
+  const o=opts||{};
+  GUIDED_SUITE.mode=o.mode||'test';
+  GUIDED_SUITE.title=o.title||'Release Reliability Run';
+  GUIDED_SUITE.subtitle=o.subtitle||'';
+  GUIDED_SUITE.preCountdownSec=Number.isFinite(o.preCountdownSec)?o.preCountdownSec:5;
+  GUIDED_SUITE.sampleEvery=Number.isFinite(o.sampleEvery)?o.sampleEvery:80;
+  GUIDED_SUITE.minSpike=Number.isFinite(o.minSpike)?o.minSpike:40;
+  GUIDED_SUITE.maxLinesPerStep=Number.isFinite(o.maxLinesPerStep)?o.maxLinesPerStep:36;
+  GUIDED_SUITE.steps=Array.isArray(o.steps)&&o.steps.length?o.steps.map(s=>({...s})):GUIDED_TEST_STEPS.map(s=>({...s}));
+  GUIDED_SUITE.onComplete=(typeof o.onComplete==='function')?o.onComplete:null;
+  GUIDED_SUITE.laneValidation = GUIDED_SUITE.mode==='lane_validation';
+  GUIDED_SUITE.open=true;
+  const root=document.getElementById('test-suite');
+  if(root){ root.classList.add('show'); }
+  renderGuidedSuiteIntro();
+}
+
+function closeGuidedSuite(){
+  GUIDED_SUITE.open=false;
+  GUIDED_SUITE.active=false;
+  if(GUIDED_SUITE.timer){ clearInterval(GUIDED_SUITE.timer); GUIDED_SUITE.timer=null; }
+  const root=document.getElementById('test-suite');
+  if(root){ root.classList.remove('show'); }
+  if(DEEP_CAL.active){
+    setDeepCalRunning(false);
+    setStatus('Deep calibration stopped.','warn');
+    document.getElementById('cal-sub').textContent='Click Start Calibration to run deep auto-calibration (thorough mode).';
+  }
+}
+
+function renderGuidedSuiteIntro(){
+  const el=document.getElementById('test-suite-content');
+  if(!el) return;
+  const stepCount = GUIDED_SUITE.steps.length;
+  const startLabel = GUIDED_SUITE.mode==='deep_auto' ? 'Start Deep Auto-Calibration' : (GUIDED_SUITE.mode==='lane_validation' ? 'Start Lane Validation' : 'Start Guided Test Suite');
+  const introKey = GUIDED_SUITE.mode==='deep_auto' ? 'Deep Auto-Calibration' : (GUIDED_SUITE.mode==='lane_validation' ? 'Lane Validation' : 'Guided Test Suite');
+  el.innerHTML=
+    `<div class="ts-k">${introKey}</div>`+
+    `<div class="ts-title">${GUIDED_SUITE.title}</div>`+
+    `<div class="ts-sub">${GUIDED_SUITE.subtitle || `Runs ${stepCount} timed steps and auto-copies one combined report at the end. Keep the drum in Debug/Calibrate mode.`}</div>`+
+    '<div class="ts-row">'+
+      `<button class="ts-btn" id="ts-start-btn" type="button" onclick="startGuidedSuite()">${startLabel}</button>`+
+      '<button class="ts-btn alt" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Cancel</button>'+
+    '</div>';
+}
+
+function startGuidedSuite(){
+  try{
+    if(_hit5Timer){
+      toast('Finish or wait for Hit 5 capture first.','warn');
+      return;
+    }
+    if(LOG_PAUSED){
+      toggleLogPause();
+    }
+    GUIDED_SUITE.results=[];
+    GUIDED_SUITE.stepIndex=-1;
+    advanceGuidedSuiteStep();
+  }catch(err){
+    console.error('startGuidedSuite failed', err);
+    const el=document.getElementById('test-suite-content');
+    if(el){
+      el.innerHTML=
+        '<div class="ts-k">Lane Validation</div>'+
+        '<div class="ts-title">Could not start</div>'+
+        `<div class="ts-sub">${String(err && err.message ? err.message : err)}</div>`+
+        '<div class="ts-row">'+
+          '<button class="ts-btn alt" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Close</button>'+
+        '</div>';
+    }
+    toast('Lane validation could not start — check console','err');
+  }
+}
+
+function buildDiagSnapshot(){
+  return {
+    totalHits:S.stats.totalHits,
+    perPad:{...S.stats.perPad},
+    crossBlocked:S.stats.crossBlocked,
+    arbBlocked:S.stats.arbBlocked,
+    heldSuppress:S.stats.heldSuppress,
+    lastEvent:S.stats.lastEvent,
+    interpretation:getDiagnosticsSummaryLabel()
+  };
+}
+
+function advanceGuidedSuiteStep(){
+  GUIDED_SUITE.stepIndex++;
+  if(GUIDED_SUITE.stepIndex >= GUIDED_SUITE.steps.length){
+    completeGuidedSuite();
+    return;
+  }
+  const step=GUIDED_SUITE.steps[GUIDED_SUITE.stepIndex];
+  resetForSuiteStep();
+  GUIDED_SUITE.current={
+    stepName:step.name,
+    instruction:step.instruction,
+    pad:step.pad,
+    durationMs:step.durationMs,
+    targetHits:step.targetHits||0,
+    falsePads:Array.isArray(step.falsePads)?[...step.falsePads]:[],
+    lines:[],
+    dropped:0,
+    rawSeen:0,
+    evtSeen:0,
+    maxSeen:{ka_l:0,don_l:0,don_r:0,ka_r:0},
+    correctHits:0,
+    falseHits:0,
+    misses:0,
+    unexpectedHits:0
+  };
+  GUIDED_SUITE.active=false;
+  startGuidedStepCountdown(step);
+}
+
+function startGuidedStepCountdown(step){
+  let remainSec = GUIDED_SUITE.preCountdownSec;
+  renderGuidedSuiteCountdown(step, remainSec);
+  if(GUIDED_SUITE.timer){ clearInterval(GUIDED_SUITE.timer); }
+  GUIDED_SUITE.timer=setInterval(()=>{
+    remainSec--;
+    if(remainSec>0){
+      renderGuidedSuiteCountdown(step, remainSec);
+      return;
+    }
+    clearInterval(GUIDED_SUITE.timer);
+    GUIDED_SUITE.timer=null;
+    startGuidedActiveStep(step);
+  },1000);
+}
+
+function startGuidedActiveStep(step){
+  GUIDED_SUITE.active=true;
+  GUIDED_SUITE.stepEndAt=Date.now()+step.durationMs;
+  renderGuidedSuiteStep();
+  if(GUIDED_SUITE.timer){ clearInterval(GUIDED_SUITE.timer); }
+  if(GUIDED_SUITE.laneValidation){
+    return;
+  }
+  GUIDED_SUITE.timer=setInterval(()=>{
+    if(!GUIDED_SUITE.active) return;
+    const remain=Math.max(0,GUIDED_SUITE.stepEndAt-Date.now());
+    const t=document.getElementById('ts-time-left');
+    if(t){ t.textContent=`${(remain/1000).toFixed(1)}s`; }
+    if(remain<=0){
+      finishGuidedSuiteStep();
+    }
+  },100);
+}
+
+function renderGuidedSuiteCountdown(step, remainSec){
+  const el=document.getElementById('test-suite-content');
+  if(!el) return;
+  const idx=GUIDED_SUITE.stepIndex+1;
+  const total=GUIDED_SUITE.steps.length;
+  const suiteKey = GUIDED_SUITE.mode==='lane_validation' ? 'Lane Validation' : 'Guided Test Suite';
+  el.innerHTML=
+    `<div class="ts-k">${suiteKey}</div>`+
+    `<div class="ts-title">Step ${idx} / ${total}</div>`+
+    `<div class="ts-pad-wrap">${stepPadIconSvg(step.pad)}</div>`+
+    `<div class="ts-step">${step.name}</div>`+
+    `<div class="ts-instr">${step.instruction}</div>`+
+    `<div class="ts-time">Starting in: <span id="ts-time-left">${remainSec}s</span></div>`+
+    '<div class="ts-row">'+
+      '<button class="ts-btn alt" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Abort</button>'+
+    '</div>';
+}
+
+function renderGuidedSuiteStep(){
+  const el=document.getElementById('test-suite-content');
+  if(!el || !GUIDED_SUITE.current) return;
+  const idx=GUIDED_SUITE.stepIndex+1;
+  const total=GUIDED_SUITE.steps.length;
+  const suiteKey = GUIDED_SUITE.mode==='lane_validation' ? 'Lane Validation' : 'Guided Test Suite';
+  const laneHtml = GUIDED_SUITE.laneValidation
+    ? `<div class="ts-live-box" id="ts-live-box"><div class="ts-live-grid"><div class="ts-live-stat"><div class="ts-live-label">Attempts</div><div class="ts-live-value" id="ts-attempts">${GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses}</div></div><div class="ts-live-stat"><div class="ts-live-label">Correct</div><div class="ts-live-value" id="ts-correct">${GUIDED_SUITE.current.correctHits}</div></div><div class="ts-live-stat"><div class="ts-live-label">False Pair</div><div class="ts-live-value" id="ts-false">${GUIDED_SUITE.current.falseHits}</div></div><div class="ts-live-stat"><div class="ts-live-label">Misses</div><div class="ts-live-value" id="ts-misses">${GUIDED_SUITE.current.misses}</div></div></div><div class="ts-live-status" id="ts-live-status">Waiting for hit ${GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses + 1} of ${GUIDED_SUITE.current.targetHits}</div></div>`
+    : '';
+  const controlsHtml = GUIDED_SUITE.laneValidation
+    ? '<button class="ts-btn" id="ts-miss-btn" type="button" onclick="recordLaneValidationMiss()">Miss</button><button class="ts-btn alt" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Abort</button>'
+    : '<button class="ts-btn alt" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Abort</button>';
+  el.innerHTML=
+    `<div class="ts-k">${suiteKey}</div>`+
+    `<div class="ts-title">Step ${idx} / ${total}</div>`+
+    `<div class="ts-pad-wrap">${stepPadIconSvg(GUIDED_SUITE.steps[GUIDED_SUITE.stepIndex].pad)}</div>`+
+    `<div class="ts-step">${GUIDED_SUITE.current.stepName}</div>`+
+    `<div class="ts-instr">${GUIDED_SUITE.current.instruction}</div>`+
+    (GUIDED_SUITE.laneValidation ? '' : `<div class="ts-time">Time Left: <span id="ts-time-left">${(GUIDED_SUITE.current.durationMs/1000).toFixed(1)}s</span></div>`)+
+    laneHtml+
+    '<div class="ts-row">'+
+      controlsHtml+
+    '</div>';
+}
+
+function updateLaneValidationUi(statusText, statusKind){
+  if(!GUIDED_SUITE.laneValidation || !GUIDED_SUITE.current) return;
+  const attemptsEl=document.getElementById('ts-attempts');
+  const correctEl=document.getElementById('ts-correct');
+  const falseEl=document.getElementById('ts-false');
+  const missesEl=document.getElementById('ts-misses');
+  const statusEl=document.getElementById('ts-live-status');
+  const boxEl=document.getElementById('ts-live-box');
+  if(attemptsEl) attemptsEl.textContent=String(GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses);
+  if(correctEl) correctEl.textContent=String(GUIDED_SUITE.current.correctHits);
+  if(falseEl) falseEl.textContent=String(GUIDED_SUITE.current.falseHits);
+  if(missesEl) missesEl.textContent=String(GUIDED_SUITE.current.misses);
+  if(statusEl){
+    statusEl.textContent=statusText || `Waiting for hit ${GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses + 1} of ${GUIDED_SUITE.current.targetHits}`;
+    statusEl.classList.remove('ok','warn','err');
+    if(statusKind) statusEl.classList.add(statusKind);
+  }
+  if(boxEl){
+    boxEl.classList.remove('flash');
+    void boxEl.offsetWidth;
+    boxEl.classList.add('flash');
+    setTimeout(()=>{
+      if(boxEl) boxEl.classList.remove('flash');
+    },220);
+  }
+}
+
+function finishLaneValidationStepIfReady(){
+  if(!GUIDED_SUITE.laneValidation || !GUIDED_SUITE.active || !GUIDED_SUITE.current) return;
+  if((GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses) < GUIDED_SUITE.current.targetHits) return;
+  finishGuidedSuiteStep();
+}
+
+function recordLaneValidationMiss(){
+  if(!GUIDED_SUITE.laneValidation || !GUIDED_SUITE.active || !GUIDED_SUITE.current) return;
+  GUIDED_SUITE.current.misses++;
+  pushGuidedLine(`[miss] expected=${GUIDED_SUITE.current.pad} attempts=${GUIDED_SUITE.current.correctHits + GUIDED_SUITE.current.misses}/${GUIDED_SUITE.current.targetHits}`);
+  updateLaneValidationUi(`Miss recorded for ${SH[GUIDED_SUITE.current.pad]}`, 'warn');
+  finishLaneValidationStepIfReady();
+}
+
+function captureLaneValidationHit(hitPads, vals){
+  if(!GUIDED_SUITE.laneValidation || !GUIDED_SUITE.active || !GUIDED_SUITE.current || !Array.isArray(hitPads) || !hitPads.length) return;
+  const expected = GUIDED_SUITE.current.pad;
+  const expectedSeen = hitPads.includes(expected);
+  const falsePairedPads = GUIDED_SUITE.current.falsePads.filter(p=>hitPads.includes(p));
+  const unrelatedPads = hitPads.filter(p=>p!==expected && !GUIDED_SUITE.current.falsePads.includes(p));
+  if(expectedSeen){
+    GUIDED_SUITE.current.correctHits++;
+  }
+  GUIDED_SUITE.current.falseHits += falsePairedPads.length;
+  GUIDED_SUITE.current.unexpectedHits += unrelatedPads.length;
+  const parts = [`expected=${expected}`];
+  if(expectedSeen) parts.push(`correct=${expected}`);
+  if(falsePairedPads.length) parts.push(`false_pair=${falsePairedPads.join(',')}`);
+  if(unrelatedPads.length) parts.push(`unexpected=${unrelatedPads.join(',')}`);
+  parts.push(`raw=${hitPads.map(p=>`${p}:${vals[p]}`).join(',')}`);
+  pushGuidedLine(`[lane_hit] ${parts.join(' ')}`);
+  let statusText;
+  let statusKind='ok';
+  if(expectedSeen && falsePairedPads.length){
+    statusText=`Accepted ${SH[expected]} with false pair ${falsePairedPads.map(p=>SH[p]).join(', ')}`;
+    statusKind='warn';
+  }else if(expectedSeen){
+    statusText=`Accepted ${SH[expected]}`;
+  }else if(falsePairedPads.length || unrelatedPads.length){
+    statusText=`Unexpected hit: ${(falsePairedPads.concat(unrelatedPads)).map(p=>SH[p]).join(', ')}`;
+    statusKind='err';
+  }else{
+    statusText='Hit seen';
+  }
+  updateLaneValidationUi(statusText, statusKind);
+  finishLaneValidationStepIfReady();
+}
+
+function pushGuidedLine(line){
+  const cur=GUIDED_SUITE.current;
+  if(!cur) return;
+  if(cur.lines.length >= GUIDED_SUITE.maxLinesPerStep){
+    cur.dropped++;
+    return;
+  }
+  cur.lines.push(line);
+}
+
+function captureGuidedLine(line){
+  if(!GUIDED_SUITE.active || !GUIDED_SUITE.current) return;
+  const cur=GUIDED_SUITE.current;
+  const trimmed=(line||'').trim();
+  if(!trimmed) return;
+
+  if(trimmed.startsWith('EVT:')){
+    cur.evtSeen++;
+    const m=trimmed.match(/^EVT:(\d+),(\d+),(\d+),(\d+);H=(\d+);X=(\d+);A=(\d+);D=(\d+);T=(\d+)$/);
+    let keep=(cur.evtSeen % 20)===0;
+    if(m){
+      const kaL=+m[1], donL=+m[2], donR=+m[3], kaR=+m[4];
+      const h=+m[5], x=+m[6], a=+m[7], d=+m[8];
+      cur.maxSeen.ka_l=Math.max(cur.maxSeen.ka_l,kaL);
+      cur.maxSeen.don_l=Math.max(cur.maxSeen.don_l,donL);
+      cur.maxSeen.don_r=Math.max(cur.maxSeen.don_r,donR);
+      cur.maxSeen.ka_r=Math.max(cur.maxSeen.ka_r,kaR);
+      const spike=Math.max(kaL,donL,donR,kaR);
+      if(h||x||a||d||spike>=GUIDED_SUITE.minSpike) keep=true;
+    }
+    if(keep){ pushGuidedLine(`[evt] ${trimmed.slice(0,110)}`); }
+    return;
+  }
+
+  const rawParts=trimmed.split(/\s+/);
+  if(rawParts.length>=4 && rawParts.slice(0,4).every(n=>/^\d{1,4}$/.test(n))){
+    cur.rawSeen++;
+    const kaL=+rawParts[0], donL=+rawParts[1], donR=+rawParts[2], kaR=+rawParts[3];
+    cur.maxSeen.ka_l=Math.max(cur.maxSeen.ka_l,kaL);
+    cur.maxSeen.don_l=Math.max(cur.maxSeen.don_l,donL);
+    cur.maxSeen.don_r=Math.max(cur.maxSeen.don_r,donR);
+    cur.maxSeen.ka_r=Math.max(cur.maxSeen.ka_r,kaR);
+    const spike=Math.max(kaL,donL,donR,kaR);
+    if(spike>=GUIDED_SUITE.minSpike || (cur.rawSeen % GUIDED_SUITE.sampleEvery)===0){
+      pushGuidedLine(`[raw] ${rawParts.slice(0,4).join(' ')}`);
+    }
+    return;
+  }
+}
+
+function finishGuidedSuiteStep(){
+  if(!GUIDED_SUITE.active || !GUIDED_SUITE.current) return;
+  GUIDED_SUITE.active=false;
+  if(GUIDED_SUITE.timer){ clearInterval(GUIDED_SUITE.timer); GUIDED_SUITE.timer=null; }
+  GUIDED_SUITE.results.push({
+    name:GUIDED_SUITE.current.stepName,
+    instruction:GUIDED_SUITE.current.instruction,
+    pad:GUIDED_SUITE.current.pad,
+    durationMs:GUIDED_SUITE.current.durationMs,
+    thresholds:{...S.thr},
+    maxRaw:{...GUIDED_SUITE.current.maxSeen},
+    diag:buildDiagSnapshot(),
+    lines:[...GUIDED_SUITE.current.lines],
+    dropped:GUIDED_SUITE.current.dropped,
+    targetHits:GUIDED_SUITE.current.targetHits,
+    correctHits:GUIDED_SUITE.current.correctHits,
+    falseHits:GUIDED_SUITE.current.falseHits,
+    misses:GUIDED_SUITE.current.misses,
+    unexpectedHits:GUIDED_SUITE.current.unexpectedHits
+  });
+  GUIDED_SUITE.current=null;
+
+  const el=document.getElementById('test-suite-content');
+  if(el){
+    const done=GUIDED_SUITE.stepIndex+1;
+    const total=GUIDED_SUITE.steps.length;
+    el.innerHTML=
+      '<div class="ts-k">Guided Test Suite</div>'+
+      `<div class="ts-title">Step ${done} complete</div>`+
+      '<div class="ts-sub">Preparing next step...</div>';
+  }
+  setTimeout(()=>advanceGuidedSuiteStep(), 700);
+}
+
+async function completeGuidedSuite(){
+  if(GUIDED_SUITE.laneValidation){
+    const lines=[];
+    lines.push(`[lane_validation] steps=${GUIDED_SUITE.results.length} generated_at="${new Date().toISOString()}"`);
+    lines.push(`[active_thresholds_start] ka_l=${S.thr.ka_l} don_l=${S.thr.don_l} don_r=${S.thr.don_r} ka_r=${S.thr.ka_r}`);
+    GUIDED_SUITE.results.forEach((r,i)=>{
+      lines.push('');
+      lines.push(`[round ${i+1}] ${r.name}`);
+      lines.push(`[summary] target=${r.targetHits} correct=${r.correctHits} false_pairs=${r.falseHits} misses=${r.misses} unexpected=${r.unexpectedHits}`);
+      lines.push(`[diag] total_hits=${r.diag.totalHits} ka_l=${r.diag.perPad.ka_l} don_l=${r.diag.perPad.don_l} don_r=${r.diag.perPad.don_r} ka_r=${r.diag.perPad.ka_r} cross_blocked=${r.diag.crossBlocked} arb_blocked=${r.diag.arbBlocked} held_high=${r.diag.heldSuppress}`);
+      lines.push(...r.lines);
+    });
+    const payload=lines.join('\n');
+    const ok=await copyText(payload);
+    const summaryRows = GUIDED_SUITE.results.map(r=>`<tr><td>${r.name}</td><td>${r.correctHits}/${r.targetHits}</td><td>${r.falseHits}</td><td>${r.misses}</td></tr>`).join('');
+    const el=document.getElementById('test-suite-content');
+    if(el){
+      el.innerHTML=
+        '<div class="ts-k">Lane Validation</div>'+
+        '<div class="ts-title">Lane Validation Complete</div>'+
+        `<div class="ts-sub">${ok ? 'Summary copied to clipboard.' : 'Finished, but clipboard copy failed.'}</div>`+
+        '<div class="ts-sub" style="margin-top:10px"><table class="sug-table"><thead><tr><th>Round</th><th>Correct</th><th>False Pair</th><th>Misses</th></tr></thead><tbody>'+
+        summaryRows+
+        '</tbody></table></div>'+
+        '<div class="ts-row">'+
+          '<button class="ts-btn" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Done</button>'+
+        '</div>';
+    }
+    toast(ok ? 'Lane validation complete — summary copied' : 'Lane validation complete — copy failed', ok ? 'ok' : 'err');
+    return;
+  }
+  const deepOutcome = GUIDED_SUITE.mode==='deep_auto' ? deriveDeepAutoSuggestions(GUIDED_SUITE.results) : null;
+  const kaAsymmetry = summarizeKaAsymmetry(GUIDED_SUITE.results);
+  const lines=[];
+  lines.push(`[guided_suite] mode=${GUIDED_SUITE.mode} steps=${GUIDED_SUITE.results.length} generated_at="${new Date().toISOString()}"`);
+  lines.push(`[active_thresholds_start] ka_l=${S.thr.ka_l} don_l=${S.thr.don_l} don_r=${S.thr.don_r} ka_r=${S.thr.ka_r}`);
+  lines.push(`[ka_asymmetry] ka_l_to_ka_r_hits=${kaAsymmetry.ka_l_to_ka_r_hits} ka_r_to_ka_l_hits=${kaAsymmetry.ka_r_to_ka_l_hits} ka_l_cross_peak=${kaAsymmetry.ka_l_cross_peak} ka_r_cross_peak=${kaAsymmetry.ka_r_cross_peak} ka_l_cross_blocked=${kaAsymmetry.ka_l_cross_blocked} ka_r_cross_blocked=${kaAsymmetry.ka_r_cross_blocked} ka_l_arb_blocked=${kaAsymmetry.ka_l_arb_blocked} ka_r_arb_blocked=${kaAsymmetry.ka_r_arb_blocked}`);
+  if(deepOutcome){
+    lines.push(`[suggested_thresholds] ka_l=${deepOutcome.suggestions.ka_l.suggested} don_l=${deepOutcome.suggestions.don_l.suggested} don_r=${deepOutcome.suggestions.don_r.suggested} ka_r=${deepOutcome.suggestions.ka_r.suggested}`);
+    lines.push(`[suggested_ka_reasoning] ka_l_asymmetry_boost=${deepOutcome.suggestions.ka_l.asymmetryBoost} ka_r_asymmetry_boost=${deepOutcome.suggestions.ka_r.asymmetryBoost} ka_l_twin_hits=${deepOutcome.suggestions.ka_l.focusedTwinHits} ka_r_twin_hits=${deepOutcome.suggestions.ka_r.focusedTwinHits} ka_l_twin_peak=${deepOutcome.suggestions.ka_l.focusedTwinPeak} ka_r_twin_peak=${deepOutcome.suggestions.ka_r.focusedTwinPeak}`);
+  }
+  GUIDED_SUITE.results.forEach((r,i)=>{
+    lines.push('');
+    lines.push(`[step ${i+1}] ${r.name} duration_ms=${r.durationMs}`);
+    lines.push(`[thresholds] ka_l=${r.thresholds.ka_l} don_l=${r.thresholds.don_l} don_r=${r.thresholds.don_r} ka_r=${r.thresholds.ka_r}`);
+    lines.push(`[max_raw] ka_l=${r.maxRaw.ka_l} don_l=${r.maxRaw.don_l} don_r=${r.maxRaw.don_r} ka_r=${r.maxRaw.ka_r}`);
+    lines.push(`[diag] total_hits=${r.diag.totalHits} ka_l=${r.diag.perPad.ka_l} don_l=${r.diag.perPad.don_l} don_r=${r.diag.perPad.don_r} ka_r=${r.diag.perPad.ka_r} cross_blocked=${r.diag.crossBlocked} arb_blocked=${r.diag.arbBlocked} held_high=${r.diag.heldSuppress} last_event="${r.diag.lastEvent}" interpretation="${r.diag.interpretation}" dropped=${r.dropped}`);
+    lines.push(...r.lines);
+  });
+  const payload=lines.join('\n');
+  const ok=await copyText(payload);
+  if(typeof GUIDED_SUITE.onComplete==='function'){
+    try{
+      GUIDED_SUITE.onComplete(GUIDED_SUITE.results, payload, ok, deepOutcome);
+    }catch(_){}
+  }
+  const el=document.getElementById('test-suite-content');
+  if(el){
+    const completeKey = GUIDED_SUITE.mode==='deep_auto' ? 'Deep Auto-Calibration' : 'Guided Test Suite';
+    const completeTitle = GUIDED_SUITE.mode==='deep_auto' ? 'Deep Auto-Calibration Complete' : 'Guided Test Suite Complete';
+    el.innerHTML=
+      `<div class="ts-k">${completeKey}</div>`+
+      `<div class="ts-title">${completeTitle}</div>`+
+      `<div class="ts-sub">${ok ? 'Combined report copied to clipboard.' : 'Suite finished, but clipboard copy failed.'}</div>`+
+      '<div class="ts-row">'+
+        '<button class="ts-btn" id="ts-cancel-btn" type="button" onclick="closeGuidedSuite()">Done</button>'+
+      '</div>';
+  }
+  if(GUIDED_SUITE.mode!=='deep_auto'){
+    toast(ok ? 'Guided suite complete — report copied' : 'Suite complete — copy failed', ok ? 'ok' : 'err');
+  }
+}
+
+document.addEventListener('click', (e)=>{
+  const startBtn=e.target.closest('#ts-start-btn');
+  if(startBtn){
+    e.preventDefault();
+    startGuidedSuite();
+    return;
+  }
+  const cancelBtn=e.target.closest('#ts-cancel-btn');
+  if(cancelBtn){
+    e.preventDefault();
+    closeGuidedSuite();
+    return;
+  }
+  const missBtn=e.target.closest('#ts-miss-btn');
+  if(missBtn){
+    e.preventDefault();
+    recordLaneValidationMiss();
+  }
+});
+
+function toggleLogPause(){
+  LOG_PAUSED = !LOG_PAUSED;
+  const b=document.getElementById('btn-log-pause');
+  if(b){
+    b.textContent = LOG_PAUSED ? 'Resume Log' : 'Pause Log';
+    b.classList.toggle('on', LOG_PAUSED);
+  }
+  if(!LOG_PAUSED){
+    requestLogRender();
+  }
+}
+
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch(_){
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.style.position='fixed';
+    ta.style.left='-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try{
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return true;
+    }catch(__){
+      document.body.removeChild(ta);
+      return false;
+    }
+  }
+}
+
+async function copyLog(){
+  const text = (logLines && logLines.length) ? logLines.join('\n') : 'Waiting for hits…';
+  const ok = await copyText(text);
+  toast(ok ? 'Serial log copied to clipboard' : 'Copy failed — select log manually', ok ? 'ok' : 'err');
+}
+
+function hitFiveCapture(){
+  if(_hit5Timer){
+    return;
+  }
+  // Ensure log is live and starts clean for this capture window.
+  if(LOG_PAUSED){
+    toggleLogPause();
+  }
+  logLines = [];
+  requestLogRender();
+  HIT5_CAPTURE.active = true;
+  HIT5_CAPTURE.lines = [];
+  HIT5_CAPTURE.rawSeen = 0;
+  HIT5_CAPTURE.evtSeen = 0;
+  HIT5_CAPTURE.evtKept = 0;
+  HIT5_CAPTURE.dropped = 0;
+  HIT5_CAPTURE.maxSeen = {ka_l:0,don_l:0,don_r:0,ka_r:0};
+
+  const btn=document.getElementById('btn-hit5');
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = 'Capturing...';
+  }
+  toast('Hit 5 times now. Auto-copy in 5 seconds.','warn');
+
+  _hit5Timer = setTimeout(async ()=>{
+    HIT5_CAPTURE.active = false;
+    const thrSummary = `[thresholds] ka_l=${S.thr.ka_l} don_l=${S.thr.don_l} don_r=${S.thr.don_r} ka_r=${S.thr.ka_r}`;
+    const maxSummary = `[max_raw] ka_l=${HIT5_CAPTURE.maxSeen.ka_l} don_l=${HIT5_CAPTURE.maxSeen.don_l} don_r=${HIT5_CAPTURE.maxSeen.don_r} ka_r=${HIT5_CAPTURE.maxSeen.ka_r}`;
+    const diagSummary = `[diag] total_hits=${S.stats.totalHits} ka_l=${S.stats.perPad.ka_l} don_l=${S.stats.perPad.don_l} don_r=${S.stats.perPad.don_r} ka_r=${S.stats.perPad.ka_r} cross_blocked=${S.stats.crossBlocked} arb_blocked=${S.stats.arbBlocked} held_high=${S.stats.heldSuppress} last_event="${S.stats.lastEvent}" interpretation="${getDiagnosticsSummaryLabel()}"`;
+    const summary = `[capture] window=5s kept=${HIT5_CAPTURE.lines.length} dropped=${HIT5_CAPTURE.dropped} evt_kept=${HIT5_CAPTURE.evtKept}/${HIT5_CAPTURE.evtSeen} raw_sampled_every=${HIT5_CAPTURE.rawEvery} min_spike=${HIT5_CAPTURE.minSpike}`;
+    const captured = HIT5_CAPTURE.lines.length ? [summary, ...HIT5_CAPTURE.lines].join('\n') : `${summary}\nNo useful serial lines captured in 5s window.`;
+    const capturedWithMeta = [thrSummary, maxSummary, diagSummary, captured].join('\n');
+    const ok = await copyText(capturedWithMeta);
+    toast(ok ? `Captured ${HIT5_CAPTURE.lines.length} lines and copied` : 'Capture done, but copy failed','ok');
+    _hit5Timer = null;
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = 'Hit 5 Times';
+    }
+  }, 5000);
+}
+
+function pushHit5Line(line){
+  if(HIT5_CAPTURE.lines.length >= HIT5_CAPTURE.maxLines){
+    HIT5_CAPTURE.dropped++;
+    return;
+  }
+  HIT5_CAPTURE.lines.push(line);
+}
+
+function captureHit5Line(line){
+  if(!HIT5_CAPTURE.active) return;
+  const trimmed=(line||'').trim();
+  if(!trimmed) return;
+
+  if(trimmed.startsWith('EVT:')){
+    HIT5_CAPTURE.evtSeen++;
+    const m=trimmed.match(/^EVT:(\d+),(\d+),(\d+),(\d+);H=(\d+);X=(\d+);A=(\d+);D=(\d+);T=(\d+)$/);
+    let keep=(HIT5_CAPTURE.evtSeen % 20)===0;
+    if(m){
+      const kaL=+m[1], donL=+m[2], donR=+m[3], kaR=+m[4];
+      const h=+m[5], x=+m[6], a=+m[7], d=+m[8];
+      HIT5_CAPTURE.maxSeen.ka_l=Math.max(HIT5_CAPTURE.maxSeen.ka_l,kaL);
+      HIT5_CAPTURE.maxSeen.don_l=Math.max(HIT5_CAPTURE.maxSeen.don_l,donL);
+      HIT5_CAPTURE.maxSeen.don_r=Math.max(HIT5_CAPTURE.maxSeen.don_r,donR);
+      HIT5_CAPTURE.maxSeen.ka_r=Math.max(HIT5_CAPTURE.maxSeen.ka_r,kaR);
+      const spike=Math.max(kaL,donL,donR,kaR);
+      if(h||x||a||d) keep=true;
+      if(spike>=HIT5_CAPTURE.minSpike) keep=true;
+    }
+    if(keep){
+      HIT5_CAPTURE.evtKept++;
+      pushHit5Line(`[evt] ${trimmed.slice(0,110)}`);
+    }
+    return;
+  }
+
+  const rawParts=trimmed.split(/\s+/);
+  if(rawParts.length>=4 && rawParts.slice(0,4).every(n=>/^\d{1,4}$/.test(n))){
+    HIT5_CAPTURE.rawSeen++;
+    const kaL=+rawParts[0], donL=+rawParts[1], donR=+rawParts[2], kaR=+rawParts[3];
+    HIT5_CAPTURE.maxSeen.ka_l=Math.max(HIT5_CAPTURE.maxSeen.ka_l,kaL);
+    HIT5_CAPTURE.maxSeen.don_l=Math.max(HIT5_CAPTURE.maxSeen.don_l,donL);
+    HIT5_CAPTURE.maxSeen.don_r=Math.max(HIT5_CAPTURE.maxSeen.don_r,donR);
+    HIT5_CAPTURE.maxSeen.ka_r=Math.max(HIT5_CAPTURE.maxSeen.ka_r,kaR);
+    const spike=Math.max(kaL,donL,donR,kaR);
+    if(spike>=HIT5_CAPTURE.minSpike){
+      pushHit5Line(`[raw] ${rawParts.slice(0,4).join(' ')}`);
+      return;
+    }
+    if((HIT5_CAPTURE.rawSeen % HIT5_CAPTURE.rawEvery)===0){
+      pushHit5Line(`[raw] ${rawParts.slice(0,4).join(' ')}`);
+    }
+    return;
+  }
+
+  if(trimmed.startsWith('THR:') || trimmed==='OK' || trimmed.includes('ERR') || trimmed.includes('WARN')){
+    pushHit5Line(trimmed.slice(0,120));
+  }
+}
+
+function requestLogRender(){
+  if(LOG_PAUSED) return;
+  if(!LOG_AUTO_SCROLL) return;
+  if(_logRenderPending) return;
+  _logRenderPending=true;
+  requestAnimationFrame(()=>{
+    _logRenderPending=false;
+    const el=document.getElementById('debug-log');
+    if(!el) return;
+    const prevTop = el.scrollTop;
+    if(logLines.length===0){
+      el.innerHTML='<span>Waiting for hits…</span>';
+      return;
+    }
+    el.innerHTML=logLines.map(l=>`<div class="hit">${l}</div>`).join('');
+    if(LOG_AUTO_SCROLL){
+      el.scrollTop=el.scrollHeight;
+    } else {
+      el.scrollTop=prevTop;
+    }
+  });
+}
+function logHit(vals){
+  logLines.push(`ka_l:${vals.ka_l} don_l:${vals.don_l} don_r:${vals.don_r} ka_r:${vals.ka_r}`);
+  if(logLines.length>MAX_LOG) logLines.shift();
+  requestLogRender();
+}
+function logRaw(line){
+  logLines.push(`[raw] ${line.slice(0,90)}`);
+  if(logLines.length>MAX_LOG) logLines.shift();
+  requestLogRender();
+}
+function logEvt(line){
+  _evtLogSeen++;
+  const m=line.match(/;H=(\d+);X=(\d+);A=(\d+);D=(\d+);/);
+  let keep=(_evtLogSeen % 12)===0;
+  if(m){
+    const h=+m[1], x=+m[2], a=+m[3], d=+m[4];
+    if(h||x||a||d) keep=true;
+  }
+  if(!keep) return;
+  logLines.push(`[evt] ${line.slice(0,110)}`);
+  if(logLines.length>MAX_LOG) logLines.shift();
+  requestLogRender();
+}
+
+// -- BAR DECAY LOOP (rAF — real-time, not message-rate) ------------------------
+const BAR_SCALE = 800; // cap: typical hits 200-700, full bar ~800
+let _lastDecayTs = 0;
+(function decayLoop(ts){
+  requestAnimationFrame(decayLoop);
+  const dt = _lastDecayTs ? ts - _lastDecayTs : 16;
+  _lastDecayTs = ts;
+  // Half-life ~250ms: decay = 0.5^(dt/250)
+  const d = Math.pow(0.5, dt / 250);
+  PADS.forEach(p=>{
+    S.pk[p] *= d;
+  });
+})();
+setInterval(()=>{
+  const now=Date.now(), elapsed=(now-S.lastRateTime)/1000;
+  const rate=Math.round(S.msgCount/elapsed);
+  S.msgCount=0; S.lastRateTime=now;
+  if(rate===0&&S.connected){ PADS.forEach(p=>{ S.pk[p]*=DECAY; }); }
+},1000);
+
+// -- SAVE --------------------------------------------------
+async function sendThresholdPacket(command){
+  if(!S.writer){ return false; }
+  const t=S.thr;
+  const buf=new Uint8Array([command,(t.don_l>>8)&0xFF,t.don_l&0xFF,(t.don_r>>8)&0xFF,t.don_r&0xFF,(t.ka_l>>8)&0xFF,t.ka_l&0xFF,(t.ka_r>>8)&0xFF,t.ka_r&0xFF,0x55]);
+  await S.writer.write(buf);
+  return true;
+}
+
+function queueLiveApply(){
+  if(!S.connected || !S.writer) return;
+  if(S.liveApplyTimer){ clearTimeout(S.liveApplyTimer); }
+  S.liveApplyTimer=setTimeout(async()=>{
+    S.liveApplyTimer=null;
+    try{
+      setLivePill('sending','Live Apply: Sending');
+      await sendThresholdPacket(0xAD);
+      setLivePill('on','Live Apply: On');
+    }catch(_){
+      setLivePill('err','Live Apply: Error');
+    }
+  }, 45);
+}
+
+async function saveThresholds(){
+  // If there are unapplied calibration suggestions, apply them first
+  if(AC.suggestions){
+    PADS.forEach(p=>{ if(AC.suggestions[p]&&AC.suggestions[p].confidence!=='low'){ S.thr[p]=AC.suggestions[p].suggested; syncThr(p); } });
+    AC.suggestions=null;
+    document.getElementById('btn-apply').style.display='none';
+    updateMx();
+  }
+  if(!S.writer){ note('Not connected','err'); return; }
+  if(S.liveApplyTimer){ clearTimeout(S.liveApplyTimer); S.liveApplyTimer=null; }
+  try{
+    note('Saving…','');
+    await sendThresholdPacket(0xAA);
+    S.pendingAck=true;
+    S.ackTimeout=setTimeout(()=>{ if(S.pendingAck){ S.pendingAck=false; note('No response - check drum is in Debug/Calibrate mode','err'); toast('No response - is drum in Debug/Calibrate mode?','err'); } },2000);
+  }catch(e){ note('Error: '+(e.message||e),'err'); }
+}
+function note(m,c){ const n=document.getElementById('save-note'); n.textContent=m; n.className='save-note '+(c||''); }
+let _toastTimer=null;
+function toast(m,c){
+  const icons={ok:'?',err:'?',warn:'?'};
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=m;
+  document.getElementById('toast').querySelector('.toast-icon').textContent=icons[c]||'';
+  t.className='show '+(c||'');
+  if(_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>{ t.className=t.className.replace('show','').trim(); },3200);
+}
+
+// -- HIT SCOPE ---------------------------------------------
+// A 4-lane canvas. Each rising-edge hit spawns a note on its
+// pad lane. Notes scroll left at constant speed so you can
+// see: spacing = timing, two notes close = double-trigger.
+const SCOPE_CONFIG = {
+  NOTE_R: 6,    // readable dots for fast rolls
+};
+const SCOPES = [];
+const TRACE_HISTORY_MS = 1800;
+const TRACE_MAX = 360;
+const TRACE_SAMPLES = [];
+let TRACE_LAST = {ka_l:0,don_l:0,don_r:0,ka_r:0};
+
+function createScope(canvasId){
+  const cv = document.getElementById(canvasId);
+  if(!cv) return null;
+  const scope = { cv, ctx:cv.getContext('2d'), notes:[], last:0, SPEED:0 };
+  SCOPES.push(scope);
+  sizeScope(scope);
+  requestAnimationFrame(ts=>scopeLoop(scope, ts));
+  return scope;
+}
+
+function initScopes(){
+  SCOPES.length = 0;
+  createScope('scope-cv');
+  createScope('scope-gp-cv');
+  window.removeEventListener('resize', sizeAllScopes);
+  window.addEventListener('resize', sizeAllScopes);
+}
+
+function sizeAllScopes(){
+  SCOPES.forEach(sizeScope);
+}
+
+function sizeScope(scope){
+  if(!scope?.cv) return;
+  scope.cv.width  = scope.cv.offsetWidth;
+  scope.cv.height = scope.cv.offsetHeight;
+  // Cross full canvas in ~1.0 s so high-speed rolls separate clearly.
+  scope.SPEED = scope.cv.width / 1000;
+}
+
+function scopeHit(pad){
+  SCOPES.forEach(scope=>{
+    if(!scope?.cv) return;
+    scope.notes.push({ p:pad, x: scope.cv.width + SCOPE_CONFIG.NOTE_R + 4 });
+  });
+}
+
+function traceSample(vals){
+  // ADC oscillator trace is intentionally disabled; hit timeline is the main live diagnostic.
+}
+
+function initTraceScope(){
+  const cv = document.getElementById('trace-cv');
+  if(!cv) return;
+  function size(){
+    cv.width = cv.offsetWidth;
+    cv.height = cv.offsetHeight;
+  }
+  function draw(ts){
+    if(cv.width !== cv.offsetWidth || cv.height !== cv.offsetHeight) size();
+    const ctx = cv.getContext('2d');
+    if(!ctx){ requestAnimationFrame(draw); return; }
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0,0,W,H);
+
+    const lanes = PADS.length;
+    const laneH = H / lanes;
+    const now = performance.now();
+
+    PADS.forEach((p,i)=>{
+      const y0 = i * laneH;
+      const yMid = y0 + laneH * 0.58;
+      const isDon = p.startsWith('don');
+      const col = PAD_COLOR[p];
+      const thr = Math.max(0, Math.min(1, S.thr[p] / 64));
+      const thrY = y0 + laneH - (thr * (laneH * 0.78)) - laneH * 0.10;
+
+      ctx.fillStyle = i % 2 ? 'rgba(255,255,255,0.022)' : 'rgba(0,0,0,0)';
+      ctx.fillRect(0, y0, W, laneH);
+      if(i > 0){
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(W, y0); ctx.stroke();
+      }
+
+      ctx.strokeStyle = isDon ? 'rgba(232,87,42,0.30)' : 'rgba(42,184,200,0.30)';
+      ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(0, thrY); ctx.lineTo(W, thrY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = col;
+      ctx.font = '700 10px "JetBrains Mono", monospace';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(SH[p], 8, y0 + 12);
+      ctx.fillStyle = 'rgba(255,255,255,0.34)';
+      ctx.fillText(String(S.thr[p]), W - 42, y0 + 12);
+
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      let drew = false;
+      TRACE_SAMPLES.forEach((s, idx)=>{
+        const age = now - s.t;
+        if(age > TRACE_HISTORY_MS) return;
+        const x = W - (age / TRACE_HISTORY_MS) * W;
+        const norm = Math.max(0, Math.min(1, s.vals[p] / 64));
+        const y = y0 + laneH - (norm * (laneH * 0.78)) - laneH * 0.10;
+        if(!drew){ ctx.moveTo(x, y); drew = true; }
+        else { ctx.lineTo(x, y); }
+      });
+      if(drew) ctx.stroke();
+
+      const lastNorm = Math.max(0, Math.min(1, TRACE_LAST[p] / 64));
+      const lastY = y0 + laneH - (lastNorm * (laneH * 0.78)) - laneH * 0.10;
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(W - 6, lastY, 3, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.beginPath(); ctx.moveTo(0, yMid); ctx.lineTo(W, yMid); ctx.stroke();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  size();
+  requestAnimationFrame(draw);
+}
+
+function scopeLoop(scope, ts){
+  const dt = Math.min(ts - scope.last, 50);  // cap so tab-restore doesn't jump
+  scope.last = ts;
+  const {cv,ctx,SPEED} = scope;
+  const {NOTE_R} = SCOPE_CONFIG;
+  if(!ctx){ requestAnimationFrame(nextTs=>scopeLoop(scope, nextTs)); return; }
+
+  if(cv.width !== cv.offsetWidth || cv.height !== cv.offsetHeight) sizeScope(scope);
+
+  const W=cv.width, H=cv.height;
+  const laneH = H / PADS.length;
+  ctx.clearRect(0,0,W,H);
+
+  // Lane rows fill the whole canvas, so the timeline never clips on resize.
+  PADS.forEach((p,i)=>{
+    const y = i*laneH;
+    ctx.fillStyle = i%2 ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.10)';
+    ctx.fillRect(0,y,W,laneH);
+    if(i>0){
+      ctx.strokeStyle='rgba(36,27,21,0.12)';
+      ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    }
+    const isDon=p.startsWith('don');
+    ctx.fillStyle=isDon?'rgba(223,84,45,0.72)':'rgba(22,159,176,0.78)';
+    ctx.font='800 11px "JetBrains Mono",monospace';
+    ctx.textBaseline='middle';
+    ctx.fillText(SH[p], 10, y+laneH/2);
+  });
+
+  // "NOW" line near right - notes spawn just past this.
+  ctx.strokeStyle='rgba(36,27,21,0.16)';
+  ctx.lineWidth=1; ctx.setLineDash([3,4]);
+  ctx.beginPath(); ctx.moveTo(W-18,0); ctx.lineTo(W-18,H); ctx.stroke();
+  ctx.setLineDash([]);
+
+  scope.notes = scope.notes.filter(n => n.x > -NOTE_R*4);
+  scope.notes.forEach(n=>{
+    n.x -= SPEED * dt;
+    const i = PADS.indexOf(n.p);
+    if(i < 0) return;
+    const cy = i*laneH + laneH/2;
+    const col = PAD_COLOR[n.p];
+    const isDon = n.p.startsWith('don');
+    const fade = Math.min(1, n.x / (W*0.10));
+    if(fade <= 0) return;
+
+    ctx.save();
+    ctx.globalAlpha = fade;
+    ctx.beginPath(); ctx.arc(n.x, cy, NOTE_R, 0, Math.PI*2);
+    if(isDon){
+      ctx.fillStyle=col;
+      ctx.shadowColor=col; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+      ctx.strokeStyle='rgba(255,250,242,0.75)'; ctx.lineWidth=1.5; ctx.stroke();
+    } else {
+      ctx.fillStyle='#fffaf2';
+      ctx.shadowColor=col; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+      ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.stroke();
+    }
+    ctx.restore();
+  });
+
+  requestAnimationFrame(nextTs=>scopeLoop(scope, nextTs));
+}
+syncAllThr();
+initScopes();
+resetLiveDiagnostics();
+
+// ----------------------------------------------------------
+// BUTTON TESTER — Gamepad API
+// ----------------------------------------------------------
+//
+// Switch Tatacon button mapping (from InputReport.cpp):
+// buttons[0]  = West   (Y)     buttons[4]  = L
+// buttons[1]  = South  (B)     buttons[5]  = R
+// buttons[2]  = East   (A)     buttons[6]  = Ka Left (ZL)
+// buttons[3]  = North  (X)     buttons[7]  = Ka Right (ZR)
+// buttons[8]  = Select (-)     buttons[10] = Don Left (L3)
+// buttons[9]  = Start  (+)     buttons[11] = Don Right (R3)
+// buttons[12] = Home           buttons[13] = Share/Capture
+//
+const BT_MAP = {
+  0:  { el:'fc-west',   cls:'active' },
+  1:  { el:'fc-south',  cls:'active' },
+  2:  { el:'fc-east',   cls:'active' },
+  3:  { el:'fc-north',  cls:'active' },
+  4:  { el:'nb-l',      cls:'active-ka' },
+  5:  { el:'nb-r',      cls:'active-ka' },
+  6:  { el:'pad-ka_l',  cls:'ka-active' },
+  7:  { el:'pad-ka_r',  cls:'ka-active' },
+  8:  { el:'nb-select', cls:'active-grn' },
+  9:  { el:'nb-start',  cls:'active-don' },
+  10: { el:'pad-don_l', cls:'don-active' },
+  11: { el:'pad-don_r', cls:'don-active' },
+  12: { el:'nb-home',   cls:'active-grn' },
+  13: { el:'nb-share',  cls:'active-grn' },
+  // Extended buttons (some platforms)
+  16: { el:'dp-up',    cls:'active' },
+  17: { el:'dp-down',  cls:'active' },
+  18: { el:'dp-left',  cls:'active' },
+  19: { el:'dp-right', cls:'active' },
+};
+
+let gpIndex = null;
+let gpRafId = null;
+const GP_SCOPE_MAP = {
+  6:'ka_l',
+  7:'ka_r',
+  10:'don_l',
+  11:'don_r'
+};
+const gpPrevPressed = {};
+
+window.addEventListener('gamepadconnected', e=>{
+  gpIndex = e.gamepad.index;
+  activateTab('btn');
+  document.getElementById('bt-dot').classList.add('on');
+  document.getElementById('bt-msg').innerHTML = `<strong>${e.gamepad.id}</strong> connected — press buttons to test!`;
+  document.getElementById('bt-mode-badge').textContent = e.gamepad.id.length>28 ? e.gamepad.id.slice(0,28)+'…' : e.gamepad.id;
+  document.getElementById('bt-mode-badge').classList.add('on');
+  document.getElementById('bt-info').textContent = 'Press any button on the drum — it will light up above';
+  gpPoll();
+});
+
+window.addEventListener('gamepaddisconnected', e=>{
+  if(e.gamepad.index === gpIndex){
+    gpIndex = null;
+    cancelAnimationFrame(gpRafId);
+    document.getElementById('bt-dot').classList.remove('on');
+    document.getElementById('bt-msg').innerHTML = 'Switch your drum to any <strong>non-Debug</strong> mode, then press any button to detect it.';
+    document.getElementById('bt-mode-badge').textContent = 'No gamepad';
+    document.getElementById('bt-mode-badge').classList.remove('on');
+    document.getElementById('bt-info').textContent = 'Switch to a gamepad mode (e.g. Switch Tatacon) and press any button';
+    clearAllBt();
+  }
+});
+
+function gpPoll(){
+  const gps = navigator.getGamepads();
+  const gp  = gps[gpIndex];
+  if(!gp){ gpRafId=requestAnimationFrame(gpPoll); return; }
+
+  // Buttons
+  gp.buttons.forEach((btn,i)=>{
+    const pressed = btn.pressed || btn.value > 0.5;
+    const map = BT_MAP[i];
+    const scopePad = GP_SCOPE_MAP[i];
+    if(scopePad && pressed && !gpPrevPressed[i]){
+      scopeHit(scopePad);
+    }
+    gpPrevPressed[i]=pressed;
+    if(!map) return;
+    const el = document.getElementById(map.el);
+    if(!el) return;
+    if(pressed) el.classList.add(map.cls);
+    else        el.classList.remove(map.cls);
+  });
+
+  // Hat switch ? D-Pad (Chrome/Windows: axis[9], neutral=1.0)
+  const hatAxis = gp.axes.length > 9 ? gp.axes[9] : null;
+  if(hatAxis !== null && hatAxis <= 0.99){
+    const hat = Math.round((hatAxis + 1) / 2 * 7);
+    setDp('dp-up',    hat===0||hat===1||hat===7);
+    setDp('dp-right', hat===1||hat===2||hat===3);
+    setDp('dp-down',  hat===3||hat===4||hat===5);
+    setDp('dp-left',  hat===5||hat===6||hat===7);
+  }
+
+  gpRafId = requestAnimationFrame(gpPoll);
+}
+
+function setDp(id, on){
+  const el=document.getElementById(id);
+  if(!el) return;
+  if(on) el.classList.add('active');
+  else   el.classList.remove('active');
+}
+
+function clearAllBt(){
+  Object.values(BT_MAP).forEach(m=>{
+    const el=document.getElementById(m.el);
+    if(el) el.classList.remove(m.cls,'active','active-don','active-ka','active-grn','ka-active','don-active');
+  });
+  Object.keys(gpPrevPressed).forEach(k=>{ gpPrevPressed[k]=false; });
+  ['dp-up','dp-down','dp-left','dp-right'].forEach(id=>setDp(id,false));
+}
+
+// -- KEYBOARD TEST MODE ------------------------------------
+// A=Ka Left  S=Don Left  D=Don Right  F=Ka Right
+// Simulates a firm hit (value 450) so calibration phases respond normally
+const KEY_MAP = {a:'ka_l', s:'don_l', d:'don_r', f:'ka_r'};
+const KEY_HELD = {ka_l:false, don_l:false, don_r:false, ka_r:false};
+let _kbInterval = null;
+
+function _kbFire(){
+  const btnPage = document.getElementById('pg-btn');
+  if(!btnPage || !btnPage.classList.contains('on')) return;
+  const vals = {ka_l:0, don_l:0, don_r:0, ka_r:0};
+  let any = false;
+  Object.entries(KEY_HELD).forEach(([p,held])=>{ if(held){ vals[p]=450; any=true; } });
+  if(any){ processPads(vals); logHit(vals); S.msgCount++; }
+}
+
+document.addEventListener('keydown', e=>{
+  const btnPage = document.getElementById('pg-btn');
+  if(!btnPage || !btnPage.classList.contains('on')) return;
+  if(e.repeat) return;
+  const pad = KEY_MAP[e.key.toLowerCase()];
+  if(!pad) return;
+  e.preventDefault();
+  KEY_HELD[pad] = true;
+  if(!_kbInterval) _kbInterval = setInterval(_kbFire, 16); // ~60hz
+});
+
+document.addEventListener('keyup', e=>{
+  const btnPage = document.getElementById('pg-btn');
+  if(!btnPage || !btnPage.classList.contains('on')) return;
+  const pad = KEY_MAP[e.key.toLowerCase()];
+  if(!pad) return;
+  KEY_HELD[pad] = false;
+  if(Object.values(KEY_HELD).every(v=>!v)){ clearInterval(_kbInterval); _kbInterval=null; }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

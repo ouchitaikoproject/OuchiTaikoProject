@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OuchiTaiko Guided Calibrate OLED Mockup</title>
+  <style>
+    :root {
+      --bg: #0d120f;
+      --panel: #151d18;
+      --panel-2: #0f1511;
+      --line: #395742;
+      --text: #d8f7df;
+      --muted: #9ec5aa;
+      --accent: #7cff9b;
+      --warn: #ffd36a;
+      --danger: #ff9176;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Consolas", "Cascadia Mono", "Courier New", monospace;
+      background:
+        radial-gradient(circle at top, #1b2820 0%, #0b0f0d 55%),
+        #0b0f0d;
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .hero,
+    .section {
+      background: rgba(10, 14, 11, 0.78);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 920px;
+      line-height: 1.55;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #f1fff4;
+    }
+
+    .section .sub {
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .screen-card {
+      background: linear-gradient(180deg, rgba(23, 31, 26, 0.96), rgba(12, 17, 14, 0.96));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .screen-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .screen-label strong {
+      font-size: 15px;
+      color: #f4fff6;
+    }
+
+    .screen-label span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .oled {
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      background:
+        linear-gradient(180deg, #b6fbc7 0%, #a5f0b9 100%);
+      border-radius: 18px;
+      padding: 10px;
+      box-shadow:
+        inset 0 0 0 2px #dffff0,
+        inset 0 0 40px rgba(57, 111, 66, 0.3),
+        0 10px 25px rgba(0, 0, 0, 0.25);
+      margin-bottom: 12px;
+    }
+
+    .oled-face {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(9, 23, 12, 0.96), rgba(5, 12, 8, 0.98));
+      border: 2px solid #375842;
+      color: #ccffd7;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .oled-top {
+      padding: 7px 8px 5px;
+      border-bottom: 1px solid rgba(140, 225, 160, 0.25);
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: #aef8be;
+      white-space: pre-line;
+    }
+
+    .oled-body {
+      padding: 7px 9px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.25;
+      white-space: pre-line;
+    }
+
+    .oled-body.big {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+    }
+
+    .oled-footer {
+      padding: 5px 8px 6px;
+      border-top: 1px solid rgba(140, 225, 160, 0.2);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 9px;
+      color: #91d4a0;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      min-height: 56px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .tag.main { color: var(--accent); border-color: rgba(124, 255, 155, 0.45); }
+    .tag.branch { color: var(--warn); border-color: rgba(255, 211, 106, 0.45); }
+    .tag.end { color: var(--danger); border-color: rgba(255, 145, 118, 0.45); }
+
+    .notes {
+      margin-top: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .notes strong {
+      color: #f3fff6;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 20px 14px 48px;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>Guided Calibrate OLED Workflow</h1>
+      <p>
+        This is a full screen-by-screen mockup of the intended on-device guided calibration flow.
+        It is laid out in the order the player would see it, with branch screens inline where bleed,
+        retry, review, save, or cancel paths appear.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Main Path</h2>
+      <p class="sub">
+        Clean version of the workflow we want: one target pad at a time, repeated normal hits,
+        one hard hit at the end, then review and save.
+      </p>
+      <div class="flow">
+        <div class="screen-card">
+          <div class="screen-label"><strong>1. Drum Tuning Menu</strong><span>Entry point</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">DRUM
+TUNING</div>
+              <div class="oled-body">> Guided Calibrate
+  Manual Thresholds
+  Reset Thresholds</div>
+              <div class="oled-footer"><span>UP/DN Select</span><span>A Enter</span></div>
+            </div>
+          </div>
+          <div class="caption">User enters the tuning menu and chooses the guided workflow instead of direct manual threshold editing.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>2. Guided Start</strong><span>Intro screen</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">GUIDED
+CALIBRATE</div>
+              <div class="oled-body">Tests one drum pad at a time.
+Raises only the pads that bleed.</div>
+              <div class="oled-footer"><span>B Back</span><span>A Start</span></div>
+            </div>
+          </div>
+          <div class="caption">Short explanation. This should feel like a tool, not a mystery algorithm.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>3. How It Works</strong><span>Expectation setting</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">HOW IT
+WORKS</div>
+              <div class="oled-body">Per drum pad:
+5 fast normal hits
+1 hard hit at end</div>
+              <div class="oled-footer"><span>B Back</span><span>A Continue</span></div>
+            </div>
+          </div>
+          <div class="caption">This copies the web workflow rhythm the user already trusts.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>4. Test Ka Left</strong><span>Normal hit phase</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST KA LEFT
+(1/4)</div>
+              <div class="oled-body">5 normal hits
+
+Hits: 0 / 5</div>
+              <div class="oled-footer"><span>Target: KL</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">The first active pad. Same layout repeats for `Don Left`, `Don Right`, then `Ka Right`.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>5. Normal Hit Progress</strong><span>Same screen updates live</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST KA LEFT
+(1/4)</div>
+              <div class="oled-body">5 normal hits
+
+Hits: 4 / 5</div>
+              <div class="oled-footer"><span>Looking for bleed</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">We keep the screen stable and only update the hit count so the user stays oriented.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>6. Hard Hit Prompt</strong><span>Final validation hit</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST KA LEFT
+(1/4)</div>
+              <div class="oled-body big">HIT
+HARD
+NOW</div>
+              <div class="oled-footer"><span>Final hit</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">This gives the hard hit its own clear moment so the user cannot confuse it with the normal five.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>7. Pad Clean</strong><span>Current target passed</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">KA LEFT
+CLEAN</div>
+              <div class="oled-body">No bleed detected.
+Threshold stays at 285.</div>
+              <div class="oled-footer"><span>Loading next pad</span><span>...</span></div>
+            </div>
+          </div>
+          <div class="caption">Short confirmation before the firmware advances to the next target pad automatically.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>8. Repeat for Don Left</strong><span>Second pad</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST DON LEFT
+(2/4)</div>
+              <div class="oled-body">5 normal hits
+
+Hits: 0 / 5</div>
+              <div class="oled-footer"><span>Target: DL</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">Same structure repeats for all four pads. Only the target name and index change.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>9. Repeat for Don Right</strong><span>Third pad</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST DON RIGHT
+(3/4)</div>
+              <div class="oled-body">5 normal hits
+
+Hits: 0 / 5</div>
+              <div class="oled-footer"><span>Target: DR</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">Still the same workflow. Consistency matters here more than novelty.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>10. Repeat for Ka Right</strong><span>Fourth pad</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST KA RIGHT
+(4/4)</div>
+              <div class="oled-body">5 normal hits
+
+Hits: 0 / 5</div>
+              <div class="oled-footer"><span>Target: KR</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">This is the pad that exposed the cross-side Ka issue in testing, so the user will trust this step a lot.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>11. Review Thresholds</strong><span>After all 4 pass</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">REVIEW
+THRESHOLDS</div>
+              <div class="oled-body">KL 285   DL 285
+DR 285   KR 285
+
+Ready to save</div>
+              <div class="oled-footer"><span>B Cancel</span><span>A Save</span></div>
+            </div>
+          </div>
+          <div class="caption">Compact summary screen. This is where the user should feel in control before writing to flash.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>12. Saving</strong><span>Flash write</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">SAVING</div>
+              <div class="oled-body big">WRITING
+TO
+FLASH</div>
+              <div class="oled-footer"><span>Please wait</span><span>...</span></div>
+            </div>
+          </div>
+          <div class="caption">No user decision here. Just a clean, brief state so it feels deliberate.</div>
+          <div class="tag-row"><span class="tag main">main path</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>13. Complete</strong><span>End state</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">DONE</div>
+              <div class="oled-body">Thresholds saved.
+Guided calibrate complete.</div>
+              <div class="oled-footer"><span>Returning to play</span><span>...</span></div>
+            </div>
+          </div>
+          <div class="caption">Simple completion state. The user should leave feeling the process is finished and trustworthy.</div>
+          <div class="tag-row"><span class="tag main">main path</span><span class="tag end">end state</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Branch Screens</h2>
+      <p class="sub">
+        These appear only when something needs correction or the user chooses to back out.
+        They are still part of the workflow and should feel just as clear as the main path.
+      </p>
+      <div class="flow">
+        <div class="screen-card">
+          <div class="screen-label"><strong>A. Bleed Detected</strong><span>Core corrective moment</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">BLEED
+DETECTED</div>
+              <div class="oled-body">Right Ka caused
+Left Ka to move.
+
+Raised KL +5</div>
+              <div class="oled-footer"><span>KL now 290</span><span>A Hit Again</span></div>
+            </div>
+          </div>
+          <div class="caption">This is the most important branch screen. It explains cause, response, and next step without ambiguity.</div>
+          <div class="tag-row"><span class="tag branch">branch</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>B. Multiple Pads Raised</strong><span>Rare but possible</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">BLEED
+DETECTED</div>
+              <div class="oled-body">Raised:
+DL +5
+KR +5</div>
+              <div class="oled-footer"><span>Repeat same pad</span><span>A Continue</span></div>
+            </div>
+          </div>
+          <div class="caption">If more than one non-target pad bleeds, the screen should still stay readable and list the changes clearly.</div>
+          <div class="tag-row"><span class="tag branch">branch</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>C. Retry Current Pad</strong><span>After automatic adjustment</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">TEST KA LEFT
+(1/4)</div>
+              <div class="oled-body">Thresholds updated.
+Repeat 5 normal hits.</div>
+              <div class="oled-footer"><span>KL 290</span><span>B Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">This resets the user back into the same target pad flow after the firmware makes its small correction.</div>
+          <div class="tag-row"><span class="tag branch">branch</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>D. Save Confirmation</strong><span>Optional extra guard</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">SAVE
+THRESHOLDS?</div>
+              <div class="oled-body">KL 285  DL 285
+DR 285  KR 285</div>
+              <div class="oled-footer"><span>B Back</span><span>A Save</span></div>
+            </div>
+          </div>
+          <div class="caption">If we want one extra safety step before writing flash, this is the right place for it.</div>
+          <div class="tag-row"><span class="tag branch">optional branch</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>E. Cancel Confirmation</strong><span>Exit path</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">CANCEL
+GUIDED CAL?</div>
+              <div class="oled-body">Current changes
+will not be saved.</div>
+              <div class="oled-footer"><span>B No</span><span>A Cancel</span></div>
+            </div>
+          </div>
+          <div class="caption">A clean escape hatch prevents accidental exits from feeling like data loss or confusion.</div>
+          <div class="tag-row"><span class="tag branch">branch</span></div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-label"><strong>F. Cancelled</strong><span>Back out state</span></div>
+          <div class="oled">
+            <div class="oled-face">
+              <div class="oled-top">GUIDED CAL
+CANCELLED</div>
+              <div class="oled-body">No thresholds saved.
+Returning to menu.</div>
+              <div class="oled-footer"><span>Safe exit</span><span>...</span></div>
+            </div>
+          </div>
+          <div class="caption">If the user bails out, we should end cleanly and explicitly say nothing was saved.</div>
+          <div class="tag-row"><span class="tag branch">branch</span><span class="tag end">end state</span></div>
+        </div>
+      </div>
+      <div class="notes">
+        <strong>Notes:</strong> this mockup is for workflow review, not a pixel-perfect copy of the current firmware screens.
+        It intentionally reflects the cleaner HTML-style guided process we discussed: one target pad at a time,
+        repeated normal hits, one hard hit, detect bleed, raise only offending pads, then review and save.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
