@@ -77,18 +77,41 @@ def slugify(text: str) -> str:
     return text
 
 
-sidebar_lines = [
-    "- [Build Guide](/)",
-]
+sidebar_lines = ["- [Build Guide](/)"]
+major_sections = {
+    "worldâ€‘first innovations",
+    "complete hardware & features",
+    "required tools & supplies",
+    "hardware parts list",
+    "control pcb overview",
+    "recommended assembly order",
+    "inspect your work",
+    "quick hardware check",
+    "guided calibration",
+    "manual threshold adjustment",
+    "controller mode selection",
+    "quick access",
+    "main menu",
+    "drum tuning",
+    "advanced",
+    "closing thoughts",
+    "attribution chain",
+    "legal compliance notice",
+    "summary",
+}
 
 for line in readme_text.splitlines():
-    match = re.match(r"^(#{2,3})\s+(.*)$", line.strip())
+    match = re.match(r"^(##)\s+(.*)$", line.strip())
     if not match:
         continue
-    level = len(match.group(1))
+
     title = match.group(2).strip()
-    indent = "  " if level == 3 else ""
-    sidebar_lines.append(f"{indent}- [{title}](#{slugify(title)})")
+    normalized_title = title.replace("*", "").strip().lower()
+
+    if normalized_title not in major_sections:
+        continue
+
+    sidebar_lines.append(f"- [{title}](#{slugify(title)})")
 
 sidebar_lines.extend(
     [
