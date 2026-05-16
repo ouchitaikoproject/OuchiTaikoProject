@@ -32,6 +32,7 @@ queue_t control_queue;
 queue_t menu_display_queue;
 queue_t drum_input_queue;
 queue_t controller_input_queue;
+queue_t bringup_test_queue;
 
 queue_t auth_challenge_queue;
 queue_t auth_signed_challenge_queue;
@@ -81,6 +82,7 @@ void core1_task() {
     Utils::InputState input_state;
     Utils::Menu::State menu_display_msg{};
     ControlMessage control_msg{};
+    Peripherals::Display::BringupTestState bringup_test_state{};
 
     // Receive drum pointer from core 0
     Peripherals::Drum *drum_ptr = nullptr;
@@ -140,25 +142,40 @@ void core1_task() {
         if (queue_try_remove(&menu_display_queue, &menu_display_msg)) {
             display.setMenuState(menu_display_msg);
         }
+        if (queue_try_remove(&bringup_test_queue, &bringup_test_state)) {
+            display.setBringupTestState(bringup_test_state);
+            if (bringup_test_state.active) {
+                display.showBringupTest();
+            }
+        }
         
-        // Drive calibration wizard display from TantrumState mode.
+        // Drive calibration wizard display from GuidedCalState mode.
         // Fail-safe: force the wizard screen state every frame while active so we never
         // remain on Idle/Menu due to a missed mode-change edge.
         {
-            using Mode = Peripherals::Drum::TantrumState::Mode;
-            if (drum_ptr && drum_ptr->isTantrumActive()) {
-                const auto& ts = drum_ptr->getTantrumState();
+            using Mode = Peripherals::Drum::GuidedCalState::Mode;
+            if (drum_ptr && drum_ptr->isGuidedCalActive()) {
+                const auto& ts = drum_ptr->getGuidedCalState();
                 switch (ts.current_mode) {
-                case Mode::Welcome:    display.showTantrumWelcome();    break;
+                case Mode::Welcome:
+                case Mode::Instructions:
+                case Mode::CancelConfirm:
+                case Mode::Cancelled:
+                    display.showGuidedCalWelcome();
+                    break;
                 case Mode::PadNormal:
-                case Mode::PadHard:    display.showTantrumPadHitting(); break;
-                case Mode::PhaseTransition: display.showTantrumPhaseTransition(); break;
-                case Mode::PadRoll:    display.showTantrumPadRoll();    break;
-                case Mode::PadDone:    display.showTantrumPadDone();    break;
-                case Mode::Overview:   display.showTantrumOverview();   break;
-                case Mode::Saving:     display.showTantrumSaving();     break;
-                case Mode::Complete:   display.showTantrumComplete();   break;
-                case Mode::Error:      display.showTantrumError();      break;
+                case Mode::PadHardPrompt:
+                case Mode::PadHard:
+                    display.showGuidedCalPadTest();
+                    break;
+                case Mode::BleedDetected:
+                    display.showGuidedCalError();
+                    break;
+                case Mode::Review:
+                    display.showGuidedCalOverview();
+                    break;
+                case Mode::Saving:     display.showGuidedCalSaving();     break;
+                case Mode::Complete:   display.showGuidedCalComplete();   break;
                 default: break;
                 }
             }
@@ -185,6 +202,7 @@ int main() {
     queue_init(&menu_display_queue, sizeof(Utils::Menu::State), 1);
     queue_init(&drum_input_queue, sizeof(Utils::InputState::Drum), 1);
     queue_init(&controller_input_queue, sizeof(Utils::InputState::Controller), 8);
+    queue_init(&bringup_test_queue, sizeof(Peripherals::Display::BringupTestState), 1);
     queue_init(&auth_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&auth_signed_challenge_queue, sizeof(std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH>), 1);
     queue_init(&drum_reference_queue, sizeof(Peripherals::Drum*), 1);
@@ -312,21 +330,82 @@ int main() {
     };
 
     auto settings_store = std::make_shared<Utils::SettingsStore>();
-    const auto mode = settings_store->getUsbMode();
+    const auto clamp_u16 = [](uint16_t v, uint16_t lo, uint16_t hi) -> uint16_t {
+        return (v < lo) ? lo : ((v > hi) ? hi : v);
+    };
     const auto readSettings = [&]() {
         const auto sendCtrlMessage = [&](const ControlMessage &msg) { queue_add_blocking(&control_queue, &msg); };
+        const auto current_mode = settings_store->getUsbMode();
 
-        sendCtrlMessage({.command = ControlCommand::SetUsbMode, .data = {.usb_mode = mode}});
+        // Sanitize stored drum settings so stale/corrupt flash values cannot
+        // silently choke hit detection after schema or firmware changes.
+        auto thresholds = settings_store->getTriggerThresholds();
+        const uint16_t raw_debounce = settings_store->getDebounceDelay();
+        const uint16_t safe_debounce = clamp_u16(raw_debounce, 1, 30);
+        thresholds.don_left  = clamp_u16(thresholds.don_left, 10, 1500);
+        thresholds.ka_left   = clamp_u16(thresholds.ka_left, 10, 1500);
+        thresholds.don_right = clamp_u16(thresholds.don_right, 10, 1500);
+        thresholds.ka_right  = clamp_u16(thresholds.ka_right, 10, 1500);
+
+        if (safe_debounce != raw_debounce || thresholds.don_left != settings_store->getTriggerThresholds().don_left ||
+            thresholds.ka_left != settings_store->getTriggerThresholds().ka_left ||
+            thresholds.don_right != settings_store->getTriggerThresholds().don_right ||
+            thresholds.ka_right != settings_store->getTriggerThresholds().ka_right) {
+            settings_store->setDebounceDelay(safe_debounce);
+            settings_store->setTriggerThresholds(thresholds);
+        }
+
+        sendCtrlMessage({.command = ControlCommand::SetUsbMode, .data = {.usb_mode = current_mode}});
         sendCtrlMessage({.command = ControlCommand::SetLedBrightness,
                          .data = {.led_brightness = settings_store->getLedBrightness()}});
         sendCtrlMessage({.command = ControlCommand::SetLedEnablePlayerColor,
                          .data = {.led_enable_player_color = settings_store->getLedEnablePlayerColor()}});
 
-        drum.setDebounceDelay(settings_store->getDebounceDelay());
-        drum.setTriggerThresholds(settings_store->getTriggerThresholds());
+        drum.setDebounceDelay(safe_debounce);
+        drum.setTriggerThresholds(thresholds);
     };
 
     Utils::Menu menu(settings_store);
+
+    static constexpr bool kEnableBringupTest = false;
+    static constexpr uint8_t kBringupTargetCount = 18;
+    uint8_t bringup_current_index = 0;
+    bool bringup_active = kEnableBringupTest;
+    Utils::InputState previous_bringup_input{};
+
+    const auto pushBringupState = [&]() {
+        Peripherals::Display::BringupTestState state{
+            .active = bringup_active,
+            .current_index = bringup_current_index,
+        };
+        queue_try_remove(&bringup_test_queue, nullptr);
+        queue_try_add(&bringup_test_queue, &state);
+    };
+
+    const auto bringupTargetTriggered =
+        [&](uint8_t index, const Utils::InputState &current, const Utils::InputState &previous) -> bool {
+        switch (index) {
+        case 0:  return current.controller.buttons.share && !previous.controller.buttons.share;
+        case 1:  return current.controller.buttons.home && !previous.controller.buttons.home;
+        case 2:  return current.controller.buttons.select && !previous.controller.buttons.select;
+        case 3:  return current.controller.buttons.start && !previous.controller.buttons.start;
+        case 4:  return current.controller.buttons.l && !previous.controller.buttons.l;
+        case 5:  return current.controller.buttons.r && !previous.controller.buttons.r;
+        case 6:  return current.controller.dpad.left && !previous.controller.dpad.left;
+        case 7:  return current.controller.dpad.up && !previous.controller.dpad.up;
+        case 8:  return current.controller.dpad.down && !previous.controller.dpad.down;
+        case 9:  return current.controller.dpad.right && !previous.controller.dpad.right;
+        case 10: return current.controller.buttons.west && !previous.controller.buttons.west;   // Y
+        case 11: return current.controller.buttons.north && !previous.controller.buttons.north; // X
+        case 12: return current.controller.buttons.south && !previous.controller.buttons.south; // B
+        case 13: return current.controller.buttons.east && !previous.controller.buttons.east;   // A
+        case 14: return current.drum.ka_left.triggered && !previous.drum.ka_left.triggered;
+        case 15: return current.drum.don_left.triggered && !previous.drum.don_left.triggered;
+        case 16: return current.drum.don_right.triggered && !previous.drum.don_right.triggered;
+        case 17: return current.drum.ka_right.triggered && !previous.drum.ka_right.triggered;
+        default: return false;
+        }
+    };
 
     std::array<uint8_t, Utils::PS4AuthProvider::SIGNATURE_LENGTH> auth_challenge_response{};
     if (Config::PS4Auth::config.enabled) {
@@ -340,8 +419,9 @@ int main() {
     queue_add_blocking(&drum_reference_queue, &drum_ptr);
 
     multicore_launch_core1(core1_task);
+    pushBringupState();
 
-    usbd_driver_init(mode);
+    usbd_driver_init(settings_store->getUsbMode());
     usbd_driver_set_player_led_cb([](usb_player_led_t player_led) {
         const auto ctrl_message =
             ControlMessage{.command = ControlCommand::SetPlayerLed, .data = {.player_led = player_led}};
@@ -352,17 +432,18 @@ int main() {
 
     uint32_t ps4_auth_start_time = 0;
     
-    // Tantrum calibration state tracking for auto-save
-    bool last_analysis_active = false;
+    // Guided calibration state tracking for auto-save
+    bool last_guided_cal_active = false;
     
-    // Tantrum results display timing
+    // Guided calibration results display timing
     bool results_displaying = false;
 
-    // Prevent the same A press used to select "Start Wizard" from immediately
+    // Prevent the same A press used to select "Start Guided" from immediately
     // advancing Welcome -> PadNormal in the first active frame.
-    bool tantrum_wait_for_confirm_release = false;
+    bool guided_cal_wait_for_confirm_release = false;
 
     while (true) {
+        const auto mode = settings_store->getUsbMode();
         drum.updateInputState(input_state, mode);
 
         // Drain queue to the most recent controller sample each frame.
@@ -373,31 +454,50 @@ int main() {
         }
         input_state.controller = latest_controller_state;
 
-        // NEW: Send fresh threshold data to Display on every frame when menu is active
-        // This ensures Display always shows current values from SettingsStore
+        if (bringup_active) {
+            if (bringup_current_index < kBringupTargetCount &&
+                bringupTargetTriggered(bringup_current_index, input_state, previous_bringup_input)) {
+                ++bringup_current_index;
+                if (bringup_current_index >= kBringupTargetCount) {
+                    bringup_active = true; // keep PASS screen visible until power cycle
+                }
+                pushBringupState();
+            }
+            previous_bringup_input = input_state;
+        }
+
+        // Keep the display and live drum thresholds in sync while editing in the menu.
+        // This makes manual tuning feel immediate, while CANCEL still works because the
+        // menu restores SettingsStore before exit.
         if (menu.active()) {
             auto fresh_thresholds = settings_store->getTriggerThresholds();
-            queue_try_remove(&thresholds_queue, nullptr); // Remove stale data
+            drum.setTriggerThresholds(fresh_thresholds);
+            queue_try_remove(&thresholds_queue, nullptr);
             queue_try_add(&thresholds_queue, &fresh_thresholds);
         }
 
-        // Drive calibration wizard A/B buttons in main loop (Core 0)
-        const auto& tantrum_state = drum.getTantrumState();
-        bool tantrum_active = tantrum_state.isActive();
-        using TMode = Peripherals::Drum::TantrumState::Mode;
+        // Drive guided calibration A/B buttons in main loop (Core 0)
+        const auto& guided_cal_state = drum.getGuidedCalState();
+        bool guided_cal_active = guided_cal_state.isActive();
+        using TMode = Peripherals::Drum::GuidedCalState::Mode;
 
-        if (tantrum_active) {
+        if (guided_cal_active) {
             // Debounce: track A button edge
             static bool last_east = false;
             static bool last_south = false;
+            static uint32_t south_hold_start_ms = 0;
+            static bool south_cancel_latched = false;
+            static constexpr uint32_t SOUTH_CANCEL_HOLD_MS = 180;
             bool east_pressed  = input_state.controller.buttons.east  && !last_east;
             bool south_pressed = input_state.controller.buttons.south && !last_south;
+            bool south_down = input_state.controller.buttons.south;
+            uint32_t now_ms = to_ms_since_boot(get_absolute_time());
             last_east  = input_state.controller.buttons.east;
             last_south = input_state.controller.buttons.south;
 
-            if (tantrum_wait_for_confirm_release) {
+            if (guided_cal_wait_for_confirm_release) {
                 if (!input_state.controller.buttons.east) {
-                    tantrum_wait_for_confirm_release = false;
+                    guided_cal_wait_for_confirm_release = false;
                 }
                 east_pressed = false;
             }
@@ -407,24 +507,42 @@ int main() {
                 drum.advanceCalibWizard();
             }
 
-            // B button: cancel at any point
-            if (south_pressed) {
-                drum.cancelTaikoTantrum();
-                last_analysis_active = false;
+            // B button: cancel at any point.
+            // Accept either a clean edge or a short hold, so cancel remains reliable
+            // even if a frame is dropped and the edge is missed.
+            if (south_down) {
+                if (south_hold_start_ms == 0) {
+                    south_hold_start_ms = now_ms;
+                }
+            } else {
+                south_hold_start_ms = 0;
+                south_cancel_latched = false;
+            }
+
+            bool south_hold_cancel = south_down &&
+                                     south_hold_start_ms != 0 &&
+                                     (now_ms - south_hold_start_ms) >= SOUTH_CANCEL_HOLD_MS;
+            if (!south_cancel_latched && (south_pressed || south_hold_cancel)) {
+                south_cancel_latched = true;
+                drum.cancelGuidedCalibration();
                 results_displaying = false;
                 ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
             }
         }
 
-        // Detect wizard completion: Saving mode triggers apply+save, then return to menu
-        bool just_entered_saving = last_analysis_active &&
-                                   tantrum_state.current_mode == TMode::Saving &&
+        // Detect guided calibration completion: Saving mode triggers apply+save, then return to menu
+        bool just_entered_saving = last_guided_cal_active &&
+                                   guided_cal_state.current_mode == TMode::Saving &&
                                    !results_displaying;
         if (just_entered_saving) {
-            drum.applyTantrumRecommendations();
+            drum.applyGuidedCalRecommendations();
             settings_store->setTriggerThresholds(drum.getCurrentThresholds());
-            settings_store->setLastTantrumReport(drum.getLastTantrumReportVersion(), drum.getLastTantrumReport());
+            settings_store->setLastGuidedCalReport(
+                drum.getLastGuidedCalReportVersion(),
+                drum.getLastGuidedCalReport(),
+                mode,
+                to_ms_since_boot(get_absolute_time()));
             settings_store->store();
             readSettings();
             results_displaying = true;
@@ -432,18 +550,28 @@ int main() {
 
         if (results_displaying) {
             // Wait for Complete state to finish displaying, then return to Drum Tuning menu
-            if (!tantrum_active || tantrum_state.current_mode == TMode::Inactive) {  // NOLINT
+            if (!guided_cal_active || guided_cal_state.current_mode == TMode::Inactive) {  // NOLINT
                 menu.activate();
                 menu.goBackToParent();
                 ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
                 const auto display_msg = menu.getState();
-                queue_add_blocking(&menu_display_queue, &display_msg);
+                queue_try_remove(&menu_display_queue, nullptr);
+                queue_try_add(&menu_display_queue, &display_msg);
                 results_displaying = false;
             }
+        } else if (last_guided_cal_active && (!guided_cal_active || guided_cal_state.current_mode == TMode::Inactive)) {
+            // Cancel/exit path: restore the Drum Tuning menu when guided calibration closes without saving.
+            menu.activate();
+            menu.goBackToParent();
+            ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
+            queue_add_blocking(&control_queue, &ctrl_message);
+            const auto display_msg = menu.getState();
+            queue_try_remove(&menu_display_queue, nullptr);
+            queue_try_add(&menu_display_queue, &display_msg);
         }
 
-        last_analysis_active = tantrum_active;
+        last_guided_cal_active = guided_cal_active;
 
         const auto drum_message = input_state.drum;
 
@@ -462,90 +590,93 @@ int main() {
             ps4_auth_start_time = 0;
         }
 
-        // Track menu state BEFORE processing to detect transitions
-        bool was_menu_active = menu.active();
-        
-        // HOLD HOME 5s to reboot into bootloader (BOOTSEL) mode
-        // Goes through the same BootselMsg splash path as the menu so the user
-        // sees the countdown screen instead of the display freezing on main.
-        if (checkHoldHome() || checkHoldStart()) {
-            menu.enterBootloaderSplash();
-            ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
-            queue_add_blocking(&control_queue, &ctrl_message);
-        }
-
-        // HOLD SELECT to ENTER menu (not exit - use B button to exit)
-        // Check BEFORE menu processing so we can detect the hold
-        if (!menu.active() && checkHoldSelect()) {
-            // Menu is closed - open it
-            menu.activate();
+        if (!bringup_active) {
+            // Track menu state BEFORE processing to detect transitions
+            bool was_menu_active = menu.active();
             
-            ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
-            queue_add_blocking(&control_queue, &ctrl_message);
-        }
-
-        if (menu.active()) {
-            // Pass raw controller state to Menu.cpp
-            // Menu.cpp handles all edge detection and hold-to-repeat logic internally
-            menu.update(input_state.controller);
-            
-            // Check if Tantrum calibration start was requested
-            if (menu.isTantrumStartRequested()) {
-                // Start Tantrum calibration on Core 0
-                drum.startTaikoTantrum();
-                tantrum_wait_for_confirm_release = true;
-
-                // Deactivate menu so it doesn't overwrite wizard screens
-                menu.deactivate();
-
-                // Tell display to exit menu -- wizard screens now driven by core1 state tracker
-                ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
+            // HOLD HOME 5s to reboot into bootloader (BOOTSEL) mode
+            // Goes through the same BootselMsg splash path as the menu so the user
+            // sees the countdown screen instead of the display freezing on main.
+            if (checkHoldHome() || checkHoldStart()) {
+                menu.enterBootloaderSplash();
+                ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
                 queue_add_blocking(&control_queue, &ctrl_message);
-
-                // Core 1's display.update() will automatically show the Tantrum screens
-                // based on the Drum's TantrumState (countdown -> recording -> results)
             }
 
-            // Check menu.active() again BEFORE sending display state
-            // If menu just closed during update(), don't send state
+            // HOLD SELECT to ENTER menu (not exit - use B button to exit)
+            // Check BEFORE menu processing so we can detect the hold
+            if (!menu.active() && checkHoldSelect()) {
+                // Menu is closed - open it
+                menu.activate();
+                
+                ControlMessage ctrl_message = {.command = ControlCommand::EnterMenu, .data = {}};
+                queue_add_blocking(&control_queue, &ctrl_message);
+            }
+
             if (menu.active()) {
-                // Menu is still active - send display state
-                const auto display_msg = menu.getState();
-                queue_add_blocking(&menu_display_queue, &display_msg);
-            } else {
-                // Menu just closed - handle exit cleanup
-                settings_store->store();
+                // Pass raw controller state to Menu.cpp
+                // Menu.cpp handles all edge detection and hold-to-repeat logic internally
+                menu.update(input_state.controller);
+                
+                // Check if guided calibration start was requested
+                if (menu.isGuidedCalStartRequested()) {
+                    // Start guided calibration on Core 0
+                    drum.startGuidedCalibration();
+                    guided_cal_wait_for_confirm_release = true;
 
-                ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
-                queue_add_blocking(&control_queue, &ctrl_message);
+                    // Deactivate menu so it doesn't overwrite wizard screens
+                    menu.deactivate();
+
+                    // Tell display to exit menu -- wizard screens now driven by core1 state tracker
+                    ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
+                    queue_add_blocking(&control_queue, &ctrl_message);
+
+                    // Core 1's display.update() will automatically show the guided calibration screens
+                    // based on the Drum's GuidedCalState (countdown -> recording -> results)
+                }
+
+                // Check menu.active() again BEFORE sending display state
+                // If menu just closed during update(), don't send state
+                if (menu.active()) {
+                    // Menu is still active - send display state
+                    const auto display_msg = menu.getState();
+                    queue_try_remove(&menu_display_queue, nullptr);
+                    queue_try_add(&menu_display_queue, &display_msg);
+                } else {
+                    // Menu just closed - handle exit cleanup
+                    settings_store->store();
+
+                    ControlMessage ctrl_message = {.command = ControlCommand::ExitMenu, .data = {}};
+                    queue_add_blocking(&control_queue, &ctrl_message);
+                    
+                    // Apply settings changes NOW, when menu closes
+                    readSettings();
+                    
+                    // CRITICAL FIX FOR SECOND ENTRY FREEZE: Manually reset the hotkey state machine
+                    // This prevents the lingering 'was_held=true' flag from instantly re-activating 
+                    // the menu or causing the internal button logic to see a pre-held button.
+                    resetHotkeyState(); 
+                    
+                    // The menu's own deactivate() now handles m_buttons.reset()
+                }
                 
-                // Apply settings changes NOW, when menu closes
-                readSettings();
-                
-                // CRITICAL FIX FOR SECOND ENTRY FREEZE: Manually reset the hotkey state machine
-                // This prevents the lingering 'was_held=true' flag from instantly re-activating 
-                // the menu or causing the internal button logic to see a pre-held button.
-                resetHotkeyState(); 
-                
-                // The menu's own deactivate() now handles m_buttons.reset()
+                // Prevent menu presses from leaking through to gameplay/USB while the
+                // menu is open. Menu.cpp already consumed the raw controller state above.
+                input_state.releaseAll();
             }
             
-            // Clear local input state after menu processing.
-            // Menu keeps its own edge state; this prevents carryover into gameplay/reporting path.
-            input_state.releaseAll();
-            // Restore persisted controller state after local clear so held buttons
-            // remain stable across frames for edge detection.
-            input_state.controller = latest_controller_state;
-        }
-        
-        // Menu just closed during update() - no special handling needed
-        if (was_menu_active && !menu.active()) {
-            // The menu's deactivate() already handles cleanup
+            // Menu just closed during update() - no special handling needed
+            if (was_menu_active && !menu.active()) {
+                // The menu's deactivate() already handles cleanup
+            }
         }
 
         // ============================================================================
         // WEB TOOL SERIAL RECEIVE: Accept threshold packet from ouchitaiko-tool
-        // Packet format: AA [donL hi] [donL lo] [donR hi] [donR lo] [kaL hi] [kaL lo] [kaR hi] [kaR lo] 55
+        // Packet format: [CMD] [donL hi] [donL lo] [donR hi] [donR lo] [kaL hi] [kaL lo] [kaR hi] [kaR lo] 55
+        // CMD:
+        //   0xAA = apply + persist (Save to Drum)
+        //   0xAD = apply only (live test, non-persistent)
         // Only active in Debug mode so it doesn't interfere with normal USB operation
         // ============================================================================
         if (mode == USB_MODE_DEBUG && tud_cdc_available()) {
@@ -564,19 +695,25 @@ int main() {
                 tud_cdc_write(buf, strlen(buf));
                 tud_cdc_write_flush();
             } else if (byte == 0xBC && rx_pos == 0) {
-                const char* report = drum.getLastTantrumReport();
+                const char* report = settings_store->getLastGuidedCalReport();
                 if (report[0] == '\0') {
-                    report = settings_store->getLastTantrumReport();
+                    report = drum.getLastGuidedCalReport();
                 }
                 char buf[640];
                 if (report[0] != '\0') {
-                    snprintf(buf, sizeof(buf), "TLG:%s\n", report);
+                    snprintf(buf,
+                             sizeof(buf),
+                             "TLG:%s;SID=%lu;MODE=%u;UP=%lu\n",
+                             report,
+                             static_cast<unsigned long>(settings_store->getLastGuidedCalSessionId()),
+                             static_cast<unsigned>(settings_store->getLastGuidedCalUsbMode()),
+                             static_cast<unsigned long>(settings_store->getLastGuidedCalUptimeMs()));
                 } else {
                     snprintf(buf, sizeof(buf), "TLG:EMPTY\n");
                 }
                 tud_cdc_write(buf, strlen(buf));
                 tud_cdc_write_flush();
-            } else if (rx_pos == 0 && byte != 0xAA) {
+            } else if (rx_pos == 0 && byte != 0xAA && byte != 0xAD) {
                 // Not a start byte -- ignore and stay ready
             } else {
                 rx_buf[rx_pos++] = byte;
@@ -584,7 +721,7 @@ int main() {
                 if (rx_pos == 10) {
                     rx_pos = 0;
                     if (rx_buf[9] == 0x55) {
-                        // Valid packet -- apply and save thresholds
+                        // Valid packet -- apply thresholds
                         Peripherals::Drum::Config::Thresholds t;
                         t.don_left  = (static_cast<uint16_t>(rx_buf[1]) << 8) | rx_buf[2];
                         t.don_right = (static_cast<uint16_t>(rx_buf[3]) << 8) | rx_buf[4];
@@ -592,13 +729,20 @@ int main() {
                         t.ka_right  = (static_cast<uint16_t>(rx_buf[7]) << 8) | rx_buf[8];
 
                         drum.setTriggerThresholds(t);
-                        settings_store->setTriggerThresholds(t);
-                        settings_store->store();
+                        if (rx_buf[0] == 0xAA) {
+                            settings_store->setTriggerThresholds(t);
+                            settings_store->store();
 
-                        // Send ACK back to web tool
-                        const char* ack = "OK\n";
-                        tud_cdc_write(ack, 3);
-                        tud_cdc_write_flush();
+                            // Send ACK back to web tool
+                            const char* ack = "OK\n";
+                            tud_cdc_write(ack, 3);
+                            tud_cdc_write_flush();
+                        } else if (rx_buf[0] == 0xAD) {
+                            // Live apply only (no persistent write)
+                            const char* ack = "LIVE\n";
+                            tud_cdc_write(ack, 5);
+                            tud_cdc_write_flush();
+                        }
                     }
                     // Bad end byte -- silently discard, rx_pos already reset
                 }
@@ -608,7 +752,11 @@ int main() {
         // END WEB TOOL SERIAL RECEIVE
         // ============================================================================
 
-        usbd_driver_send_report(input_report.getReport(input_state, mode));
+        Utils::InputState report_state = input_state;
+        if (menu.active()) {
+            report_state.releaseAll();
+        }
+        usbd_driver_send_report(input_report.getReport(report_state, mode));
         usbd_driver_task();
 
         queue_try_add(&drum_input_queue, &drum_message);
@@ -622,3 +770,8 @@ int main() {
 }
 
 //End of Main.cpp
+
+
+
+
+

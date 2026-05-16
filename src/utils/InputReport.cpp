@@ -284,6 +284,18 @@ usb_report_t InputReport::getDebugReport(const InputState &state) {
         << drum.don_right.raw << " "
         << drum.ka_right.raw  << "\n";
 
+    // Firmware-native event stream used by the live HTML lane.
+    // Bit order for masks: [0]=don_l [1]=ka_l [2]=don_r [3]=ka_r
+    out << "EVT:"
+        << drum.ka_left.raw << "," << drum.don_left.raw << ","
+        << drum.don_right.raw << "," << drum.ka_right.raw
+        << ";H=" << static_cast<uint32_t>(drum.debug_event.hit_mask)
+        << ";X=" << static_cast<uint32_t>(drum.debug_event.cross_block_mask)
+        << ";A=" << static_cast<uint32_t>(drum.debug_event.arb_block_mask)
+        << ";D=" << static_cast<uint32_t>(drum.debug_event.held_high_mask)
+        << ";T=" << drum.debug_event.timestamp_ms
+        << "\n";
+
     m_debug_report = out.str();
 
     return {reinterpret_cast<uint8_t *>(m_debug_report.data()), static_cast<uint16_t>(m_debug_report.size() + 1)};

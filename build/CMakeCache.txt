@@ -286,7 +286,7 @@ OuchiTaikoProject_IS_TOP_LEVEL:STATIC=ON
 OuchiTaikoProject_SOURCE_DIR:STATIC=C:/Users/mattb/Documents/GitHub/OuchiTaikoProject
 
 //PICO target board (e.g. pico, pico2)
-PICO_BOARD:STRING=seeed_xiao_rp2040
+PICO_BOARD:STRING=waveshare_rp2040_zero
 
 //PICO board header directories
 PICO_BOARD_HEADER_DIRS:STRING=

@@ -15,7 +15,7 @@
 - [1: Project Overview/Unique Features](#1-project-overview)
 - [2: Parts List for Electronics](#2-parts-list-for-electronics)
 - [3: Parts List for Hardware](#3-parts-list-for-hardware)
-- [4: Build the Circuit](#4-build-the-circuit)
+- [4: Assemble the Circuit Board](#4-assemble-the-circuit-board)
 - [5: Build the Drum](#5-build-the-drum)
 - [6: Control Box](#6-control-box)
 - [7: Flash The Firmware](#7-flash-the-firmware)
@@ -31,7 +31,7 @@
 # **1: Project Overview**
 
 #### The Finished Build:  
-You'll be creating this entire drum and controller setup with your choice of <i>Floor-Standing Tripod...</i>
+When you complete this guide, you'll have created this entire Taiko drum and controller  with your choice of <i>Floor-Standing Tripod Mode...</i>
 
 
 <div align="center">
@@ -51,13 +51,13 @@ You'll be creating this entire drum and controller setup with your choice of <i>
 
 ---
 
-Hi, I'm KillerQ, the Creator of the **OuchiTaiko Project** - an open-source build guide for a professional arcade-grade Taiko drum controller unlike anything currently available.
+Hi, I'm KillerQ, the Creator of the **OuchiTaiko Project** - an all-inclusive, open-source build guide for a professional Arcade-grade Taiko drum controller unlike anything currently available inthe space.
 
-This guide represents one entire of research and development, addressing the limited availability and high cost of commercial units. Using **Adaptive Baseline Software Intelligence (ABSI)**, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or custom PCBs.
+This guide represents over a year of research and development that focued on addressing the limited availability and high cost of commercial Taiko Drum controllers. Using **Adaptive Baseline Software Intelligence (ABSI)**, this design achieves arcade-level performance through intelligent software instead of complex analog circuits or costly, advanced circuits that have to be assembled in a factory.
 
 All you need is basic soldering and woodworking skills. The components linked in this guide work together as tested, though compatible alternatives are welcome.
 
-Don't be worried about the length of this guide - it was purposely created that way to guide the user through every single step of the process - leaving nothing to question.  Less thinking, more doing!
+Don't worry about the length of this guide - it was purposely created that way to guide the user through every single step of the process - leaving nothing to question.  Less thinking, more doing!
 
 ---
 
@@ -65,10 +65,10 @@ Don't be worried about the length of this guide - it was purposely created that 
 
 ## **World-First Innovations** 
 
-**The following three innovations were designed and created just for this project and, as of this writing, do not exist at all in any other Taiko Drum Controllers - DIY, or Professionally manufactured.  You're among the first to enjoy their benefits!**
+**The following three innovations were designed and created just for this project and, as of this writing, do not exist at all in any other Taiko Drum Controllers - DIY, or Professionally manufactured.  You're among the first to enjoy these benefits!**
 
 
-**The Problem:** Traditional Taiko drum controllers require manual threshold adjustments through trial-and-error, often involving recompiling firmware or endless menu tweaking. Users struggle to find the perfect balance between sensitivity (missing hits) and false triggers (ghost hits from vibrations).
+**The Problem:** Traditional Taiko drum controllers require manual threshold adjustments through trial-and-error, often involving recompiling firmware or endless menu tweaking. Users struggle to find the perfect balance between sensitivity and false triggers..
 
 **The OuchiTaiko Solution is three-fold:**
 
@@ -79,7 +79,6 @@ Don't be worried about the length of this guide - it was purposely created that 
 
 ### **1) Auto Calibrate - Intelligent Threshold Detection**
 The **Auto Calibrate** system intelligently analyzes your actual playing style and automatically calculates optimal sensitivity settings:
-
 
 
 ✅ **Eliminates manual tweaking** - no more trial-and-error  
@@ -97,7 +96,7 @@ Achieves superior performance through elegant software:
 
 ### **3) Custom Arcade Sensor Suspension**
 
-Drum trigger sensors use **custom-designed suspension mounting** that improves upon the ones found in the actual Japanese Arcade machines.
+My Drum trigger sensors use **custom-designed suspension mounting** that improves upon the ones found in the actual Japanese Arcade machines.
 
 Proper sensor suspension ensures:
 - Consistent trigger response
@@ -152,7 +151,7 @@ Calibrate and test your entire system with just USB power--see exactly what's ha
 ---
 
 
-### 🎥 Demo Videos
+### 🎥 Demo Video
 
 - [Gameplay](https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux)
 
@@ -164,33 +163,23 @@ Calibrate and test your entire system with just USB power--see exactly what's ha
 
 The Amazon links reference parts that are 100% compatible when used together. You can source these items from any supplier as long as they meet the specifications.
 
-**Important:** "Quantity" refers to the number of individual items you need, NOT the number of packages you need to order since some items come with multiple items in one package.
 
 <div style="overflow-x: auto;">
 
-| #  | Item                                                          | Qty | Product Link                   |
-| -- | ------------------------------------------------------------- | --- | ------------------------------ |
-| 1  | XIAO RP2040 board (Seeed Studio)                              | 1   | [Link](https://www.amazon.com/dp/B0DRNTQ338) |
-| 2  | GODIYMODULES MCP23017 I2C expander board                      | 1   | [Link](https://www.amazon.com/dp/B0DSLPRKKZ) |
-| 3  | 1N4148 diodes                                                 | 4   | [Link](https://www.amazon.com/dp/B0DN62QFYS) |
-| 4  | 0.1uF/100nF ceramic capacitors                                | 4   | [Link](https://www.amazon.com/dp/B08B3VCK42) |
-| 5  | 3.5mm TRS female jacks w/ screw terminals                     | 4   | [Link](https://www.amazon.com/dp/B017CBTLJK) |
-| 6  | 3.5mm TRS male plugs w/ standard ends                         | 4   | [Link](https://www.amazon.com/dp/B07Y8JGFS1) |
-| 7  | 27mm piezo sensors                                            | 4   | [Link](https://www.amazon.com/dp/B07RK2TQ8D) |
-| 8  | 128x64 mono OLED display (I2C)                                | 1   | [Link](https://www.amazon.com/dp/B09T6SJBV5) |
-| 9  | 6mm x 6mm x 8mm tactile switches with button caps                              | 14  | [Link](https://www.amazon.com/dp/B0827LX3FV) |
-| 10 | 22 AWG Siamese wire                                           | 1   | [Link](https://www.amazon.com/dp/B0CN76L8G3) |
-| 11 | USB-C to USB-A female coupler                                 | 1   | [Link](https://www.amazon.com/dp/B0CY314DCJ) |
-| 12 | Short USB-C to USB-A extension cable                          | 1   | [Link](https://www.amazon.com/dp/B0DPF8TFC9) |
-| 13 | 6 inch, coiled 3.5mm TRS audio extension cable (male to male) | 4   | [Link](https://www.amazon.com/dp/B0D7CXJ5LQ) |
-| 14 | 3.5mm TRS barrel coupler                                      | 4   | [Link](https://www.amazon.com/dp/B0BVDQ5G9X) |
-| 15 | 4-pin, 0.2 inch pitch screw terminal blocks                   | 2   | [Link](https://www.amazon.com/dp/B098QMNHPJ) |
-| 16 | 22 AWG 4-wire ribbon connection wire                          | 1   | [Link](https://www.amazon.com/dp/B09X47XBFS) |
-| 17 | ElectroCookie circuit board (88.9mm x 96.5mm)                 | 1   | [Link](https://www.amazon.com/dp/B07YSCGBL7) |
-| 18 | 6ft USB-A to USB-C cable                                     | 1   | [Link](https://www.amazon.com/dp/B0CKXZML11) |
-| 19 | M2 x 3 x 3 threaded inserts                                   | 4   | [Link](https://www.amazon.com/dp/B0FD7DQS8Y) |
-| 20 | M2 x 4 bolts                                                  | 4   | [Link](https://www.amazon.com/dp/B0D3X4LJD2) |
-| 21 | 22 AWG wire ferrules and crimper                              | 8   | [Link](https://www.amazon.com/dp/B0DRJ9CDNG) |
+| # | Item | Pieces Needed | Product Link |
+| :--- | :--- | :--- | :--- |
+| 1 | Waveshare RP2040-Zero board | 1 | [Link](https://www.amazon.com/dp/B09SBCKYSC) |
+| 2 | 1N4148 diodes | 4 | [Link](https://www.amazon.com/dp/B0DN62QFYS) |
+| 3 | 0.1uF/100nF ceramic capacitors | 4 | [Link](https://www.amazon.com/dp/B08B3VCK42) |
+| 4 | 3.5 mm Female Audio Jack Board Mount 4 Pin PJ-320A  | 4 | [Link](https://www.amazon.com/dp/B07KY862P6) |
+| 5 | 3.5mm TRS male plugs w/ Flying Leads | 4 | [Link](https://www.amazon.com/dp/B0D72TV7Y5) |
+| 6 | 1K ohm Resistor 1/2w | 4 | [Link](https://www.amazon.com/dp/B0FP1YFMVM) |
+| 7 | 27mm piezo sensors | 4 | [Link](https://www.amazon.com/dp/B07RK2TQ8D) |
+| 8 | 128x64 mono OLED display (I2C) | 1 | [Link](https://www.amazon.com/dp/B09T6SJBV5) |
+| 9 | 6mm x 6mm x 9mm tactile switches with button caps | 14 | [Link](https://www.amazon.com/dp/B07VQF8P2Y) |
+| 10 | 6 inch, coiled 3.5mm TRS audio extension cable (M to M) | 4 | [Link](https://www.amazon.com/dp/B0D7CXJ5LQ) |
+| 11 | 3.5mm TRS barrel coupler | 4 | [Link](https://www.amazon.com/dp/B07YSCGBL7) |
+| 12 | 6ft USB-A to USB-C cable | 1 | [Link](https://www.amazon.com/dp/B0CKXZML11) |
 
 </div>
 
@@ -220,7 +209,7 @@ This guide assumes you have access to the following:
 
 <div style="overflow-x: auto;">
 
-| #    | Item                                                         | Qty  | Product Link                                                 |
+| #    | Item                                                         | Pieces Needed  | Product Link                                                 |
 | ---- | ------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
 | 1    | 1/4" (or 6mm) 2ft x 4ft plank of cabinet-grade MDF .            | 2    | [Home Depot](https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-Medium-Density-Fiberboard-1508104/202089069) |
 | 2    | 1/4" x 1-1/2" OD stainless steel fender washers              | 46   | [Link](https://www.amazon.com/dp/B0D8ZRL1CP)                               |
@@ -247,7 +236,7 @@ This guide assumes you have access to the following:
 
 ---
 
-# **4: Build the Circuit**
+# **4: Assemble the Circuit Board**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -255,480 +244,73 @@ This guide assumes you have access to the following:
 <img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-📸 **Photo Documentation Note:**
-Some assembly photos show different terminal headers than what's in your parts list, and some signal wires may be routed slightly differently. Don't worry about these mismatches - the installation process is identical. You'll see the correct terminals used when you reach Step 8.
 
-## **Circuit Overview**
 
-This build uses a **single circuit board** design with everything mounted on one ElectroCookie double-column protoboard:
+# **4: Assemble the Control PCB**
 
-- **XIAO RP2040:** Brain of the system, handles drum sensors
-- **MCP23017:** Controls OLED display and navigation buttons
-- **OLED Display:** Status and menu display
-- **14 Navigation Buttons:** Gamepad controls
+<div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-## **Understanding Shared Rows**
+## **Control PCB Overview**
 
-The ElectroCookie protoboard has **shared rows** where multiple holes are electrically connected. This allows you to:
+My custom circuit board combines the controller logic, navigation display, and drum sensor network into one tiny board smaller than a deck of cards!
 
-- Solder components into any hole in that row
-- Connect wires between shared row holes without additional soldering
-- Keep the build clean and organized
+The components you will be soldering to the board are as follows:
 
-**When this guide specifies a hole location** (e.g., "Row D, hole 5"), you **must** use that exact hole. **When it says "any hole in the shared row,"** you have flexibility to choose the most convenient location in that shared/common row.
+- **Waveshare RP2040-Zero** as the main controller
+- **6mm Tactile Buttons** for navigation
+- **1N4148 Diodes** part of protection circuit
+- **1K resistors (1/2W)** part of protection circuit
+- **0.1uF Ceramic Capacitors** part of protection circuit
+- **I2C OLED** as the controller disp;ay
+- **4 Pin PJ-320A 3.5mm Female TRS Jacks** to connect the sensors
 
----
+## **Recommended Assembly Order**
 
-## **IMPORTANT: Board Orientation & Labeling**
+### **Step 1: Solder the small passive parts**
 
-This protoboard has **row letters and numbers printed on both sides**.
+Install the below components in the designated slots:
 
-- **FRONT face** = Display and buttons side (use for Steps 1-2)
-- **BACK face** = XIAO, MCP23017, and screw terminals side (use for Steps 3-12)
+- `R1-R4` = `Solder a 1K Resistor (no polarity)`
+- `C1-C4` = `Solder a 0.1uF Capacitor (no polarity)`
+- `D1-D4` = `Solder a 1N4148 Diode - The black band MUST be on the side with the arrow/cathode symbol`
 
-**⚠️ CRITICAL - Manufacturing Variance:**
+Again, For the 1N4148 diodes, make sure the **band orientation matches the silkscreen / schematic**.
 
-Due to manufacturing variations within ElectroCookie production batches, **some boards MAY have reversed row labeling between front and back sides**. On affected boards, what appears as "Row A" on the FRONT may appear as "Row J" on the BACK (and vice versa).
+### **Step 2: Solder the 14 buttons
 
-**Before you begin:** Check your specific board's labeling on both sides. When this guide specifies a hole location (e.g., "Row D, hole 5"), **always use the row letter/number printed on the side you're currently working on**, not the opposite side.
+Install all 14 navigation buttons in their labeled positions.
 
-**Example:** If the guide says to place a component in "Row E, hole 12" on the BACK face:
-1. Flip to the BACK face
-2. Locate the "Row E" label printed on the BACK (ignore what the front says)
-3. Count to hole 12 in that row
-4. Place your component
+**Note:** If you look closely, the board holes as well as the legs of the buttons are not a perfect square, they are more of a rectangle.  Be sure you orient/insert the buttons to match that position.  Don't worry about the button being upsidown, as long as the rectangle shape is matched, it will work either way.  
 
-Always verify which side you're working on before placing components.
+Check that they sit flat before soldering all legs.
 
-(This is not a problem, or a big deal, just be aware and make sure you don't blindly follow a step if you board is clearly labeled differently)
+### **Step 3: Mount the OLED**
 
----
+Install the OLED on the PCB footprint labeled for the display. If you purchased the recommended display, then the GND, VCC, SCL, and SDA pins will all match.
 
-## **Step 1: Mount OLED Display (FRONT face)**
+ Double check that the pins match the holes (they)
 
-Mount the OLED display on the **top center** of the FRONT face.
+### **Step 4: Install the drum input jacks**
 
-**OLED Placement:**
+Install the 3.5mm Female TRS drum/sensor input jacks
 
-- **Location:** Row J, holes 14-17 (FRONT face coordinates)
-- **Orientation:** Screen facing up
-- Solder in place
+### **Step 5: Mount the RP2040-Zero**
 
-<div align="center">
-<img src="images/Pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
+Install the **Waveshare RP2040-Zero** carefully and keep it straight. The current firmware assumes this exact module footprint and pinout. 
 
-**OLED Pin Locations** (Solder now, but these will be wired in Step 7):
 
-- VCC (Row A, hole 15)
-- GND (Row A, hole 14)
-- SCL (Row A, hole 16)
-- SDA (Row A, hole 17)
+## **Inspect your work**
 
-<div align="center">
-<img src="images/Pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
+Make sure all of the following are true:
 
----
+- The RP2040-Zero is seated correctly
+- The OLED is wired in the correct order
+- All 14 buttons are soldered
+- The 4 drum lanes each have their resistor, capacitor, and diode populated
+- There are no obvious solder bridges around the RP2040 module pads
+- Inspect ALL solder joints.
 
-## **Step 2: Mount Buttons (FRONT face)**
-
-**Button Orientation:**
-
-- Orient the buttons so that the 2 legs are horizontal on the **left and right side** (NOT top and bottom)
-- For visual consistency: align all button tabs the same way (your buttons may have a top or bottom edge that looks slightly different - it is best to keep them all facing the same way for visual mounting consistency)
-
-**CRITICAL - Use Exact Positions:**  
-The table below specifies exact FRONT face hole positions. These align with the Control Box openings to ensure proper fit of the controller faceplate.
-
-<div align="center">
-<img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Here are the exact hole locations for you to place your buttons in:
-
-**Button Position Reference (FRONT face):**
-
-| Button                 | Ground Leg Position | Signal Leg Position |
-| ---------------------- | ------------------- | ------------------- |
-| **LEFT SIDE BUTTONS**  |                     |                     |
-| UP                     | Row E, hole 4       | Row E, hole 6       |
-| Down                   | Row A, hole 4       | Row A, hole 6       |
-| Left                   | Row C, hole 1       | Row C, hole 3       |
-| Right                  | Row C, hole 7       | Row C, hole 9       |
-| L                      | Row F, hole 1       | Row F, hole 3       |
-| Select                 | Row A, hole 12      | Row A, hole 14      |
-| Share                  | Row H, hole 7       | Row H, hole 9       |
-| **RIGHT SIDE BUTTONS** |                     |                     |
-| North                  | Row E, hole 27      | Row E, hole 25      |
-| South                  | Row A, hole 27      | Row A, hole 25      |
-| West                   | Row C, hole 24      | Row C, hole 22      |
-| East                   | Row C, hole 30      | Row C, hole 28      |
-| R                      | Row F, hole 30      | Row F, hole 28      |
-| Start                  | Row A, hole 19      | Row A, hole 17      |
-| Home                   | Row H, hole 24      | Row H, hole 22      |
-
-**Installation:**
-
-1. Insert each button into its specified position, bend legs behind board to hold in place
-2. Solder both legs in place
-3. Verify button alignment matches reference photos
-
-<div align="center">
-<img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-<br>
-
-**CRITICAL NOTE - Prevent Signal Shorts:**  
-Because of the shared row nature of the board, 2 buttons  will initially share signal rows with two other buttons—this would short without the following quick fix:
-
-
-- The **NORTH Button and SOUTH button** legs will initially be sharing a row with each other
-
-- The **UP Button and DOWN button** legs will also initially be sharing a row with each other
-
-You will need to make a "break" in the shared row between these buttons so that the legs aren't electrically connected.
-
-<div align="center">
-<img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-**Quick Fix (30 seconds per pair):**
-
-1. Find the hole centered between the two signal legs of the two buttons
-2. Remove/Scrape away copper with 3mm drill bit or knife. It doesn't tke much force to remove.
-3. Test with multimeter: touch both signal legs - NO beep = success. If you hear a beep, remove more copper metal and try again
-4. Repeat for second button pair
-
-
----
-
-## **Step 3: Mount XIAO RP2040 (BACK face)**
-
-**Flip board to BACK face.** 
-
-<div align="center">
-<img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-**XIAO Placement:**
-
-- Solder XIAO RP2040 on the **right side** of board using header pins or IC socket for easy removal
-- Orient with **USB-C port facing left**
-- **Top row of pins:** Row D, holes 1-7 (BACK face)
-- **Bottom row of pins:** Row H, holes 1-7 (BACK face)
-
-**Connect Ground:**
-
-- Connect any pin in XIAO's **GND** shared row to the common GND rail
-- Take a moment to jump/connect all GND rails together across the board
-
-Here is a photo showing an example of the un-jumped power rails and then two photos (from and back) showing them as jumped.  This is done with a blob of solder, or a small jumper wire that is also soldered.  There are 4 total places to jump on the board used.
-
-<div align="center">
-<img src="images/Pictures/jumpedrails3.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-<div align="center">
-<img src="images/Pictures/jumpedrails.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-<div align="center">
-<img src="images/Pictures/jumpedrails2.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-## **Step 4: Install Drum Sensor Protection Circuits (BACK face)**
-
-Each of the 4 drum sensors requires identical protection circuitry.
-
-**Diode & Capacitor Placement:**
-
-| Drum Zone | XIAO Pin | Diode Anode + Capacitor Location (BACK face) |
-| --------- | -------- | -------------------------------------------- |
-| Left Ka   | A0       | Row J, hole 7                                |
-| Left Don  | A1       | Row J, hole 6                                |
-| Right Don | A2       | Row J, hole 5                                |
-| Right Ka  | A3       | Row J, hole 4                                |
-
-**For Each Sensor:**
-
-1. **Diode:** Place anode (non-striped end) of 1N4148 diode into the specific hole listed above (do not solder yet)
-
-2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
-   
-   <div align="center">
-   <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
-   </div>
-   
-   <div align="center">
-   <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
-   </div>
-
-3. **Capacitor:** Place either leg of 0.1uF capacitor into same hole as diode anode (do not solder yet)
-
-4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
-   
-   <div align="center">
-   <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
-   </div>
-   
-   <div align="center">
-   <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
-   </div>
-
-5. **Solder:** NOW, you can solder the combined diode + capacitor legs together into their respective hole. This saves space and keeps things looking clean.
-   
-   <div align="center">
-   <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
-   </div>
-
----
-
-## **Step 5: Connect Button Grounds (BACK face)**
-
-**Flip board as needed** - button legs are now accessible on BACK.
-
-- Connect one leg of each button (ground leg) to GND rail
-- **Recommended:** Daisy-chain grounds for cleaner routing - see reference photo for layout. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
-
-<div align="center">
-<img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-## **Step 6: Prepare MCP23017 Board**
-
-**Solder Header Pins:**
-
-1. Solder the **single row of 10 header pins** into the bottom row of holes on the MCP23017
-2. This row starts with **A2** (left) and ends with **VCC** (right)
-3. The double row of pins on top remains empty (for button signal connections later)
-
-<div align="center">
-<img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-## **Step 7: Pre-Wire I2C Lines Under MCP (BACK face)**
-
-Before soldering/mounting the MCP23017 board onto the circuit board, pre-wire the power and I2C connections underneath where it will sit.
-
-**Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
-
-<div align="center">
-<img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-**Make these 4 connections underneath:**
-
-| Connection | From (Under MCP) | To (OLED)      | Purpose              |
-| ---------- | ---------------- | -------------- | -------------------- |
-| VCC        | Row A, hole 11   | Row A, hole 15 | Power to display     |
-| GND        | Row A, hole 12   | Row A, hole 14 | Ground to display    |
-| SCL        | Row A, hole 13   | Row A, hole 16 | I2C clock to display |
-| SDA        | Row A, hole 14   | Row A, hole 17 | I2C data to display  |
-
-<div align="center">
-<img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-(Photo shows SDA and SCL connection progress. You will also connect VCC and GND to the display in this step)
-
-**Now mount MCP23017:**
-
-- Place bottom single row of 10 pins into Row E, holes 11-21 (BACK face)
-- Verify **VCC pin** is in Row E, hole 11
-- Verify **A2 pin** is in Row E, hole 21
-- Solder these header pins to the circuit board
-
-<div align="center">
-<img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-(In the above photo the VCC and GND were routed different than the guide, but work the same)
-
----
-
-## **Step 8: Connect Power & Ground**
-
-Connect/verify power and ground between XIAO, MCP23017, and display.
-
-**Connections:**
-
-1. **XIAO 3.3V** -> **MCP23017 VCC** -> **OLED VCC** (OLED already connected via Step 7)
-2. **XIAO GND** -> **MCP23017 GND** -> **OLED GND** (OLED already connected via Step 7)
-3. Verify all three components (XIAO, MCP, display) share common ground
-
----
-
-## **Step 9: Connect I2C Data Lines**
-
-<div align="center">
-<img src="images/Pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Connect I2C between XIAO and MCP23017.
-
-| Connection | From XIAO                 | To MCP23017               |
-| ---------- | ------------------------- | ------------------------- |
-| SDA        | Any pin in SDA shared row | Any pin in SDA shared row |
-| SCL        | Any pin in SCL shared row | Any pin in SCL shared row |
-
-**Verify I2C connections:**
-
-- XIAO SDA -> MCP23017 SDA -> Display SDA (all connected)
-- XIAO SCL -> MCP23017 SCL -> Display SCL (all connected)
-
----
-
-## **Step 10: Connect Button Signals to MCP23017 (BACK face)**
-
-Connect button signal legs to MCP23017 pins. Button legs are accessible from the BACK face.
-
-**Soldering Technique** (MCP holes are small):
-
-1. **Prepare MCP holes:** Fill each MCP pin hole with small amount of solder
-2. **Prepare wires:** Strip to 1-2mm max, tin the ends with solder
-3. **Solder:** Place tinned wire on solder-filled hole, press iron down onto solder pad, wire sinks into solder
-4. **Order:** Start with Row A pins (top), then Row B pins
-
-**Complete Button Wiring Map:**
-
-| Button                 | MCP Pin | Wire Connection                                      |
-| ---------------------- | ------- | ---------------------------------------------------- |
-| **LEFT SIDE BUTTONS**  |         |                                                      |
-| UP                     | B0      | MCP B0 -> any hole in UP button signal shared row     |
-| Down                   | B1      | MCP B1 -> any hole in DOWN button signal shared row   |
-| Left                   | B2      | MCP B2 -> any hole in LEFT button signal shared row   |
-| Right                  | B3      | MCP B3 -> any hole in RIGHT button signal shared row  |
-| L                      | B4      | MCP B4 -> any hole in L button signal shared row      |
-| Select                 | B5      | MCP B5 -> any hole in SELECT button signal shared row |
-| Share                  | B6      | MCP B6 -> any hole in SHARE button signal shared row  |
-| **RIGHT SIDE BUTTONS** |         |                                                      |
-| North                  | A0      | MCP A0 -> any hole in NORTH button signal shared row  |
-| South                  | A1      | MCP A1 -> any hole in SOUTH button signal shared row  |
-| West                   | A2      | MCP A2 -> any hole in WEST button signal shared row   |
-| East                   | A3      | MCP A3 -> any hole in EAST button signal shared row   |
-| R                      | A4      | MCP A4 -> any hole in R button signal shared row      |
-| Start                  | A5      | MCP A5 -> any hole in START button signal shared row  |
-| Home                   | A6      | MCP A6 -> any hole in HOME button signal shared row   |
-
-**Wiring Tips:**
-
-- Wire Row A pins first (work from closest to furthest button)
-- Then wire Row B pins
-- Route wires to minimize crossover and blocking
-
-<div align="center">
-<img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-The Navigation Buttons should look similar to this when complete:
-
-<div align="center">
-<img src="images/Pictures/buttonswired.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-## **Step 11: Mount Terminal Blocks (BACK face)**
-
-Place two 4-pin screw terminal blocks on BACK face.
-
-**Terminal Block 1 (GND):**
-
-- **Location:** Row A, holes 29, 27, 25, and 23 (BACK face)
-- **Orientation:** Wire openings facing UP toward top of board
-- Bridge all 4 pins together with solder or wire
-- Connect this common GND cluster to nearest GND rail
-
-**Terminal Block 2 (For Drum Signals):**
-
-- **Location:** Row F, holes 30, 28, 26, and 24 (BACK face)
-- **Orientation:** Wire openings facing DOWN toward bottom of board
-- Leave one hole space between this block and the GND block
-
-<div align="center">
-<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-**Label the signal block ports for easy future reference:**
-
-- Pad 1/Left Ka (Row F, hole 24)
-- Pad 2/Left Don (Row F, hole 26)
-- Pad 3/Right Don (Row F, hole 28)
-- Pad 4/Right Ka (Row F, hole 30)
-
-
-
-
-## **Step 12: Connect Drum Signal Terminals (FRONT face)**
-
-Connect terminal block signal pins to XIAO analog pins.
-
-<div align="center">
-<img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-**Wiring Map:**
-
-| Drum Pad  | From Terminal Block                   | To XIAO Pin |
-| --------- | ------------------------------------- | ----------- |
-| Left Ka   | Any hole in Row D, hole 24 shared row | A0          |
-| Left Don  | Any hole in Row C, hole 26 shared row | A1          |
-| Right Don | Any hole in Row B, hole 28 shared row | A2          |
-| Right Ka  | Any hole in Row A, hole 30 shared row | A3          |
-
-These screw terminals will connect to the drum sensor TRS jacks in a later step.
-
----
-
-**CRITICAL: Be sure to visually go over BOTH sides of the entire completed circuit board and cut away ALL extra lengths of component legs that are still sticking through any holes.  Also make sure there are no unwanted blobs of solder or material anywhere on the board.  This is to ensure there are no unwanted electrical shorts.**
-
----
-
-## **Circuit Complete!**
-
-You now have a single-board circuit with:
-
-✅ OLED Display  
-✅ 14 Navigation Buttons  
-✅ XIAO RP2040 (drum sensor controller)  
-✅ MCP23017 (button/display controller)  
-✅ Screw terminals for drum sensors
+You will learn how to flash the Firmware later in step 7.
 
 
 ---
@@ -1319,175 +901,15 @@ Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barre
 
 ---
 
-# **6: Control Box**
+# **6: Control Box Connection**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
-
-You're almost there!
-
-If you built the board to the exact specifications in my guide, you'll be able to 3D print the included enclosure box for a professional finish to your circuit.
-
----
-
-## **6.1: 3D Print and Assemble The Control Box**
-
-### **Print the Enclosure**
-
-<div align="center">
-<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-💾 [Controller Enclosure Files are in the file packet here](#9-files--downloads)
-
-Print the Control Box base and lid using the following settings:
-
---Layer Height: .20mm
-
---Infill: Gyroid fill @ 20%
-
---Supports: Automatic
-
-
-
-### **Add TRS Terminal Jacks & USB Coupler**
-
-<div align="center">
-<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
-
-<div align="center">
-<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Place the USB coupler in the bottom opening in the base.  Use the slight depression in the base floor to help you align it.  Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box.  Use a small amount of hot glue to ensure the coupler stays in place.
-
-<div align="center">
-<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-### **Mount The Circuit To The Enclosure Lid**
-
-<div align="center">
-<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
-
-<div align="center">
-<img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
-
-<div align="center">
-<img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Place the circuit board face with buttons and display through the holes in the lid.  Everything should align perfectly.
-
-
-<div align="center">
-<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
-
-### **Attach Lid To The Control Box Hinges**
-
-<div align="center">
-<img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-The hinges on the box were cleverly designed to be fastened using a piece of standard, 1.75mm filament as opposed to a metal hinge pin.
-
-<div align="center">
-<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Cut off a small section of filament that is  long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections of the hinge you're working on.  It will be snug, but that is by design Cut each end flush.  Repeat this for the other hinge as well.  
-
----
-
-## **6.2: Connect Circuit Wiring To Control Box**
-
-### **Create the Wires**
-
-<div align="center">
-<img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each.  Crimp the ends using 22 AWG wire ferrules (with small gauge wire like this, going a size smaller on the ferrule helps secure the crimp better and prevent it from pulling off).
-
-One set of 4 wires will be the SIGNAL set, and the other set of 4 wires will be the GROUND set.
-
-
-
-### **Connect The Ground Wires**
-
-<div align="center">
-<img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Using the GROUND wire set, connect one end of 4 wires to the GND terminal block on the circuit board.
-
-<div align="center">
-<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Connect the opposite end of the GROUND wire set to the GND terminal in each of the 4 TRS jacks in your Control Box.  There is no specific order for the GND wires here.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
-
-### **Connect The Signal Wires**
-
-<div align="center">
-<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-<div align="center">
-<img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-
-Using the set of SINGNAL wires, connect the 4 wires ends to the SIGNAL terminal block on the circuit board in the following manner: 
-| Terminal Pin | Connects To |
-|-------------|-------------|
-| Pin 1 | TIP terminal of TRS Jack 1 |
-| Pin 2 | TIP terminal of TRS Jack 2 |
-| Pin 3 | TIP terminal of TRS Jack 3 |
-| Pin 4 | TIP terminal of TRS Jack 4 | 
-
-<div align="center">
-<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-### **Connect The XIAO Board To The Control Box USB Coupler**
-
-Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C coupler inside the Control Box.
-
-
-
-This is how the final, wired product should look:
-
-<div align="center">
-<img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
 
 ------
 
 
 
-## **6.3: Floor Stand Mode (And Control Box Mount)**
+## **6.1 Floor Stand Mode (And Control Box Mount)**
 
 ### **Mount Drum to speaker stand**
 
@@ -1507,7 +929,7 @@ Mount the angled speaker bracket to the speaker stand.
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the Control Box to the Spring-Loaded phone bracket, and adjust to your preferred position.  Connect the Drum Sensor TRS male ends that are hanging down on the drum to the corresponding TRS Female Jack on the Control Box.
 
 
-## **6.4: Table-Top  Mode**
+## **6.4: Table-Top Mode (And Control Box Mount)**
 
 ### **Cut Monitor Stand Tubing**
 
@@ -1567,21 +989,21 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 <img src="images/Pictures/bootloaderbutton.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-Hold down the small **"B" button** on your XIAO RP2040 micro controller board while connecting it to your PC. The board is now in BOOTLOADER mode, and will appear as a removable drive - it is waiting for you to drag a file to it.
+Hold down the small **"B" button** on your Waveshare RP2040-Zero microcontroller board while connecting it to your PC. The board is now in BOOTLOADER mode, and will appear as a removable drive - it is waiting for you to drag a file to it.
 
 ---
 
 ## **Step 2: Wipe the Board**
 
-Rule Of Thumb: A good practice is to **always** flash a cleaning/nuke file to your board before you flash your actual firmware. This clears out any residual memory or cache that, while rare, may still be hanging around that could potentially cause issues with your new firmware.
+Rule Of Thumb: A good practice is to **always** flash a cleaning/nuke file to your board before you flash your actual firmware. This clears out any residual memory or cache that, while rare, may still be hanging around that could potentially cause issues with your new firmware. I recommend this wipe process anytime you are going to be flashign anything to the board - fresh install, update, etc...
 
-To do this, drag the `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode. Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as a removeable drive, you'll be ready to flash the controller firmware...
+To do this, drag the `universal_flash_nuke.uf2` to the root of the removable drive. This wipes the board for a fresh start and automatically reboots it. The drive will reappear as before, in BOOT mode. Drag the `universal_flash_nuke.uf2` file one more time to be extra clean. Now, when the board pops up again as an empty removeable drive, you'll be ready to flash the controller firmware...
 
 ---
 
 ## **Step 3: Drag the Firmware File To The Board to Flash It**
 
-Drag `OTPv1.0.uf2` to the removable drive window that popped up earlier. After a few seconds, the board will upload the file and automatically reboot. This time, the board will not reappear, this is normal behavior and means that your board is now in controller mode and ready to play. If for some reason your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go!
+Drag `.uf2` firmware file to the removable drive window that popped up earlier. After a few seconds, the board will upload the file and automatically reboot. This time, the board will not reappear as a removeable drive, this is normal behavior and means that your board is now in controller mode and ready to play!! If your board doesn't reboot automatically after dragging the firmware file, wait about 15 seconds, and then unplug the board and plug it back it. This will manually reboot it, and it's ready to go! 
 
 You're ready for testing and calibration!
 
@@ -1598,20 +1020,21 @@ By doing this step, you're just ensuring that they are all wired correctly, regi
 **Circuit Test Procedure Method #1 - USB Power:**
 (I created this first method so that you can test and calibrate your drum without even needing a Console or PC - jut USB Power)
 
-1. Connect your controller to a PC or USB Power (phonr charger, etc).  After the bootup animation you will see the main screen that "Switch Tatacon Mode" on top.  
-2. Now, tap each drum face and ensure that the 4 animated icons on the bottom of the screen respond to your hits (If you notice any automatic/false triggering of the drum panels, you can ignore that as the Auto Calibration in the next section of the guide will instantly solve that issue.)
-3. Now, press each navigation button one at a time, and you should see the corresponding button name flash in the upper right portion of the screen.  Ensure that each button is labeled correctly.
+1. Connect your controller to a PC or USB Power (phone charger, etc).  After the bootup animation you will see the main screen that "Switch Tatacon Mode" on top.  
+2. Now, tap each drum face and ensure that the 4 animated icons on the bottom of the screen respond to your hits.
+3. Now, press each navigation button one at a time, and you should see the corresponding button name flash in the upper right portion of the screen.  Ensure that each button shows the correct label when pressed.
 
+### **Recommended: OuchiTaiko Live Calibrate Tool (PC)**
 
-**Circuit Test Procedure Method #2 - PC Web Browser:**
+Use the included live tool for threshold tuning and hit-lane verification:
 
-1. Hold **SELECT** for 1 second to enter the system menu
-2. The controller, by default, will be in **SWITCH TATACON mode**
-3. Stay inside the Menu structure for this test (this prevents any false triggers from interrupting your button test)
-4. Visit the [Meloncolle Taiko Controller](https://meloncolle.com/tatacon) website and tap all four drum sensors and press all 14 navigation buttons
-5. The drum you tap and the buttons you press should  light up the corresponding drum or button on Drum Controller on the screen
+- Open: `docs/ouchitaiko-live-calibrate.html`
+- Set controller USB mode to: **Calibrate/Debug**
+- Click **Connect Serial Port**
+- Use the live lane to verify singles, doubles, and rolls
+- Adjust thresholds and click **Save to Drum**
 
-You can now exit the menu screen. If you notice any automatic/false triggering of the drum panels, you can ignore that as the Auto Calibration  in the next section of the guide will instantly solve that issue.
+This is the preferred release workflow for fine-tuning crosstalk and missed hits.
 
 
 ---
@@ -1621,123 +1044,61 @@ You can now exit the menu screen. If you notice any automatic/false triggering o
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
 ---
+## **Auto Calibrate - Recommended Method**
 
-## **Initial Setup After Flashing**
+By default, the controller boots into **Switch Pro** mode.
 
-Upon first boot, your controller defaults to **Nintendo Switch Tatacon** mode. If this works for your setup, you're ready to play!
+Before using Auto Calibrate, first switch the controller to **Web Calibrate** mode from the on-device menu.
 
-To change controller modes or adjust settings:
+The recommended way to calibrate OuchiTaiko is with the **downloaded HTML calibration page**.
 
-**Hold SELECT for 1 second**
-1. System menu will open
-2. Select "Controller Mode"
-3. Choose the desired controller
-4. The cotnroller will reboot into the new controller mode
+### **Workflow**
 
----
+1. Power on the controller
+2. Change the controller mode to **Web Calibrate**
+3. Open the downloaded HTML calibration page in **Chrome or Edge**
+4. Connect the controller over USB
+5. Test each drum lane
+6. If another lane triggers, raise the threshold of the falsely triggered lane
+7. Repeat until each lane hits cleanly
 
-## **Auto Calibrate - Quick Start Guide**
+### **Why use it?**
 
-**Recommended for all users - takes less than 30 seconds**
-
-The Auto Calibrate feature automatically determines optimal sensitivity for your specific build, eliminating the need for manual threshold adjustments.
-
-### **When to Use Auto Calibrate:**
-
-✅ **First-time setup** - Essential for new builds  
-✅ **After hardware changes** - New drum cover, replaced sensors, remounted drums  
-✅ **Environmental changes** - New flooring, extreme temperature/humidity shifts (if performance affected)  
-✅ **Gameplay issues** - Missed hits or false triggers
-
-### **How to Run Auto Calibrate:**
-
-**From System Menu:**
-1. **Hold SELECT (1 sec)** → System Menu
-2. Navigate: **Drum Tuning** → **Auto Calibrate** and press **A**
-3. **Instructions screen** appears - read at your own pace, press **A** to begin
-
-### **During Calibration (28 seconds total):**
-
-**Phase 1 - Instructions (wait for A press):**
-- Screen shows: "When calibration starts, hit all 4 pads randomly with drum rolls & standard hits"
-- **Read the directions carefully**
-- Press **A (EAST button)** when ready to start
-
-**Phase 2 - Countdown (3 seconds):**
-- Screen shows: "DON'T HIT YET!" + countdown timer
-- **Don't touch the drums** - system is sampling ambient noise
-
-**Phase 3 - Calibration (20 seconds):**
-- Screen shows: "HIT DRUMS!" + progress bar + time remaining
-- **Mix drum rolls and standard hits:**
-  - Alternate between fast rolls and single strikes
-  - Use normal playing force (as you would in-game)
-  - Hit **all 4 pads** multiple times
-  - Vary your strength - light taps to strong hits
-  - System captures maximum force, crosstalk patterns, and dynamic range
-
-**Phase 4 - Results (5 seconds):**
-- System displays calculated thresholds for each drum
-- Thresholds are automatically applied and saved to memory
-- Returns to Drum Tuning menu
-
-### **What the System Analyzes:**
-
-- **Maximum force:** Your typical in-game strikes on each pad
-- **Playing dynamics:** Range between light taps and strong hits
-- **Crosstalk patterns:** Vibration transfer between adjacent drums
-- **Safety margins:** Automatic 50-point buffer above detected crosstalk
-
-### **Calibration Quality Checks:**
-
-The system validates your calibration and may require a redo if:
-- Maximum hit values are too low (below 300) - you didn't hit hard enough
-- Crosstalk exceeds 50% of hit strength - mechanical isolation issue
-
-💡 **Pro Tip:** During calibration, play naturally - mix fast rolls with single hits at various strengths. The 20-second window gives you plenty of time to demonstrate your full playing style. Don't hold back, but don't hit harder than you would during actual gameplay.
+- live hit feedback
+- easy crosstalk testing
+- quick threshold adjustment
+- no reflashing needed
 
 ---
 
 ## **Manual Threshold Adjustment**
 
-For users who prefer hands-on control or need fine-tuning after Auto Calibrate.
+Use **Manual Thresholds** to fine-tune settings after testing in the HTML calibration page.
 
-### **Access Manual Thresholds:**
+### **Access**
 
-1. **Hold SELECT (1 sec)** -> System Menu
-2. Navigate: **Drum Tuning** -> **Manual Thresholds**
+1. Hold **SELECT** for 1 second
+2. Go to **Drum Tuning**
+3. Select **Manual Thresholds**
 
-### **Unified Threshold Screen:**
+### **Layout**
 
-All 4 drum thresholds displayed on one screen with **live visual feedback:**
+`KL   DL   DR   KR`
 
-### **Controls:**
+### **Controls**
 
 | Button | Action |
-|--------|--------|
-| **UP/DOWN** | Select drum (KaL -> DonL -> DonR -> KaR) |
-| **LEFT/RIGHT** | Decrease/Increase threshold (hold to fast-repeat) |
-| **A (EAST)** | Save changes |
-| **B (SOUTH)** | Cancel and restore original values |
+| --- | --- |
+| **LEFT/RIGHT** | Select drum |
+| **UP/DOWN** | Adjust threshold |
+| **A (EAST)** | Save |
+| **B (SOUTH)** | Cancel |
 
-### **Understanding Thresholds:**
+### **Threshold Guide**
 
-- **Range:** 0-4095 (12-bit ADC resolution)
-- **Lower values** = More sensitive (easier to trigger, risk of false hits)
-- **Higher values** = Less sensitive (harder to trigger, might miss light taps)
-
-**Typical ranges after Auto Calibrate:**
-- Ka (rim) pads: 300-400 (higher sensitivity needed)
-- Don (center) pads: 150-250 (naturally stronger hits)
-
-### **Live Testing:**
-
-- Hit drums while adjusting - animations show when threshold is crossed
-- Underline shows currently selected drum
-- Changes take effect immediately for real-time feedback
-
-💡 **Pro Tip:** Start with Auto Calibrate, then use Manual Thresholds only for minor tweaks. The Auto Calibrate algorithm accounts for crosstalk and safety margins that are difficult to set manually.
-
+- lower value = more sensitive
+- higher value = less sensitive
+- range = `0-4095`
 ---
 
 ## **Controller Mode Selection**

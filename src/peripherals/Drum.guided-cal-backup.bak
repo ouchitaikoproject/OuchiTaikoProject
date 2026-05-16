@@ -1,0 +1,724 @@
+// Beginning of file Drum.cpp
+
+#include "peripherals/Drum.h"
+
+#include "hardware/adc.h"
+#include "pico/time.h"
+#include <mcp3204/Mcp3204Dma.h>
+
+#include <algorithm>
+#include <cstdio>
+
+namespace OuchiTaiko::Peripherals {
+
+// ============================================================================
+// InternalAdc
+// ============================================================================
+
+Drum::InternalAdc::InternalAdc(const Config::InternalAdc &config) : m_config(config) {
+    static const uint adc_base_pin = 26;
+
+    for (uint pin = adc_base_pin; pin < adc_base_pin + 4; ++pin) {
+        adc_gpio_init(pin);
+    }
+
+    adc_init();
+}
+
+std::array<uint16_t, 4> Drum::InternalAdc::read() {
+    if (m_config.sample_count == 0) {
+        return {};
+    }
+
+    std::array<uint32_t, 4> values{};
+    for (uint8_t sample_number = 0; sample_number < m_config.sample_count; ++sample_number) {
+        for (size_t idx = 0; idx < values.size(); ++idx) {
+            adc_select_input(idx);
+            values[idx] += adc_read();
+        }
+    }
+
+    std::array<uint16_t, 4> raw_result{};
+    for (size_t idx = 0; idx < raw_result.size(); ++idx) {
+        raw_result[idx] = static_cast<uint16_t>(values[idx] / m_config.sample_count);
+    }
+
+    std::array<uint16_t, 4> result{};
+    for (size_t idx = 0; idx < raw_result.size(); ++idx) {
+        uint16_t raw_value = raw_result[idx];
+        if (raw_value > m_baseline_values[idx]) {
+            result[idx] = raw_value - m_baseline_values[idx];
+        } else {
+            result[idx] = 0;
+        }
+
+        // October-2025 working profile: fast settle near idle, slower settle
+        // under moderate activity. This matches the snapshot that produced the
+        // cleanest in-game behavior on the user's hardware.
+        if (result[idx] < 20) {
+            m_baseline_values[idx] = static_cast<uint16_t>((m_baseline_values[idx] * 7u + raw_value) / 8u);
+        } else if (result[idx] < 100) {
+            m_baseline_values[idx] = static_cast<uint16_t>((m_baseline_values[idx] * 31u + raw_value) / 32u);
+        }
+    }
+
+    return result;
+}
+
+// ============================================================================
+// ExternalAdc
+// ============================================================================
+
+Drum::ExternalAdc::ExternalAdc(const Config::ExternalAdc &config) {
+    gpio_init(config.spi_level_shifter_enable_pin);
+    gpio_set_dir(config.spi_level_shifter_enable_pin, (bool)GPIO_OUT);
+    gpio_put(config.spi_level_shifter_enable_pin, true);
+
+    gpio_set_function(config.spi_miso_pin, GPIO_FUNC_SPI);
+    gpio_set_function(config.spi_mosi_pin, GPIO_FUNC_SPI);
+    gpio_set_function(config.spi_sclk_pin, GPIO_FUNC_SPI);
+    spi_init(config.spi_block, config.spi_speed_hz);
+
+    gpio_init(config.spi_scsn_pin);
+    gpio_set_dir(config.spi_scsn_pin, (bool)GPIO_OUT);
+
+    Mcp3204Dma::run(config.spi_block, config.spi_scsn_pin);
+}
+
+std::array<uint16_t, 4> Drum::ExternalAdc::read() { 
+    return Mcp3204Dma::take_maximums(); 
+}
+
+// ============================================================================
+// Pad - Fixed circular buffer implementation
+// ============================================================================
+
+void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
+    if (state != m_active) {
+        const uint32_t now = to_ms_since_boot(get_absolute_time());
+        if ((now - m_last_change) >= debounce_delay) {
+            m_active = state;
+            m_last_change = now;
+        }
+    }
+}
+
+void Drum::Pad::addToBuffer(uint16_t value, uint16_t debounce_delay) {
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    const uint32_t expiry = now - debounce_delay;
+
+    // Evict expired entries from the front of the circular buffer
+    while (m_count > 0 && m_buffer[m_head].timestamp <= expiry) {
+        m_head = (m_head + 1) % BUFFER_CAPACITY;
+        m_count--;
+    }
+
+    // Write new entry at tail position (wrap around if full, overwriting oldest)
+    const uint8_t tail = (m_head + m_count) % BUFFER_CAPACITY;
+    m_buffer[tail] = {value, now};
+    if (m_count < BUFFER_CAPACITY) {
+        m_count++;
+    } else {
+        // Buffer full: advance head to discard oldest entry
+        m_head = (m_head + 1) % BUFFER_CAPACITY;
+    }
+}
+
+uint16_t Drum::Pad::getMaxValueInBuffer() const {
+    if (m_count == 0) {
+        return 0;
+    }
+    uint16_t max_val = 0;
+    for (uint8_t i = 0; i < m_count; ++i) {
+        uint16_t v = m_buffer[(m_head + i) % BUFFER_CAPACITY].value;
+        if (v > max_val) max_val = v;
+    }
+    return max_val;
+}
+
+// Static helper: convert a known raw 12-bit value to a gained 16-bit analog value.
+// Separated from getAnalog() so updateAnalogInputState() can reuse the already-computed
+// getMaxValueInBuffer() result instead of scanning the circular buffer a second time.
+uint16_t Drum::Pad::computeAnalogFromRaw(uint16_t raw, float gain) {
+    // Transform 12-bit ADC value (0-4095) to 16-bit range (0-65535)
+    const uint32_t value_16bit = static_cast<uint32_t>(((raw << 4) & 0xFFF0) | ((raw >> 8) & 0x000F));
+
+    // Apply gain multiplier (compensates for missing OpAmp circuit)
+    uint32_t gained_value = static_cast<uint32_t>(value_16bit * gain);
+
+    // Clamp to 16-bit max to prevent overflow
+    if (gained_value > 65535) {
+        gained_value = 65535;
+    }
+
+    return static_cast<uint16_t>(gained_value);
+}
+
+uint16_t Drum::Pad::getAnalog(float gain) const {
+    return computeAnalogFromRaw(getMaxValueInBuffer(), gain);
+}
+
+// ============================================================================
+// RollCounter
+// ============================================================================
+
+Drum::RollCounter::RollCounter(uint32_t timeout_ms)
+    : m_timeout_ms(timeout_ms), m_last_update(0), m_roll_count(0), m_previous_roll(0) {}
+
+void Drum::RollCounter::reset() {
+    m_roll_count = 0;
+    m_previous_roll = 0;
+}
+
+void Drum::RollCounter::addHit() {
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    
+    if ((now - m_last_update) > m_timeout_ms) {
+        if (m_roll_count > 1) {
+            m_previous_roll = m_roll_count;
+        }
+        m_roll_count = 0;
+    }
+    
+    m_last_update = now;
+    m_roll_count++;
+}
+
+void Drum::RollCounter::update() {
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    
+    if ((now - m_last_update) > m_timeout_ms) {
+        if (m_roll_count > 1) {
+            m_previous_roll = m_roll_count;
+        }
+        m_roll_count = 0;
+    }
+}
+
+// ============================================================================
+// Drum constructor
+// ============================================================================
+
+Drum::Drum(const Config &config)
+    : m_config(config),
+      m_pads{Pad(config.adc_channels.don_left),
+             Pad(config.adc_channels.ka_left),
+             Pad(config.adc_channels.don_right),
+             Pad(config.adc_channels.ka_right)},
+      m_roll_counter(config.roll_counter_timeout_ms)
+{
+    std::visit(
+        [this](auto &&adc_cfg) {
+            using T = std::decay_t<decltype(adc_cfg)>;
+
+            if constexpr (std::is_same_v<T, Config::InternalAdc>) {
+                m_adc = std::make_unique<InternalAdc>(adc_cfg);
+            } else if constexpr (std::is_same_v<T, Config::ExternalAdc>) {
+                m_adc = std::make_unique<ExternalAdc>(adc_cfg);
+            } else {
+                static_assert(false, "Unknown ADC type!");
+            }
+        },
+        m_config.adc_config);
+}
+
+// ============================================================================
+// readInputs - returns stack-allocated array, zero heap allocation
+// Index mapping: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
+// ============================================================================
+
+std::array<uint16_t, 4> Drum::readInputs() {
+    const auto adc_values = m_adc->read();
+
+    std::array<uint16_t, 4> result{};
+    for (size_t i = 0; i < 4; ++i) {
+        result[i] = adc_values[m_pads[i].getChannel()];
+    }
+
+    return result;
+}
+
+// ============================================================================
+// OUCHITAIKO SPECIAL: THRESHOLD-FIRST HIT DETECTION
+// DO NOT REMOVE OR REPLACE
+//
+// ORDER IS CRITICAL: Thresholds MUST run before zone arbitration.
+// Running arbitration on raw values causes idle ADC noise to randomly zero
+// entire zones every frame, killing valid hits via forced setState(false,0).
+// Threshold-first means quiet frames are never touched at all.
+// ============================================================================
+
+void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
+    static constexpr uint32_t SAME_SIDE_LOCK_MS = 10;
+    std::array<bool, 4> cross_blocked{};
+    std::array<bool, 4> arb_blocked{};
+    std::array<bool, 4> rising_hit{};
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    const uint16_t digital_debounce_ms = m_config.debounce_delay_ms;
+
+    const auto thresholdFor = [&](Id id) -> uint16_t {
+        switch (id) {
+        case Id::DON_LEFT:
+            return m_config.trigger_thresholds.don_left;
+        case Id::KA_LEFT:
+            return m_config.trigger_thresholds.ka_left;
+        case Id::DON_RIGHT:
+            return m_config.trigger_thresholds.don_right;
+        case Id::KA_RIGHT:
+            return m_config.trigger_thresholds.ka_right;
+        }
+        return 0;
+    };
+
+    std::array<uint16_t, 4> filtered_raw_values{};
+    for (size_t i = 0; i < filtered_raw_values.size(); ++i) {
+        filtered_raw_values[i] = (raw_values[i] > thresholdFor(static_cast<Id>(i))) ? raw_values[i] : static_cast<uint16_t>(0);
+    }
+
+    for (size_t side = 0; side < m_same_side_lock_until_ms.size(); ++side) {
+        if (m_same_side_lock_until_ms[side] <= now) {
+            m_same_side_lock_until_ms[side] = 0;
+            m_same_side_winner[side] = SideWinner::None;
+        }
+    }
+
+    const std::array<bool, 4> previous_state = {
+        m_pads[idToIndex(Id::DON_LEFT)].getState(),
+        m_pads[idToIndex(Id::KA_LEFT)].getState(),
+        m_pads[idToIndex(Id::DON_RIGHT)].getState(),
+        m_pads[idToIndex(Id::KA_RIGHT)].getState()
+    };
+
+    const auto zero_if_not_within_twin = [&](Id a, Id b) {
+        const size_t ai = idToIndex(a);
+        const size_t bi = idToIndex(b);
+        if (filtered_raw_values[ai] == 0 || filtered_raw_values[bi] == 0) {
+            return;
+        }
+
+        if (filtered_raw_values[ai] > filtered_raw_values[bi]) {
+            if (filtered_raw_values[bi] < (filtered_raw_values[ai] >> 1)) {
+                filtered_raw_values[bi] = 0;
+                cross_blocked[bi] = true;
+            }
+        } else {
+            if (filtered_raw_values[ai] < (filtered_raw_values[bi] >> 1)) {
+                filtered_raw_values[ai] = 0;
+                cross_blocked[ai] = true;
+            }
+        }
+    };
+
+    zero_if_not_within_twin(Id::DON_LEFT, Id::DON_RIGHT);
+    zero_if_not_within_twin(Id::KA_LEFT, Id::KA_RIGHT);
+
+    const auto apply_same_side_lock = [&](size_t side, size_t don_idx, size_t ka_idx) {
+        if (m_same_side_lock_until_ms[side] <= now) {
+            return;
+        }
+
+        if (m_same_side_winner[side] == SideWinner::Don) {
+            if (filtered_raw_values[ka_idx] != 0) {
+                filtered_raw_values[ka_idx] = 0;
+                arb_blocked[ka_idx] = true;
+            }
+        } else if (m_same_side_winner[side] == SideWinner::Ka) {
+            if (filtered_raw_values[don_idx] != 0) {
+                filtered_raw_values[don_idx] = 0;
+                arb_blocked[don_idx] = true;
+            }
+        }
+    };
+
+    apply_same_side_lock(0, idToIndex(Id::DON_LEFT), idToIndex(Id::KA_LEFT));
+    apply_same_side_lock(1, idToIndex(Id::DON_RIGHT), idToIndex(Id::KA_RIGHT));
+
+    for (size_t i = 0; i < m_pads.size(); ++i) {
+        m_pads[i].setState(filtered_raw_values[i] != 0, digital_debounce_ms);
+    }
+
+    const bool ka_active = m_pads[idToIndex(Id::KA_LEFT)].getState() || m_pads[idToIndex(Id::KA_RIGHT)].getState();
+    const bool don_active = m_pads[idToIndex(Id::DON_LEFT)].getState() || m_pads[idToIndex(Id::DON_RIGHT)].getState();
+
+    if (ka_active && don_active) {
+        const bool ka_was_first = (previous_state[idToIndex(Id::KA_LEFT)] || previous_state[idToIndex(Id::KA_RIGHT)]) &&
+                                  !(previous_state[idToIndex(Id::DON_LEFT)] || previous_state[idToIndex(Id::DON_RIGHT)]);
+        const bool don_was_first = (previous_state[idToIndex(Id::DON_LEFT)] || previous_state[idToIndex(Id::DON_RIGHT)]) &&
+                                   !(previous_state[idToIndex(Id::KA_LEFT)] || previous_state[idToIndex(Id::KA_RIGHT)]);
+
+        if (ka_was_first) {
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
+        } else if (don_was_first) {
+            m_pads[idToIndex(Id::KA_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::KA_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::KA_LEFT)] = filtered_raw_values[idToIndex(Id::KA_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::KA_RIGHT)] = filtered_raw_values[idToIndex(Id::KA_RIGHT)] != 0;
+        } else {
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
+        }
+    }
+
+    input_state.drum.don_left.triggered = m_pads[idToIndex(Id::DON_LEFT)].getState();
+    input_state.drum.ka_left.triggered = m_pads[idToIndex(Id::KA_LEFT)].getState();
+    input_state.drum.don_right.triggered = m_pads[idToIndex(Id::DON_RIGHT)].getState();
+    input_state.drum.ka_right.triggered = m_pads[idToIndex(Id::KA_RIGHT)].getState();
+
+    const std::array<bool, 4> current_state = {
+        input_state.drum.don_left.triggered,
+        input_state.drum.ka_left.triggered,
+        input_state.drum.don_right.triggered,
+        input_state.drum.ka_right.triggered
+    };
+
+    bool any_rising = false;
+    for (size_t i = 0; i < rising_hit.size(); ++i) {
+        rising_hit[i] = current_state[i] && !previous_state[i];
+        if (rising_hit[i]) {
+            m_last_rise_ms[i] = now;
+        }
+        any_rising = any_rising || rising_hit[i];
+    }
+
+    const auto latch_side_winner = [&](size_t side, size_t don_idx, size_t ka_idx) {
+        if (rising_hit[don_idx] && !rising_hit[ka_idx]) {
+            m_same_side_winner[side] = SideWinner::Don;
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        } else if (rising_hit[ka_idx] && !rising_hit[don_idx]) {
+            m_same_side_winner[side] = SideWinner::Ka;
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        } else if (rising_hit[don_idx] && rising_hit[ka_idx]) {
+            if (filtered_raw_values[ka_idx] > filtered_raw_values[don_idx]) {
+                m_same_side_winner[side] = SideWinner::Ka;
+            } else {
+                m_same_side_winner[side] = SideWinner::Don;
+            }
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        }
+    };
+
+    latch_side_winner(0, idToIndex(Id::DON_LEFT), idToIndex(Id::KA_LEFT));
+    latch_side_winner(1, idToIndex(Id::DON_RIGHT), idToIndex(Id::KA_RIGHT));
+
+    if (any_rising) {
+        m_roll_counter.addHit();
+    }
+
+    input_state.drum.current_roll = m_roll_counter.getRoll();
+    input_state.drum.previous_roll = m_roll_counter.getPreviousRoll();
+
+    // Latch debug masks for a short window so host-side polling does not miss
+    // one-tick edges under high-rate firmware loops.
+    static constexpr uint32_t DEBUG_MASK_LATCH_MS = 18;
+    for (size_t i = 0; i < 4; ++i) {
+        if (rising_hit[i]) {
+            m_dbg_hit_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+        if (cross_blocked[i]) {
+            m_dbg_cross_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+        if (arb_blocked[i]) {
+            m_dbg_arb_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+    }
+
+    const auto maskFromLatches = [&](const std::array<uint32_t, 4> &until) -> uint8_t {
+        return ((until[idToIndex(Id::DON_LEFT)] > now) ? (1u << 0) : 0u) |
+               ((until[idToIndex(Id::KA_LEFT)] > now) ? (1u << 1) : 0u) |
+               ((until[idToIndex(Id::DON_RIGHT)] > now) ? (1u << 2) : 0u) |
+               ((until[idToIndex(Id::KA_RIGHT)] > now) ? (1u << 3) : 0u);
+    };
+
+    input_state.drum.debug_event.hit_mask = maskFromLatches(m_dbg_hit_until_ms);
+    input_state.drum.debug_event.cross_block_mask = maskFromLatches(m_dbg_cross_until_ms);
+    input_state.drum.debug_event.arb_block_mask = maskFromLatches(m_dbg_arb_until_ms);
+    input_state.drum.debug_event.held_high_mask = 0;
+    input_state.drum.debug_event.timestamp_ms = now;
+}
+
+void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
+    for (size_t i = 0; i < 4; ++i) {
+        m_pads[i].addToBuffer(raw_values[i], m_config.debounce_delay_ms);
+    }
+
+    // Scan each pad's circular buffer exactly once, then compute both raw and analog from that result.
+    // Previously getMaxValueInBuffer() and getAnalog() each scanned the buffer separately (2x per pad = 8 scans).
+    const auto applyPad = [&](Utils::InputState::Drum::Pad &out, Id id) {
+        const uint16_t raw = m_pads[idToIndex(id)].getMaxValueInBuffer();
+        out.raw    = raw;
+        out.analog = m_pads[idToIndex(id)].computeAnalogFromRaw(raw, m_config.analog_gain);
+    };
+
+    applyPad(input_state.drum.don_left,  Id::DON_LEFT);
+    applyPad(input_state.drum.ka_left,   Id::KA_LEFT);
+    applyPad(input_state.drum.don_right, Id::DON_RIGHT);
+    applyPad(input_state.drum.ka_right,  Id::KA_RIGHT);
+}
+
+void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode) {
+    const auto raw_values = readInputs();
+
+    if (m_tantrum_state.isActive()) {
+        updateTaikoTantrum(raw_values);
+    }
+
+    const bool is_analog_mode = (usb_mode == USB_MODE_XBOX360_ANALOG_P1) ||
+                                (usb_mode == USB_MODE_XBOX360_ANALOG_P2);
+
+    // Always keep buffered/raw analog view for UI + calibration diagnostics.
+    updateAnalogInputState(input_state, raw_values);
+
+    if (!is_analog_mode) {
+        // Low-latency gameplay path:
+        // Use fresh ADC-subtracted samples for digital hit decisions so
+        // buffered peak hold does not delay release/rearm during fast rolls.
+        updateDigitalInputState(input_state, raw_values);
+    }
+}
+
+void Drum::setDebounceDelay(uint16_t delay) { m_config.debounce_delay_ms = delay; }
+
+void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config.trigger_thresholds = thresholds; }
+
+// ============================================================================
+// GUIDED CALIBRATION WIZARD - Per-pad, per-step (replaces old random-hit Tantrum)
+//
+// Pad order: DON_LEFT(0), DON_RIGHT(2), KA_LEFT(1), KA_RIGHT(3)
+// Per pad: Step 0=Normal x3, Step 1=Hard x3, Step 2=Roll 3s
+// Algorithm matches web tool exactly (median, 45/55% caps, crosstalk margins)
+// ============================================================================
+
+void Drum::startTaikoTantrum() {
+    m_tantrum_state.startWelcome();
+}
+
+// Called by Main.cpp A-button handler to advance through wizard steps.
+// PadNormal, PadHard, and PadRoll are NOT skippable -- they must complete
+// naturally (3 hits detected / roll timer expires). A is only honoured on
+// screens where the user needs to explicitly confirm before continuing.
+void Drum::advanceCalibWizard() {
+    auto& s = m_tantrum_state;
+    switch (s.current_mode) {
+        case TantrumState::Mode::Welcome:
+            s.startPadNormal();   // Begin Step 0 for first pad
+            break;
+        case TantrumState::Mode::PadNormal:
+        case TantrumState::Mode::PadHard:
+        case TantrumState::Mode::PadRoll:
+        case TantrumState::Mode::PhaseTransition:
+        case TantrumState::Mode::PadDone:
+        case TantrumState::Mode::Overview:
+            // These phases are hit/time-driven -- A button does nothing here.
+            // They auto-advance once the required hits or roll timer completes.
+            break;
+        case TantrumState::Mode::Error:
+            // Redo current pad from Normal phase
+            s.startPadNormal();
+            break;
+        default:
+            break;
+    }
+}
+
+void Drum::cancelTaikoTantrum() {
+    m_tantrum_state.reset();
+}
+
+void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
+    auto& s = m_tantrum_state;
+    if (!s.isActive()) return;
+
+    uint32_t now     = to_ms_since_boot(get_absolute_time());
+    uint8_t  padIdx  = s.currentPadIndex();
+
+    switch (s.current_mode) {
+
+    case TantrumState::Mode::Welcome:
+    case TantrumState::Mode::Error:
+        // Waiting for user input (A/B) -- handled in advanceCalibWizard / cancelTaikoTantrum
+        break;
+
+    case TantrumState::Mode::PadDone: {
+        if ((now - s.phase_start) >= TantrumState::PAD_DONE_DISPLAY_MS) {
+            _advanceToNextPad();
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Overview: {
+        if ((now - s.phase_start) >= TantrumState::OVERVIEW_DISPLAY_MS) {
+            s.startSaving();
+        }
+        break;
+    }
+
+    case TantrumState::Mode::PadNormal:
+    case TantrumState::Mode::PadHard: {
+        // Auto-advance to next step once we have 3 hits on the target pad
+        if (s.hit_count >= 3) {
+            if (s.current_mode == TantrumState::Mode::PadNormal) {
+                s.normal_ref[padIdx] = s.medianOfHits();
+                s.startPhaseTransition("Strong hits", TantrumState::Mode::PadHard);
+            } else {
+                s.max_hit[padIdx] = s.medianOfHits();
+                // Validate before roll
+                if (s.max_hit[padIdx] < TantrumState::MIN_ACCEPTABLE_MAX) {
+                    s.error_msg = "Hit too soft!";
+                    s.current_mode = TantrumState::Mode::Error;
+                } else {
+                    // Accept song-level "max" hits without forcing exaggerated force.
+                    // We keep only the absolute floor check above to avoid false blocking.
+                    s.startPhaseTransition("Rapid hits", TantrumState::Mode::PadRoll);
+                }
+            }
+            break;
+        }
+        // Detect hits on target pad
+        uint16_t target_val = raw_values[padIdx];
+        if (target_val < TantrumState::MIN_HIT_STRENGTH) break;
+        // Entry grace: ignore all hits for 500ms after phase starts (ADC settle after cancel/restart)
+        if ((now - s.phase_start) < 500) break;
+        if ((now - s.last_hit_time) < TantrumState::HIT_COOLDOWN_MS) break;
+        // Must be above threshold on target and not clearly dominated by neighbours.
+        // Keep a small slack so valid hits are not rejected when nearby pads ring.
+        uint16_t max_other = 0;
+        for (uint8_t i = 0; i < 4; ++i) {
+            if (i != padIdx && raw_values[i] > max_other) max_other = raw_values[i];
+        }
+        static constexpr uint16_t TARGET_DOMINANCE_SLACK = 16;
+        if (max_other > static_cast<uint16_t>(target_val + TARGET_DOMINANCE_SLACK)) {
+            break;  // Another pad is clearly stronger - treat as wrong pad
+        }
+        // Record hit
+        s.last_hit_time = now;
+        if (s.hit_count < TantrumState::MAX_HITS) {
+            s.hit_peaks[s.hit_count++] = target_val;
+        }
+        break;
+    }
+
+    case TantrumState::Mode::PadRoll: {
+        if (!s.roll_started && (now - s.phase_start) >= TantrumState::ROLL_START_TIMEOUT_MS) {
+            s.error_msg = "Start rapid hits";
+            s.current_mode = TantrumState::Mode::Error;
+            break;
+        }
+        // Start timer on first hit
+        if (!s.roll_started && raw_values[padIdx] > TantrumState::MIN_HIT_STRENGTH) {
+            s.roll_started = true;
+            s.roll_start   = now;
+        }
+        // Record crosstalk into all OTHER pads during this pad's roll
+        if (s.roll_started) {
+            for (uint8_t i = 0; i < 4; ++i) {
+                if (i == padIdx) continue;
+                if (raw_values[i] > s.max_crosstalk[i]) {
+                    s.max_crosstalk[i] = raw_values[i];
+                }
+            }
+            // Auto-advance when roll duration expires
+            if ((now - s.roll_start) >= TantrumState::ROLL_DURATION_MS) {
+                _finishCurrentPadRoll();
+            }
+        }
+        break;
+    }
+
+    case TantrumState::Mode::PhaseTransition: {
+        // Auto-advance after 2s -- no user input accepted during this window
+        if ((now - s.phase_start) >= TantrumState::PHASE_TRANSITION_DELAY_MS) {
+            if (s.transition_next_mode == TantrumState::Mode::PadHard) {
+                s.startPadHard();
+            } else {
+                s.startPadRoll();
+            }
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Saving: {
+        if ((now - s.phase_start) >= TantrumState::SAVING_DISPLAY_MS) {
+            s.startComplete();
+        }
+        break;
+    }
+
+    case TantrumState::Mode::Complete: {
+        if ((now - s.phase_start) >= TantrumState::COMPLETE_DISPLAY_MS) {
+            s.current_mode = TantrumState::Mode::Inactive;
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+}
+
+// Internal: finish roll for current pad (crosstalk accumulation complete for this pad's roll).
+// NOTE: threshold computation is intentionally deferred to _advanceToNextPad() / startOverview()
+// so that max_crosstalk[] is fully populated across ALL pads before any threshold is calculated.
+void Drum::_finishCurrentPadRoll() {
+    auto& s = m_tantrum_state;
+    uint8_t padIdx = s.currentPadIndex();
+    s.pad_done[padIdx] = true;
+    s.startPadDone();
+}
+
+// Internal: after PadDone screen, move to next pad or Overview
+void Drum::_advanceToNextPad() {
+    auto& s = m_tantrum_state;
+    s.current_pad++;
+    if (s.current_pad >= 4) {
+        // All pads done -- now safe to compute all thresholds since max_crosstalk[] is fully populated
+        s.computeAllThresholds();
+        s.startOverview();
+    } else {
+        s.startPadNormal();
+    }
+}
+
+void Drum::applyTantrumRecommendations() {
+    if (!m_tantrum_state.hasRecommendations()) return;
+    m_config.trigger_thresholds.don_left  = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_LEFT)];
+    m_config.trigger_thresholds.ka_left   = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
+    m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
+    m_config.trigger_thresholds.ka_right  = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
+
+    m_last_tantrum_report_version++;
+    snprintf(
+        m_last_tantrum_report,
+        sizeof(m_last_tantrum_report),
+        "VER=%lu;"
+        "NR=%u,%u,%u,%u;"
+        "MH=%u,%u,%u,%u;"
+        "XT=%u,%u,%u,%u;"
+        "TH=%u,%u,%u,%u;"
+        "WARN=%u",
+        static_cast<unsigned long>(m_last_tantrum_report_version),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[0]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[1]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[2]),
+        static_cast<unsigned>(m_tantrum_state.normal_ref[3]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[0]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[1]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[2]),
+        static_cast<unsigned>(m_tantrum_state.max_hit[3]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[0]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[1]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[2]),
+        static_cast<unsigned>(m_tantrum_state.max_crosstalk[3]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[0]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[1]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[2]),
+        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[3]),
+        m_tantrum_state.high_crosstalk_warning ? 1u : 0u);
+}
+} // namespace OuchiTaiko::Peripherals
+
+// End of file Drum.cpp

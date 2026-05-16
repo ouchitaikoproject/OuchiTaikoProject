@@ -15,8 +15,8 @@ function Resolve-Port {
         return $RequestedPort.ToUpperInvariant()
     }
 
-    $ports = [System.IO.Ports.SerialPort]::GetPortNames() | Sort-Object
-    if (-not $ports -or $ports.Count -eq 0) {
+    $ports = @([System.IO.Ports.SerialPort]::GetPortNames() | Sort-Object)
+    if ($ports.Count -eq 0) {
         throw "No serial ports detected. Connect controller in Debug/Calibrate mode first."
     }
 
@@ -26,11 +26,21 @@ function Resolve-Port {
 function Parse-TantrumLine {
     param([string]$Line)
 
-    if (-not $Line.StartsWith("TLG:VER=")) {
+    if ([string]::IsNullOrWhiteSpace($Line)) {
         return $null
     }
 
-    $payload = $Line.Substring(4)
+    $payload = $Line.Trim()
+    if ($payload.StartsWith("TLG:")) {
+        $payload = $payload.Substring(4)
+    }
+
+    # Legacy/short form support:
+    # e.g. "59;XT=...;TH=...;WARN=...;SID=...;MODE=...;UP=..."
+    if ($payload -match '^\d+;') {
+        $payload = "VER=" + $payload
+    }
+
     $parts = @{}
     foreach ($segment in ($payload -split ";")) {
         $kv = $segment -split "=", 2
@@ -45,11 +55,11 @@ function Parse-TantrumLine {
 
     [PSCustomObject]@{
         Version = [int]$parts["VER"]
-        NR = $parts["NR"]
-        MH = $parts["MH"]
-        XT = $parts["XT"]
-        TH = $parts["TH"]
-        WARN = $parts["WARN"]
+        NR = if ($parts.ContainsKey("NR")) { $parts["NR"] } else { "" }
+        MH = if ($parts.ContainsKey("MH")) { $parts["MH"] } else { "" }
+        XT = if ($parts.ContainsKey("XT")) { $parts["XT"] } else { "" }
+        TH = if ($parts.ContainsKey("TH")) { $parts["TH"] } else { "" }
+        WARN = if ($parts.ContainsKey("WARN")) { $parts["WARN"] } else { "" }
         Raw = $payload
     }
 }
@@ -90,7 +100,9 @@ try {
     Write-Host "Waiting for $Runs unique calibration run(s)..."
 
     while ($results.Count -lt $Runs) {
-        $serial.Write([char]0xBC)
+        # Send raw 0xBC command byte (must be binary, not text-encoded char).
+        [byte[]]$cmd = 0xBC
+        $serial.Write($cmd, 0, 1)
 
         try {
             $line = $serial.ReadLine().Trim()
@@ -101,6 +113,12 @@ try {
 
         if (-not [string]::IsNullOrWhiteSpace($line)) {
             Add-Content -Path $rawPath -Value ("{0} {1}" -f (Get-Date -Format "o"), $line)
+        }
+
+        if ($line.StartsWith("TLG:EMPTY")) {
+            Write-Host "Device returned TLG:EMPTY (no saved calibration telemetry yet)."
+            Write-Host "Run calibration once in normal mode, then switch to Debug and retry."
+            break
         }
 
         $parsed = Parse-TantrumLine -Line $line

@@ -40,7 +40,7 @@ Disassembly of section .text:
 20041f16:	4b2e      	ldr	r3, [pc, #184]	@ (20041fd0 <literals+0x4>)
 20041f18:	2100      	movs	r1, #0
 20041f1a:	6099      	str	r1, [r3, #8]
-20041f1c:	2102      	movs	r1, #2
+20041f1c:	2104      	movs	r1, #4
 20041f1e:	6159      	str	r1, [r3, #20]
 20041f20:	2101      	movs	r1, #1
 20041f22:	22f0      	movs	r2, #240	@ 0xf0

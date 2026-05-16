@@ -17,6 +17,8 @@ class SettingsStore {
     const static uint32_t m_store_size = FLASH_PAGE_SIZE;
     const static uint32_t m_store_pages = m_flash_size / m_store_size;
     const static uint8_t m_magic_byte = 0x39;
+    const static uint8_t m_store_version = 2;
+    const static uint8_t m_store_version_legacy_v1 = 1;
 
     struct __attribute((packed, aligned(1))) Storecache {
         uint8_t in_use;
@@ -26,12 +28,16 @@ class SettingsStore {
         uint8_t led_brightness;
         bool led_enable_player_color;
         uint16_t debounce_delay;
-        uint32_t tantrum_report_version;
-        std::array<char, 192> tantrum_report;
+        uint32_t guided_cal_report_version;
+        uint32_t guided_cal_session_id;
+        uint32_t guided_cal_uptime_ms;
+        usb_mode_t guided_cal_usb_mode;
+        std::array<char, 192> guided_cal_report;
 
         std::array<uint8_t, m_store_size - sizeof(uint8_t) - sizeof(uint8_t) - sizeof(usb_mode_t) -
                                 sizeof(Peripherals::Drum::Config::Thresholds) - sizeof(uint8_t) - sizeof(bool) -
-                                sizeof(uint16_t) - sizeof(uint32_t) - sizeof(std::array<char, 192>)>
+                                sizeof(uint16_t) - sizeof(uint32_t) - sizeof(uint32_t) - sizeof(uint32_t) -
+                                sizeof(usb_mode_t) - sizeof(std::array<char, 192>)>
             _padding;
     };
     static_assert(sizeof(Storecache) == m_store_size);
@@ -66,9 +72,12 @@ class SettingsStore {
     void setDebounceDelay(uint16_t delay);
     [[nodiscard]] uint16_t getDebounceDelay() const;
 
-    void setLastTantrumReport(uint32_t version, const char* report);
-    [[nodiscard]] uint32_t getLastTantrumReportVersion() const;
-    [[nodiscard]] const char* getLastTantrumReport() const;
+    void setLastGuidedCalReport(uint32_t version, const char* report, usb_mode_t mode, uint32_t uptime_ms);
+    [[nodiscard]] uint32_t getLastGuidedCalReportVersion() const;
+    [[nodiscard]] uint32_t getLastGuidedCalSessionId() const;
+    [[nodiscard]] uint32_t getLastGuidedCalUptimeMs() const;
+    [[nodiscard]] usb_mode_t getLastGuidedCalUsbMode() const;
+    [[nodiscard]] const char* getLastGuidedCalReport() const;
 
     void scheduleReboot(bool bootsel = false);
 
@@ -78,3 +87,4 @@ class SettingsStore {
 } // namespace OuchiTaiko::Utils
 
 #endif // UTILS_SETTINGSSTORE_H_
+

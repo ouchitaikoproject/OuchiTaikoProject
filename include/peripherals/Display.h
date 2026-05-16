@@ -1,4 +1,4 @@
-﻿//Beginning of Display.h
+//Beginning of Display.h
 
 #ifndef PERIPHERALS_DISPLAY_H_
 #define PERIPHERALS_DISPLAY_H_
@@ -26,21 +26,24 @@ class Display {
         uint8_t i2c_address;
     };
 
+    struct BringupTestState {
+        bool active{false};
+        uint8_t current_index{0};
+    };
+
   private:
     enum class State : uint8_t {
         BootSplash,
         Idle,
         Menu,
         // Guided calibration wizard screens
-        TantrumWelcome,
-        TantrumPadHitting,   // Normal hits + Hard hits (same layout, label changes)
-        TantrumPhaseTransition,
-        TantrumPadRoll,
-        TantrumPadDone,
-        TantrumOverview,
-        TantrumSaving,
-        TantrumComplete,
-        TantrumError,
+        GuidedCalWelcome,
+        GuidedCalPadTest,  // Normal hits + hard hits (same layout, label changes)
+        GuidedCalOverview,
+        GuidedCalSaving,
+        GuidedCalComplete,
+        GuidedCalError,
+        BringupTest,
         RebootCountdown
     };
 
@@ -70,18 +73,12 @@ class Display {
     bool m_last_don_right = false;
     bool m_last_ka_right = false;
 
-    // Taiko Tantrum: Reference to drum for accessing calibration state
+    // Guided calibration: Reference to drum for accessing calibration state
     Drum *m_drum{nullptr};
 
-    // ADD THIS LINE - Fresh thresholds from SettingsStore
+    // Fresh thresholds from SettingsStore
     Peripherals::Drum::Config::Thresholds m_current_thresholds{};
-
-    // Timer for auto-transitioning screens
-    uint32_t m_tantrum_results_start{0};
-    static constexpr uint32_t TANTRUM_RESULTS_DISPLAY_MS = 5000;
-
-    uint32_t m_tantrum_needsredo_start{0};
-    static constexpr uint32_t TANTRUM_NEEDSREDO_DISPLAY_MS = 5000;
+    BringupTestState m_bringup_test_state{};
 
     // Burst circle animation
     struct Ring {
@@ -119,18 +116,16 @@ class Display {
     void drawIdleScreen();
     void drawMenuScreen();
     void drawNavigationBar(const Utils::Menu::Descriptor &descriptor);
-    
+
     // Guided calibration wizard draw functions
-    void drawTantrumWelcomeScreen();
-    void drawTantrumPadHittingScreen();
-    void drawTantrumPhaseTransitionScreen();
-    void drawTantrumPadRollScreen();
-    void drawTantrumPadDoneScreen();
-    void drawTantrumOverviewScreen();
-    void drawTantrumSavingScreen();
-    void drawTantrumCompleteScreen();
-    void drawTantrumErrorScreen();
-    
+    void drawGuidedCalWelcomeScreen();
+    void drawGuidedCalPadTestScreen();
+    void drawGuidedCalOverviewScreen();
+    void drawGuidedCalSavingScreen();
+    void drawGuidedCalCompleteScreen();
+    void drawGuidedCalErrorScreen();
+    void drawBringupTestScreen();
+
     // Reboot countdown display function
     void drawRebootCountdown();
 
@@ -139,7 +134,7 @@ class Display {
     void updateRings();
     void drawRings();
     void drawCircleRing(uint8_t x_center, uint8_t y_center, uint8_t radius);
-    void drawCircleRingBlack(uint8_t x_center, uint8_t y_center, uint8_t radius); 
+    void drawCircleRingBlack(uint8_t x_center, uint8_t y_center, uint8_t radius);
 
     // Particle system functions for splash screen
     void spawnParticles(int x, int y, int count);
@@ -158,19 +153,18 @@ class Display {
     // Drum reference + thresholds
     void setDrumReference(Drum *drum);
     void setCurrentThresholds(const Peripherals::Drum::Config::Thresholds &thresholds);
-    
+    void setBringupTestState(const BringupTestState &state);
+
     void showIdle();
     void showMenu();
     // Guided calibration wizard show functions
-    void showTantrumWelcome();
-    void showTantrumPadHitting();
-    void showTantrumPhaseTransition();
-    void showTantrumPadRoll();
-    void showTantrumPadDone();
-    void showTantrumOverview();
-    void showTantrumSaving();
-    void showTantrumComplete();
-    void showTantrumError();
+    void showGuidedCalWelcome();
+    void showGuidedCalPadTest();
+    void showGuidedCalOverview();
+    void showGuidedCalSaving();
+    void showGuidedCalComplete();
+    void showGuidedCalError();
+    void showBringupTest();
     void showRebootCountdown();
 
     void update();
@@ -180,4 +174,3 @@ class Display {
 
 #endif // PERIPHERALS_DISPLAY_H_
 
-//End of Display.h

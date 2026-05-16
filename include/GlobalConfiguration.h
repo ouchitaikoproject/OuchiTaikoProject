@@ -20,24 +20,27 @@ struct I2c {
 
 namespace Default {
 
-const usb_mode_t usb_mode = USB_MODE_SWITCH_TATACON;
+const usb_mode_t usb_mode = USB_MODE_DEBUG;
 
 const I2c i2c_config = {
-    .sda_pin = 6,
-    .scl_pin = 7,
-    .block = i2c1,
+    // Custom RP2040-Zero PCB routes the OLED to the module pins labeled SDA/SCL.
+    // On the Waveshare RP2040-Zero castellated pinout those map to GPIO8/GPIO9 on I2C0.
+    .sda_pin = 8,
+    .scl_pin = 9,
+    .block = i2c0,
     .speed_hz = 1000000,
 };
 
 const Peripherals::Drum::Config drum_config = {
     .trigger_thresholds =
         {
-            .don_left = 175,
-            .ka_left = 200,
-            .don_right = 175,
-            .ka_right = 200,
+            // Known-good modular-board baseline confirmed by slim calibrate and gameplay.
+            .don_left = 285,
+            .ka_left = 285,
+            .don_right = 285,
+            .ka_right = 285,
         },
-    .debounce_delay_ms = 12,
+    .debounce_delay_ms = 25,
     .roll_counter_timeout_ms = 500,
 
     // ============================================================================
@@ -77,44 +80,38 @@ const Peripherals::Controller::Config controller_config = {
         {
             .dpad =
                 {
-                    .up = 8,
-                    .down = 9,
-                    .left = 10,
-                    .right = 11,
+                    .up = 11,
+                    .down = 10,
+                    .left = 12,
+                    .right = 7,
                 },
             .buttons =
                 {
-                    .north = 0,
-                    .east = 3,
-                    .south = 1,
-                    .west = 2,
-                    .l = 12,
-                    .r = 4,
-                    .start = 5,
-                    .select = 13,
-                    .home = 6,
-                    .share = 14,
+                    .north = 3,
+                    .east = 2,
+                    .south = 4,
+                    .west = 5,
+                    .l = 13,
+                    .r = 1,
+                    .start = 6,
+                    .select = 14,
+                    .home = 0,
+                    .share = 15,
                 },
         },
     .debounce_delay_ms = 25,
-    .gpio_config =
-        Peripherals::Controller::Config::ExternalGpio{
-            .i2c =
-                {
-                    .block = i2c_config.block,
-                    .address = 0x20, //The WaveShare Boards use 0x27 by default, the GODIYMODULES Board uses 0x20.  If you jump A0, A1, and A2 to VCC on the GODIYMODULES, it will be 0x27   Adjust Accordingly.
-                },
-        },
+    .gpio_config = Peripherals::Controller::Config::InternalGpio{},
 };
 
 const Peripherals::StatusLed::Config led_config = {
     .idle_color = {.r = 128, .g = 128, .b = 128},
-    .don_left_color = {.r = 255, .g = 0, .b = 0},
-    .ka_left_color = {.r = 0, .g = 0, .b = 255},
-    .don_right_color = {.r = 255, .g = 255, .b = 0},
-    .ka_right_color = {.r = 0, .g = 255, .b = 255},
-    .led_enable_pin = 11,
-    .led_pin = 12,
+    .don_left_color = {.r = 180, .g = 0, .b = 0},
+    .ka_left_color = {.r = 0, .g = 40, .b = 180},
+    .don_right_color = {.r = 180, .g = 0, .b = 0},
+    .ka_right_color = {.r = 0, .g = 40, .b = 180},
+    // Use the RP2040-Zero onboard WS2812. No external enable gate exists on the custom PCB.
+    .led_enable_pin = UINT8_MAX,
+    .led_pin = 16,
     .is_rgbw = false,
     .brightness = 255,
     .enable_player_color = true,
@@ -129,3 +126,5 @@ const Peripherals::Display::Config display_config = {
 } // namespace OuchiTaiko::Config
 
 #endif // GLOBALCONFIGURATION_H_
+
+

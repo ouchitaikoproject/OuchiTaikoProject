@@ -1,4 +1,4 @@
-﻿// Beginning of file Menu.cpp
+// Beginning of file Menu.cpp
 
 #include "utils/Menu.h"
 #include "GlobalConfiguration.h"
@@ -36,14 +36,14 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Analog\nPlayer 1", Menu::Descriptor::Action::SetUsbMode},
        {"Analog\nPlayer 2", Menu::Descriptor::Action::SetUsbMode},
        {"MIDI\nController", Menu::Descriptor::Action::SetUsbMode},
-       {"Calibrate\n/Debug", Menu::Descriptor::Action::SetUsbMode}},
+       {"Web\nCalibrate", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
     // Drum Tuning submenu (2 items) - Pure tuning
     {Menu::Page::DrumTuning,
  {Menu::Descriptor::Type::Menu,
   "Drum\nTuning",
-  {{"Auto\nCalibrate", Menu::Descriptor::Action::GotoPageTaikoTantrum},
+  {{"Guided\nCalibrate", Menu::Descriptor::Action::GotoPageGuidedCalibration},
    {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
    {"Reset\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsReset}},
   0}},
@@ -81,11 +81,11 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"Yes / No", Menu::Descriptor::Action::DoResetThresholds}},
       0}},
 
-    // Taiko Tantrum Calibration
-    {Menu::Page::TaikoTantrum,
+    // Guided calibration entry page
+    {Menu::Page::GuidedCalibration,
      {Menu::Descriptor::Type::Selection,
-      "Auto\nCalibrate",
-      {{"Start\nWizard", Menu::Descriptor::Action::StartTaikoTantrum}},
+      "Guided\nCalibrate",
+      {{"Start\nGuided", Menu::Descriptor::Action::StartGuidedCalibration}},
       0}},
 
     // Value adjustments (unchanged)
@@ -157,7 +157,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       {{"OuchiTaiko\nby KillerQ", Menu::Descriptor::Action::None},
        {"OuchiTaiko\n.com", Menu::Descriptor::Action::None},
        {"Firmware:\nv12.5", Menu::Descriptor::Action::None},
-       {"Build:\n79 Sable", Menu::Descriptor::Action::None},
+                    {"Build:\n94 Quartz", Menu::Descriptor::Action::None},
        {"Based on:\nDonCon2040", Menu::Descriptor::Action::None},
        {"& HIDtaiko", Menu::Descriptor::Action::None}},
       0}},
@@ -180,29 +180,47 @@ Menu::Buttons::Buttons()
     : m_states({{Id::Up, {}}, {Id::Down, {}}, {Id::Left, {}}, {Id::Right, {}}, {Id::Confirm, {}}, {Id::Back, {}}}) {}
 
 void Menu::Buttons::update(const InputState::Controller &controller_state, Descriptor::Type page_type) {
-    (void)page_type;
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
     static constexpr uint32_t PRESS_DEBOUNCE_MS = 30;
+    static constexpr uint32_t REPEAT_START_DELAY_MS = 300;
+    static constexpr uint32_t REPEAT_INTERVAL_MS = 85;
 
-    auto handle_button = [current_time](State &button_state, bool input_down) {
+    const bool allow_repeat = (page_type == Descriptor::Type::Value) ||
+                              (page_type == Descriptor::Type::UnifiedThresholds);
+
+    auto handle_button = [current_time](State &button_state, bool input_down, bool repeat_enabled) {
         button_state.pressed = false;
-        if (input_down && !button_state.raw_down) {
-            if (button_state.last_press_ms == 0 ||
-                (current_time - button_state.last_press_ms) >= PRESS_DEBOUNCE_MS) {
+
+        if (input_down) {
+            if (!button_state.raw_down) {
+                if (button_state.last_press_ms == 0 ||
+                    (current_time - button_state.last_press_ms) >= PRESS_DEBOUNCE_MS) {
+                    button_state.pressed = true;
+                    button_state.last_press_ms = current_time;
+                    button_state.pressed_since = current_time;
+                    button_state.last_repeat = current_time;
+                }
+            } else if (repeat_enabled && button_state.pressed_since != 0 &&
+                       (current_time - button_state.pressed_since) >= REPEAT_START_DELAY_MS &&
+                       (current_time - button_state.last_repeat) >= REPEAT_INTERVAL_MS) {
                 button_state.pressed = true;
-                button_state.last_press_ms = current_time;
+                button_state.last_repeat = current_time;
             }
+        } else {
+            button_state.pressed_since = 0;
+            button_state.last_repeat = 0;
         }
+
         button_state.raw_down = input_down;
     };
 
-    handle_button(m_states.at(Id::Up), controller_state.dpad.up);
-    handle_button(m_states.at(Id::Down), controller_state.dpad.down);
-    handle_button(m_states.at(Id::Left), controller_state.dpad.left);
-    handle_button(m_states.at(Id::Right), controller_state.dpad.right);
+    handle_button(m_states.at(Id::Up), controller_state.dpad.up, false);
+    handle_button(m_states.at(Id::Down), controller_state.dpad.down, false);
+    handle_button(m_states.at(Id::Left), controller_state.dpad.left, allow_repeat);
+    handle_button(m_states.at(Id::Right), controller_state.dpad.right, allow_repeat);
     // Confirm uses East (A) only.
-    handle_button(m_states.at(Id::Confirm), controller_state.buttons.east);
-    handle_button(m_states.at(Id::Back), controller_state.buttons.south);
+    handle_button(m_states.at(Id::Confirm), controller_state.buttons.east, false);
+    handle_button(m_states.at(Id::Back), controller_state.buttons.south, false);
 }
 
 bool Menu::Buttons::getPressed(Id id) const { return m_states.at(id).pressed; }
@@ -235,10 +253,6 @@ void Menu::activate() {
     m_confirm_unlock_until_ms = to_ms_since_boot(get_absolute_time()) + 180;
 }
 
-void Menu::setWaitingForButtonRelease(bool waiting) {
-    m_waiting_for_button_release = waiting;
-}
-
 void Menu::deactivate() {
     m_active = false;
     // CRITICAL FIX FOR SECOND ENTRY: This resets the button state machine when exiting, 
@@ -250,7 +264,7 @@ void Menu::deactivate() {
 }
 
 void Menu::goBackToParent() {
-    // Simply pop the current page without restore - used after Tantrum completion
+    // Simply pop the current page without restore - used after guided calibration completion
     if (m_state_stack.size() > 1) {
         m_state_stack.pop();
     }
@@ -291,7 +305,7 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
     case Page::Bootsel:
     case Page::BootselMsg:
     case Page::RebootMsg:
-    case Page::TaikoTantrum:
+    case Page::GuidedCalibration:
         break;
     }
 
@@ -366,7 +380,7 @@ void Menu::gotoParent(bool do_restore) {
         case Page::Bootsel:
         case Page::BootselMsg:
         case Page::RebootMsg:
-        case Page::TaikoTantrum:
+        case Page::GuidedCalibration:
             break;
         }
     }
@@ -436,10 +450,10 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageLedBrightness:
         gotoPage(Page::LedBrightness);
         break;
-    case Descriptor::Action::GotoPageTaikoTantrum:
-        gotoPage(Page::TaikoTantrum);
+    case Descriptor::Action::GotoPageGuidedCalibration:
+        gotoPage(Page::GuidedCalibration);
         break;
-    case Descriptor::Action::StartTaikoTantrum:
+    case Descriptor::Action::StartGuidedCalibration:
         // This action is flagged and handled in Main.cpp - don't do anything here
         break;
     case Descriptor::Action::SetUsbMode:
@@ -566,28 +580,14 @@ void Menu::update(const InputState::Controller &controller_state) {
                 performAction(descriptor_it->second.items.at(0).second, current_state.selected_value);
             }
             break;
-   case Descriptor::Type::UnifiedThresholds: {
-    // LEFT = decrease value
-
-    auto thresholds = m_store->getTriggerThresholds();
-    
-           
-    uint16_t* selected_threshold = nullptr;
-    switch (current_state.selected_value) {
-        case 0: selected_threshold = &thresholds.ka_left; break;
-        case 1: selected_threshold = &thresholds.don_left; break;
-        case 2: selected_threshold = &thresholds.don_right; break;
-        case 3: selected_threshold = &thresholds.ka_right; break;
-    }
-    if (selected_threshold && *selected_threshold > 0) {
-        (*selected_threshold)--;
-      
-        m_store->setTriggerThresholds(thresholds);
+   case Descriptor::Type::UnifiedThresholds:
+    // LEFT = move to previous threshold
+    if (current_state.selected_value == 0) {
+        current_state.selected_value = 3;
     } else {
-       
+        current_state.selected_value--;
     }
     break;
-}
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:
             break;
@@ -629,22 +629,14 @@ void Menu::update(const InputState::Controller &controller_state) {
                 performAction(descriptor_it->second.items.at(0).second, current_state.selected_value);
             }
             break;
-      case Descriptor::Type::UnifiedThresholds: {
-    // RIGHT = increase value
-    auto thresholds = m_store->getTriggerThresholds();
-    uint16_t* selected_threshold = nullptr;
-    switch (current_state.selected_value) {
-        case 0: selected_threshold = &thresholds.ka_left; break;
-        case 1: selected_threshold = &thresholds.don_left; break;
-        case 2: selected_threshold = &thresholds.don_right; break;
-        case 3: selected_threshold = &thresholds.ka_right; break;
-    }
-    if (selected_threshold && *selected_threshold < 4095) {
-        (*selected_threshold)++;
-        m_store->setTriggerThresholds(thresholds);
+      case Descriptor::Type::UnifiedThresholds:
+    // RIGHT = move to next threshold
+    if (current_state.selected_value == 3) {
+        current_state.selected_value = 0;
+    } else {
+        current_state.selected_value++;
     }
     break;
-}
         case Descriptor::Type::RebootInfo:
         case Descriptor::Type::RebootCountdown:
             break;
@@ -654,14 +646,22 @@ void Menu::update(const InputState::Controller &controller_state) {
         case Descriptor::Type::Value:
             // Values use LEFT/RIGHT, not UP/DOWN
             break;
-        case Descriptor::Type::UnifiedThresholds:
-            // UP = select previous threshold (wrap around)
-            if (current_state.selected_value == 0) {
-                current_state.selected_value = 3;
-            } else {
-                current_state.selected_value--;
+        case Descriptor::Type::UnifiedThresholds: {
+            // UP = increase selected threshold
+            auto thresholds = m_store->getTriggerThresholds();
+            uint16_t* selected_threshold = nullptr;
+            switch (current_state.selected_value) {
+                case 0: selected_threshold = &thresholds.ka_left; break;
+                case 1: selected_threshold = &thresholds.don_left; break;
+                case 2: selected_threshold = &thresholds.don_right; break;
+                case 3: selected_threshold = &thresholds.ka_right; break;
+            }
+            if (selected_threshold && *selected_threshold < 4095) {
+                (*selected_threshold)++;
+                m_store->setTriggerThresholds(thresholds);
             }
             break;
+        }
         case Descriptor::Type::Toggle:
         case Descriptor::Type::Selection:
         case Descriptor::Type::Menu:
@@ -674,14 +674,22 @@ void Menu::update(const InputState::Controller &controller_state) {
         case Descriptor::Type::Value:
             // Values use LEFT/RIGHT, not UP/DOWN
             break;
-        case Descriptor::Type::UnifiedThresholds:
-            // DOWN = select next threshold (wrap around)
-            if (current_state.selected_value == 3) {
-                current_state.selected_value = 0;
-            } else {
-                current_state.selected_value++;
+        case Descriptor::Type::UnifiedThresholds: {
+            // DOWN = decrease selected threshold
+            auto thresholds = m_store->getTriggerThresholds();
+            uint16_t* selected_threshold = nullptr;
+            switch (current_state.selected_value) {
+                case 0: selected_threshold = &thresholds.ka_left; break;
+                case 1: selected_threshold = &thresholds.don_left; break;
+                case 2: selected_threshold = &thresholds.don_right; break;
+                case 3: selected_threshold = &thresholds.ka_right; break;
+            }
+            if (selected_threshold && *selected_threshold > 0) {
+                (*selected_threshold)--;
+                m_store->setTriggerThresholds(thresholds);
             }
             break;
+        }
         case Descriptor::Type::Toggle:
         case Descriptor::Type::Selection:
         case Descriptor::Type::Menu:
@@ -740,11 +748,11 @@ void Menu::update(const InputState::Controller &controller_state) {
             break;
         case Descriptor::Type::Selection:
             // Check if this is a Taiko-Tune page before normal handling
-            if (current_state.page == Page::TaikoTantrum) {
+            if (current_state.page == Page::GuidedCalibration) {
                 // Don't go to parent - stay on this page
                 // The calibration start will be handled by Main.cpp
                 // Just flag that confirm was pressed
-                m_tantrum_start_requested = true;
+                m_guided_cal_start_requested = true;
             } else if (current_state.page == Page::DeviceMode && 
                 current_state.selected_value != current_state.original_value) {
                 m_store->setUsbMode(static_cast<usb_mode_t>(current_state.selected_value));
@@ -776,12 +784,14 @@ bool Menu::active() const { return m_active; }
 
 Menu::State Menu::getState() const { return m_state_stack.top(); }
 
-bool Menu::isTantrumStartRequested() {
-    bool result = m_tantrum_start_requested;
-    m_tantrum_start_requested = false; // Clear flag after reading
+bool Menu::isGuidedCalStartRequested() {
+    bool result = m_guided_cal_start_requested;
+    m_guided_cal_start_requested = false; // Clear flag after reading
     return result;
 }
 
 } // namespace OuchiTaiko::Utils
 
 // End of file Menu.cpp
+
+

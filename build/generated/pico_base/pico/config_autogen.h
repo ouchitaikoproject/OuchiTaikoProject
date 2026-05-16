@@ -4,7 +4,7 @@
 
 // based on PICO_CONFIG_HEADER_FILES:
 
-#include "C:/Users/mattb/.pico-sdk/sdk/2.2.0/src/boards/include/boards/seeed_xiao_rp2040.h"
+#include "C:/Users/mattb/.pico-sdk/sdk/2.2.0/src/boards/include/boards/waveshare_rp2040_zero.h"
 #include "C:/Users/mattb/.pico-sdk/sdk/2.2.0/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h"
 
 // based on PICO_RP2040_CONFIG_HEADER_FILES:

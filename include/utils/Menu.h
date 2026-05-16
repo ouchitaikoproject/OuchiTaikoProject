@@ -34,8 +34,8 @@ class Menu {
         DrumTriggerThresholdsAuto,
         DrumTriggerThresholdsReset,
 
-        // Taiko Tantrum calibration
-        TaikoTantrum,
+        // Guided calibration
+        GuidedCalibration,
 
         DrumTriggerThresholdKaLeft,
         DrumTriggerThresholdDonLeft,
@@ -85,9 +85,9 @@ class Menu {
             GotoPageDrumTriggerThresholdsAuto,
             GotoPageDrumTriggerThresholdsReset,
 
-            // Taiko Tantrum calibration actions
-            GotoPageTaikoTantrum,
-            StartTaikoTantrum,
+            // Guided calibration actions
+            GotoPageGuidedCalibration,
+            StartGuidedCalibration,
 
             GotoPageDrumTriggerThresholdKaLeft,
             GotoPageDrumTriggerThresholdDonLeft,
@@ -156,21 +156,14 @@ class Menu {
     std::shared_ptr<SettingsStore> m_store;
     Buttons m_buttons;
     bool m_active{false};
-    bool m_tantrum_start_requested{false};
+    bool m_guided_cal_start_requested{false};
     
     // NEW: Ignore inputs for first few frames after activation
     uint8_t m_ignore_input_frames{0};
-    static constexpr uint8_t IGNORE_FRAMES_ON_ACTIVATE = 10;  // Ignore first 10 frames (~160ms)
 
     std::stack<State> m_state_stack{{{.page = Page::Main, .selected_value = 0, .original_value = 0}}};
 
-    // NEW: Wait for ALL buttons to be released before processing any input
-    bool m_waiting_for_button_release{false};
     uint32_t m_confirm_unlock_until_ms{0};
-    uint32_t m_last_input_accept_ms{0};
-    static constexpr uint32_t CONFIRM_GUARD_AFTER_NAV_MS = 220;
-    static constexpr uint32_t CONFIRM_GUARD_AFTER_PAGE_MS = 300;
-    static constexpr uint32_t INPUT_ACCEPT_DEBOUNCE_MS = 80;
 
     // Unified threshold page: Store original values for cancel operation
     Peripherals::Drum::Config::Thresholds m_unified_thresholds_original{};
@@ -185,17 +178,17 @@ class Menu {
     Menu(std::shared_ptr<SettingsStore> settings_store);
 
     void activate();
-    void setWaitingForButtonRelease(bool waiting);  // NEW: Set initial state
     void enterBootloaderSplash();  // Trigger BootselMsg splash from outside menu (e.g. HOME hold)
     void deactivate();
     void goBackToParent();  // NEW: Navigate back one level without restoring values
     void update(const InputState::Controller &controller_state);
     [[nodiscard]] bool active() const;
     [[nodiscard]] State getState() const;
-    [[nodiscard]] bool isTantrumStartRequested();
+    [[nodiscard]] bool isGuidedCalStartRequested();
 };
 } // namespace OuchiTaiko::Utils
 
 #endif // UTILS_MENU_H_
 
 // End of file Menu.h
+

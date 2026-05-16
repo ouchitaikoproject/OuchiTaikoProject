@@ -46,25 +46,20 @@ std::array<uint16_t, 4> Drum::InternalAdc::read() {
     std::array<uint16_t, 4> result{};
     for (size_t idx = 0; idx < raw_result.size(); ++idx) {
         uint16_t raw_value = raw_result[idx];
-        
         if (raw_value > m_baseline_values[idx]) {
             result[idx] = raw_value - m_baseline_values[idx];
         } else {
             result[idx] = 0;
         }
-        
-        // ============================================================================
-        // OUCHITAIKO SPECIAL: ADAPTIVE BASELINE TRACKING
-        // DO NOT REMOVE - This continuously adjusts for sensor drift and temperature changes
-        // ============================================================================
+
+        // October-2025 working profile: fast settle near idle, slower settle
+        // under moderate activity. This matches the snapshot that produced the
+        // cleanest in-game behavior on the user's hardware.
         if (result[idx] < 20) {
-            m_baseline_values[idx] = (m_baseline_values[idx] * 7 + raw_value) / 8;
+            m_baseline_values[idx] = static_cast<uint16_t>((m_baseline_values[idx] * 7u + raw_value) / 8u);
         } else if (result[idx] < 100) {
-            m_baseline_values[idx] = (m_baseline_values[idx] * 31 + raw_value) / 32;
+            m_baseline_values[idx] = static_cast<uint16_t>((m_baseline_values[idx] * 31u + raw_value) / 32u);
         }
-        // ============================================================================
-        // END OUCHITAIKO SPECIAL ADAPTIVE BASELINE
-        // ============================================================================
     }
 
     return result;
@@ -101,9 +96,7 @@ std::array<uint16_t, 4> Drum::ExternalAdc::read() {
 void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
     if (state != m_active) {
         const uint32_t now = to_ms_since_boot(get_absolute_time());
-        uint32_t time_since_change = now - m_last_change;
-
-        if (time_since_change >= debounce_delay) {
+        if ((now - m_last_change) >= debounce_delay) {
             m_active = state;
             m_last_change = now;
         }
@@ -256,88 +249,196 @@ std::array<uint16_t, 4> Drum::readInputs() {
 // ============================================================================
 
 void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
+    static constexpr uint32_t SAME_SIDE_LOCK_MS = 10;
+    std::array<bool, 4> cross_blocked{};
+    std::array<bool, 4> arb_blocked{};
+    std::array<bool, 4> rising_hit{};
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    const uint16_t digital_debounce_ms = m_config.debounce_delay_ms;
 
-    // Threshold lookup by array index (matches Id enum values)
-    const uint16_t thresholds[4] = {
-        m_config.trigger_thresholds.don_left,   // [0] DON_LEFT
-        m_config.trigger_thresholds.ka_left,    // [1] KA_LEFT
-        m_config.trigger_thresholds.don_right,  // [2] DON_RIGHT
-        m_config.trigger_thresholds.ka_right,   // [3] KA_RIGHT
+    const auto thresholdFor = [&](Id id) -> uint16_t {
+        switch (id) {
+        case Id::DON_LEFT:
+            return m_config.trigger_thresholds.don_left;
+        case Id::KA_LEFT:
+            return m_config.trigger_thresholds.ka_left;
+        case Id::DON_RIGHT:
+            return m_config.trigger_thresholds.don_right;
+        case Id::KA_RIGHT:
+            return m_config.trigger_thresholds.ka_right;
+        }
+        return 0;
     };
 
-    // STEP 1: Apply thresholds FIRST.
-    // Anything below threshold is zeroed. Quiet frames produce all-zero filtered[],
-    // and nothing downstream runs -- no arbitration, no pad state changes, no debounce churn.
-    std::array<uint16_t, 4> filtered{};
-    for (size_t i = 0; i < 4; ++i) {
-        filtered[i] = (raw_values[i] > thresholds[i]) ? raw_values[i] : 0;
+    std::array<uint16_t, 4> filtered_raw_values{};
+    for (size_t i = 0; i < filtered_raw_values.size(); ++i) {
+        filtered_raw_values[i] = (raw_values[i] > thresholdFor(static_cast<Id>(i))) ? raw_values[i] : static_cast<uint16_t>(0);
     }
 
-    // STEP 2: Twin pad suppression on filtered values.
-    // If one side of a Don or Ka pair is less than half the other, suppress the weaker side.
-    // This rejects single-sensor bleed while allowing genuine Big Don / Big Ka hits through.
-    // DON pair: indices 0 (DON_LEFT) and 2 (DON_RIGHT)
-    // KA pair:  indices 1 (KA_LEFT)  and 3 (KA_RIGHT)
-    const auto zero_if_not_within_twin = [](std::array<uint16_t, 4> &values, size_t a, size_t b) {
-        if (values[a] == 0 || values[b] == 0) return;
-        if (values[a] > values[b]) {
-            if (values[b] < (values[a] >> 1)) values[b] = 0;
-        } else {
-            if (values[a] < (values[b] >> 1)) values[a] = 0;
-        }
-    };
-
-    zero_if_not_within_twin(filtered, 0, 2);  // DON_LEFT vs DON_RIGHT
-    zero_if_not_within_twin(filtered, 1, 3);  // KA_LEFT  vs KA_RIGHT
-
-    // STEP 3: Global Don/Ka zone arbitration on FILTERED values only.
-    // In Taiko no Tatsujin, Don and Ka are mutually exclusive -- no valid note ever
-    // requires both zones simultaneously. If both zones cleared threshold, the weaker
-    // one is crosstalk; suppress it.
-    // Because this runs on post-threshold values, it only fires when there is a real
-    // competing signal -- never on idle noise.
-    uint16_t max_don = (filtered[0] > filtered[2]) ? filtered[0] : filtered[2];
-    uint16_t max_ka  = (filtered[1] > filtered[3]) ? filtered[1] : filtered[3];
-
-    if (max_don > 0 && max_ka > 0) {
-        // Both zones have a real above-threshold signal -- suppress the weaker zone entirely
-        if (max_don >= max_ka) {
-            filtered[1] = 0;  // KA_LEFT  zeroed -- Don zone wins
-            filtered[3] = 0;  // KA_RIGHT zeroed
-        } else {
-            filtered[0] = 0;  // DON_LEFT  zeroed -- Ka zone wins
-            filtered[2] = 0;  // DON_RIGHT zeroed
+    for (size_t side = 0; side < m_same_side_lock_until_ms.size(); ++side) {
+        if (m_same_side_lock_until_ms[side] <= now) {
+            m_same_side_lock_until_ms[side] = 0;
+            m_same_side_winner[side] = SideWinner::None;
         }
     }
 
-    // STEP 4: Set pad states with normal debounce.
-    // All pads use the same debounce path -- no forced setState(false,0) bypass needed
-    // because arbitration now only runs when real signals are present.
-    for (size_t i = 0; i < 4; ++i) {
-        m_pads[i].setState(filtered[i] != 0, m_config.debounce_delay_ms);
+    const std::array<bool, 4> previous_state = {
+        m_pads[idToIndex(Id::DON_LEFT)].getState(),
+        m_pads[idToIndex(Id::KA_LEFT)].getState(),
+        m_pads[idToIndex(Id::DON_RIGHT)].getState(),
+        m_pads[idToIndex(Id::KA_RIGHT)].getState()
+    };
+
+    const auto zero_if_not_within_twin = [&](Id a, Id b) {
+        const size_t ai = idToIndex(a);
+        const size_t bi = idToIndex(b);
+        if (filtered_raw_values[ai] == 0 || filtered_raw_values[bi] == 0) {
+            return;
+        }
+
+        if (filtered_raw_values[ai] > filtered_raw_values[bi]) {
+            if (filtered_raw_values[bi] < (filtered_raw_values[ai] >> 1)) {
+                filtered_raw_values[bi] = 0;
+                cross_blocked[bi] = true;
+            }
+        } else {
+            if (filtered_raw_values[ai] < (filtered_raw_values[bi] >> 1)) {
+                filtered_raw_values[ai] = 0;
+                cross_blocked[ai] = true;
+            }
+        }
+    };
+
+    zero_if_not_within_twin(Id::DON_LEFT, Id::DON_RIGHT);
+    zero_if_not_within_twin(Id::KA_LEFT, Id::KA_RIGHT);
+
+    const auto apply_same_side_lock = [&](size_t side, size_t don_idx, size_t ka_idx) {
+        if (m_same_side_lock_until_ms[side] <= now) {
+            return;
+        }
+
+        if (m_same_side_winner[side] == SideWinner::Don) {
+            if (filtered_raw_values[ka_idx] != 0) {
+                filtered_raw_values[ka_idx] = 0;
+                arb_blocked[ka_idx] = true;
+            }
+        } else if (m_same_side_winner[side] == SideWinner::Ka) {
+            if (filtered_raw_values[don_idx] != 0) {
+                filtered_raw_values[don_idx] = 0;
+                arb_blocked[don_idx] = true;
+            }
+        }
+    };
+
+    apply_same_side_lock(0, idToIndex(Id::DON_LEFT), idToIndex(Id::KA_LEFT));
+    apply_same_side_lock(1, idToIndex(Id::DON_RIGHT), idToIndex(Id::KA_RIGHT));
+
+    for (size_t i = 0; i < m_pads.size(); ++i) {
+        m_pads[i].setState(filtered_raw_values[i] != 0, digital_debounce_ms);
     }
-    // ============================================================================
-    // END OUCHITAIKO SPECIAL HIT DETECTION
-    // ============================================================================
 
-    // STEP 5: Roll counter -- detect rising edges
-    bool don_left_rising  = !input_state.drum.don_left.triggered  && m_pads[idToIndex(Id::DON_LEFT)].getState();
-    bool don_right_rising = !input_state.drum.don_right.triggered && m_pads[idToIndex(Id::DON_RIGHT)].getState();
-    bool ka_left_rising   = !input_state.drum.ka_left.triggered   && m_pads[idToIndex(Id::KA_LEFT)].getState();
-    bool ka_right_rising  = !input_state.drum.ka_right.triggered  && m_pads[idToIndex(Id::KA_RIGHT)].getState();
+    const bool ka_active = m_pads[idToIndex(Id::KA_LEFT)].getState() || m_pads[idToIndex(Id::KA_RIGHT)].getState();
+    const bool don_active = m_pads[idToIndex(Id::DON_LEFT)].getState() || m_pads[idToIndex(Id::DON_RIGHT)].getState();
 
-    if (don_left_rising || don_right_rising || ka_left_rising || ka_right_rising) {
+    if (ka_active && don_active) {
+        const bool ka_was_first = (previous_state[idToIndex(Id::KA_LEFT)] || previous_state[idToIndex(Id::KA_RIGHT)]) &&
+                                  !(previous_state[idToIndex(Id::DON_LEFT)] || previous_state[idToIndex(Id::DON_RIGHT)]);
+        const bool don_was_first = (previous_state[idToIndex(Id::DON_LEFT)] || previous_state[idToIndex(Id::DON_RIGHT)]) &&
+                                   !(previous_state[idToIndex(Id::KA_LEFT)] || previous_state[idToIndex(Id::KA_RIGHT)]);
+
+        if (ka_was_first) {
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
+        } else if (don_was_first) {
+            m_pads[idToIndex(Id::KA_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::KA_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::KA_LEFT)] = filtered_raw_values[idToIndex(Id::KA_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::KA_RIGHT)] = filtered_raw_values[idToIndex(Id::KA_RIGHT)] != 0;
+        } else {
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
+            arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
+        }
+    }
+
+    input_state.drum.don_left.triggered = m_pads[idToIndex(Id::DON_LEFT)].getState();
+    input_state.drum.ka_left.triggered = m_pads[idToIndex(Id::KA_LEFT)].getState();
+    input_state.drum.don_right.triggered = m_pads[idToIndex(Id::DON_RIGHT)].getState();
+    input_state.drum.ka_right.triggered = m_pads[idToIndex(Id::KA_RIGHT)].getState();
+
+    const std::array<bool, 4> current_state = {
+        input_state.drum.don_left.triggered,
+        input_state.drum.ka_left.triggered,
+        input_state.drum.don_right.triggered,
+        input_state.drum.ka_right.triggered
+    };
+
+    bool any_rising = false;
+    for (size_t i = 0; i < rising_hit.size(); ++i) {
+        rising_hit[i] = current_state[i] && !previous_state[i];
+        if (rising_hit[i]) {
+            m_last_rise_ms[i] = now;
+        }
+        any_rising = any_rising || rising_hit[i];
+    }
+
+    const auto latch_side_winner = [&](size_t side, size_t don_idx, size_t ka_idx) {
+        if (rising_hit[don_idx] && !rising_hit[ka_idx]) {
+            m_same_side_winner[side] = SideWinner::Don;
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        } else if (rising_hit[ka_idx] && !rising_hit[don_idx]) {
+            m_same_side_winner[side] = SideWinner::Ka;
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        } else if (rising_hit[don_idx] && rising_hit[ka_idx]) {
+            if (filtered_raw_values[ka_idx] > filtered_raw_values[don_idx]) {
+                m_same_side_winner[side] = SideWinner::Ka;
+            } else {
+                m_same_side_winner[side] = SideWinner::Don;
+            }
+            m_same_side_lock_until_ms[side] = now + SAME_SIDE_LOCK_MS;
+        }
+    };
+
+    latch_side_winner(0, idToIndex(Id::DON_LEFT), idToIndex(Id::KA_LEFT));
+    latch_side_winner(1, idToIndex(Id::DON_RIGHT), idToIndex(Id::KA_RIGHT));
+
+    if (any_rising) {
         m_roll_counter.addHit();
     }
 
-    // STEP 6: Write final states to input_state
-    input_state.drum.don_left.triggered  = m_pads[idToIndex(Id::DON_LEFT)].getState();
-    input_state.drum.ka_left.triggered   = m_pads[idToIndex(Id::KA_LEFT)].getState();
-    input_state.drum.don_right.triggered = m_pads[idToIndex(Id::DON_RIGHT)].getState();
-    input_state.drum.ka_right.triggered  = m_pads[idToIndex(Id::KA_RIGHT)].getState();
-
-    input_state.drum.current_roll  = m_roll_counter.getRoll();
+    input_state.drum.current_roll = m_roll_counter.getRoll();
     input_state.drum.previous_roll = m_roll_counter.getPreviousRoll();
+
+    // Latch debug masks for a short window so host-side polling does not miss
+    // one-tick edges under high-rate firmware loops.
+    static constexpr uint32_t DEBUG_MASK_LATCH_MS = 18;
+    for (size_t i = 0; i < 4; ++i) {
+        if (rising_hit[i]) {
+            m_dbg_hit_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+        if (cross_blocked[i]) {
+            m_dbg_cross_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+        if (arb_blocked[i]) {
+            m_dbg_arb_until_ms[i] = now + DEBUG_MASK_LATCH_MS;
+        }
+    }
+
+    const auto maskFromLatches = [&](const std::array<uint32_t, 4> &until) -> uint8_t {
+        return ((until[idToIndex(Id::DON_LEFT)] > now) ? (1u << 0) : 0u) |
+               ((until[idToIndex(Id::KA_LEFT)] > now) ? (1u << 1) : 0u) |
+               ((until[idToIndex(Id::DON_RIGHT)] > now) ? (1u << 2) : 0u) |
+               ((until[idToIndex(Id::KA_RIGHT)] > now) ? (1u << 3) : 0u);
+    };
+
+    input_state.drum.debug_event.hit_mask = maskFromLatches(m_dbg_hit_until_ms);
+    input_state.drum.debug_event.cross_block_mask = maskFromLatches(m_dbg_cross_until_ms);
+    input_state.drum.debug_event.arb_block_mask = maskFromLatches(m_dbg_arb_until_ms);
+    input_state.drum.debug_event.held_high_mask = 0;
+    input_state.drum.debug_event.timestamp_ms = now;
 }
 
 void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
@@ -362,18 +463,22 @@ void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::arr
 void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode) {
     const auto raw_values = readInputs();
 
-    if (m_tantrum_state.isActive()) {
-        updateTaikoTantrum(raw_values);
-    }
-
     const bool is_analog_mode = (usb_mode == USB_MODE_XBOX360_ANALOG_P1) ||
                                 (usb_mode == USB_MODE_XBOX360_ANALOG_P2);
 
+    // Always keep buffered/raw analog view for UI + calibration diagnostics.
+    updateAnalogInputState(input_state, raw_values);
+
     if (!is_analog_mode) {
+        // Low-latency gameplay path:
+        // Use fresh ADC-subtracted samples for digital hit decisions so
+        // buffered peak hold does not delay release/rearm during fast rolls.
         updateDigitalInputState(input_state, raw_values);
     }
 
-    updateAnalogInputState(input_state, raw_values);
+    if (m_guided_cal_state.isActive()) {
+        updateGuidedCalibration(input_state.drum, raw_values);
+    }
 }
 
 void Drum::setDebounceDelay(uint16_t delay) { m_config.debounce_delay_ms = delay; }
@@ -381,237 +486,290 @@ void Drum::setDebounceDelay(uint16_t delay) { m_config.debounce_delay_ms = delay
 void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config.trigger_thresholds = thresholds; }
 
 // ============================================================================
-// GUIDED CALIBRATION WIZARD - Per-pad, per-step (replaces old random-hit Tantrum)
-//
-// Pad order: DON_LEFT(0), DON_RIGHT(2), KA_LEFT(1), KA_RIGHT(3)
-// Per pad: Step 0=Normal x3, Step 1=Hard x3, Step 2=Roll 3s
-// Algorithm matches web tool exactly (median, 45/55% caps, crosstalk margins)
+// GUIDED CALIBRATION WIZARD
 // ============================================================================
 
-void Drum::startTaikoTantrum() {
-    m_tantrum_state.startWelcome();
+void Drum::startGuidedCalibration() {
+    m_guided_cal_state.startWelcome();
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)] = m_config.trigger_thresholds.don_left;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)] = m_config.trigger_thresholds.ka_left;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)] = m_config.trigger_thresholds.don_right;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)] = m_config.trigger_thresholds.ka_right;
 }
 
-// Called by Main.cpp A-button handler to advance through wizard steps.
-// PadNormal, PadHard, and PadRoll are NOT skippable -- they must complete
-// naturally (3 hits detected / roll timer expires). A is only honoured on
-// screens where the user needs to explicitly confirm before continuing.
 void Drum::advanceCalibWizard() {
-    auto& s = m_tantrum_state;
+    auto& s = m_guided_cal_state;
     switch (s.current_mode) {
-        case TantrumState::Mode::Welcome:
-            s.startPadNormal();   // Begin Step 0 for first pad
+        case GuidedCalState::Mode::Welcome:
+            s.startInstructions();
             break;
-        case TantrumState::Mode::PadNormal:
-        case TantrumState::Mode::PadHard:
-        case TantrumState::Mode::PadRoll:
-        case TantrumState::Mode::PhaseTransition:
-        case TantrumState::Mode::PadDone:
-        case TantrumState::Mode::Overview:
-            // These phases are hit/time-driven -- A button does nothing here.
-            // They auto-advance once the required hits or roll timer completes.
-            break;
-        case TantrumState::Mode::Error:
-            // Redo current pad from Normal phase
+        case GuidedCalState::Mode::Instructions:
+            s.current_pad = 0;
+            s.retry_count_for_pad = 0;
             s.startPadNormal();
+            break;
+        case GuidedCalState::Mode::PadHardPrompt:
+            s.startPadHard();
+            break;
+        case GuidedCalState::Mode::BleedDetected:
+            s.retry_count_for_pad++;
+            s.startPadNormal();
+            break;
+        case GuidedCalState::Mode::PadNormal:
+        case GuidedCalState::Mode::PadHard:
+        case GuidedCalState::Mode::Saving:
+        case GuidedCalState::Mode::Complete:
+        case GuidedCalState::Mode::Cancelled:
+            break;
+        case GuidedCalState::Mode::Review:
+            s.startSaving();
+            break;
+        case GuidedCalState::Mode::CancelConfirm:
+            s.startCancelled();
             break;
         default:
             break;
     }
 }
 
-void Drum::cancelTaikoTantrum() {
-    m_tantrum_state.reset();
+void Drum::cancelGuidedCalibration() {
+    auto& s = m_guided_cal_state;
+    if (!s.isActive()) {
+        return;
+    }
+    if (s.current_mode == GuidedCalState::Mode::CancelConfirm) {
+        s.current_mode = s.mode_before_cancel;
+        return;
+    }
+    if (s.current_mode == GuidedCalState::Mode::Cancelled ||
+        s.current_mode == GuidedCalState::Mode::Complete ||
+        s.current_mode == GuidedCalState::Mode::Saving) {
+        s.reset();
+        return;
+    }
+    s.startCancelConfirm();
 }
 
-void Drum::updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values) {
-    auto& s = m_tantrum_state;
+void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, const std::array<uint16_t, 4> &raw_values) {
+    auto& s = m_guided_cal_state;
     if (!s.isActive()) return;
 
-    uint32_t now     = to_ms_since_boot(get_absolute_time());
-    uint8_t  padIdx  = s.currentPadIndex();
+    const uint32_t now = to_ms_since_boot(get_absolute_time());
+    const uint8_t padIdx = s.currentPadIndex();
+
+    const auto beginBleedWatch = [&](uint8_t target_idx) {
+        s.bleed_watch_active = true;
+        s.bleed_watch_until = now + GuidedCalState::BLEED_WATCH_MS;
+        s.bleed_target_index = target_idx;
+        for (uint8_t i = 0; i < 4; ++i) {
+            s.bleed_watch_peaks[i] = (i == target_idx) ? 0 : raw_values[i];
+        }
+    };
+
+    const auto raiseOffenders = [&](uint8_t offender_mask) {
+        s.last_offender_mask = offender_mask;
+        s.bleed_watch_active = false;
+        s.bleed_watch_until = 0;
+        s.watch_success_action = GuidedCalState::WatchSuccessAction::None;
+        for (uint8_t i = 0; i < 4; ++i) {
+            s.last_threshold_before_raise[i] = s.recommended_thresholds[i];
+            if ((offender_mask & (1u << i)) != 0) {
+                uint16_t raised = static_cast<uint16_t>(s.recommended_thresholds[i] + GuidedCalState::THRESHOLD_STEP);
+                if (raised > GuidedCalState::THRESHOLD_MAX) {
+                    raised = GuidedCalState::THRESHOLD_MAX;
+                }
+                s.recommended_thresholds[i] = raised;
+            }
+        }
+        s.startBleedDetected();
+    };
+
+    const auto applyBleedWatch = [&]() -> bool {
+        if (!s.bleed_watch_active) {
+            return false;
+        }
+
+        uint8_t offender_mask = 0;
+        for (uint8_t i = 0; i < 4; ++i) {
+            if (i == s.bleed_target_index) {
+                continue;
+            }
+            if (raw_values[i] > s.bleed_watch_peaks[i]) {
+                s.bleed_watch_peaks[i] = raw_values[i];
+            }
+            const uint16_t threshold = s.recommended_thresholds[i];
+            const uint16_t bleed_floor =
+                (threshold > GuidedCalState::BLEED_PRETRIGGER_MARGIN)
+                    ? static_cast<uint16_t>(threshold - GuidedCalState::BLEED_PRETRIGGER_MARGIN)
+                    : 0;
+            if (s.bleed_watch_peaks[i] >= bleed_floor) {
+                offender_mask |= static_cast<uint8_t>(1u << i);
+            }
+        }
+
+        if (offender_mask != 0) {
+            raiseOffenders(offender_mask);
+            return true;
+        }
+
+        if (now <= s.bleed_watch_until) {
+            return false;
+        }
+
+        s.bleed_watch_active = false;
+        s.bleed_watch_until = 0;
+        if (s.watch_success_action == GuidedCalState::WatchSuccessAction::AdvanceToHardPrompt) {
+            s.watch_success_action = GuidedCalState::WatchSuccessAction::None;
+            s.startPadHardPrompt();
+        } else if (s.watch_success_action == GuidedCalState::WatchSuccessAction::FinishPad) {
+            s.watch_success_action = GuidedCalState::WatchSuccessAction::None;
+            _finishCurrentPadTest();
+        }
+        return false;
+    };
+
+    applyBleedWatch();
+
+    const uint8_t hitEdgeMask = static_cast<uint8_t>(drum_state.debug_event.hit_mask & static_cast<uint8_t>(~s.prev_hit_mask));
+    const uint8_t crossEdgeMask = static_cast<uint8_t>(drum_state.debug_event.cross_block_mask & static_cast<uint8_t>(~s.prev_cross_mask));
+    const uint8_t arbEdgeMask = static_cast<uint8_t>(drum_state.debug_event.arb_block_mask & static_cast<uint8_t>(~s.prev_arb_mask));
+
+    uint8_t nearBleedMask = 0;
+    for (uint8_t i = 0; i < 4; ++i) {
+        if (i == padIdx) {
+            continue;
+        }
+        const uint16_t threshold = s.recommended_thresholds[i];
+        const uint16_t bleed_floor =
+            (threshold > GuidedCalState::BLEED_PRETRIGGER_MARGIN)
+                ? static_cast<uint16_t>(threshold - GuidedCalState::BLEED_PRETRIGGER_MARGIN)
+                : 0;
+        if (raw_values[i] >= bleed_floor) {
+            nearBleedMask |= static_cast<uint8_t>(1u << i);
+        }
+    }
+
+    s.prev_hit_mask = drum_state.debug_event.hit_mask;
+    s.prev_cross_mask = drum_state.debug_event.cross_block_mask;
+    s.prev_arb_mask = drum_state.debug_event.arb_block_mask;
+    s.prev_held_mask = drum_state.debug_event.held_high_mask;
 
     switch (s.current_mode) {
-
-    case TantrumState::Mode::Welcome:
-    case TantrumState::Mode::Error:
-        // Waiting for user input (A/B) -- handled in advanceCalibWizard / cancelTaikoTantrum
+    case GuidedCalState::Mode::Welcome:
+    case GuidedCalState::Mode::Instructions:
+    case GuidedCalState::Mode::BleedDetected:
+    case GuidedCalState::Mode::Review:
+    case GuidedCalState::Mode::CancelConfirm:
         break;
 
-    case TantrumState::Mode::PadDone: {
-        if ((now - s.phase_start) >= TantrumState::PAD_DONE_DISPLAY_MS) {
-            _advanceToNextPad();
-        }
-        break;
-    }
+    case GuidedCalState::Mode::PadNormal:
+    case GuidedCalState::Mode::PadHardPrompt:
+    case GuidedCalState::Mode::PadHard: {
+        const bool targetHit = (hitEdgeMask & (1u << padIdx)) != 0;
+        const uint8_t extrasMask = static_cast<uint8_t>(crossEdgeMask | arbEdgeMask | nearBleedMask);
 
-    case TantrumState::Mode::Overview: {
-        if ((now - s.phase_start) >= TantrumState::OVERVIEW_DISPLAY_MS) {
-            s.startSaving();
-        }
-        break;
-    }
-
-    case TantrumState::Mode::PadNormal:
-    case TantrumState::Mode::PadHard: {
-        // Auto-advance to next step once we have 3 hits on the target pad
-        if (s.hit_count >= 3) {
-            if (s.current_mode == TantrumState::Mode::PadNormal) {
-                s.normal_ref[padIdx] = s.medianOfHits();
-                s.startPhaseTransition("Strong hits", TantrumState::Mode::PadHard);
-            } else {
-                s.max_hit[padIdx] = s.medianOfHits();
-                // Validate before roll
-                if (s.max_hit[padIdx] < TantrumState::MIN_ACCEPTABLE_MAX) {
-                    s.error_msg = "Hit too soft!";
-                    s.current_mode = TantrumState::Mode::Error;
-                } else if (s.max_hit[padIdx] <= (s.normal_ref[padIdx] + TantrumState::MIN_STRONG_DELTA)) {
-                    s.error_msg = "Need harder strong hits";
-                    s.current_mode = TantrumState::Mode::Error;
-                } else {
-                    s.startPhaseTransition("Rapid hits", TantrumState::Mode::PadRoll);
-                }
-            }
+        if (!targetHit) {
             break;
         }
-        // Detect hits on target pad
-        uint16_t target_val = raw_values[padIdx];
-        if (target_val < TantrumState::MIN_HIT_STRENGTH) break;
-        // Entry grace: ignore all hits for 500ms after phase starts (ADC settle after cancel/restart)
-        if ((now - s.phase_start) < 500) break;
-        if ((now - s.last_hit_time) < TantrumState::HIT_COOLDOWN_MS) break;
-        // Must be above threshold on target, clearly stronger than neighbours
-        // (simple dominance check: target > max of the other 3)
-        uint16_t max_other = 0;
-        for (uint8_t i = 0; i < 4; ++i) {
-            if (i != padIdx && raw_values[i] > max_other) max_other = raw_values[i];
-        }
-        if (target_val < max_other) break;  // Another pad is stronger - not this pad
-        // Record hit
-        s.last_hit_time = now;
-        if (s.hit_count < TantrumState::MAX_HITS) {
-            s.hit_peaks[s.hit_count++] = target_val;
-        }
-        break;
-    }
 
-    case TantrumState::Mode::PadRoll: {
-        if (!s.roll_started && (now - s.phase_start) >= TantrumState::ROLL_START_TIMEOUT_MS) {
-            s.error_msg = "Start rapid hits";
-            s.current_mode = TantrumState::Mode::Error;
+        if (extrasMask != 0) {
+            raiseOffenders(extrasMask);
             break;
         }
-        // Start timer on first hit
-        if (!s.roll_started && raw_values[padIdx] > TantrumState::MIN_HIT_STRENGTH) {
-            s.roll_started = true;
-            s.roll_start   = now;
+
+        const bool block_for_startup =
+            (s.current_mode == GuidedCalState::Mode::PadNormal) && ((now - s.phase_start) < 250);
+        if (block_for_startup || (now - s.last_target_hit_time) < GuidedCalState::HIT_COOLDOWN_MS) {
+            break;
         }
-        // Record crosstalk into all OTHER pads during this pad's roll
-        if (s.roll_started) {
-            for (uint8_t i = 0; i < 4; ++i) {
-                if (i == padIdx) continue;
-                if (raw_values[i] > s.max_crosstalk[i]) {
-                    s.max_crosstalk[i] = raw_values[i];
-                }
+
+        s.last_target_hit_time = now;
+        beginBleedWatch(padIdx);
+
+        if (s.current_mode == GuidedCalState::Mode::PadNormal) {
+            if (s.normal_hits_done < GuidedCalState::REQUIRED_NORMAL_HITS) {
+                s.normal_hits_done++;
             }
-            // Auto-advance when roll duration expires
-            if ((now - s.roll_start) >= TantrumState::ROLL_DURATION_MS) {
-                _finishCurrentPadRoll();
+            if (s.normal_hits_done >= GuidedCalState::REQUIRED_NORMAL_HITS) {
+                s.watch_success_action = GuidedCalState::WatchSuccessAction::AdvanceToHardPrompt;
             }
+        } else {
+            s.hard_hit_done = true;
+            s.watch_success_action = GuidedCalState::WatchSuccessAction::FinishPad;
         }
         break;
     }
 
-    case TantrumState::Mode::PhaseTransition: {
-        // Auto-advance after 2s -- no user input accepted during this window
-        if ((now - s.phase_start) >= TantrumState::PHASE_TRANSITION_DELAY_MS) {
-            if (s.transition_next_mode == TantrumState::Mode::PadHard) {
-                s.startPadHard();
-            } else {
-                s.startPadRoll();
-            }
-        }
-        break;
-    }
-
-    case TantrumState::Mode::Saving: {
-        if ((now - s.phase_start) >= TantrumState::SAVING_DISPLAY_MS) {
+    case GuidedCalState::Mode::Saving:
+        if ((now - s.phase_start) >= GuidedCalState::SAVING_DISPLAY_MS) {
             s.startComplete();
         }
         break;
-    }
 
-    case TantrumState::Mode::Complete: {
-        if ((now - s.phase_start) >= TantrumState::COMPLETE_DISPLAY_MS) {
-            s.current_mode = TantrumState::Mode::Inactive;
+    case GuidedCalState::Mode::Complete:
+        if ((now - s.phase_start) >= GuidedCalState::COMPLETE_DISPLAY_MS) {
+            s.current_mode = GuidedCalState::Mode::Inactive;
         }
         break;
-    }
+
+    case GuidedCalState::Mode::Cancelled:
+        if ((now - s.phase_start) >= GuidedCalState::CANCELLED_DISPLAY_MS) {
+            s.current_mode = GuidedCalState::Mode::Inactive;
+        }
+        break;
 
     default:
         break;
     }
 }
 
-// Internal: finish roll for current pad (crosstalk accumulation complete for this pad's roll).
-// NOTE: threshold computation is intentionally deferred to _advanceToNextPad() / startOverview()
-// so that max_crosstalk[] is fully populated across ALL pads before any threshold is calculated.
-void Drum::_finishCurrentPadRoll() {
-    auto& s = m_tantrum_state;
-    uint8_t padIdx = s.currentPadIndex();
-    s.pad_done[padIdx] = true;
-    s.startPadDone();
+void Drum::_finishCurrentPadTest() {
+    _advanceToNextPad();
 }
 
-// Internal: after PadDone screen, move to next pad or Overview
 void Drum::_advanceToNextPad() {
-    auto& s = m_tantrum_state;
+    auto& s = m_guided_cal_state;
     s.current_pad++;
     if (s.current_pad >= 4) {
-        // All pads done -- now safe to compute all thresholds since max_crosstalk[] is fully populated
-        s.computeAllThresholds();
-        s.startOverview();
+        s.startReview();
     } else {
+        s.retry_count_for_pad = 0;
         s.startPadNormal();
     }
 }
 
-void Drum::applyTantrumRecommendations() {
-    if (!m_tantrum_state.hasRecommendations()) return;
-    m_config.trigger_thresholds.don_left  = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_LEFT)];
-    m_config.trigger_thresholds.ka_left   = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
-    m_config.trigger_thresholds.don_right = m_tantrum_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
-    m_config.trigger_thresholds.ka_right  = m_tantrum_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
+void Drum::applyGuidedCalRecommendations() {
+    if (!m_guided_cal_state.hasRecommendations()) return;
+    m_config.trigger_thresholds.don_left  = m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)];
+    m_config.trigger_thresholds.ka_left   = m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)];
+    m_config.trigger_thresholds.don_right = m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)];
+    m_config.trigger_thresholds.ka_right  = m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)];
 
-    m_last_tantrum_report_version++;
+    m_last_guided_cal_report_version++;
     snprintf(
-        m_last_tantrum_report,
-        sizeof(m_last_tantrum_report),
+        m_last_guided_cal_report,
+        sizeof(m_last_guided_cal_report),
         "VER=%lu;"
         "NR=%u,%u,%u,%u;"
         "MH=%u,%u,%u,%u;"
         "XT=%u,%u,%u,%u;"
         "TH=%u,%u,%u,%u;"
         "WARN=%u",
-        static_cast<unsigned long>(m_last_tantrum_report_version),
-        static_cast<unsigned>(m_tantrum_state.normal_ref[0]),
-        static_cast<unsigned>(m_tantrum_state.normal_ref[1]),
-        static_cast<unsigned>(m_tantrum_state.normal_ref[2]),
-        static_cast<unsigned>(m_tantrum_state.normal_ref[3]),
-        static_cast<unsigned>(m_tantrum_state.max_hit[0]),
-        static_cast<unsigned>(m_tantrum_state.max_hit[1]),
-        static_cast<unsigned>(m_tantrum_state.max_hit[2]),
-        static_cast<unsigned>(m_tantrum_state.max_hit[3]),
-        static_cast<unsigned>(m_tantrum_state.max_crosstalk[0]),
-        static_cast<unsigned>(m_tantrum_state.max_crosstalk[1]),
-        static_cast<unsigned>(m_tantrum_state.max_crosstalk[2]),
-        static_cast<unsigned>(m_tantrum_state.max_crosstalk[3]),
-        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[0]),
-        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[1]),
-        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[2]),
-        static_cast<unsigned>(m_tantrum_state.recommended_thresholds[3]),
-        m_tantrum_state.high_crosstalk_warning ? 1u : 0u);
+        static_cast<unsigned long>(m_last_guided_cal_report_version),
+        0u, 0u, 0u, 0u,
+        0u, 0u, 0u, 0u,
+        0u, 0u, 0u, 0u,
+        static_cast<unsigned>(m_guided_cal_state.recommended_thresholds[0]),
+        static_cast<unsigned>(m_guided_cal_state.recommended_thresholds[1]),
+        static_cast<unsigned>(m_guided_cal_state.recommended_thresholds[2]),
+        static_cast<unsigned>(m_guided_cal_state.recommended_thresholds[3]),
+        0u);
 }
 } // namespace OuchiTaiko::Peripherals
 
 // End of file Drum.cpp
+
+
+
+
+

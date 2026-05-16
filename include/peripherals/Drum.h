@@ -67,216 +67,156 @@ class Drum {
     };
 
     // ============================================================================
-    // ============================================================================
-    // AUTO CALIBRATE - Guided per-pad wizard (matches web tool algorithm exactly)
+    // GUIDED CALIBRATE - per-pad isolate / correct / retry workflow
     //
-    // Flow per pad (4 pads total, order: DON_LEFT, DON_RIGHT, KA_LEFT, KA_RIGHT):
-    //   Step 0 - Normal hits x3  -> median -> normalRef[pad]
-    //   Step 1 - Hard hits x3    -> median -> maxHit[pad]
-    //   Step 2 - Roll 3s         -> crosstalk on other 3 sensors -> maxCrosstalk[pad]
-    //   Threshold = max(maxCrosstalk + margin, normalRef * 0.45)
-    //               capped at min(normalRef * 0.55, maxHit * 0.50)
+    // Flow per pad:
+    //   - 5 normal hits
+    //   - 1 hard hit
+    //   - watch the other 3 pads for bleed
+    //   - raise only the offending thresholds by +5
+    //   - repeat the same pad until clean
     // ============================================================================
 
-    struct TantrumState {
-        // Natural physical order, left-to-right across the drum:
-        // Ka Left, Don Left, Don Right, Ka Right
+    struct GuidedCalState {
         static constexpr uint8_t PAD_ORDER[4] = {1, 0, 2, 3};
-        static constexpr const char* PAD_NAMES[4] = {
-            "Ka Left", "Don Left", "Don Right", "Ka Right"
-        };
+        static constexpr const char* PAD_NAMES[4] = {"Ka Left", "Don Left", "Don Right", "Ka Right"};
 
         enum class Mode {
             Inactive,
             Welcome,
+            Instructions,
             PadNormal,
+            PadHardPrompt,
             PadHard,
-            PadRoll,
-            PhaseTransition,  // 2s buffer between phases -- prevents accidental double-hit advancing
-            PadDone,
-            Overview,
+            BleedDetected,
+            Review,
             Saving,
             Complete,
-            Error,
+            CancelConfirm,
+            Cancelled,
+        };
+
+        enum class WatchSuccessAction : uint8_t {
+            None,
+            AdvanceToHardPrompt,
+            FinishPad,
         };
 
         Mode current_mode{Mode::Inactive};
         uint8_t current_pad{0};
-        uint8_t current_step{0};
-
-        static constexpr uint8_t MAX_HITS = 5;
-        uint16_t hit_peaks[MAX_HITS]{};
-        uint8_t  hit_count{0};
-        uint32_t last_hit_time{0};
-
-        uint32_t roll_start{0};
-        bool roll_started{false};  // true once first hit detected during roll phase
-
-        uint16_t normal_ref[4]{};
-        uint16_t max_hit[4]{};
-        uint16_t max_crosstalk[4]{};
         uint16_t recommended_thresholds[4]{};
-        bool     pad_done[4]{};
+        Mode mode_before_cancel{Mode::Inactive};
 
-        bool high_crosstalk_warning{false};
-        const char* error_msg{nullptr};
-
-        static constexpr uint32_t ROLL_DURATION_MS          = 3000;
-        static constexpr uint32_t ROLL_START_TIMEOUT_MS     = 4000;
-        static constexpr uint32_t PAD_DONE_DISPLAY_MS        = 1500;
-        static constexpr uint32_t OVERVIEW_DISPLAY_MS        = 2200;
-        static constexpr uint32_t COMPLETE_DISPLAY_MS        = 3000;
-        static constexpr uint32_t SAVING_DISPLAY_MS          = 800;
-        static constexpr uint32_t PHASE_TRANSITION_DELAY_MS  = 2000;  // 2s buffer between phases
-
-        // Phase transition: what's coming next (points to string literal)
-        const char* transition_next_label{nullptr};
-        Mode transition_next_mode{Mode::PadNormal};
-
-        static constexpr uint16_t MIN_HIT_STRENGTH    = 30;
-        static constexpr uint16_t MIN_ACCEPTABLE_MAX  = 200;
-        static constexpr uint16_t MIN_STRONG_DELTA    = 35;
-        static constexpr uint32_t HIT_COOLDOWN_MS     = 80;
-        static constexpr uint16_t SAFETY_MARGIN_DON   = 20;
-        static constexpr uint16_t SAFETY_MARGIN_KA    = 35;
-        static constexpr uint16_t MIN_THRESHOLD_DON   = 70;
-        static constexpr uint16_t MIN_THRESHOLD_KA    = 95;
-
+        uint8_t normal_hits_done{0};
+        bool hard_hit_done{false};
+        uint32_t last_target_hit_time{0};
         uint32_t phase_start{0};
 
+        bool bleed_watch_active{false};
+        uint32_t bleed_watch_until{0};
+        uint8_t bleed_target_index{0};
+        uint16_t bleed_watch_peaks[4]{};
+        uint8_t last_offender_mask{0};
+        uint16_t last_threshold_before_raise[4]{};
+        uint8_t retry_count_for_pad{0};
+        uint8_t prev_hit_mask{0};
+        uint8_t prev_cross_mask{0};
+        uint8_t prev_arb_mask{0};
+        uint8_t prev_held_mask{0};
+        WatchSuccessAction watch_success_action{WatchSuccessAction::None};
+
+        static constexpr uint8_t REQUIRED_NORMAL_HITS = 5;
+        static constexpr uint16_t MIN_TARGET_HIT_STRENGTH = 30;
+        static constexpr uint16_t TARGET_DOMINANCE_SLACK = 16;
+        static constexpr uint32_t HIT_COOLDOWN_MS = 80;
+        static constexpr uint32_t BLEED_WATCH_MS = 140;
+        static constexpr uint16_t BLEED_PRETRIGGER_MARGIN = 110;
+        static constexpr uint16_t THRESHOLD_STEP = 5;
+        static constexpr uint16_t THRESHOLD_MAX = 1500;
+        static constexpr uint32_t COMPLETE_DISPLAY_MS = 2400;
+        static constexpr uint32_t SAVING_DISPLAY_MS = 800;
+        static constexpr uint32_t CANCELLED_DISPLAY_MS = 1200;
+
         void reset() {
-            current_mode  = Mode::Inactive;
-            current_pad   = 0;
-            current_step  = 0;
-            hit_count     = 0;
-            last_hit_time = 0;
-            roll_start    = 0;
-            roll_started  = false;
-            phase_start   = 0;
+            current_mode = Mode::Inactive;
+            mode_before_cancel = Mode::Inactive;
+            current_pad = 0;
+            normal_hits_done = 0;
+            hard_hit_done = false;
+            last_target_hit_time = 0;
+            phase_start = 0;
+            bleed_watch_active = false;
+            bleed_watch_until = 0;
+            bleed_target_index = 0;
+            last_offender_mask = 0;
+            retry_count_for_pad = 0;
+            prev_hit_mask = 0;
+            prev_cross_mask = 0;
+            prev_arb_mask = 0;
+            prev_held_mask = 0;
+            watch_success_action = WatchSuccessAction::None;
             for (uint8_t i = 0; i < 4; ++i) {
-                normal_ref[i] = max_hit[i] = max_crosstalk[i] = 0;
                 recommended_thresholds[i] = 0;
-                pad_done[i] = false;
+                bleed_watch_peaks[i] = 0;
+                last_threshold_before_raise[i] = 0;
             }
-            for (uint8_t i = 0; i < MAX_HITS; ++i) hit_peaks[i] = 0;
-            high_crosstalk_warning = false;
-            error_msg = nullptr;
-            transition_next_mode = Mode::PadNormal;
         }
 
         void startWelcome() { reset(); current_mode = Mode::Welcome; }
-
-        void _beginHitPhase(Mode m) {
-            current_mode  = m;
-            hit_count     = 0;
-            last_hit_time = 0;
-            for (uint8_t i = 0; i < MAX_HITS; ++i) hit_peaks[i] = 0;
+        void startInstructions() { current_mode = Mode::Instructions; }
+        void startPadNormal() {
+            current_mode = Mode::PadNormal;
+            normal_hits_done = 0;
+            hard_hit_done = false;
+            last_target_hit_time = 0;
+            bleed_watch_active = false;
+            bleed_watch_until = 0;
+            last_offender_mask = 0;
+            watch_success_action = WatchSuccessAction::None;
+            for (uint8_t i = 0; i < 4; ++i) {
+                bleed_watch_peaks[i] = 0;
+                last_threshold_before_raise[i] = recommended_thresholds[i];
+            }
             phase_start = to_ms_since_boot(get_absolute_time());
         }
-
-        void startPadNormal() { _beginHitPhase(Mode::PadNormal); }
-        void startPadHard()   { _beginHitPhase(Mode::PadHard);   }
-
-        void startPadRoll() {
-            current_mode = Mode::PadRoll;
-            roll_start   = 0;        // Timer starts on first hit, not on entry
-            roll_started = false;
-            phase_start  = to_ms_since_boot(get_absolute_time());
+        void startPadHardPrompt() { current_mode = Mode::PadHardPrompt; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startPadHard() {
+            current_mode = Mode::PadHard;
+            hard_hit_done = false;
+            last_target_hit_time = 0;
+            bleed_watch_active = false;
+            bleed_watch_until = 0;
+            watch_success_action = WatchSuccessAction::None;
+            for (uint8_t i = 0; i < 4; ++i) {
+                bleed_watch_peaks[i] = 0;
+            }
+            phase_start = to_ms_since_boot(get_absolute_time());
         }
-
-        void startPhaseTransition(const char* next_label, Mode next_mode) {
-            current_mode         = Mode::PhaseTransition;
-            transition_next_label = next_label;
-            transition_next_mode  = next_mode;
-            phase_start          = to_ms_since_boot(get_absolute_time());
-        }
-
-        void startPadDone()  { current_mode = Mode::PadDone;   phase_start = to_ms_since_boot(get_absolute_time()); }
-        void startOverview() { current_mode = Mode::Overview;  phase_start = to_ms_since_boot(get_absolute_time()); }
-        void startSaving()   { current_mode = Mode::Saving;    phase_start = to_ms_since_boot(get_absolute_time()); }
-        void startComplete() { current_mode = Mode::Complete;  phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startBleedDetected() { current_mode = Mode::BleedDetected; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startReview() { current_mode = Mode::Review; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startSaving() { current_mode = Mode::Saving; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startComplete() { current_mode = Mode::Complete; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startCancelConfirm() { mode_before_cancel = current_mode; current_mode = Mode::CancelConfirm; phase_start = to_ms_since_boot(get_absolute_time()); }
+        void startCancelled() { current_mode = Mode::Cancelled; phase_start = to_ms_since_boot(get_absolute_time()); }
 
         [[nodiscard]] bool isActive() const { return current_mode != Mode::Inactive; }
 
         [[nodiscard]] uint8_t currentPadIndex() const { return PAD_ORDER[current_pad]; }
         [[nodiscard]] const char* currentPadName() const { return PAD_NAMES[current_pad]; }
 
-        [[nodiscard]] float getRollProgress() const {
-            if (!roll_started) return 0.0f;
-            uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - roll_start;
-            if (elapsed >= ROLL_DURATION_MS) return 1.0f;
-            return static_cast<float>((elapsed * 1000u) / ROLL_DURATION_MS) * 0.001f;
-        }
-
-        [[nodiscard]] uint32_t getRollSecondsRemaining() const {
-            if (!roll_started) return ROLL_DURATION_MS / 1000;
-            uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - roll_start;
-            if (elapsed >= ROLL_DURATION_MS) return 0;
-            return (ROLL_DURATION_MS - elapsed + 999) / 1000;
-        }
-
-        [[nodiscard]] uint16_t medianOfHits() const {
-            uint8_t n = hit_count < 3 ? hit_count : 3;
-            if (n == 0) return 0;
-            if (n == 1) return hit_peaks[0];
-            if (n == 2) return (hit_peaks[0] + hit_peaks[1]) / 2;
-            uint16_t a = hit_peaks[0], b = hit_peaks[1], c = hit_peaks[2];
-            if (a > b) { uint16_t t = a; a = b; b = t; }
-            if (b > c) { uint16_t t = b; b = c; c = t; }
-            if (a > b) { uint16_t t = a; a = b; b = t; }
-            (void)a; (void)c;
-            return b;
-        }
-
         [[nodiscard]] bool hasRecommendations() const {
             for (uint8_t i = 0; i < 4; ++i) { if (recommended_thresholds[i] > 0) return true; }
             return false;
         }
-
-        void computeThreshold(uint8_t i) {
-            // Guard: if we have no valid hit data, use a safe default rather than 0
-            if (normal_ref[i] == 0 || max_hit[i] == 0) {
-                recommended_thresholds[i] = 150;  // Safe fallback - won't break detection
-                return;
-            }
-            bool is_ka = (i == 1 || i == 3);
-            uint16_t margin = is_ka ? SAFETY_MARGIN_KA : SAFETY_MARGIN_DON;
-            uint16_t min_floor = is_ka ? MIN_THRESHOLD_KA : MIN_THRESHOLD_DON;
-            if (max_hit[i] > 0) {
-                uint32_t crosstalk_ratio_permille = (static_cast<uint32_t>(max_crosstalk[i]) * 1000u) / max_hit[i];
-                if (crosstalk_ratio_permille >= 450u) {
-                    margin += 24;
-                } else if (crosstalk_ratio_permille >= 350u) {
-                    margin += 14;
-                } else if (crosstalk_ratio_permille >= 250u) {
-                    margin += 8;
-                }
-            }
-            uint16_t crosstalk_thr = max_crosstalk[i] + margin;
-            uint16_t floor_thr = static_cast<uint16_t>((static_cast<uint32_t>(normal_ref[i]) * 45u) / 100u);
-            if (floor_thr < min_floor) floor_thr = min_floor;
-            uint16_t candidate = crosstalk_thr > floor_thr ? crosstalk_thr : floor_thr;
-            uint16_t cap_normal = static_cast<uint16_t>((static_cast<uint32_t>(normal_ref[i]) * 55u) / 100u);
-            uint16_t cap_hit    = max_hit[i] >> 1;
-            uint16_t cap = cap_normal < cap_hit ? cap_normal : cap_hit;
-            if (cap < min_floor) cap = min_floor;
-            if (candidate > cap) {
-                candidate = cap;
-                if (max_crosstalk[i] > (max_hit[i] >> 1)) high_crosstalk_warning = true;
-            }
-            recommended_thresholds[i] = candidate;
-        }
-
-        // Compute all 4 thresholds at once -- called AFTER all pads have rolled
-        // so max_crosstalk[] is fully populated for every pad before any threshold is computed.
-        void computeAllThresholds() {
-            for (uint8_t i = 0; i < 4; ++i) {
-                computeThreshold(i);
-            }
-        }
     };
 
   private:
+    enum class SideWinner : uint8_t {
+        None = 0,
+        Don,
+        Ka,
+    };
+
     // ============================================================================
     // Pad: Fixed circular buffer - ZERO heap allocation, deterministic timing
     // ============================================================================
@@ -341,7 +281,8 @@ class Drum {
     class InternalAdc : public AdcInterface {
       private:
         Config::InternalAdc m_config;
-        std::array<uint16_t, 4> m_baseline_values{225, 225, 390, 390};
+        // Aug-2025 known-good initialization profile
+        std::array<uint16_t, 4> m_baseline_values{400, 400, 400, 400};
 
       public:
         InternalAdc(const Config::InternalAdc &config);
@@ -362,19 +303,31 @@ class Drum {
     // Order MUST match Id enum: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
     // ============================================================================
     std::array<Pad, 4> m_pads;
+    // Event-gated digital hit state:
+    // - armed: must dip below release level before retriggering
+    // - press_until: keep hit asserted for a short fixed pulse width
+    // - rearm_until: minimum spacing between accepted hits per pad
+    std::array<bool, 4> m_hit_armed{{true, true, true, true}};
+    std::array<uint32_t, 4> m_press_until_ms{};
+    std::array<uint32_t, 4> m_rearm_until_ms{};
+    std::array<uint16_t, 4> m_last_trigger_level{};
+    std::array<uint32_t, 4> m_dbg_hit_until_ms{};
+    std::array<uint32_t, 4> m_dbg_cross_until_ms{};
+    std::array<uint32_t, 4> m_dbg_arb_until_ms{};
+    std::array<uint32_t, 4> m_last_rise_ms{};
+    std::array<uint32_t, 2> m_same_side_lock_until_ms{};
+    std::array<SideWinner, 2> m_same_side_winner{{SideWinner::None, SideWinner::None}};
 
     RollCounter m_roll_counter;
 
-    TantrumState m_tantrum_state;
-    uint32_t m_last_tantrum_report_version{0};
-    char m_last_tantrum_report[512]{};
-
-
+    GuidedCalState m_guided_cal_state;
+    uint32_t m_last_guided_cal_report_version{0};
+    char m_last_guided_cal_report[512]{};
 
     void updateDigitalInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
     void updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values);
     std::array<uint16_t, 4> readInputs();
-    void _finishCurrentPadRoll();
+    void _finishCurrentPadTest();
     void _advanceToNextPad();
 
   public:
@@ -386,17 +339,17 @@ class Drum {
     void setTriggerThresholds(const Config::Thresholds &thresholds);
 
     // Guided calibration wizard public interface
-    void startTaikoTantrum();          // Entry point: begins at Welcome screen
-    void updateTaikoTantrum(const std::array<uint16_t, 4> &raw_values);
-    void advanceCalibWizard();         // A button: advance through wizard steps
-    void cancelTaikoTantrum();         // B button: cancel at any point
-    void applyTantrumRecommendations();
-    [[nodiscard]] bool isTantrumActive() const { return m_tantrum_state.isActive(); }
-    [[nodiscard]] const TantrumState& getTantrumState() const { return m_tantrum_state; }
-    [[nodiscard]] const char* getLastTantrumReport() const { return m_last_tantrum_report; }
-    [[nodiscard]] uint32_t getLastTantrumReportVersion() const { return m_last_tantrum_report_version; }
+    void startGuidedCalibration();  // Entry point: begins at Welcome screen
+    void updateGuidedCalibration(const Utils::InputState::Drum &drum_state, const std::array<uint16_t, 4> &raw_values);
+    void advanceCalibWizard();  // A button: advance through wizard steps
+    void cancelGuidedCalibration();  // B button: cancel at any point
+    void applyGuidedCalRecommendations();
+    [[nodiscard]] bool isGuidedCalActive() const { return m_guided_cal_state.isActive(); }
+    [[nodiscard]] const GuidedCalState &getGuidedCalState() const { return m_guided_cal_state; }
+    [[nodiscard]] const char *getLastGuidedCalReport() const { return m_last_guided_cal_report; }
+    [[nodiscard]] uint32_t getLastGuidedCalReportVersion() const { return m_last_guided_cal_report_version; }
 
-    const Config::Thresholds& getCurrentThresholds() const {
+    const Config::Thresholds &getCurrentThresholds() const {
         return m_config.trigger_thresholds;
     }
 };
@@ -406,3 +359,5 @@ class Drum {
 #endif // PERIPHERALS_DRUM_H_
 
 // End of file Drum.h
+
+

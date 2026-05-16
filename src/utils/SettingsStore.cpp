@@ -22,37 +22,86 @@ uint8_t read_byte(uint32_t offset) {
     return *(reinterpret_cast<uint8_t *>(XIP_BASE + offset));
 }
 
+struct __attribute((packed, aligned(1))) LegacyStorecacheV1 {
+    uint8_t in_use;
+    uint8_t version;
+    usb_mode_t usb_mode;
+    OuchiTaiko::Peripherals::Drum::Config::Thresholds trigger_thresholds;
+    uint8_t led_brightness;
+    bool led_enable_player_color;
+    uint16_t debounce_delay;
+    std::array<uint8_t, FLASH_PAGE_SIZE - sizeof(uint8_t) - sizeof(uint8_t) - sizeof(usb_mode_t) -
+                            sizeof(OuchiTaiko::Peripherals::Drum::Config::Thresholds) - sizeof(uint8_t) -
+                            sizeof(bool) - sizeof(uint16_t)>
+        _padding;
+};
+static_assert(sizeof(LegacyStorecacheV1) == FLASH_PAGE_SIZE);
+
+bool is_old_waveshare_threshold_baseline(const OuchiTaiko::Peripherals::Drum::Config::Thresholds &thresholds) {
+    return thresholds.don_left == 60 && thresholds.ka_left == 150 &&
+           thresholds.don_right == 80 && thresholds.ka_right == 180;
+}
+
 } // namespace
 
 SettingsStore::SettingsStore()
     : m_store_cache({.in_use = m_magic_byte,
-                     .version = 1,  // Increment this when settings format changes
+                     .version = m_store_version,  // Increment this when settings format changes
                      .usb_mode = Config::Default::usb_mode,
                      .trigger_thresholds = Config::Default::drum_config.trigger_thresholds,
                      .led_brightness = Config::Default::led_config.brightness,
                      .led_enable_player_color = Config::Default::led_config.enable_player_color,
                      .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
-                     .tantrum_report_version = 0,
-                     .tantrum_report = {},
+                     .guided_cal_report_version = 0,
+                     .guided_cal_session_id = 0,
+                     .guided_cal_uptime_ms = 0,
+                     .guided_cal_usb_mode = Config::Default::usb_mode,
+                     .guided_cal_report = {},
                      ._padding = {}}) {
     uint32_t current_page = m_flash_offset + m_flash_size - m_store_size;
     bool found_valid = false;
+    uint8_t found_version = 0;
     for (size_t i = 0; i < m_store_pages; ++i) {
         if (read_byte(current_page) == m_magic_byte) {
-            // Check version compatibility
             uint8_t stored_version = read_byte(current_page + 1);
-            if (stored_version == 1) {  // Only load if version matches
+            if (stored_version == m_store_version || stored_version == m_store_version_legacy_v1) {
                 found_valid = true;
+                found_version = stored_version;
                 break;
             }
-            // If version mismatch, treat as invalid and use defaults
         }
         current_page -= m_store_size;
     }
 
     if (found_valid) {
-        m_store_cache = *(reinterpret_cast<Storecache *>(XIP_BASE + current_page));
-        m_dirty = false;
+        if (found_version == m_store_version) {
+            m_store_cache = *(reinterpret_cast<Storecache *>(XIP_BASE + current_page));
+            m_dirty = false;
+        } else {
+            // Migrate v1 settings into current v2 schema.
+            const auto legacy = *(reinterpret_cast<LegacyStorecacheV1 *>(XIP_BASE + current_page));
+            m_store_cache.in_use = m_magic_byte;
+            m_store_cache.version = m_store_version;
+            m_store_cache.usb_mode = legacy.usb_mode;
+            m_store_cache.trigger_thresholds = legacy.trigger_thresholds;
+            m_store_cache.led_brightness = legacy.led_brightness;
+            m_store_cache.led_enable_player_color = legacy.led_enable_player_color;
+            m_store_cache.debounce_delay = legacy.debounce_delay;
+            m_store_cache.guided_cal_report_version = 0;
+            m_store_cache.guided_cal_session_id = 0;
+            m_store_cache.guided_cal_uptime_ms = 0;
+            m_store_cache.guided_cal_usb_mode = legacy.usb_mode;
+            m_store_cache.guided_cal_report.fill('\0');
+            m_dirty = true;
+        }
+    }
+
+    // One-time safety migration: early Waveshare builds shipped with a low
+    // threshold baseline. Preserve user-tuned values, but move untouched old
+    // defaults to the current played-in baseline.
+    if (is_old_waveshare_threshold_baseline(m_store_cache.trigger_thresholds)) {
+        m_store_cache.trigger_thresholds = Config::Default::drum_config.trigger_thresholds;
+        m_dirty = true;
     }
 }
 
@@ -103,28 +152,34 @@ void SettingsStore::setDebounceDelay(const uint16_t delay) {
 }
 uint16_t SettingsStore::getDebounceDelay() const { return m_store_cache.debounce_delay; }
 
-void SettingsStore::setLastTantrumReport(uint32_t version, const char* report) {
+void SettingsStore::setLastGuidedCalReport(uint32_t version, const char* report, usb_mode_t mode, uint32_t uptime_ms) {
     if (report == nullptr) {
         report = "";
     }
 
-    constexpr size_t max_len = sizeof(m_store_cache.tantrum_report) - 1;
-    char normalized[sizeof(m_store_cache.tantrum_report)]{};
+    constexpr size_t max_len = sizeof(m_store_cache.guided_cal_report) - 1;
+    char normalized[sizeof(m_store_cache.guided_cal_report)]{};
     std::strncpy(normalized, report, max_len);
     normalized[max_len] = '\0';
 
-    if (m_store_cache.tantrum_report_version != version ||
-        std::strncmp(m_store_cache.tantrum_report.data(), normalized, sizeof(m_store_cache.tantrum_report)) != 0) {
-        m_store_cache.tantrum_report_version = version;
-        std::memcpy(m_store_cache.tantrum_report.data(), normalized, sizeof(m_store_cache.tantrum_report));
-        m_store_cache.tantrum_report.back() = '\0';
+    if (m_store_cache.guided_cal_report_version != version ||
+        std::strncmp(m_store_cache.guided_cal_report.data(), normalized, sizeof(m_store_cache.guided_cal_report)) != 0) {
+        m_store_cache.guided_cal_report_version = version;
+        m_store_cache.guided_cal_session_id++;
+        m_store_cache.guided_cal_uptime_ms = uptime_ms;
+        m_store_cache.guided_cal_usb_mode = mode;
+        std::memcpy(m_store_cache.guided_cal_report.data(), normalized, sizeof(m_store_cache.guided_cal_report));
+        m_store_cache.guided_cal_report.back() = '\0';
         m_dirty = true;
     }
 }
 
-uint32_t SettingsStore::getLastTantrumReportVersion() const { return m_store_cache.tantrum_report_version; }
+uint32_t SettingsStore::getLastGuidedCalReportVersion() const { return m_store_cache.guided_cal_report_version; }
+uint32_t SettingsStore::getLastGuidedCalSessionId() const { return m_store_cache.guided_cal_session_id; }
+uint32_t SettingsStore::getLastGuidedCalUptimeMs() const { return m_store_cache.guided_cal_uptime_ms; }
+usb_mode_t SettingsStore::getLastGuidedCalUsbMode() const { return m_store_cache.guided_cal_usb_mode; }
 
-const char* SettingsStore::getLastTantrumReport() const { return m_store_cache.tantrum_report.data(); }
+const char* SettingsStore::getLastGuidedCalReport() const { return m_store_cache.guided_cal_report.data(); }
 
 void SettingsStore::store() {
     bool force_write = (m_scheduled_reboot != RebootType::None);
@@ -222,14 +277,17 @@ void SettingsStore::reset() {
     // Reset cache to factory defaults BEFORE erasing flash
     m_store_cache = Storecache{
         .in_use = m_magic_byte,
-        .version = 1,
+        .version = m_store_version,
         .usb_mode = Config::Default::usb_mode,
         .trigger_thresholds = Config::Default::drum_config.trigger_thresholds,
         .led_brightness = Config::Default::led_config.brightness,
         .led_enable_player_color = Config::Default::led_config.enable_player_color,
         .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
-        .tantrum_report_version = 0,
-        .tantrum_report = {},
+        .guided_cal_report_version = 0,
+        .guided_cal_session_id = 0,
+        .guided_cal_uptime_ms = 0,
+        .guided_cal_usb_mode = Config::Default::usb_mode,
+        .guided_cal_report = {},
         ._padding = {}
     };
     
@@ -255,3 +313,5 @@ void SettingsStore::scheduleReboot(const bool bootsel) {
 }
 
 } // namespace OuchiTaiko::Utils
+
+

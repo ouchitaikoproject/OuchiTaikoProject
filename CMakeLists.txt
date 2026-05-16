@@ -20,7 +20,7 @@ if((NOT DEFINED ENV{PICO_SDK_PATH}) AND (NOT PICO_SDK_PATH))
 endif()
 
 if((NOT DEFINED ENV{PICO_BOARD}) AND (NOT PICO_BOARD))
-  set(PICO_BOARD "seeed_xiao_rp2040")
+  set(PICO_BOARD "waveshare_rp2040_zero")
 endif()
 
 include(${USERHOME}/.pico-sdk/sdk/${sdkVersion}/pico_sdk_init.cmake)

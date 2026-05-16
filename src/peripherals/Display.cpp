@@ -14,6 +14,7 @@
 #include <cmath>
 #include <sstream>
 #include <cstring>
+#include <cstdio>
 
 namespace OuchiTaiko::Peripherals {
 
@@ -158,7 +159,7 @@ std::string modeToString(usb_mode_t mode) {
     case USB_MODE_MIDI:
         return "MIDI";
     case USB_MODE_DEBUG:
-        return "Debug";
+        return "Web Cal";
     }
     return "?";
 }
@@ -203,18 +204,20 @@ void Display::setCurrentThresholds(const Peripherals::Drum::Config::Thresholds &
     m_current_thresholds = thresholds;
 }
 
+void Display::setBringupTestState(const BringupTestState &state) {
+    m_bringup_test_state = state;
+}
+
 void Display::showIdle() { m_state = State::Idle; }
 void Display::showMenu() { m_state = State::Menu; }
 
-void Display::showTantrumWelcome()    { m_state = State::TantrumWelcome; }
-void Display::showTantrumPadHitting() { m_state = State::TantrumPadHitting; }
-void Display::showTantrumPhaseTransition() { m_state = State::TantrumPhaseTransition; }
-void Display::showTantrumPadRoll()    { m_state = State::TantrumPadRoll; }
-void Display::showTantrumPadDone()    { m_state = State::TantrumPadDone; }
-void Display::showTantrumOverview()   { m_state = State::TantrumOverview; }
-void Display::showTantrumSaving()     { m_state = State::TantrumSaving; }
-void Display::showTantrumComplete()   { m_state = State::TantrumComplete; }
-void Display::showTantrumError()      { m_state = State::TantrumError; }
+void Display::showGuidedCalWelcome() { m_state = State::GuidedCalWelcome; }
+void Display::showGuidedCalPadTest() { m_state = State::GuidedCalPadTest; }
+void Display::showGuidedCalOverview() { m_state = State::GuidedCalOverview; }
+void Display::showGuidedCalSaving() { m_state = State::GuidedCalSaving; }
+void Display::showGuidedCalComplete() { m_state = State::GuidedCalComplete; }
+void Display::showGuidedCalError() { m_state = State::GuidedCalError; }
+void Display::showBringupTest() { m_state = State::BringupTest; }
 
 void Display::showRebootCountdown() {
     m_reboot_countdown_start = to_ms_since_boot(get_absolute_time());
@@ -589,67 +592,49 @@ void Display::drawMenuScreen() {
     // Draw separator line below header
     ssd1306_draw_line(&m_display, 0, 10, 127, 10);
 
-    // UNIFIED THRESHOLDS SCREEN (cleaned up: clear layout, no clutter)
+    // UNIFIED THRESHOLDS SCREEN
     if (descriptor_it->second.type == Utils::Menu::Descriptor::Type::UnifiedThresholds && m_drum != nullptr) {
         auto thresholds = m_current_thresholds;
+        uint8_t sel = static_cast<uint8_t>(m_menu_state.selected_value);
 
-        // Title
-        ssd1306_draw_string(&m_display, 0, 0, 1, "Manual Thresholds");
+        ssd1306_draw_string(&m_display, 0, 0, 1, "PAD THRESHOLDS");
         ssd1306_draw_line(&m_display, 0, 9, 127, 9);
 
-        // Compact help line
-        ssd1306_draw_string(&m_display, 0, 11, 1, "UD:sel  LR:adj");
+        constexpr int col_center[4] = {16, 48, 80, 112};
+        constexpr int label_y = 14;
+        constexpr int value_y = 24;
+        constexpr int underline_y = 33;
 
-        ssd1306_draw_line(&m_display, 0, 20, 127, 20);
+        const char* labels[4] = {"KL", "DL", "DR", "KR"};
+        uint16_t values[4] = {thresholds.ka_left, thresholds.don_left, thresholds.don_right, thresholds.ka_right};
 
-        // 4 thresholds in 2 rows x 2 cols
-        // Row 0: KaL (sel 0) | KaR (sel 3)
-        // Row 1: DonL(sel 1) | DonR(sel 2)
-        char ka_left_str[12], ka_right_str[12], don_left_str[12], don_right_str[12];
-        snprintf(ka_left_str,   sizeof(ka_left_str),   "KaL  %4u", thresholds.ka_left);
-        snprintf(ka_right_str,  sizeof(ka_right_str),  "KaR  %4u", thresholds.ka_right);
-        snprintf(don_left_str,  sizeof(don_left_str),  "DonL %4u", thresholds.don_left);
-        snprintf(don_right_str, sizeof(don_right_str), "DonR %4u", thresholds.don_right);
+        for (int i = 0; i < 4; ++i) {
+            int label_x = col_center[i] - 6;
+            ssd1306_draw_string(&m_display, label_x, label_y, 1, labels[i]);
 
-        // Draw selection marker (>) for selected row
-        uint8_t sel = (uint8_t)m_menu_state.selected_value;
+            char value_str[8];
+            snprintf(value_str, sizeof(value_str), "%u", values[i]);
+            int text_width = static_cast<int>(strlen(value_str)) * 6;
+            int value_x = col_center[i] - (text_width / 2);
+            if (value_x < 0) value_x = 0;
+            if (value_x + text_width > 127) value_x = 127 - text_width;
 
-        // Row y=22: KaL | KaR
-        if (sel == 0) ssd1306_draw_string(&m_display, 0, 22, 1, ">");
-        if (sel == 3) ssd1306_draw_string(&m_display, 64, 22, 1, ">");
-        ssd1306_draw_string(&m_display, 8,  22, 1, ka_left_str);
-        ssd1306_draw_string(&m_display, 72, 22, 1, ka_right_str);
+            ssd1306_draw_string(&m_display, value_x, value_y, 1, value_str);
 
-        // Row y=31: DonL | DonR
-        if (sel == 1) ssd1306_draw_string(&m_display, 0, 31, 1, ">");
-        if (sel == 2) ssd1306_draw_string(&m_display, 64, 31, 1, ">");
-        ssd1306_draw_string(&m_display, 8,  31, 1, don_left_str);
-        ssd1306_draw_string(&m_display, 72, 31, 1, don_right_str);
-
-        ssd1306_draw_line(&m_display, 0, 41, 127, 41);
-
-        // Live drum animation (compact, y center = 48)
-        bool ka_left_hit  = m_input_state.drum.ka_left.triggered   && !m_last_ka_left;
-        bool don_left_hit = m_input_state.drum.don_left.triggered  && !m_last_don_left;
-        bool don_right_hit= m_input_state.drum.don_right.triggered && !m_last_don_right;
-        bool ka_right_hit = m_input_state.drum.ka_right.triggered  && !m_last_ka_right;
-        if (ka_left_hit)   activateRing(0);
-        if (don_left_hit)  activateRing(1);
-        if (don_right_hit) activateRing(2);
-        if (ka_right_hit)  activateRing(3);
-        m_last_ka_left   = m_input_state.drum.ka_left.triggered;
-        m_last_don_left  = m_input_state.drum.don_left.triggered;
-        m_last_don_right = m_input_state.drum.don_right.triggered;
-        m_last_ka_right  = m_input_state.drum.ka_right.triggered;
-        updateRings(); drawRings();
-        for (int i = 0; i < 4; i++) {
-            uint8_t x = DRUM_CENTERS[i][0], y = DRUM_CENTERS[i][1];
-            for (int dy=-1;dy<=1;dy++) for (int dx=-1;dx<=1;dx++) ssd1306_draw_pixel(&m_display,x+dx,y+dy);
+            if (sel == i) {
+                int left = col_center[i] - 11;
+                int right = col_center[i] + 11;
+                if (left < 0) left = 0;
+                if (right > 127) right = 127;
+                ssd1306_draw_line(&m_display, left, underline_y, right, underline_y);
+            }
         }
 
-        // Footer
-        ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-        ssd1306_draw_string(&m_display, 14, 56, 1, "B:Cancel  A:Save");
+        ssd1306_draw_line(&m_display, 0, 37, 127, 37);
+        ssd1306_draw_string(&m_display, 4, 42, 1, "L/R SEL");
+        ssd1306_draw_string(&m_display, 72, 42, 1, "U/D ADJ");
+        ssd1306_draw_string(&m_display, 4, 54, 1, "B CANCEL");
+        ssd1306_draw_string(&m_display, 76, 54, 1, "A SAVE");
 
         return;
     }
@@ -791,6 +776,40 @@ void Display::drawMenuScreen() {
     }
 }
 
+void Display::drawBringupTestScreen() {
+    static constexpr const char *targets[] = {
+        "SHARE", "HOME", "SELECT", "START",
+        "L", "R", "LEFT", "UP", "DOWN", "RIGHT",
+        "Y", "X", "B", "A",
+        "KA LEFT", "DON LEFT", "DON RIGHT", "KA RIGHT"
+    };
+    static constexpr uint8_t target_count = sizeof(targets) / sizeof(targets[0]);
+
+    ssd1306_draw_string(&m_display, 0, 0, 1, "Bring-Up Test");
+    ssd1306_draw_line(&m_display, 0, 10, 128, 10);
+
+    if (m_bringup_test_state.current_index >= target_count) {
+        const char *pass = "PASS";
+        int pass_width = static_cast<int>(strlen(pass)) * 12;
+        ssd1306_draw_string(&m_display, (128 - pass_width) / 2, 18, 2, pass);
+        ssd1306_draw_string(&m_display, 14, 42, 1, "All inputs confirmed");
+        ssd1306_draw_string(&m_display, 10, 56, 1, "Power cycle to exit");
+        return;
+    }
+
+    ssd1306_draw_string(&m_display, 10, 18, 1, "Tap this input once:");
+
+    const char *label = targets[m_bringup_test_state.current_index];
+    int label_width = static_cast<int>(strlen(label)) * 12;
+    ssd1306_draw_string(&m_display, (128 - label_width) / 2, 30, 2, label);
+
+    char progress[20];
+    snprintf(progress, sizeof(progress), "%u/%u",
+             static_cast<unsigned>(m_bringup_test_state.current_index + 1),
+             static_cast<unsigned>(target_count));
+    ssd1306_draw_string(&m_display, 0, 56, 1, progress);
+}
+
 
 void Display::drawRebootCountdown() {
     uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - m_reboot_countdown_start;
@@ -865,161 +884,116 @@ void Display::drawRebootCountdown() {
 //             ssd1306_draw_pixel(d, col, row);
 // }
 
-void Display::drawTantrumWelcomeScreen() {
-    const char* hdr = "AUTO CALIBRATE";
-    ssd1306_draw_string(&m_display, (128 - (int)strlen(hdr)*6)/2, 0, 1, hdr);
+void Display::drawGuidedCalWelcomeScreen() {
+    if (!m_drum) return;
+    const auto& s = m_drum->getGuidedCalState();
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
+    const auto drawFooter = [&](const char* left, const char* right) {
+        ssd1306_draw_line(&m_display, 0, 52, 127, 52);
+        char combined[32];
+        snprintf(combined, sizeof(combined), "%s  %s", left, right);
+        drawCentered(55, 1, combined);
+    };
+
+    if (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::CancelConfirm) {
+        const char* hdr = "CANCEL GUIDED?";
+        drawCentered(0, 1, hdr);
+        ssd1306_draw_line(&m_display, 0, 10, 127, 10);
+        drawCentered(20, 1, "Changes will not");
+        drawCentered(29, 1, "be saved.");
+        drawFooter("B Back", "A Cancel");
+        return;
+    }
+
+    if (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::Cancelled) {
+        const char* hdr = "CANCELLED";
+        drawCentered(6, 2, hdr);
+        ssd1306_draw_line(&m_display, 0, 26, 127, 26);
+        drawCentered(35, 1, "No thresholds saved.");
+        drawCentered(44, 1, "Returning to menu");
+        return;
+    }
+
+    if (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::Instructions) {
+        const char* hdr = "HOW IT WORKS";
+        drawCentered(0, 1, hdr);
+        ssd1306_draw_line(&m_display, 0, 10, 127, 10);
+        drawCentered(16, 1, "For each pad:");
+        drawCentered(27, 1, "5 fast normal hits");
+        drawCentered(38, 1, "1 hard hit at end");
+        drawFooter("B Back", "A Continue");
+        return;
+    }
+
+    const char* hdr = "GUIDED CAL";
+    drawCentered(0, 1, hdr);
     ssd1306_draw_line(&m_display, 0, 10, 127, 10);
-
-    ssd1306_draw_string(&m_display, 4, 14, 1, "Use one hand only.");
-    ssd1306_draw_string(&m_display, 4, 23, 1, "Use game-like force.");
-
-    ssd1306_draw_line(&m_display, 0, 34, 127, 34);
-    ssd1306_draw_string(&m_display, 4, 37, 1, "3 phases per pad:");
-    ssd1306_draw_string(&m_display, 4, 46, 1, "normal, hard, rapid");
-
-    const char* begin = "B: Cancel  A: Begin";
-    ssd1306_draw_string(&m_display, (128 - (int)strlen(begin)*6)/2, 56, 1, begin);
+    drawCentered(20, 1, "Tests one drum pad");
+    drawCentered(29, 1, "at a time.");
+    drawCentered(41, 1, "Auto Adjusts Others.");
+    drawFooter("B Back", "A Start");
 }
 
 // Phase dots removed -- each phase now has its own clear standalone screen
 
-void Display::drawTantrumPadHittingScreen() {
+void Display::drawGuidedCalPadTestScreen() {
     if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
-    bool is_hard = (s.current_mode == Peripherals::Drum::TantrumState::Mode::PadHard);
+    const auto& s = m_drum->getGuidedCalState();
+    const bool is_hard_prompt = (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::PadHardPrompt);
+    const bool is_hard = (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::PadHard);
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
 
-    // Header: pad name + pad number
     char hdr[24];
     snprintf(hdr, sizeof(hdr), "%s (%u/4)", s.currentPadName(), (unsigned)(s.current_pad + 1));
-    int hw = (int)strlen(hdr) * 6;
-    ssd1306_draw_string(&m_display, (128 - hw)/2, 0, 1, hdr);
+    drawCentered(0, 1, hdr);
     ssd1306_draw_line(&m_display, 0, 9, 127, 9);
 
-    // Phase label (large, centered)
-    const char* phase = is_hard ? "STRONG" : "NORMAL";
-    int pw = (int)strlen(phase) * 12;
-    ssd1306_draw_string(&m_display, (128 - pw)/2, 12, 2, phase);
+    if (is_hard_prompt) {
+        drawCentered(16, 1, "HIT HARD ONCE");
+        drawCentered(30, 2, "NOW");
+        ssd1306_draw_line(&m_display, 0, 52, 127, 52);
+        drawCentered(55, 1, "B Cancel");
+        return;
+    }
 
-    ssd1306_draw_line(&m_display, 0, 30, 127, 30);
+    if (is_hard) {
+        drawCentered(16, 1, "HIT HARD ONCE");
+        drawCentered(30, 2, "NOW");
+        ssd1306_draw_line(&m_display, 0, 52, 127, 52);
+        drawCentered(55, 1, "B Cancel");
+        return;
+    }
 
-    // Hit counter (large, centered)
-    uint8_t done = s.hit_count > 3 ? 3 : s.hit_count;
-    char hits[8];
-    snprintf(hits, sizeof(hits), "%u / 3", (unsigned)done);
-    int hcw = (int)strlen(hits) * 12;
-    ssd1306_draw_string(&m_display, (128 - hcw)/2, 34, 2, hits);
-
-    ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    // Bottom instruction
-    const char* instr = is_hard ? "One hand hardest hit" : "One hand normal hit";
-    int iw = (int)strlen(instr) * 6;
-    ssd1306_draw_string(&m_display, (128 - iw)/2, 57, 1, instr);
-}
-
-void Display::drawTantrumPadRollScreen() {
-    if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
-
-    // Header
-    char hdr[24];
-    snprintf(hdr, sizeof(hdr), "%s (%u/4)", s.currentPadName(), (unsigned)(s.current_pad + 1));
-    int hw = (int)strlen(hdr) * 6;
-    ssd1306_draw_string(&m_display, (128 - hw)/2, 0, 1, hdr);
-    ssd1306_draw_line(&m_display, 0, 9, 127, 9);
-
-    // Phase label
-    const char* phase = "RAPID";
-    int pw = (int)strlen(phase) * 12;
-    ssd1306_draw_string(&m_display, (128 - pw)/2, 12, 2, phase);
-    ssd1306_draw_line(&m_display, 0, 30, 127, 30);
-
-    // Progress bar
-    float pct = s.getRollProgress();
-    const int BAR_X = 6, BAR_Y = 38, BAR_W = 104, BAR_H = 9;
-    ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X+BAR_W, BAR_Y);
-    ssd1306_draw_line(&m_display, BAR_X, BAR_Y+BAR_H, BAR_X+BAR_W, BAR_Y+BAR_H);
-    ssd1306_draw_line(&m_display, BAR_X, BAR_Y, BAR_X, BAR_Y+BAR_H);
-    ssd1306_draw_line(&m_display, BAR_X+BAR_W, BAR_Y, BAR_X+BAR_W, BAR_Y+BAR_H);
-    int fill = (int)(pct * (BAR_W - 4));
-    for (int y = BAR_Y+2; y < BAR_Y+BAR_H-1; y++)
-        for (int x = BAR_X+2; x < BAR_X+2+fill; x++)
-            ssd1306_draw_pixel(&m_display, x, y);
-
-    // Timer
-    char ts[12];
-    snprintf(ts, sizeof(ts), "%u", (unsigned)s.getRollSecondsRemaining());
-    ssd1306_draw_string(&m_display, 114, BAR_Y+1, 1, ts);
-
-    // Instruction
-    const char* instr = s.roll_started ? "One hand keep going" : "One hand rapid start";
-    int iw = (int)strlen(instr) * 6;
-    ssd1306_draw_string(&m_display, (128 - iw)/2, 56, 1, instr);
-}
-
-void Display::drawTantrumPhaseTransitionScreen() {
-    if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
-
-    // Big centered checkmark-style "Done"
-    const char* done = "Phase Done!";
-    int dw = (int)strlen(done) * 6;
-    ssd1306_draw_string(&m_display, (128 - dw)/2, 8, 1, done);
-    ssd1306_draw_line(&m_display, 0, 18, 127, 18);
-
-    // What's coming next
-    const char* next_hdr = "Starting next:";
-    int nhw = (int)strlen(next_hdr) * 6;
-    ssd1306_draw_string(&m_display, (128 - nhw)/2, 24, 1, next_hdr);
-
-    const char* next_label = s.transition_next_label ? s.transition_next_label : "";
-    int nlw = (int)strlen(next_label) * 12;
-    ssd1306_draw_string(&m_display, (128 - nlw)/2, 33, 2, next_label);
-
-    ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    // Simple countdown indicator
-    uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - s.phase_start;
-    uint32_t remaining_ms = (elapsed < 2000) ? (2000 - elapsed) : 0;
-    char ts[16];
-    snprintf(ts, sizeof(ts), "(%us)...", (unsigned)((remaining_ms + 999) / 1000));
-    int tw = (int)strlen(ts) * 6;
-    ssd1306_draw_string(&m_display, (128 - tw)/2, 57, 1, ts);
-}
-
-void Display::drawTantrumPadDoneScreen() {
-    if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
-
-    uint8_t padIdx = s.currentPadIndex();
-    uint16_t thr = s.recommended_thresholds[padIdx];
-
-    // Pad name (large)
-    const char* name = s.currentPadName();
-    int nw = (int)strlen(name) * 12;
-    ssd1306_draw_string(&m_display, (128 - nw)/2, 2, 2, name);
-    ssd1306_draw_line(&m_display, 0, 19, 127, 19);
-
-    const char* done_str = "Calibrated!";
-    int dw = (int)strlen(done_str) * 6;
-    ssd1306_draw_string(&m_display, (128 - dw)/2, 24, 1, done_str);
-
-    char tstr[8];
-    snprintf(tstr, sizeof(tstr), "%u", (unsigned)thr);
-    int tw = (int)strlen(tstr) * 12;
-    ssd1306_draw_string(&m_display, (128 - tw)/2, 33, 2, tstr);
-
+    drawCentered(13, 1, "5 normal hits");
+    char hits[16];
+    snprintf(hits, sizeof(hits), "Hits: %u / %u",
+             static_cast<unsigned>(s.normal_hits_done),
+             static_cast<unsigned>(Peripherals::Drum::GuidedCalState::REQUIRED_NORMAL_HITS));
+    drawCentered(29, 1, hits);
+    drawCentered(42, 1, "HIT TARGET");
     ssd1306_draw_line(&m_display, 0, 52, 127, 52);
-    const char* next = s.current_pad < 3 ? "Next pad loading..." : "Finalizing results...";
-    int nextw = (int)strlen(next) * 6;
-    ssd1306_draw_string(&m_display, (128 - nextw)/2, 55, 1, next);
+    drawCentered(55, 1, "B Cancel");
 }
 
-void Display::drawTantrumOverviewScreen() {
+void Display::drawGuidedCalOverviewScreen() {
     if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
+    const auto& s = m_drum->getGuidedCalState();
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
 
-    const char* title = "Review Results";
-    int tw = (int)strlen(title) * 6;
-    ssd1306_draw_string(&m_display, (128 - tw)/2, 0, 1, title);
+    const char* title = "Review Thresholds";
+    drawCentered(0, 1, title);
     ssd1306_draw_line(&m_display, 0, 9, 127, 9);
 
     // 2x2 threshold grid
@@ -1035,56 +1009,78 @@ void Display::drawTantrumOverviewScreen() {
     ssd1306_draw_line(&m_display, 0, 31, 127, 31);
 
     // Keep final review screen clean and static for readability.
-    const char* hint = s.high_crosstalk_warning ? "High XTALK-check isolate" : "Review before apply";
-    int hw = (int)strlen(hint) * 6;
-    ssd1306_draw_string(&m_display, (128 - hw)/2, 33, 1, hint);
+    const char* hint = "Ready to save";
+    drawCentered(33, 1, hint);
 
-    ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    const char* foot = "Applying... B:Cancel";
-    int fw = (int)strlen(foot) * 6;
-    ssd1306_draw_string(&m_display, (128 - fw)/2, 56, 1, foot);
+    ssd1306_draw_line(&m_display, 0, 52, 127, 52);
+    drawCentered(55, 1, "B Cancel  A Save");
 }
 
-void Display::drawTantrumSavingScreen() {
+void Display::drawGuidedCalSavingScreen() {
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
     const char* line1 = "Saving...";
-    int l1w = (int)strlen(line1) * 12;
-    ssd1306_draw_string(&m_display, (128 - l1w)/2, 12, 2, line1);
+    drawCentered(12, 2, line1);
     ssd1306_draw_line(&m_display, 0, 32, 127, 32);
     const char* line2 = "Writing to flash";
-    int l2w = (int)strlen(line2) * 6;
-    ssd1306_draw_string(&m_display, (128 - l2w)/2, 38, 1, line2);
+    drawCentered(38, 1, line2);
 }
 
-void Display::drawTantrumCompleteScreen() {
+void Display::drawGuidedCalCompleteScreen() {
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
     const char* line1 = "DONE!";
-    int l1w = (int)strlen(line1) * 12;
-    ssd1306_draw_string(&m_display, (128 - l1w)/2, 4, 2, line1);
-    ssd1306_draw_line(&m_display, 0, 22, 127, 22);
-    const char* line2 = "Thresholds saved.";
-    int l2w = (int)strlen(line2) * 6;
-    ssd1306_draw_string(&m_display, (128 - l2w)/2, 27, 1, line2);
-    const char* line3 = "Play mode resumed.";
-    int l3w = (int)strlen(line3) * 6;
-    ssd1306_draw_string(&m_display, (128 - l3w)/2, 36, 1, line3);
-    const char* line4 = "Calibration complete";
-    int l4w = (int)strlen(line4) * 6;
-    ssd1306_draw_string(&m_display, (128 - l4w)/2, 45, 1, line4);
+    drawCentered(18, 2, line1);
+    const char* line2 = "Returning To";
+    drawCentered(42, 1, line2);
+    const char* line3 = "Settings Menu";
+    drawCentered(51, 1, line3);
 }
 
-void Display::drawTantrumErrorScreen() {
+void Display::drawGuidedCalErrorScreen() {
     if (!m_drum) return;
-    const auto& s = m_drum->getTantrumState();
-    const char* title = "Redo";
-    int titw = (int)strlen(title) * 12;
-    ssd1306_draw_string(&m_display, (128 - titw)/2, 4, 2, title);
-    ssd1306_draw_line(&m_display, 0, 22, 127, 22);
-    const char* msg = s.error_msg ? s.error_msg : "Try again";
-    int mw = (int)strlen(msg) * 6;
-    ssd1306_draw_string(&m_display, (128 - mw)/2, 30, 1, msg);
-    ssd1306_draw_line(&m_display, 0, 54, 127, 54);
-    const char* foot = "B:Cancel  A:Retry";
-    int fw = (int)strlen(foot) * 6;
-    ssd1306_draw_string(&m_display, (128 - fw)/2, 56, 1, foot);
+    const auto& s = m_drum->getGuidedCalState();
+    const auto drawCentered = [&](int y, int scale, const char* text) {
+        const int char_w = scale == 2 ? 12 : 6;
+        const int w = (int)strlen(text) * char_w;
+        ssd1306_draw_string(&m_display, (128 - w) / 2, y, scale, text);
+    };
+    const char* title = "BLEED DETECTED";
+    drawCentered(1, 1, title);
+    ssd1306_draw_line(&m_display, 0, 10, 127, 10);
+
+    uint8_t offender_count = 0;
+    for (uint8_t i = 0; i < 4; ++i) {
+        if ((s.last_offender_mask & (1u << i)) != 0) {
+            offender_count++;
+        }
+    }
+
+    if (offender_count == 1) {
+        const char* offender = "Unknown";
+        for (uint8_t i = 0; i < 4; ++i) {
+            if ((s.last_offender_mask & (1u << i)) != 0) {
+                offender = Peripherals::Drum::GuidedCalState::PAD_NAMES[i];
+                break;
+            }
+        }
+        char msg[24];
+        snprintf(msg, sizeof(msg), "Raised %s +5", offender);
+        drawCentered(23, 1, msg);
+    } else {
+        drawCentered(19, 1, "Raised multiple");
+        drawCentered(28, 1, "offending pads");
+    }
+
+    drawCentered(43, 1, "Repeat target pad");
+    ssd1306_draw_line(&m_display, 0, 52, 127, 52);
+    drawCentered(55, 1, "B Cancel  A Retry");
 }
 
 // ==========================================================
@@ -1229,32 +1225,26 @@ void Display::update() {
     case State::Menu:
         drawMenuScreen();
         break;
-    case State::TantrumWelcome:
-        drawTantrumWelcomeScreen();
+    case State::GuidedCalWelcome:
+        drawGuidedCalWelcomeScreen();
         break;
-    case State::TantrumPadHitting:
-        drawTantrumPadHittingScreen();
+    case State::GuidedCalPadTest:
+        drawGuidedCalPadTestScreen();
         break;
-    case State::TantrumPhaseTransition:
-        drawTantrumPhaseTransitionScreen();
+    case State::GuidedCalOverview:
+        drawGuidedCalOverviewScreen();
         break;
-    case State::TantrumPadRoll:
-        drawTantrumPadRollScreen();
+    case State::GuidedCalSaving:
+        drawGuidedCalSavingScreen();
         break;
-    case State::TantrumPadDone:
-        drawTantrumPadDoneScreen();
+    case State::GuidedCalComplete:
+        drawGuidedCalCompleteScreen();
         break;
-    case State::TantrumOverview:
-        drawTantrumOverviewScreen();
+    case State::GuidedCalError:
+        drawGuidedCalErrorScreen();
         break;
-    case State::TantrumSaving:
-        drawTantrumSavingScreen();
-        break;
-    case State::TantrumComplete:
-        drawTantrumCompleteScreen();
-        break;
-    case State::TantrumError:
-        drawTantrumErrorScreen();
+    case State::BringupTest:
+        drawBringupTestScreen();
         break;
     case State::RebootCountdown:
         drawRebootCountdown();
@@ -1267,3 +1257,8 @@ void Display::update() {
 } // namespace OuchiTaiko::Peripherals
 
 // End of file Display.cpp
+
+
+
+
+
