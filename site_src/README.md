@@ -242,18 +242,38 @@ You will solder:
 ### Step 1: Solder Passive Components
 Install:
 
-- `R1–R4` = 1K resistors  
-- `C1–C4` = 0.1uF capacitors  
-- `D1–D4` = 1N4148 diodes  
+- `R1-R4` = 1K resistors
 
-Ensure diode black bands match the silkscreen (cathode to the **left** when viewed from above).
+<div align="center">
+<img src="images/Pictures/pcbresistors.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+- `C1-C4` = 0.1uF capacitors
+
+<div align="center">
+<img src="images/Pictures/pcbcapacitors.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+- `D1-D4` = 1N4148 diodes
+
+<div align="center">
+<img src="images/Pictures/pcbdiodes.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+Important: Ensure diode black bands match the silkscreen (cathode to the **left** when viewed from above).
+
+
 
 ---
 
 ### Step 2: Solder the 14 Buttons
-Install all navigation buttons in their labeled positions.
+Install all navigation buttons.
 
-The rectangular pin layout must match the PCB footprint. Ensure each button sits flat before soldering all four legs.
+<div align="center">
+<img src="images/Pictures/pcbbuttons.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+The button legs will actually appear in a rectangular layout - longer on one side. The holes will match that shape - there is no polarity as long as that orientation is adhered to. Ensure each button sits flat before soldering all four legs.
 
 ---
 
@@ -265,15 +285,32 @@ Install the OLED using the following pin order (verify yours matches):
 - SCL  
 - SDA  
 
+<div align="center">
+<img src="images/Pictures/pcboled.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
 ---
 
 ### Step 4: Install the TRS Drum Input Jacks
 Install the four PJ‑320A jacks. Their pin layout only fits one orientation.
 
+<div align="center">
+<img src="images/Pictures/pcbjacks.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
 ---
 
 ### Step 5: Mount the RP2040‑Zero
 Install the Waveshare RP2040‑Zero. Only the 20 castellated perimeter pads need soldering.
+
+<div align="center">
+<img src="images/Pictures/pcbwaveshare.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
 
 A helpful soldering demonstration:  
 https://youtu.be/rGvvwXrv310?t=312
