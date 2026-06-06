@@ -12,11 +12,9 @@ Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience 
 
 ---
 
-<a id="project-overview"></a>
 # 1. Project Overview
 
-<a id="the-finished-build"></a>
-## The Finished Build
+### The Finished Build
 This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor‑Standing Tripod Mode** or **Table‑Top Mode**.
 
 <div align="center">
@@ -39,7 +37,6 @@ This guide is intentionally thorough and detailed — the goal is simple: **less
 
 ---
 
-<a id="key-features-and-world-firsts-not-seen-in-any-other-existing-projects"></a>
 # Key Features and World Firsts Not Seen In Any Other Existing Projects
 
 Traditional Taiko controllers often require constant threshold tuning, extensive coding and firmware recompiling, or compromises between sensitivity and false triggers.
@@ -51,8 +48,7 @@ Traditional Taiko controllers often require constant threshold tuning, extensive
 3. Custom Sensor Suspension System
 ---
 
-<a id="guided-calibration"></a>
-## 1) Guided Calibration
+### 1) Guided Calibration
 OuchiTaiko includes two guided calibration options:
 
 - HTML Guided Calibration for the preferred full setup workflow  
@@ -64,8 +60,7 @@ OuchiTaiko includes two guided calibration options:
 
 ---
 
-<a id="adaptive-baseline-software-intelligence-absi"></a>
-## 2) Adaptive Baseline Software Intelligence (ABSI)
+### 2) Adaptive Baseline Software Intelligence (ABSI)
 ABSI was created by me jsut for this project, and I am very proud of it.  It drastically improves stability through software rather than complex analog circuitry.
 
 - Automatic sensitivity adjustment based on environmental noise  
@@ -74,8 +69,7 @@ ABSI was created by me jsut for this project, and I am very proud of it.  It dra
 
 ---
 
-<a id="custom-arcade-sensor-suspension-modeled-after-japanese-taiko-arcade-hardware"></a>
-## 3) Custom Arcade Sensor Suspension Modeled After Japanese Taiko Arcade Hardware
+### 3) Custom Arcade Sensor Suspension Modeled After Japanese Taiko Arcade Hardware
 A mechanically isolated sensor housing improves consistency and reduces noise.
 
 Benefits include:
@@ -87,10 +81,8 @@ Benefits include:
 
 ---
 
-<a id="complete-hardware-features"></a>
 ## Complete Hardware & Features
 
-<a id="standalone-testing-display"></a>
 ### Standalone Testing & Display
 No PC required for basic verification.
 
@@ -101,7 +93,6 @@ No PC required for basic verification.
 
 ---
 
-<a id="professional-hardware"></a>
 ### Professional Hardware
 
 - Custom PCB designed specifically for this project  
@@ -112,7 +103,6 @@ No PC required for basic verification.
 
 ---
 
-<a id="controller-modes"></a>
 ### Controller Modes
 
 | Mode | Platform Compatibility
@@ -134,7 +124,6 @@ No PC required for basic verification.
 
 ---
 
-<a id="zero-coding-required"></a>
 ### Zero Coding Required
 
 - Drag‑and‑drop firmware flashing  
@@ -144,14 +133,12 @@ No PC required for basic verification.
 
 ---
 
-<a id="demo-video"></a>
 ### Demo Video
 
 - Gameplay: https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux
 
 ---
 
-<a id="parts-list-for-electronics"></a>
 # 2. Parts List for Electronics
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -175,12 +162,10 @@ These linked parts are verified to work together as tested. Similar/comparable p
 
 ---
 
-<a id="parts-list-for-hardware"></a>
 # 3. Parts List for Hardware
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="required-tools-supplies"></a>
 ## Required Tools & Supplies
 
 1. Laser cutter, CNC, or alternative cutting method  
@@ -195,7 +180,6 @@ These linked parts are verified to work together as tested. Similar/comparable p
 10. Utility knife  
 11. Rubber mallet  
 
-<a id="hardware-parts-list"></a>
 ## Hardware Parts List
 
 | Item | Pieces Needed | Product Link |
@@ -225,7 +209,6 @@ These linked parts are verified to work together as tested. Similar/comparable p
 
 ---
 
-<a id="assemble-the-controller-pcb"></a>
 # 4. Assemble the Controller PCB
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -238,7 +221,6 @@ These linked parts are verified to work together as tested. Similar/comparable p
 <img src="images/pictures/pcbfilledtop.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="purchase-the-ouchitaiko-controller-pcb-circuit-baord"></a>
 ## Purchase the OuchiTaiko Controller PCB (Circuit Baord).
 
 My project is set up to where you will order the through-hole circuit board and then solder the basic components in yourself.  This saves time, money, and eliminates any room for error.
@@ -256,7 +238,6 @@ However, since I made my project open source, you have 100% control over where h
 [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) is the PCB Gerber file package.
 
 
-<a id="control-pcb-overview"></a>
 ## Control PCB Overview
 
 My custom OuchiTaiko PCB integrates controller logic, display wiring, navigation buttons, and drum input circuitry all together into a single compact board.
@@ -275,10 +256,8 @@ That's it!  Everything is just attached via basic soldering.
 
 ---
 
-<a id="recommended-assembly-order"></a>
 ## Recommended Assembly Order
 
-<a id="step-1-solder-passive-components"></a>
 ### Step 1: Solder Passive Components
 Install:
 
@@ -306,7 +285,6 @@ Important: Ensure diode black bands match the silkscreen (cathode to the **left*
 
 ---
 
-<a id="step-2-solder-the-14-buttons"></a>
 ### Step 2: Solder the 14 Buttons
 Install all navigation buttons.
 
@@ -318,7 +296,6 @@ The button legs will actually appear in a rectangular layout orientation - longe
 
 ---
 
-<a id="step-3-mount-the-oled"></a>
 ### Step 3: Mount the OLED
 Install the OLED using the following pin order (verify that yours matches):
 
@@ -335,7 +312,6 @@ Install the OLED using the following pin order (verify that yours matches):
 
 ---
 
-<a id="step-4-install-the-trs-drum-input-jacks"></a>
 ### Step 4: Install the TRS Drum Input Jacks
 Install the four PJ‑320A jacks. Their pin layout only fits into one orientation.
 
@@ -347,7 +323,6 @@ Install the four PJ‑320A jacks. Their pin layout only fits into one orientatio
 
 ---
 
-<a id="step-5-mount-the-rp2040-zero"></a>
 ### Step 5: Mount the RP2040‑Zero
 Install the Waveshare RP2040‑Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
 
@@ -361,7 +336,6 @@ https://youtu.be/rGvvwXrv310?t=312
 
 ---
 
-<a id="inspect-your-work"></a>
 ## Inspect Your Work
 
 Before powering on, confirm:
@@ -381,11 +355,9 @@ If you were just building the controller and sensors for an existing drum that y
 
 
 
-<a id="build-the-sensor-housings"></a>
 # **5: Build the Sensor Housings**
 
-<a id="print-the-sensor-housings"></a>
-## **5.0: Print The Sensor Housings**
+### **Print The Sensor Housings**
 
 💾 [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) is the sensor housing STL file
 
@@ -395,23 +367,20 @@ Use **PLA filament**.
 
 **Printer Settings:** 0.2mm layer height, 40% Gyroid infill, no supports needed.
 
+---
 
-
-<a id="assemble-sensor-electronics"></a>
 ## **5.1: Assemble Sensor Electronics**
 
 🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
-<a id="cut-neoprene-discs"></a>
 ### **Cut neoprene discs**
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
 💾 [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
 
+---
 
-
-<a id="glue-neoprene-disc-to-housing"></a>
 ### **Glue neoprene disc to housing**
 
 Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
@@ -420,9 +389,8 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 <img src="images/pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="prepare-end-of-trs-sensor-wires"></a>
 ### **Prepare end of TRS Sensor Wires**
 
 Since you are starting with long lenths of wire, you have two choices to proceed.
@@ -442,9 +410,8 @@ The difference in length is because you want them to be slightly offset as in th
 
 
 
+---
 
-
-<a id="solder-to-piezo"></a>
 ### **Solder to Piezo**
 
 Now solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates how to do this easily.
@@ -453,9 +420,8 @@ Now solder the **red** wire to piezo center disc, and solder the **black** wire 
 <img src="images/pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="glue-piezo-to-neoprene-mount"></a>
 ### **Glue Piezo to Neoprene Mount**
 
 Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
@@ -469,9 +435,8 @@ Add several drops of **Superglue** onto the top surface of neoprene that is alre
 <div align="center">
 <img src="images/pictures/piezomount.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
+---
 
-
-<a id="enclose-housing"></a>
 ### **Enclose Housing**
 
 Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
@@ -481,10 +446,17 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 <img src="images/pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="repeat-these-steps-so-that-you-end-up-with-4-complete-sensor-assemblies"></a>
+
+
 #### **Repeat these steps so that you end up with 4 complete sensor assemblies**
 
-<a id="build-the-drum"></a>
+
+
+
+
+
+
+
 # **6: Build the Drum**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -495,12 +467,10 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 **No laser cutter or CNC access?** No worries - there are other options. Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets of paper (ensure your printer is set to 100% scale / "Actual Size"), and then overlay the paper on your wood as a template.  You would then cut and drill by hand. Double check that your printed templates are sized properly before cutting or drilling anything.
 
+---
 
-
-<a id="prepare-the-wood"></a>
 ## **6.1: Prepare the Wood**
 
-<a id="cut-all-mdf-wood-pieces-per-svg-templates"></a>
 ### **Cut all MDF wood pieces per SVG templates**
 
 💾 [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) and [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) are the wood template files
@@ -519,19 +489,16 @@ Use your laser or CNC machine (or the method available to you) to cut out all of
 <img src="images/pictures/bothbaseplates.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="sand-smooth-as-needed"></a>
 ### **Sand smooth as needed**
 
 Sand down any rough edges and surfaces from the cutting step, and wipe off sawdust to prepare for gluing.
 
+---
 
-
-<a id="assemble-the-drum-structure"></a>
 ## **6.2: Assemble the Drum Structure**
 
-<a id="glue-the-rear-baseplates-together"></a>
 ### **Glue the rear baseplates together**
 
 Use **wood glue** to glue the two identical rear baseplates together (they are 100% identical, just align the holes and glue together). Clamp securely or weigh down and let dry for several hours. You can also temporarily insert some 6mm bolts into the holes to ensure the two plates remain exactly aligned. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - if so, re-align and clamp harder.
@@ -550,9 +517,8 @@ Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for
 <img src="images/pictures/weightclamps.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="assemble-and-glue-the-drum-faceplates-together"></a>
 ### **Assemble and glue the drum faceplates together**
 
 There will be 4 finished drum faceplates that you will be assembling during this step: Left Ka, Left Don, Right Don, and Right Ka. Each faceplate consists of TWO pieces - a smooth TOP plate along with a corresponding BOTTOM plate with holes in it.
@@ -565,8 +531,7 @@ There will be 4 finished drum faceplates that you will be assembling during this
 <img src="images/pictures/donkaglued.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="for-ka-plates"></a>
-#### For Ka Plates
+**For Ka Plates:**
 
 Let's start with the Ka plates - specifically, the Left Ka. You will be using the Left Ka TOP and the Left Ka BOTTOM plate.
 
@@ -574,8 +539,7 @@ Apply wood glue to the underside of the top Ka plate and apply wood glue to the 
 
 **Repeat this exact same process for the Right Ka.**
 
-<a id="for-don-plates"></a>
-#### For Don Plates
+**For Don Plates:**
 
 Apply wood glue to the underside of the top Don plate and apply wood glue to the topside of the lower Don plate (don't forget, each piece is exactly the same in this step only, so it is up to you which is the top part and which is the bottom part). Press the two pieces together and clamp or weigh them down. Until the glue really starts to set, periodically check the plates to make sure no shifting has occurred - if so, re-align and clamp harder. Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for 24 hours before continuing past the gluing steps.
 
@@ -584,9 +548,7 @@ Apply wood glue to the underside of the top Don plate and apply wood glue to the
 When complete, you will have 4 faceplates - each consisting of a top half and a bottom half.
 
 
-
-
-<a id="sand-all-don-ka-and-baseplate-edges"></a>
+---
 ### **Sand all Don, Ka, and Baseplate Edges**
 - Sand any extra glue off of the surfaces of the drum and
 - Be EXTRA sure to sand off any excess glue that has dripped out of the edges/seams.  This will ensure a clean, uniform surface to work with.
@@ -596,9 +558,7 @@ When complete, you will have 4 faceplates - each consisting of a top half and a 
 <img src="images/pictures/laseredges.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-
-
-<a id="routchamfer-all-don-ka-rim-edges"></a>
+---
 ### **Rout/Chamfer all Don Ka rim edges**
 
 
@@ -618,6 +578,8 @@ This procedure helps prevent stick damage and wear and tear on your drum and cov
 <img src="images/pictures/deburr2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+
+
 <div align="center">
 <img src="images/pictures/routededges.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
@@ -630,15 +592,14 @@ This procedure helps prevent stick damage and wear and tear on your drum and cov
 <img src="images/pictures/allfaces.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="spray-all-wood-with-clear-lacquer"></a>
 ### **Spray All Wood With Clear Lacquer**
 You may now spray several coats of Clear Lacquer Spray Paint to the front back and sides all wood pieces.  This will help protect and seal the wood and reduce wear and tear.  Spray a single coat, let sit for 45 minutes.  Spray two more coats in a similar manner.  Let dry completely for 4 hours after the final coat before continuing.
 
+---
 
 
-<a id="drill-holes-for-threaded-inserts"></a>
 ### **Drill Holes For Threaded Inserts**
 
 The following step allows the drum to be built with no visible mounting holes on the drum face. This improves aesthetics and reduces wear on sticks and the drum cover. You will drill holes into the underside of the top faceplates so the threaded inserts for the grommets can be installed from beneath and remain invisible.
@@ -671,9 +632,8 @@ Carefully Drill **straight** down into those 9.5mm holes and turn them into new 
 <img src="images/pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="chamferbevel-holes"></a>
 ### **Chamfer/Bevel holes**
 
 Using a Deburring tool, Chamfer/Bevel the (inner) rim of each of the 14 holes you just drilled hole so that the tapered head of the threaded inserts will tighten down flush and feel smooth when your fingers pass over them. This chamfering can be done with a sharp screwdriver or a sharp knife if you don't have a deburring tool. 
@@ -691,9 +651,8 @@ Make sure you repeat this exact same process for all 14 holes.
 </div>
 
 
+---
 
-
-<a id="install-the-m6-threaded-inserts"></a>
 ### **Install the M6 threaded inserts**
 
 Screw in the **14 individual M6 threaded wood inserts** into the corresponding holes until flush (add a drop of **Superglue** to the *outside* of threads to help permanently secure them to wood).  
@@ -701,6 +660,8 @@ Screw in the **14 individual M6 threaded wood inserts** into the corresponding h
 If you feel that your threaded insert won't go flush, deburr a little more material to make the taper in the wood larger.
 
 It is absolutely crucial that these threaded inserts are flush or JUST below the surface to ensure that the grommets in future steps will sit flush.
+
+
 
 <div align="center">
 <img src="images/pictures/kagrommettool.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -712,15 +673,13 @@ It is absolutely crucial that these threaded inserts are flush or JUST below the
 
 
 
+---
 
-
-<a id="install-m3-threaded-inserts-into-wooden-faceplates"></a>
 ### **Install M3 threaded inserts into wooden faceplates**
 
 Each faceplate has **two  4.5mm holes on the underside** where sensor housings will mount using M3 threaded inserts.  You'll be inserting a total of 8 M3x3mm threaded inserts
 
-<a id="installation"></a>
-#### Installation
+**Installation:**
 
 Place a small drop of superglue on the outer edge of each M3x3 threaded insert before you install it.  Rest the insert on top of the 4.5mm hole with the narrow side down, and make sure the insert is level.
 
@@ -745,9 +704,7 @@ This is how it will look when all M6 and M3 threaded inserts are installed:
 </div>
 
 
-
-
-<a id="prepare-the-stainless-steel-mounts"></a>
+---
 ### **Prepare The Stainless Steel Mounts**
 
 The Official Taiko Arcade Drum Controllers use large, machine-cut steel metal plates mounted to the rear of the wooden faceplates.  These metal plates add rigidity which, in turn, help absorb vibration, improve stick feedback, as well as help dampen the sound.  My original design for this project included plans to make your own metal plates, but that required heavy machinery which was extremely impractical and dangerous, not to mention, Steel plates can get very expensive.
@@ -758,8 +715,9 @@ The 1/4" x 1-1/2 OD" Stainless Steel Fender Washers mounts you will be construct
 
 You will still get the true arcade benefits of rigidity, vibration absorption, improved stick feedback, and sound dampening without ANY of trouble of using actual steel plates...and for only a few dollars!
 
-<a id="prepare-the-stainless-steel-washer-stacks"></a>
-#### Prepare the Stainless Steel Washer Stacks
+
+
+**Prepare the Stainless Steel Washer Stacks:**
 
 (Note, the washers may have one side that is slightly sloped/rounded, if so, make that the top face and orient them all the same)
 
@@ -805,10 +763,8 @@ You will still get the true arcade benefits of rigidity, vibration absorption, i
 
    
 
-<a id="assemble-the-rubber-isolators"></a>
 ## **6.3: Assemble The Rubber Isolators**
 
-<a id="cut-nylon-bolt-head"></a>
 ### **Cut nylon bolt head**
 
 1. Measure 20mm of length on one of the 35mm Nylon Bolts.
@@ -824,16 +780,14 @@ You will still get the true arcade benefits of rigidity, vibration absorption, i
 </div>
 
 
+---
 
-
-<a id="apply-loctite-to-isolator"></a>
 ### **Apply Loctite to isolator**
 
 Apply one drop or less of **Loctite** to threads on the inside of the rubber isolator threaded hole.
 
+---
 
-
-<a id="install-bolt-in-isolator"></a>
 ### **Install bolt in isolator**
 
 Screw one end of the 20mm bolt into isolator until it stops.
@@ -844,16 +798,14 @@ Screw one end of the 20mm bolt into isolator until it stops.
 
 
 
+---
 
-
-<a id="apply-loctite-to-drum-plate-inserts"></a>
 ### **Apply Loctite to drum plate inserts**
 
 Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts on the bottom face of the drum plates.
 
+---
 
-
-<a id="install-isolatorsteel-washer-assemblies"></a>
 ### **Install isolator/Steel Washer assemblies**
 
 (<a href="https://youtu.be/N6h3QC_hvl8?si=WZEyYCb-pd2_z-tV">HERE</a> is a timelapse video demonstrating how to mount the Isolators and Washers to to the faceplate)
@@ -883,9 +835,8 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
    </div>
 
 
+---
 
-
-<a id="mount-the-sensor-housings-to-the-drum"></a>
 ### **Mount the Sensor Housings to The Drum**
 
 (<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
@@ -909,18 +860,18 @@ Repeat this for each Don and Ka faceplate.
 <img src="images/pictures/allsensorsinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+---
 
-
-<a id="mounting-the-hardware-and-faceplates"></a>
 ## **6.4: Mounting The Hardware And Faceplates**
 
-<a id="mount-adjustable-speaker-plate"></a>
 ### **Mount Adjustable Speaker Plate**
 
 
 1. Place your **speaker bracket** against the rear/bottom of your baseplate so aligns with the 4 pre-cut mounting holes.
 
 2. Feed **Four M6x16 bolts** though a single 1/4" x 1-1/2 OD" Stainless Steel Fender Washer and then through the four mounting holes on the baseplate so that they come out through the speaker mounting plate holes.  Use 4 M6 knobs to tightly secure the mounting plate against the rear of the Drum
+
+
 
 <div align="center">
 <img src="images/pictures/speakerplate2.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -931,9 +882,8 @@ Repeat this for each Don and Ka faceplate.
 </div>
 
 
+---
 
-
-<a id="assemble-drum-faceplates-to-rear-baseplate"></a>
 ### **Assemble Drum Faceplates to Rear Baseplate**
 
 (<a href="https://youtu.be/N6h3QC_hvl8?t=488">HERE</a> is a timelapse video demonstrating how to mount the faceplates to the baseplate)
@@ -949,9 +899,10 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 </div>
 
 
+---
 
 
-<a id="attach-trs-barrel-mounts"></a>
+
 ### **Attach TRS barrel mounts**
 
 💾 [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) is the barrel mount STL file
@@ -962,14 +913,17 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 2. Place the four TRS couplers in the mounts. You will have one pair of Barrel Mounts on each side of the drum.
 3. Attach the sensor wires to the top of their respective Barrel Connector
 
+
+
+
+
 <div align="center">
 <img src="images/pictures/rearwithnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
+---
 
-
-<a id="attach-the-6mm-knobs"></a>
 ### **Attach the 6mm Knobs**
 
 Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all 4 faceplates are securely fastened to the baseplate.
@@ -978,7 +932,8 @@ Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all
 <img src="images/pictures/backalmostdone.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="connect-control-box-extension-cables"></a>
+
+
 ### **Connect Control Box Extension cables**
 
 Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barrel Connectors.  These extension cables will eventually plug into the female TRS jacks on your Control Box. 
@@ -987,17 +942,16 @@ Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barre
 <img src="images/pictures/baseplatecomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
+
+
 ---
 
-<a id="control-box-connection"></a>
 # **7: Control Box Connection**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="floor-stand-mode"></a>
 ## **7.1: Floor Stand Mode**
 
-<a id="mount-drum-to-speaker-stand"></a>
 ### **Mount drum to speaker stand**
 
 Attach the drum and bracket to the speaker stand.
@@ -1006,7 +960,6 @@ Attach the drum and bracket to the speaker stand.
 <img src="images/pictures/speakermount.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="mount-control-box-and-connect-signal-wires"></a>
 ### **Mount control box and connect signal wires**
 
 Mount the control box to the phone holder arm and connect the drum TRS plugs to the matching control box TRS jacks.
@@ -1015,20 +968,16 @@ Mount the control box to the phone holder arm and connect the drum TRS plugs to 
 <img src="images/pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="table-top-mode"></a>
 ## **7.2: Table-Top Mode**
 
-<a id="cut-monitor-stand-tubing"></a>
 ### **Cut monitor stand tubing**
 
 Shorten the monitor stand tube until the drum height feels right for your desk. The example shown is around `150mm`.
 
-<a id="place-control-box-and-connect-wires"></a>
 ### **Place control box and connect wires**
 
 Position the control box on the table and connect the drum signal wires.
 
-<a id="add-drum-cover"></a>
 ### **Add drum cover**
 
 Install an arcade drum cover if possible. Because the drum matches arcade diameter, official-style covers fit properly.
@@ -1042,14 +991,12 @@ If needed, you can experiment with other materials such as:
 
 Thresholds can always be adjusted later to match the cover you choose.
 
-<a id="adjust-height-and-angle"></a>
 ### **Adjust height and angle**
 
 Set the final angle and height for comfort.
 
 ---
 
-<a id="flash-the-firmware"></a>
 # **8: Flash the Firmware**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -1058,12 +1005,12 @@ Set the final angle and height for comfort.
 - [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware.uf2)
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2)
 
-<a id="step-1-enter-bootloader-mode"></a>
 ## **Step 1: Enter Bootloader Mode**
+
+
 
 Hold the **BOOT** button on the RP2040-Zero while connecting it to your PC. The board should appear as a removable `RPI-RP2` drive.
 
-<a id="step-2-wipe-the-board"></a>
 ## **Step 2: Wipe the Board**
 
 It is good practice to flash `universal_flash_nuke.uf2` before flashing the main firmware, especially when switching between builds.
@@ -1072,7 +1019,6 @@ It is good practice to flash `universal_flash_nuke.uf2` before flashing the main
 2. Let the board reboot
 3. Repeat once more if you want a completely clean start
 
-<a id="step-3-flash-the-firmware"></a>
 ## **Step 3: Flash the Firmware**
 
 Drag `ouchitaiko_project_firmware.uf2` onto the drive.
@@ -1083,12 +1029,10 @@ If it does not reboot on its own, wait a few seconds, unplug it, and reconnect i
 
 ---
 
-<a id="calibration-settings"></a>
 # **9: Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="quick-hardware-check"></a>
 ## **Quick Hardware Check**
 
 Before calibration:
@@ -1104,7 +1048,6 @@ The preferred calibration method is the **HTML Guided Calibration** page.
 
 Use the HTML method first whenever possible.
 
-<a id="starting-thresholds"></a>
 ### Starting Thresholds
 
 Start at:
@@ -1114,7 +1057,6 @@ Start at:
 - Don Right: `285`
 - Ka Right: `285`
 
-<a id="html-guided-calibration"></a>
 ### HTML Guided Calibration
 
 1. Connect the controller over USB.
@@ -1132,7 +1074,6 @@ Start at:
 11. Save to the controller.
 12. Test in-game.
 
-<a id="on-device-guided-calibration"></a>
 ### On-Device Guided Calibration
 
 The same method is also available on the controller.
@@ -1151,30 +1092,25 @@ Menu path:
 6. Review the final thresholds.
 7. Save.
 
-<a id="notes"></a>
 ### Notes
 
 - If one pad still false triggers, raise only that pad and test again.
 - Good physical isolation still helps reduce crosstalk.
 
-<a id="manual-threshold-adjustment"></a>
 ## **Manual Threshold Adjustment**
 
 Use **Manual Thresholds** to fine-tune settings after testing in the HTML calibration page.
 
-<a id="access"></a>
 ### **Access**
 
 1. Hold **SELECT** for 1 second
 2. Go to **Drum Tuning**
 3. Select **Manual Thresholds**
 
-<a id="layout"></a>
 ### **Layout**
 
 `KL   DL   DR   KR`
 
-<a id="controls"></a>
 ### **Controls**
 
 | Button | Action |
@@ -1184,7 +1120,6 @@ Use **Manual Thresholds** to fine-tune settings after testing in the HTML calibr
 | **A (EAST)** | Save |
 | **B (SOUTH)** | Cancel |
 
-<a id="threshold-guide"></a>
 ### **Threshold Guide**
 
 - lower value = more sensitive
@@ -1192,7 +1127,6 @@ Use **Manual Thresholds** to fine-tune settings after testing in the HTML calibr
 - range = `0-4095`
 
 
-<a id="controller-mode-selection"></a>
 ## **Controller Mode Selection**
 
 Open the menu, select **Controller Mode**, choose the desired mode, and confirm with **A**. The controller will reboot automatically when the mode changes.
@@ -1218,7 +1152,6 @@ Available modes:
 
 ---
 
-<a id="files-downloads"></a>
 # **10: Files & Downloads**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -1241,50 +1174,42 @@ Additional files can be added here later:
 
 ---
 
-<a id="basic-troubleshooting"></a>
 # **11: Basic Troubleshooting**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="oled-does-not-turn-on"></a>
-## **OLED does not turn on**
+### **OLED does not turn on**
 - check OLED pin order
 - inspect solder joints
 - confirm the RP2040-Zero is installed correctly
 
-<a id="a-drum-lane-does-not-register"></a>
-## **A drum lane does not register**
+### **A drum lane does not register**
 - check piezo solder joints
 - confirm the TRS wiring
 - verify the lane components are populated on the PCB
 - confirm the sensor jack is fully inserted
 
-<a id="a-lane-causes-false-hits-on-another-lane"></a>
-## **A lane causes false hits on another lane**
+### **A lane causes false hits on another lane**
 - switch to **Web Calibrate**
 - use the HTML calibration page
 - raise the threshold of the falsely triggered lane
 - retest
 
-<a id="board-does-not-appear-as-rpi-rp2"></a>
-## **Board does not appear as `RPI-RP2`**
+### **Board does not appear as `RPI-RP2`**
 - reconnect while holding **BOOT**
 - try another USB cable
 - try another USB port
 
 ---
 
-<a id="menu-system-reference"></a>
 # **12: Menu System Reference**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="quick-access"></a>
 ## **Quick Access**
 
 - Hold **SELECT** for about 1 second to open the system menu
 
-<a id="navigation-controls"></a>
 ## **Navigation Controls**
 
 | Button | Action |
@@ -1294,7 +1219,6 @@ Additional files can be added here later:
 | **EAST (A)** | Confirm / save |
 | **SOUTH (B)** | Back / cancel |
 
-<a id="main-menu"></a>
 ## **Main Menu**
 
 - Controller Mode
@@ -1303,20 +1227,17 @@ Additional files can be added here later:
 - USB Flash Mode
 - About
 
-<a id="drum-tuning"></a>
 ## **Drum Tuning**
 
 - Guided Calibration
 - Manual Thresholds
 - Reset Thresholds
 
-<a id="advanced"></a>
 ## **Advanced**
 
 - Reset ALL Settings
 - Hold Time (Debounce)
 
-<a id="idle-screen"></a>
 ## **Idle Screen**
 
 When not in the menu, the OLED shows:
@@ -1328,7 +1249,6 @@ When not in the menu, the OLED shows:
 
 ---
 
-<a id="about"></a>
 # **13: About**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
@@ -1352,14 +1272,12 @@ Useful community resources:
 - [Cons&Stuff :) Discord](https://discord.gg/qEpzyvf8DY)
 - [OpenStick Community / GP2040-ce Discord](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
-<a id="closing-thoughts"></a>
 ## **Closing Thoughts**
 
 Thanks for taking the time to build OuchiTaiko.
 
 If you have project-specific questions or suggestions, use the GitHub Discussions page. You can also ask in the Discord communities above.
 
-<a id="spread-the-word"></a>
 ### **Spread the Word**
 
 If you build one, share it. Tag me (`KillerQ97`) if you post your results.
@@ -1370,12 +1288,10 @@ Enjoy, have fun, and peace out.
 
 ---
 
-<a id="copyright-information"></a>
 # **14: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-<a id="attribution-chain"></a>
 ## **Attribution Chain**
 
 - **Original DonCon2040 firmware:** (c) ravinrabbid (MIT License)
@@ -1384,7 +1300,6 @@ Enjoy, have fun, and peace out.
 
 **Copyright (c) 2025 KillerQ**
 
-<a id="legal-compliance-notice"></a>
 ## **Legal Compliance Notice**
 
 Any distribution of this firmware, binary or source, must include:
@@ -1399,7 +1314,6 @@ Repository license files:
 - [LICENSE-MIT](LICENSE-MIT)
 - [LICENSE-APACHE](LICENSE-APACHE)
 
-<a id="summary"></a>
 ## **Summary**
 
 This project is transparent about its licensing and gives full credit to the upstream projects that made it possible.
@@ -1413,9 +1327,6 @@ Thank you to ravinrabbid and kasasiki3 for their open-source work.
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
-
-
-
 
 
 

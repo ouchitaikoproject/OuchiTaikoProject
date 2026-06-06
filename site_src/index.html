@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -57,8 +57,26 @@
     }
 
     .sidebar-nav > ul > li > ul > li > a {
-      font-weight: 600;
+      font-weight: 650;
+      font-size: 0.96rem;
       color: #5c463b;
+    }
+
+    .sidebar-nav > ul > li > ul > li > ul {
+      margin-top: 0.25rem;
+      margin-left: 0.85rem;
+      padding-left: 0.85rem;
+      border-left: 1px solid rgba(198, 90, 35, 0.12);
+    }
+
+    .sidebar-nav > ul > li > ul > li > ul > li {
+      margin: 0.22rem 0;
+    }
+
+    .sidebar-nav > ul > li > ul > li > ul > li > a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #6e5a4d;
     }
 
     .markdown-section {
@@ -70,7 +88,115 @@
     .markdown-section h1,
     .markdown-section h2,
     .markdown-section h3 {
-      letter-spacing: -0.02em;
+      font-size: 1.02rem;
+      font-weight: 740;
+      margin: 1.15rem 0 0.45rem 4.2rem;
+      color: #3f5e79;
+    }
+    /* Keep all body content under a step visually grouped, not just the first sibling */
+    .markdown-section h3 ~ p,
+    .markdown-section h3 ~ ul,
+    .markdown-section h3 ~ ol,
+    .markdown-section h3 ~ div,
+    .markdown-section h3 ~ table,
+    .markdown-section h3 ~ blockquote {
+      margin-left: 4.2rem;
+      max-width: calc(100% - 4.2rem);
+    }
+
+    /* Stop the grouping when a new heading level begins */
+    .markdown-section h3 ~ h1,
+    .markdown-section h3 ~ h2,
+    .markdown-section h3 ~ h3 {
+      margin-left: 0;
+      max-width: none;
+    }
+
+    /* Keep step images visually centered inside the indented content column */
+    .markdown-section h3 ~ div[align="center"] {
+      text-align: left;
+    }
+
+    .markdown-section h3 ~ div[align="center"] img {
+      display: block;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .markdown-section h1 {
+      font-size: 2.2rem;
+      font-weight: 820;
+      margin: 3rem 0 1.5rem;
+    }
+
+    .markdown-section h2 {
+      display: block;
+      font-size: 1.38rem;
+      font-weight: 800;
+      margin: 2.4rem 0 1rem 1.4rem;
+      padding: 0.2rem 0 0.2rem 1rem;
+      border-left: 5px solid rgba(198, 90, 35, 0.28);
+      color: #24496a;
+    }
+
+    .markdown-section h3 {
+      font-size: 1.02rem;
+      font-weight: 740;
+      margin: 1.15rem 0 0.45rem 4.2rem;
+      color: #3f5e79;
+    }
+    /* Keep all body content under a step visually grouped, not just the first sibling */
+    .markdown-section h3 ~ p,
+    .markdown-section h3 ~ ul,
+    .markdown-section h3 ~ ol,
+    .markdown-section h3 ~ div,
+    .markdown-section h3 ~ table,
+    .markdown-section h3 ~ blockquote {
+      margin-left: 4.2rem;
+      max-width: calc(100% - 4.2rem);
+    }
+
+    /* Stop the grouping when a new heading level begins */
+    .markdown-section h3 ~ h1,
+    .markdown-section h3 ~ h2,
+    .markdown-section h3 ~ h3 {
+      margin-left: 0;
+      max-width: none;
+    }
+
+    /* Keep step images visually centered inside the indented content column */
+    .markdown-section h3 ~ div[align="center"] {
+      text-align: left;
+    }
+
+    .markdown-section h3 ~ div[align="center"] img {
+      display: block;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .markdown-section h2 + p,
+    .markdown-section h2 + ul,
+    .markdown-section h2 + ol,
+    .markdown-section h2 + div,
+    .markdown-section h2 + table,
+    .markdown-section h2 + blockquote {
+      margin-left: 2.4rem;
+    }
+
+    .markdown-section h3 + p,
+    .markdown-section h3 + ul,
+    .markdown-section h3 + ol,
+    .markdown-section h3 + div,
+    .markdown-section h3 + table,
+    .markdown-section h3 + blockquote {
+      margin-left: 4.2rem;
+    }
+
+    .markdown-section hr {
+      margin: 1.35rem 0 1.35rem 1.4rem;
+      max-width: calc(100% - 1.4rem);
+      opacity: 0.45;
     }
 
     .markdown-section img {
@@ -120,4 +246,8 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
 </body>
 </html>
+
+
+
+
 
