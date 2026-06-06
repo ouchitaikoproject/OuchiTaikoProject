@@ -1,7 +1,7 @@
-@echo off
+﻿@echo off
 setlocal
 set "ROOT=%~dp0.."
-set "PAGE=%ROOT%\docs\ouchitaiko-live-calibrate.html"
+set "PAGE=%ROOT%\docs\ouchitaiko_live_calibrate.html"
 if not exist "%PAGE%" (
   echo Live calibrate page not found:
   echo %PAGE%
@@ -9,3 +9,4 @@ if not exist "%PAGE%" (
 )
 start "" "%PAGE%"
 exit /b 0
+

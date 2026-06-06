@@ -93,14 +93,14 @@ lines = [
 if html_files:
     lines.extend(["## HTML Tools", ""])
     for name in html_files:
-        label = name.replace(".html", "").replace("-", " ").title()
+        label = name.replace(".html", "").replace("-", " ").replace("_", " ").title()
         lines.append(f"- [{label}]({name})")
     lines.append("")
 
 if md_files:
     lines.extend(["## Notes", ""])
     for name in md_files:
-        label = name.replace(".md", "").replace("-", " ").title()
+        label = name.replace(".md", "").replace("-", " ").replace("_", " ").title()
         lines.append(f"- [{label}]({name})")
     lines.append("")
 
@@ -176,3 +176,5 @@ for label, anchor_title, indent_level in guide_nav:
     sidebar_lines.append(f"{indent}- [{label}](/?id={slugify(anchor_title)})")
 
 (SITE_SRC / "_sidebar.md").write_text("\n".join(sidebar_lines) + "\n", encoding="utf-8")
+
+

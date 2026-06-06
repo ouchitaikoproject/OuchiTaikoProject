@@ -1,5 +1,5 @@
-<div align="center">
-<img src="images/Pictures/mainlogo.jpg" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
+﻿<div align="center">
+<img src="images/pictures/mainlogo.jpg" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -33,22 +33,22 @@
 #### The Finished Build - You'll be building and creating this entire setup:
 
 <div align="center">
-<img src="images/Pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/finishedfront.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/finishedboxclose.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/finishedleftside.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 <div align="center">
-<img src="images/Pictures/newcompletebackangle.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/newcompletebackangle.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/newcompletebackclose.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/newcompletebackclose.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -255,7 +255,7 @@ This guide assumes you have access to the following:
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
 <div align="center">
-<img src="images/Pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/schematic.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 📸 **Photo Documentation Note:**
@@ -318,7 +318,7 @@ Mount the OLED display on the **top center** of the FRONT face.
 - Solder in place
 
 <div align="center">
-<img src="images/Pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/oledmount.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **OLED Pin Locations** (Solder now, but these will be wired in Step 7):
@@ -329,7 +329,7 @@ Mount the OLED display on the **top center** of the FRONT face.
 - SDA (Row A, hole 17)
 
 <div align="center">
-<img src="images/Pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/oledback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -345,7 +345,7 @@ Mount the OLED display on the **top center** of the FRONT face.
 The table below specifies exact FRONT face hole positions. These align with the Control Box openings to ensure proper fit of the controller faceplate.
 
 <div align="center">
-<img src="images/Pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/buttonsall.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Here are the exact hole locations for you to place your buttons in:
@@ -378,7 +378,7 @@ Here are the exact hole locations for you to place your buttons in:
 3. Verify button alignment matches reference photos
 
 <div align="center">
-<img src="images/Pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/buttonback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **CRITICAL NOTE - Prevent Signal Shorts:**  
@@ -392,11 +392,11 @@ Because of the shared row nature of the board, 2 buttons  will initially share s
 You will need to make a "break" in the shared row between these buttons so that the legs aren't electrically connected.
 
 <div align="center">
-<img src="images/Pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/drill1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/drill2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Quick Fix (30 seconds per pair):**
@@ -414,11 +414,11 @@ You will need to make a "break" in the shared row between these buttons so that 
 **Flip board to BACK face.** 
 
 <div align="center">
-<img src="images/Pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/socket.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/socketandboard.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **XIAO Placement:**
@@ -436,17 +436,17 @@ You will need to make a "break" in the shared row between these buttons so that 
 Here is a photo showing an example of the un-jumped power rails and then two photos (from and back) showing them as jumped.  This is done with a blob of solder, or a small jumper wire that is also soldered.  There are 4 total places to jump on the board used.
 
 <div align="center">
-<img src="images/Pictures/jumpedrails3.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/jumpedrails3.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
 <div align="center">
-<img src="images/Pictures/jumpedrails.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/jumpedrails.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
 <div align="center">
-<img src="images/Pictures/jumpedrails2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/jumpedrails2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -471,11 +471,11 @@ Each of the 4 drum sensors requires identical protection circuitry.
 2. Place cathode (striped end) into GND rail hole directly below (do not solder yet)
    
    <div align="center">
-   <img src="images/Pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/diodes.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
    <div align="center">
-   <img src="images/Pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/protectionbelow.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 3. **Capacitor:** Place either leg of 0.1uF capacitor into same hole as diode anode (do not solder yet)
@@ -483,17 +483,17 @@ Each of the 4 drum sensors requires identical protection circuitry.
 4. Place other leg into same GND rail hole as the diode cathode (do not solder yet)
    
    <div align="center">
-   <img src="images/Pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/doubleprotection.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
    
    <div align="center">
-   <img src="images/Pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/protectionbelow2.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 5. **Solder:** NOW, you can solder the combined diode + capacitor legs together into their respective hole. This saves space and keeps things looking clean.
    
    <div align="center">
-   <img src="images/Pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/protectionbeneath.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 ---
@@ -506,7 +506,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
 - **Recommended:** Daisy-chain grounds for cleaner routing - see reference photo for layout. Conversely, on the right set of buttons, designate the GND to all of the legs on the right side of the button (toward the left edge of the board) as ground legs.
 
 <div align="center">
-<img src="images/Pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/buttongrounds.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -520,7 +520,7 @@ Each of the 4 drum sensors requires identical protection circuitry.
 3. The double row of pins on top remains empty (for button signal connections later)
 
 <div align="center">
-<img src="images/Pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/expandersolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -532,7 +532,7 @@ Before soldering/mounting the MCP23017 board onto the circuit board, pre-wire th
 **Temporarily place** MCP23017 centered horizontally (Row E, holes 11-21, BACK face, double pins facing up). Note where it sits, then remove it.
 
 <div align="center">
-<img src="images/Pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/expanderterminals.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Make these 4 connections underneath:**
@@ -545,7 +545,7 @@ Before soldering/mounting the MCP23017 board onto the circuit board, pre-wire th
 | SDA        | Row A, hole 14   | Row A, hole 17 | I2C data to display  |
 
 <div align="center">
-<img src="images/Pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sdasclunderexpander.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 (Photo shows SDA and SCL connection progress. You will also connect VCC and GND to the display in this step)
@@ -558,7 +558,7 @@ Before soldering/mounting the MCP23017 board onto the circuit board, pre-wire th
 - Solder these header pins to the circuit board
 
 <div align="center">
-<img src="images/Pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/expanderterminalsfirst.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 (In the above photo the VCC and GND were routed different than the guide, but work the same)
@@ -580,7 +580,7 @@ Connect/verify power and ground between XIAO, MCP23017, and display.
 ## **Step 9: Connect I2C Data Lines**
 
 <div align="center">
-<img src="images/Pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/powercomms.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Connect I2C between XIAO and MCP23017.
@@ -636,29 +636,29 @@ Connect button signal legs to MCP23017 pins. Button legs are accessible from the
 - Route wires to minimize crossover and blocking
 
 <div align="center">
-<img src="images/Pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/shortwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/wirestand.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/wiresharedrow.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/firstwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/secondwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 The Navigation Buttons should look similar to this when complete:
 
 <div align="center">
-<img src="images/Pictures/buttonswired.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/buttonswired.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -680,7 +680,7 @@ Place two 4-pin screw terminal blocks on BACK face.
 - Leave one hole space between this block and the GND block
 
 <div align="center">
-<img src="images/Pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/terminals3.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Label the signal block ports for easy future reference:**
@@ -698,11 +698,11 @@ Place two 4-pin screw terminal blocks on BACK face.
 Connect terminal block signal pins to XIAO analog pins.
 
 <div align="center">
-<img src="images/Pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/onesignalwire.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/drumsignalwires2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **Wiring Map:**
@@ -760,11 +760,11 @@ Use your laser or CNC machine (or the method available to you) to cut out all of
 - You'll be printing 2x identical baseplates
 
 <div align="center">
-<img src="images/Pictures/frontcuts.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/frontcuts.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/bothbaseplates.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/bothbaseplates.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -784,15 +784,15 @@ Use **wood glue** to glue the two identical rear baseplates together (they are 1
 Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for 24 hours before continuing past the gluing steps.
 
 <div align="center">
-<img src="images/Pictures/woodgluealloverback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/woodgluealloverback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/basegluescrews.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/basegluescrews.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/weightclamps.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/weightclamps.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -802,11 +802,11 @@ Leave the clamps and weight on for at least 6 hours. Let the glue fully cure for
 There will be 4 finished drum faceplates that you will be assembling during this step: Left Ka, Left Don, Right Don, and Right Ka. Each faceplate consists of TWO pieces - a smooth TOP plate along with a corresponding BOTTOM plate with holes in it.
 
 <div align="center">
-<img src="images/Pictures/woodglue.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/woodglue.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/donkaglued.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/donkaglued.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 **For Ka Plates:**
@@ -833,7 +833,7 @@ When complete, you will have 4 faceplates - each consisting of a top half and a 
 
 
 <div align="center">
-<img src="images/Pictures/laseredges.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/laseredges.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -845,29 +845,29 @@ Using a router and a 1/4" roundover bit, rout down every edge on the top and bot
 This procedure helps prevent stick damage and wear and tear on your drum and cover, as well as gives your drum a professional, clean look by softening/rounding down all of the sharp, 90 degree edges.
 
 <div align="center">
-<img src="images/Pictures/routerbit2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/routerbit2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/routerbit.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/routerbit.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/deburr2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/deburr2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
 
 <div align="center">
-<img src="images/Pictures/routededges.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/routededges.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/routholes.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/routholes.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/allfaces.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/allfaces.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -887,7 +887,7 @@ The hols you will be workin with are on the underside of the bottom Drum Face Pl
 Using a Drill press, insert a **9mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), and set it up so that when you drill press is fully lowered, the bottom of the drill bit is exactly 2mm above your drill press plate/table.  This way, you can ensure that every time you lower the drill press, you're getting the exact depth needed each time.
 
 <div align="center">
-<img src="images/Pictures/drillpre.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/drillpre.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 If you don't have a drill press, and only have a standard drill, that's still ok.  In that case, measure the exact thickness of your Don and Ka Plates (should be 12mm-13mm) and subtract 2mm from that measurement and mark that new, lower number on your 9mm drill bit with a piece of tape. 
@@ -895,11 +895,11 @@ If you don't have a drill press, and only have a standard drill, that's still ok
 For example, if your Plates are exactly 13mm thick, take a piece of tape and put it on your drill bit so that the bottom edge of the tape is at exactly 11mm from the tip of the drill bit.  You'll simply drill down until the bottom of the tape is at the surface of your plate.  It is suggested to practice holes on a scrap piece of wood to make sure you have the hang of it, and that everything is working as planned.
 
 <div align="center">
-<img src="images/Pictures/11mmdrill2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/11mmdrill2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/11mmdrill.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/11mmdrill.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Now that your drill depth is set, locate the 14 pre-cut **9.5mm** holes located on the underside of the top plates where the rubber grommets will go - you will be using those holes as a drill guide.
@@ -907,7 +907,7 @@ Now that your drill depth is set, locate the 14 pre-cut **9.5mm** holes located 
 Carefully Drill **straight** down into those 9.5mm holes and turn them into new **9.5mm wide x 11mm deep** holes (or whatever your calculated depth was). **Repeat this for all 14 similar holes.**
 
 <div align="center">
-<img src="images/Pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/kahole.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -921,11 +921,11 @@ Additionally, if you have a drill press, or you can actually just strist the dri
 Make sure you repeat this exact same process for all 14 holes.
 
 <div align="center">
-<img src="images/Pictures/deburred2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/deburred2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/6mminsertpartial.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/6mminsertpartial.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -942,11 +942,11 @@ It is absolutely crucial that these threaded inserts are flush or JUST below the
 
 
 <div align="center">
-<img src="images/Pictures/kagrommettool.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/kagrommettool.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/6mminsertflush.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/6mminsertflush.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -963,22 +963,22 @@ Place a small drop of superglue on the outer edge of each M3x3 threaded insert b
 
 
 <div align="center">
-<img src="images/Pictures/threadedinsertout.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/threadedinsertout.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 Using a hammer or rubber mallet, tap the insert into the wood until it's perfectly flush with the surface.  **Two M3x3mm threaded inserts** will be installed beneath each Don and Ka Top Plate.
 
 <div align="center">
-<img src="images/Pictures/installedinserts.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/installedinserts.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/doninserts.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/doninserts.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 This is how it will look when all M6 and M3 threaded inserts are installed:
 
 <div align="center">
-<img src="images/Pictures/allinserts.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/allinserts.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1004,37 +1004,37 @@ You will still get the true arcade benefits of rigidity, vibration absorption, i
 2. Each stack will consist of 3 washers superglued together to make a single unit.
 
    <div align="center">
-   <img src="images/Pictures/3washers.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/3washers.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 3. Place 3 drops of superglue on top of one of the washers.
 
    <div align="center">
-   <img src="images/Pictures/3washersglue.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/3washersglue.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 4. Place another washer on top of the glue dots.  Hold the stack of two washers in your fingers and press them together for 30 seconds, making sure the edges stay evenly aligned.
 
    <div align="center">
-   <img src="images/Pictures/2washerspreglue.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/2washerspreglue.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 5. Place 3 drops of superglue on top of the new stack of two washers that you just fastened together.  Place the third washer on top of those new glue dots.
 
    <div align="center">
-   <img src="images/Pictures/2washersglue.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/2washersglue.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 6. Hold the new stack of three washers in your fingers and press them together for 30 seconds, making sure the edges stay evenly aligned.  This stack is complete, set it to the side.
 
    <div align="center">
-   <img src="images/Pictures/washers3stack.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/washers3stack.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 7. Repeat this until you have 14 stacks of 3 washers superglued together.
 
    <div align="center">
-   <img src="images/Pictures/washersall.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/washersall.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 8. Set these stacks off to the side and let them cure for at least 30 minutes while you assemble the rubber isolators in the next step.
@@ -1050,11 +1050,11 @@ You will still get the true arcade benefits of rigidity, vibration absorption, i
 3. Repeat this process until you have 14 20mm bolts.
 
 <div align="center">
-<img src="images/Pictures/20mmnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/20mmnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/nylonseparate.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/nylonseparate.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1071,7 +1071,7 @@ Apply one drop or less of **Loctite** to threads on the inside of the rubber iso
 Screw one end of the 20mm bolt into isolator until it stops.
 
 <div align="center">
-<img src="images/Pictures/isolatorcomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/isolatorcomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1091,25 +1091,25 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 1. Place a washer stack over one of the 6mm threaded insert holes on the bottom of one of the faceplates.
 
    <div align="center">
-   <img src="images/Pictures/washersready.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/washersready.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 2. Feed the nylon end of the Isolator through the washer stack, and into the threaded insert.  Finger tighten and ensure that the washers do not move/spin and that there's no gap between the wood and the washers, or the washers and the grommet.
 
    <div align="center">
-   <img src="images/Pictures/washersinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/washersinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 3. This is how the sideview of the assembled Isolator/Washer set should look.  If there is a gap, ensure that the 6mm threaded insert is in fact flush to the wood surface.  If the washer stack IS flush, and a gap still remains, unscrew the nylon bolt from the wood, and carefully cut off an additional 1mm of length, and try again.  Repeat if necessary, only removing the smallest amount of bolt needed until everything is flush and snug.
 
    <div align="center">
-   <img src="images/Pictures/washersflush.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/washersflush.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 4. Repeat this step for all 14 mounting holes.
 
    <div align="center">
-   <img src="images/Pictures/allisolatorsandwashers.jpg" width="350px" style="display: block; margin: 0 auto;">
+   <img src="images/pictures/allisolatorsandwashers.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
 ---
@@ -1145,7 +1145,7 @@ Cut four **12mm neoprene discs** by using the SVG template.
 Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
 
 <div align="center">
-<img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1166,7 +1166,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 💡 **Tip:** You can use your multimeter in Continuity mode to confirm which terminal is the Sleeve and which is the Tip.
 
 <div align="center">
-<img src="images/Pictures/trssolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/trssolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1176,7 +1176,7 @@ Take one end of the wire and solder the two exposed wires to the male TRS jack:
 Take the *other* end of the stripped wire, and solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates how to do this properly.
 
 <div align="center">
-<img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1188,7 +1188,7 @@ Add several drops of **Superglue** onto the top surface of neoprene that is alre
 💡 **Note:** Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.
 
 <div align="center">
-<img src="images/Pictures/sensorinhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorinhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1199,7 +1199,7 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 
 <div align="center">
-<img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1221,17 +1221,17 @@ Tighten snug so that the sensor housing is firmly pressed against the wood - but
 
 
 <div align="center">
-<img src="images/Pictures/sensorpreinstall.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorpreinstall.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/sensorinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/sensorinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Repeat this for each Don and Ka faceplate.
 
 <div align="center">
-<img src="images/Pictures/allsensorsinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/allsensorsinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1248,11 +1248,11 @@ Repeat this for each Don and Ka faceplate.
 
 
 <div align="center">
-<img src="images/Pictures/speakerplate2.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/speakerplate2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/speakerplateback.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/speakerplateback.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1265,11 +1265,11 @@ Repeat this for each Don and Ka faceplate.
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through baseplate holes of the rear baseplate. Be sure to route the sensor wires through the nearest, round cut-out in the baseplate.
 
 <div align="center">
-<img src="images/Pictures/kainstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/kainstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/frontdone.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/frontdone.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1292,7 +1292,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 
 <div align="center">
-<img src="images/Pictures/rearwithnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/rearwithnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1303,7 +1303,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all 4 faceplates are securely fastened to the baseplate.
 
 <div align="center">
-<img src="images/Pictures/backalmostdone.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/backalmostdone.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1313,7 +1313,7 @@ Attach a 6mm knob to all of the exposed bolts and tighten finger tight.  Now all
 Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barrel Connectors.  These extension cables will eventually plug into the female TRS jacks on your Control Box. 
 
 <div align="center">
-<img src="images/Pictures/baseplatecomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/baseplatecomplete.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1336,7 +1336,7 @@ If you built the board to the exact specifications in my guide, you'll be able t
 ### **Print the Enclosure**
 
 <div align="center">
-<img src="images/Pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/printer.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 💾 [Controller Enclosure Files are in the file packet here](#9-files--downloads)
@@ -1354,55 +1354,55 @@ Print the Control Box base and lid using the following settings:
 ### **Add TRS Terminal Jacks & USB Coupler**
 
 <div align="center">
-<img src="images/Pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/trsports.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 Add the 4 TRS jacks into the 4 holes in the back of the base. You will see 4 slight depressions in the base floor to help you align them. Push the female ports all the way into the hole, through the back wall, until it stops. Use a small amount of hot glue to ensure the jacks stay in place.
 
 <div align="center">
-<img src="images/Pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/usb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Place the USB coupler in the bottom opening in the base.  Use the slight depression in the base floor to help you align it.  Orient the coupler so that the USB-A port is facing out, and the USB-C port is facing inside the box.  Use a small amount of hot glue to ensure the coupler stays in place.
 
 <div align="center">
-<img src="images/Pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/trsandusb.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ### **Mount The Circuit To The Enclosure Lid**
 
 <div align="center">
-<img src="images/Pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/grommetstages.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 Set one M2x4 heat insert into each of the 4 built-in standoffs on the lid.  Make sure the smooth lip of the grommet is facing down. 
 
 <div align="center">
-<img src="images/Pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/grommetin.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 Using the included soldering iron heat insert tip to gently press the inserts into the standoffs until the top of the insert is flush with the standoff.  Be sure that the insert remains vertical and does not go in at an angle.
 
 <div align="center">
-<img src="images/Pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/buttonsfit.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Place the circuit board face with buttons and display through the holes in the lid.  Everything should align perfectly.
 
 
 <div align="center">
-<img src="images/Pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/terminals1.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 Using 4 M4x4mm bolts, attach the circuit board to the standoffs that you outfitted with threaded inserts.  Tighten snug.
 
 ### **Attach Lid To The Control Box Hinges**
 
 <div align="center">
-<img src="images/Pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/hinge.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
 The hinges on the box were cleverly designed to be fastened using a piece of standard, 1.75mm filament as opposed to a metal hinge pin.
 
 <div align="center">
-<img src="images/Pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/filamentinsert.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Cut off a small section of filament that is  long enough to fit through each set of three hinge sections.  Cut the end at an angle, and gently, yet firmly, feed it all the way through all 3 sections of the hinge you're working on.  It will be snug, but that is by design Cut each end flush.  Repeat this for the other hinge as well.  
@@ -1414,7 +1414,7 @@ Cut off a small section of filament that is  long enough to fit through each set
 ### **Create the Wires**
 
 <div align="center">
-<img src="images/Pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/ribboncable.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 From the spool of 20 AWG 4-wire ribbon cable, cut 2 lengths of ribbon cable approximately 215mm each.  Crimp the ends using 22 AWG wire ferrules (with small gauge wire like this, going a size smaller on the ferrule helps secure the crimp better and prevent it from pulling off).
@@ -1426,13 +1426,13 @@ One set of 4 wires will be the SIGNAL set, and the other set of 4 wires will be 
 ### **Connect The Ground Wires**
 
 <div align="center">
-<img src="images/Pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/newgndterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Using the GROUND wire set, connect one end of 4 wires to the GND terminal block on the circuit board.
 
 <div align="center">
-<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Connect the opposite end of the GROUND wire set to the GND terminal in each of the 4 TRS jacks in your Control Box.  There is no specific order for the GND wires here.  Any GND terminal on the circuit board can connect to any TRS GND terminal.
@@ -1440,12 +1440,12 @@ Connect the opposite end of the GROUND wire set to the GND terminal in each of t
 ### **Connect The Signal Wires**
 
 <div align="center">
-<img src="images/Pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/signalterminalnumbers.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
 <div align="center">
-<img src="images/Pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/newsignalterminal.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1459,7 +1459,7 @@ Using the set of SINGNAL wires, connect the 4 wires ends to the SIGNAL terminal 
 | Pin 4 | TIP terminal of TRS Jack 4 | 
 
 <div align="center">
-<img src="images/Pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/trswires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1472,15 +1472,15 @@ Using the short USB-C to USB-C cable, connect the XIAO board to the USB-C couple
 This is how the final, wired product should look:
 
 <div align="center">
-<img src="images/Pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/allwires.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/finalbox.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 <div align="center">
-<img src="images/Pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/closedbox.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1496,13 +1496,13 @@ This is how the final, wired product should look:
 Mount the angled speaker bracket to the speaker stand.
 
 <div align="center">
-<img src="images/Pictures/speakermount.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/speakermount.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ### **Mount Control Box and Connect Signal Wires**
 
 <div align="center">
-<img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Attach the phone holder arm to the central post of the Speaker Stand.  Attach the Control Box to the Spring-Loaded phone bracket, and adjust to your preferred position.  Connect the Drum Sensor TRS male ends that are hanging down on the drum to the corresponding TRS Female Jack on the Control Box.
@@ -1518,7 +1518,7 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 💡 **Pro Tip:** The beauty of this Project is that you can adjust the Drum Thresholds and make it perform just how you want regardless of Drum cover.
 
 <div align="center">
-<img src="images/Pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/drumcover.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
@@ -1528,7 +1528,7 @@ If that isn't an option for you, you can try using a towel, blanket, large mouse
 
 
 <div align="center">
-<img src="images/Pictures/angle.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/angle.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 ---
@@ -1549,7 +1549,7 @@ Great job making it this far! Now it's time to prepare the board and flash the f
 
 ## **Step 1: Enter Bootloader Mode**
 <div align="center">
-<img src="images/Pictures/bootloaderbutton.jpg" width="350px" style="display: block; margin: 0 auto;">
+<img src="images/pictures/bootloaderbutton.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Hold down the small **"B" button** on your XIAO RP2040 micro controller board while connecting it to your PC. The board is now in BOOTLOADER mode, and will appear as a removable drive - it is waiting for you to drag a file to it.
@@ -1948,3 +1948,4 @@ www.ouchitaiko.com
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+

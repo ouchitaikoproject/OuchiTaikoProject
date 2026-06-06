@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Image Cleanup Script for OuchiTaiko Project
-Finds and optionally deletes unused images in the images/Pictures directory
+Finds and optionally deletes unused images in the images/pictures directory
 """
 
 import os
@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Configuration
 PROJECT_ROOT = Path(__file__).parent.parent
-IMAGES_DIR = PROJECT_ROOT / "images" / "Pictures"
+IMAGES_DIR = PROJECT_ROOT / "images" / "pictures"
 README_FILE = PROJECT_ROOT / "README.md"
 INDEX_FILE = PROJECT_ROOT / "index.html"
 
@@ -40,7 +40,7 @@ def find_image_references_in_file(filepath):
         references.add(filename)
     
     # Pattern 3: Direct path references (like in your README)
-    path_pattern = r'images/Pictures/([\w\-. ]+\.(jpg|png|gif|jpeg|webp))'
+    path_pattern = r'images/pictures/([\w\-. ]+\.(jpg|png|gif|jpeg|webp))'
     for match in re.finditer(path_pattern, content, re.IGNORECASE):
         filename = match.group(1)
         references.add(filename)
@@ -48,7 +48,7 @@ def find_image_references_in_file(filepath):
     return references
 
 def get_all_images():
-    """Get all image files in the images/Pictures directory."""
+    """Get all image files in the images/pictures directory."""
     if not IMAGES_DIR.exists():
         print(f"Error: Images directory not found: {IMAGES_DIR}")
         return set()
@@ -138,3 +138,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
