@@ -5,8 +5,7 @@
 ---
 
 <div align="center">
-<i>In Japanese, “ouchi” means “home,” and “taiko” means “drum.”
-</br>  
+<i>In Japanese, “ouchi” means “home,” and “taiko” means “drum.”  
 Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience into your own space.</i>
 </div>
 
@@ -15,7 +14,7 @@ Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience 
 # 1. Project Overview
 
 ### The Finished Build
-This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor‑Standing Tripod Mode** or **Table‑Top Mode**.
+My guide walks you through building a full arcade‑style Taiko drum controller that can be used in either **Floor‑Standing Tripod Mode** or **Table‑Top Mode**.
 
 <div align="center">
 <img src="images/Pictures/tripodboth.jpg" style="width: 100%; max-width: 800px; height: auto;">
@@ -29,17 +28,19 @@ This guide walks you through building a full Arcade-Scale Taiko drum and control
 
 Hi, I’m KillerQ — creator of the **OuchiTaiko Project**, an open‑source guide for building a professional, arcade‑grade Taiko drum controller.
 
-This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software perfromance engine, a custom through‑hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade‑level responsiveness with approachable DIY construction.
+This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining **Adaptive Baseline Software Intelligence (ABSI)**, a custom through‑hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade‑level responsiveness with approachable DIY construction.
 
-All you need are very basic soldering and woodworking skills.
+All you need is basic soldering and woodworking skill. The linked parts are verified to work together, though compatible alternatives are welcome.
 
-This guide is intentionally thorough and detailed — the goal is simple: **less guessing, more building.**
+This guide is intentionally thorough — the goal is simple: **less guessing, more building.**
 
 ---
 
-# Key Features and World Firsts Not Seen In Any Other Existing Projects
+# Key Features
 
-Traditional Taiko controllers often require constant threshold tuning, extensive coding and firmware recompiling, or compromises between sensitivity and false triggers.
+## World‑First Innovations
+
+Traditional Taiko controllers often require constant threshold tuning, firmware recompiles, or compromises between sensitivity and false triggers.
 
 **OuchiTaiko solves these issues with three core systems:**
 
@@ -52,24 +53,24 @@ Traditional Taiko controllers often require constant threshold tuning, extensive
 OuchiTaiko includes two guided calibration options:
 
 - HTML Guided Calibration for the preferred full setup workflow  
-- On-device Guided Calibration for the same method, but on the controller  
-- No recompiling required  
-- Fast threshold refinement  
-- Easier crosstalk diagnosis  
-- Quick retesting after hardware changes  
+- on-device Guided Calibration for the same method on the controller  
+- no recompiling required  
+- fast threshold refinement  
+- easier crosstalk diagnosis  
+- quick retesting after hardware changes  
 
 ---
 
 ### 2) Adaptive Baseline Software Intelligence (ABSI)
-ABSI was created by me jsut for this project, and I am very proud of it.  It drastically improves stability through software rather than complex analog circuitry.
+ABSI improves stability through software rather than complex analog circuitry.
 
-- Automatic sensitivity adjustment based on environmental noise  
-- Dynamic baseline tracking  
-- Stable long‑term behavior without drift  
+- automatic sensitivity adjustment based on environmental noise  
+- dynamic baseline tracking  
+- stable long‑term behavior without drift  
 
 ---
 
-### 3) Custom Arcade Sensor Suspension Modeled After Japanese Taiko Arcade Hardware
+### 3) Custom Arcade Sensor Suspension
 A mechanically isolated sensor housing improves consistency and reduces noise.
 
 Benefits include:
@@ -89,7 +90,7 @@ No PC required for basic verification.
 - OLED display with live feedback  
 - Visual confirmation of all 14 navigation buttons  
 - Live hit display and mode readout  
-- Instant sensor and button assignment wiring verification using only USB power  
+- Instant wiring verification using only USB power  
 
 ---
 
@@ -98,8 +99,7 @@ No PC required for basic verification.
 - Custom PCB designed specifically for this project  
 - 14 navigation buttons for full game control  
 - Adjustable drum mounting options  
-- Dedicated sensor inputs for all four drum lanes 
-- The enture Drum is modular so if a part ever fails, just that single part can be easily accessed and swapped out
+- Dedicated sensor inputs for all four drum lanes  
 
 ---
 
@@ -143,7 +143,7 @@ No PC required for basic verification.
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-These linked parts are verified to work together as tested. Similar/comparable parts can be used, but at your own risk.
+These linked parts are verified to work together as tested.
 
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
@@ -209,7 +209,7 @@ These linked parts are verified to work together as tested. Similar/comparable p
 
 ---
 
-# 4. Assemble the Controller PCB
+# 4. Assemble the Control PCB
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -221,28 +221,11 @@ These linked parts are verified to work together as tested. Similar/comparable p
 <img src="images/Pictures/pcbfilledtop.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-## Purchase the OuchiTaiko Controller PCB (Circuit Baord).
-
-My project is design that you will order the through-hole circuit board and then solder the components in yourself.
-
-I <i>highly</i> recommend purchasing the raw Controller PCB from OSHPARK PCB Fabrications.  They are in the US, and all manufacturing is done in the use.  they are VERY reasonably priced, and you can even pay for expeditied production/shipping.  They sell in sets of 3 only, but that price is still reasonable, and that way you have a spare in case you damage one, or you can split the order with a friend.
-
-Here is a link to the Board that's already uploaded and verified on their site, and you can hit purhcase rifght away.  I do not make any money off of this link - they just offer th convenient service of allowing me to upload the board so that people can simply add it to thier cart and check out without the hassle of uploading the raw files and hoping everything is correct and verified after the upload, etc.
-
-
-<a href="https://oshpark.com/shared_projects/mY0Hmilt">HERE is the link to the OSHPARK OuchiTaiko Controller Board Page</a>
-
-
-However, since I made my project open source, you have 100% control over where have the board manufactured.  If you have a company that you trust that you would like use instead, here is the Gerber .zip file that contains all of the universal project files that the company will need to produce my OuchiTaiko PCB.  
-
-`ouchitaiko_pcb_gerber_v1_final.zip` is the PCB Gerber file package.
-
-
 ## Control PCB Overview
 
-My custom OuchiTaiko PCB integrates controller logic, display wiring, navigation buttons, and drum input circuitry all together into a single compact board.
+The custom PCB integrates controller logic, display wiring, navigation buttons, and drum input circuitry into one compact board.
 
-To finish building it, you will solder the folowing ocmpnnents to the board you have made:
+You will solder:
 
 - **1× Waveshare RP2040‑Zero**  
 - **14× tactile buttons**  
@@ -251,8 +234,6 @@ To finish building it, you will solder the folowing ocmpnnents to the board you 
 - **4× 0.1uF capacitors**  
 - **1× I2C OLED**  
 - **4× PJ‑320A TRS jacks**
-
-That's it!  Everything is just attached via basic soldering.
 
 ---
 
@@ -292,12 +273,12 @@ Install all navigation buttons.
 <img src="images/Pictures/pcbbuttons.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-The button legs will actually appear in a rectangular layout orientation - longer on one side. The holes in the board will match that slightly rectangular shape - there is no polarity as long as that orientation is adhered to. Ensure each button sits flat before soldering all four legs.
+The button legs will actually appear in a rectangular layout - longer on one side. The holes will match that shape - there is no polarity as long as that orientation is adhered to. Ensure each button sits flat before soldering all four legs.
 
 ---
 
 ### Step 3: Mount the OLED
-Install the OLED using the following pin order (verify that yours matches):
+Install the OLED using the following pin order (verify yours matches):
 
 - GND  
 - VCC  
@@ -313,7 +294,7 @@ Install the OLED using the following pin order (verify that yours matches):
 ---
 
 ### Step 4: Install the TRS Drum Input Jacks
-Install the four PJ‑320A jacks. Their pin layout only fits into one orientation.
+Install the four PJ‑320A jacks. Their pin layout only fits one orientation.
 
 <div align="center">
 <img src="images/Pictures/pcbjacks.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -324,14 +305,14 @@ Install the four PJ‑320A jacks. Their pin layout only fits into one orientatio
 ---
 
 ### Step 5: Mount the RP2040‑Zero
-Install the Waveshare RP2040‑Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
+Install the Waveshare RP2040‑Zero. Only the 20 castellated perimeter pads need soldering.
 
 <div align="center">
 <img src="images/Pictures/pcbwaveshare.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 
-A helpful soldering demonstration for soldering castellated pads:  
+A helpful soldering demonstration:  
 https://youtu.be/rGvvwXrv310?t=312
 
 ---
@@ -347,117 +328,12 @@ Before powering on, confirm:
 - No solder bridges  
 - All joints look solid  
 
-
-If you were just building the controller and sensors for an existing drum that you had, you can skip to the sFirmware flashing is covered in **Section 7**.
-
-
----
-
-
-
-# **5: Build the Sensor Housings**
-
-### **Print The Sensor Housings**
-
-💾 [`ouchitaiko_sensor_housing.stl` is the sensor housing STL file](#9-files--downloads)
-
-Print 4 complete sets of Sensor Housings (each set has a top and bottom).
-
-Use **PLA filament**.
-
-**Printer Settings:** 0.2mm layer height, 40% Gyroid infill, no supports needed.
-
----
-
-## **5.1: Assemble Sensor Electronics**
-
-🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
-
-### **Cut neoprene discs**
-
-Cut four **12mm neoprene discs** by using the SVG template.
-
-💾 [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
-
----
-
-### **Glue neoprene disc to housing**
-
-Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
-
-<div align="center">
-<img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-### **Prepare end of TRS Sensor Wires**
-
-Since you are starting with long lenths of wire, you have two choices to proceed.
-
-1) If you plan on building the drum in my guide, then you can cut the length of wire down to approximately 12" so that it will rout cleanly through the drum and end up at the connectors at the base of the drum.
-2) If you plan on using these sensors to add to a different oe already existing drum, I suggest that you leave the wires at thier full length  This allows more freedom of mounting and routing when using with another drum. 
-
-With your chosen length of wire, strip the ens of each so that they are approximately 10mm of red wire and approximately 8mm of black wire.  Now strip off approximately 1mm of red and black insulation to expose the bare wire and tin each end with solder.  
-
-Repeat this process for all 4 wires.
-
-The difference in length is because you want them to be slightly offset as in this photo: 
-
-<div align="center">
-<img src="images/Pictures/piezoleads.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
+Firmware flashing is covered in **Section 7**.
 
 
 ---
 
-### **Solder to Piezo**
-
-Now solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates how to do this easily.
-
-<div align="center">
-<img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
----
-
-### **Glue Piezo to Neoprene Mount**
-
-Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
-
-💡 **Note:** Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.
-
-<div align="center">
-<img src="images/Pictures/piezopremount.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/Pictures/piezomount.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
----
-
-### **Enclose Housing**
-
-Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
-
-
-<div align="center">
-<img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-
-
-#### **Repeat these steps so that you end up with 4 complete sensor assemblies**
-
-
-
-
-
-
-
-
-# **6: Build the Drum**
+# **5: Build the Drum**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -469,11 +345,11 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 ---
 
-## **6.1: Prepare the Wood**
+## **5.1: Prepare the Wood**
 
 ### **Cut all MDF wood pieces per SVG templates**
 
-💾 [`ouchitaiko_laser_files.svg` and `ouchitaiko_laser_files.lbrn2` are the wood template files](#9-files--downloads)
+💾 [SVG Template packet located here](#9-files--downloads)
 
 Use your laser or CNC machine (or the method available to you) to cut out all of the wood components in the template files.
 
@@ -497,7 +373,7 @@ Sand down any rough edges and surfaces from the cutting step, and wipe off sawdu
 
 ---
 
-## **6.2: Assemble the Drum Structure**
+## **5.2: Assemble the Drum Structure**
 
 ### **Glue the rear baseplates together**
 
@@ -707,7 +583,7 @@ This is how it will look when all M6 and M3 threaded inserts are installed:
 ---
 ### **Prepare The Stainless Steel Mounts**
 
-The Official Taiko Arcade Drum Controllers use large, machine-cut steel metal plates mounted to the rear of the wooden faceplates.  These metal plates add rigidity which, in turn, help absorb vibration, improve stick feedback, as well as help dampen the sound.  My original design for this project included plans to make your own metal plates, but that required heavy machinery which was extremely impractical and dangerous, not to mention, Steel plates can get very expensive.
+The Official Taiko no Tatsujin Arcade Drum Controllers use large, machine-cut steel metal plates mounted to the rear of the wooden faceplates.  These metal plates add rigidity which, in turn, help absorb vibration, improve stick feedback, as well as help dampen the sound.  My original design for this project included plans to make your own metal plates, but that required heavy machinery which was extremely impractical and dangerous, not to mention, Steel plates can get very expensive.
 
 I wouldn't let that stop me from creating the proper Arcade experience, however. I knew I needed to design a new method - a method that would replicate ALL of the benefits and feeling of the Steel Arcade Plates, without actual typical Steel Plate method.  After a few days of brainstorming, was able to create a solution that replaces the Steel Plates while retaining 100% of their benefit.
 
@@ -763,7 +639,7 @@ You will still get the true arcade benefits of rigidity, vibration absorption, i
 
    
 
-## **6.3: Assemble The Rubber Isolators**
+## **5.3: Assemble The Rubber Isolators**
 
 ### **Cut nylon bolt head**
 
@@ -808,7 +684,7 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 ### **Install isolator/Steel Washer assemblies**
 
-(<a href="https://youtu.be/N6h3QC_hvl8?si=WZEyYCb-pd2_z-tV">HERE</a> is a timelapse video demonstrating how to mount the Isolators and Washers to to the faceplate)
+(<a href="[URL_GOES_HERE](https://youtu.be/N6h3QC_hvl8?si=WZEyYCb-pd2_z-tV)">HERE</a> is a timelapse video demonstrating how to mount the Isolators and Washers to to the faceplate)
 
 1. Place a washer stack over one of the 6mm threaded insert holes on the bottom of one of the faceplates.
 
@@ -834,12 +710,100 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
    <img src="images/Pictures/allisolatorsandwashers.jpg" width="350px" style="display: block; margin: 0 auto;">
    </div>
 
+---
+
+## **5.4: Print Sensor Housings**
+
+### **Print The Sensor Housings**
+
+💾 [Sensor Housing files are in the file packet here](#9-files--downloads)
+
+Print 4 complete sets of Sensor Housings (each set has a top and bottom).
+
+Use **PLA filament**.
+
+**Printer Settings:** 0.2mm layer height, 40% Gyroid infill, no supports needed.
+
+---
+
+## **5.5: Assemble Sensor Electronics**
+
+🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
+
+### **Cut neoprene discs**
+
+Cut four **12mm neoprene discs** by using the SVG template.
+
+💾 [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
+
+---
+
+### **Glue neoprene disc to housing**
+
+Place several drops of **Superglue** into the raised center ring in the bottom shell of the housing. Place a single neoprene disc in this ring on top of the glue. Press lightly for 30 seconds.
+
+<div align="center">
+<img src="images/Pictures/sensorandhousing.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+---
+
+### **Prepare end of TRS Wire**
+
+Cut the ends of your TRS wire so that they are approximately 10mm for the red and approximately 8mm for the black.  The difference in lenght is because you want them to be slightly offset as in this photo: 
+
+<div align="center">
+<img src="images/Pictures/piezoleads.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+---
+
+### **Solder to Piezo**
+
+Now solder the **red** wire to piezo center disc, and solder the **black** wire to outer brass ring. The video linked at the beginning of this section illustrates how to do this properly.
+
+<div align="center">
+<img src="images/Pictures/sensorsolder.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+---
+
+### **Glue Piezo to Neoprene Mount**
+
+Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
+
+💡 **Note:** Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.
+
+<div align="center">
+<img src="images/Pictures/piezopremount.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+<div align="center">
+<img src="images/Pictures/piezomount.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+---
+
+### **Enclose Housing**
+
+Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
+
+
+<div align="center">
+<img src="images/Pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
+</div>
+
+
+
+#### **Repeat these steps so that you end up with 4 complete sensor assemblies**
+
+
+
 
 ---
 
 ### **Mount the Sensor Housings to The Drum**
 
-(<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
+(Here is a timelapse video demonstrating how to mount the sensor housing to the faceplates)
 
 Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flast against the wood.
 
@@ -862,7 +826,7 @@ Repeat this for each Don and Ka faceplate.
 
 ---
 
-## **6.4: Mounting The Hardware And Faceplates**
+## **5.6: Mounting Hardware And Faceplates**
 
 ### **Mount Adjustable Speaker Plate**
 
@@ -886,7 +850,7 @@ Repeat this for each Don and Ka faceplate.
 
 ### **Assemble Drum Faceplates to Rear Baseplate**
 
-(<a href="https://youtu.be/N6h3QC_hvl8?t=488">HERE</a> is a timelapse video demonstrating how to mount the faceplates to the baseplate)
+(Here is a timelapse video demonstrating how to mount the faceplates to the baseplate)
 
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through baseplate holes of the rear baseplate. Be sure to route the sensor wires through the nearest, round cut-out in the baseplate.
 
@@ -905,7 +869,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 ### **Attach TRS barrel mounts**
 
-💾 [`ouchitaiko_barrel_connector_mount.stl` is the barrel mount STL file](#9-files--downloads)
+💾 [Barrel Mount Files are in the file packet here](#9-files--downloads)
 
 1. Carefully flip the partially assembled drum over so that the drum faces dont fall out.
 2. 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in picture.
@@ -946,11 +910,11 @@ Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barre
 
 ---
 
-# **7: Control Box Connection**
+# **6: Control Box Connection**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-## **7.1: Floor Stand Mode**
+## **6.1: Floor Stand Mode**
 
 ### **Mount drum to speaker stand**
 
@@ -968,7 +932,7 @@ Mount the control box to the phone holder arm and connect the drum TRS plugs to 
 <img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-## **7.2: Table-Top Mode**
+## **6.2: Table-Top Mode**
 
 ### **Cut monitor stand tubing**
 
@@ -997,13 +961,13 @@ Set the final angle and height for comfort.
 
 ---
 
-# **8: Flash the Firmware**
+# **7: Flash the Firmware**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
 💾 **Download the firmware files:**
-- `ouchitaiko_project_firmware.uf2`
-- `universal_flash_nuke.uf2`
+- [OuchiTaiko Firmware](#9-files--downloads)
+- [Flash Nuke](#9-files--downloads)
 
 ## **Step 1: Enter Bootloader Mode**
 
@@ -1021,7 +985,7 @@ It is good practice to flash `universal_flash_nuke.uf2` before flashing the main
 
 ## **Step 3: Flash the Firmware**
 
-Drag `ouchitaiko_project_firmware.uf2` onto the drive.
+Drag the OuchiTaiko `.uf2` firmware file onto the drive.
 
 After the copy finishes, the board should automatically reboot into controller mode.
 
@@ -1029,7 +993,7 @@ If it does not reboot on its own, wait a few seconds, unplug it, and reconnect i
 
 ---
 
-# **9: Calibration & Settings**
+# **8: Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1152,29 +1116,23 @@ Available modes:
 
 ---
 
-# **10: Files & Downloads**
+# **9: Files & Downloads**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-Current download files:
+Add your file packet links here:
 
-- `ouchitaiko_pcb_gerber_v1_final.zip` - PCB Gerber files
-- `ouchitaiko_laser_files.svg` - wood cutting templates
-- `ouchitaiko_laser_files.lbrn2` - LightBurn project
-- `ouchitaiko_sensor_housing.stl` - sensor housing STL
-- `ouchitaiko_barrel_connector_mount.stl` - TRS barrel mount STL
-- `ouchitaiko_controller_shell.stl` - controller shell STL
-- `ouchitaiko_project_firmware.uf2` - main controller firmware
-- `universal_flash_nuke.uf2` - flash reset utility
-
-Additional files can be added here later:
-
+- firmware `.uf2`
+- `universal_flash_nuke.uf2`
+- SVG templates
+- sensor housings
+- barrel mounts
 - neoprene template
 - HTML calibration page
 
 ---
 
-# **11: Basic Troubleshooting**
+# **10: Basic Troubleshooting**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1202,7 +1160,7 @@ Additional files can be added here later:
 
 ---
 
-# **12: Menu System Reference**
+# **11: Menu System Reference**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1249,7 +1207,7 @@ When not in the menu, the OLED shows:
 
 ---
 
-# **13: About**
+# **12: About**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1288,7 +1246,7 @@ Enjoy, have fun, and peace out.
 
 ---
 
-# **14: Copyright Information**
+# **13: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1327,8 +1285,3 @@ Thank you to ravinrabbid and kasasiki3 for their open-source work.
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
-
-
-
-
-

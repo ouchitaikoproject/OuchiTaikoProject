@@ -235,7 +235,7 @@ Here is a link to the Board that's already uploaded and verified on their site, 
 
 However, since I made my project open source, you have 100% control over where have the board manufactured.  If you have a company that you trust that you would like use instead, here is the Gerber .zip file that contains all of the universal project files that the company will need to produce my OuchiTaiko PCB.  
 
-`ouchitaiko_pcb_gerber_v1_final.zip` is the PCB Gerber file package.
+<a href="https:GERBER FILE>HERE is the Gerber File .zip</a>
 
 
 ## Control PCB Overview
@@ -355,11 +355,11 @@ If you were just building the controller and sensors for an existing drum that y
 
 
 
-# **5: Build the Sensor Housings**
+# **5: Build the Drum**
 
 ### **Print The Sensor Housings**
 
-💾 [`ouchitaiko_sensor_housing.stl` is the sensor housing STL file](#9-files--downloads)
+💾 [Sensor Housing files are in the file packet here](#9-files--downloads)
 
 Print 4 complete sets of Sensor Housings (each set has a top and bottom).
 
@@ -473,7 +473,7 @@ Add a drop of **Superglue** to the strain relief channel *below* the wire, as we
 
 ### **Cut all MDF wood pieces per SVG templates**
 
-💾 [`ouchitaiko_laser_files.svg` and `ouchitaiko_laser_files.lbrn2` are the wood template files](#9-files--downloads)
+💾 [SVG Template packet located here](#9-files--downloads)
 
 Use your laser or CNC machine (or the method available to you) to cut out all of the wood components in the template files.
 
@@ -839,7 +839,7 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 ### **Mount the Sensor Housings to The Drum**
 
-(<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
+(<a href="(https://youtu.be/N6h3QC_hvl8?t=265)">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
 
 Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flast against the wood.
 
@@ -862,7 +862,7 @@ Repeat this for each Don and Ka faceplate.
 
 ---
 
-## **6.4: Mounting The Hardware And Faceplates**
+## **7.0: Mounting The Hardware And Faceplates**
 
 ### **Mount Adjustable Speaker Plate**
 
@@ -886,7 +886,7 @@ Repeat this for each Don and Ka faceplate.
 
 ### **Assemble Drum Faceplates to Rear Baseplate**
 
-(<a href="https://youtu.be/N6h3QC_hvl8?t=488">HERE</a> is a timelapse video demonstrating how to mount the faceplates to the baseplate)
+(<a href="[URL_GOES_HERE](https://youtu.be/N6h3QC_hvl8?t=488)">HERE</a> is a timelapse video demonstrating how to mount the faceplates to the baseplate)
 
 Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on the bottom of the 4 drum faces through baseplate holes of the rear baseplate. Be sure to route the sensor wires through the nearest, round cut-out in the baseplate.
 
@@ -905,7 +905,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 ### **Attach TRS barrel mounts**
 
-💾 [`ouchitaiko_barrel_connector_mount.stl` is the barrel mount STL file](#9-files--downloads)
+💾 [Barrel Mount Files are in the file packet here](#9-files--downloads)
 
 1. Carefully flip the partially assembled drum over so that the drum faces dont fall out.
 2. 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in picture.
@@ -946,11 +946,11 @@ Connect the ends of the coiled 3.5mm extension cables to the bottom of the Barre
 
 ---
 
-# **7: Control Box Connection**
+# **8: Control Box Connection**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-## **7.1: Floor Stand Mode**
+## **8.1: Floor Stand Mode**
 
 ### **Mount drum to speaker stand**
 
@@ -968,7 +968,7 @@ Mount the control box to the phone holder arm and connect the drum TRS plugs to 
 <img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-## **7.2: Table-Top Mode**
+## **8.2: Table-Top Mode**
 
 ### **Cut monitor stand tubing**
 
@@ -997,13 +997,13 @@ Set the final angle and height for comfort.
 
 ---
 
-# **8: Flash the Firmware**
+# **9: Flash the Firmware**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
 💾 **Download the firmware files:**
-- `ouchitaiko_project_firmware.uf2`
-- `universal_flash_nuke.uf2`
+- [OuchiTaiko Firmware](#9-files--downloads)
+- [Flash Nuke](#9-files--downloads)
 
 ## **Step 1: Enter Bootloader Mode**
 
@@ -1021,7 +1021,7 @@ It is good practice to flash `universal_flash_nuke.uf2` before flashing the main
 
 ## **Step 3: Flash the Firmware**
 
-Drag `ouchitaiko_project_firmware.uf2` onto the drive.
+Drag the OuchiTaiko `.uf2` firmware file onto the drive.
 
 After the copy finishes, the board should automatically reboot into controller mode.
 
@@ -1029,7 +1029,7 @@ If it does not reboot on its own, wait a few seconds, unplug it, and reconnect i
 
 ---
 
-# **9: Calibration & Settings**
+# **8: Calibration & Settings**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1156,19 +1156,13 @@ Available modes:
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-Current download files:
+Add your file packet links here:
 
-- `ouchitaiko_pcb_gerber_v1_final.zip` - PCB Gerber files
-- `ouchitaiko_laser_files.svg` - wood cutting templates
-- `ouchitaiko_laser_files.lbrn2` - LightBurn project
-- `ouchitaiko_sensor_housing.stl` - sensor housing STL
-- `ouchitaiko_barrel_connector_mount.stl` - TRS barrel mount STL
-- `ouchitaiko_controller_shell.stl` - controller shell STL
-- `ouchitaiko_project_firmware.uf2` - main controller firmware
-- `universal_flash_nuke.uf2` - flash reset utility
-
-Additional files can be added here later:
-
+- firmware `.uf2`
+- `universal_flash_nuke.uf2`
+- SVG templates
+- sensor housings
+- barrel mounts
 - neoprene template
 - HTML calibration page
 
@@ -1288,7 +1282,7 @@ Enjoy, have fun, and peace out.
 
 ---
 
-# **14: Copyright Information**
+# **13: Copyright Information**
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
@@ -1327,8 +1321,3 @@ Thank you to ravinrabbid and kasasiki3 for their open-source work.
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
-
-
-
-
-
