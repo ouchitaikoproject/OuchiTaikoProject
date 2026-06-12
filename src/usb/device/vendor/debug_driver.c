@@ -167,7 +167,7 @@ static usbd_class_driver_t const debug_app_driver = {
 
 const usbd_driver_t *get_debug_device_driver() {
     static const usbd_driver_t debug_device_driver = {
-        .name = "Web Calibrate",
+        .name = "Guided Calibrate",
         .app_driver = &debug_app_driver,
         .desc_device = &debug_desc_device,
         .desc_cfg = debug_desc_cfg,

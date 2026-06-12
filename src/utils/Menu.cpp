@@ -36,14 +36,14 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
        {"Analog\nPlayer 1", Menu::Descriptor::Action::SetUsbMode},
        {"Analog\nPlayer 2", Menu::Descriptor::Action::SetUsbMode},
        {"MIDI\nController", Menu::Descriptor::Action::SetUsbMode},
-       {"Web\nCalibrate", Menu::Descriptor::Action::SetUsbMode}},
+       {"Guided\nCalibrate", Menu::Descriptor::Action::SetUsbMode}},
       0}},
 
     // Drum Tuning submenu (2 items) - Pure tuning
     {Menu::Page::DrumTuning,
  {Menu::Descriptor::Type::Menu,
   "Drum\nTuning",
-  {{"Guided\nCalibrate", Menu::Descriptor::Action::GotoPageGuidedCalibration},
+  {{"Guided\nCalibrate", Menu::Descriptor::Action::StartGuidedCalibration},
    {"Manual\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsManual},
    {"Reset\nThresholds", Menu::Descriptor::Action::GotoPageDrumTriggerThresholdsReset}},
   0}},
@@ -79,13 +79,6 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
      {Menu::Descriptor::Type::Toggle,
       "Reset All\nThresholds?",
       {{"Yes / No", Menu::Descriptor::Action::DoResetThresholds}},
-      0}},
-
-    // Guided calibration entry page
-    {Menu::Page::GuidedCalibration,
-     {Menu::Descriptor::Type::Selection,
-      "Guided\nCalibrate",
-      {{"Start\nGuided", Menu::Descriptor::Action::StartGuidedCalibration}},
       0}},
 
     // Value adjustments (unchanged)
@@ -305,7 +298,6 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
     case Page::Bootsel:
     case Page::BootselMsg:
     case Page::RebootMsg:
-    case Page::GuidedCalibration:
         break;
     }
 
@@ -380,7 +372,6 @@ void Menu::gotoParent(bool do_restore) {
         case Page::Bootsel:
         case Page::BootselMsg:
         case Page::RebootMsg:
-        case Page::GuidedCalibration:
             break;
         }
     }
@@ -450,11 +441,8 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageLedBrightness:
         gotoPage(Page::LedBrightness);
         break;
-    case Descriptor::Action::GotoPageGuidedCalibration:
-        gotoPage(Page::GuidedCalibration);
-        break;
     case Descriptor::Action::StartGuidedCalibration:
-        // This action is flagged and handled in Main.cpp - don't do anything here
+        m_guided_cal_start_requested = true;
         break;
     case Descriptor::Action::SetUsbMode:
         m_store->setUsbMode(static_cast<usb_mode_t>(value));
@@ -747,13 +735,7 @@ void Menu::update(const InputState::Controller &controller_state) {
             }
             break;
         case Descriptor::Type::Selection:
-            // Check if this is a Taiko-Tune page before normal handling
-            if (current_state.page == Page::GuidedCalibration) {
-                // Don't go to parent - stay on this page
-                // The calibration start will be handled by Main.cpp
-                // Just flag that confirm was pressed
-                m_guided_cal_start_requested = true;
-            } else if (current_state.page == Page::DeviceMode && 
+            if (current_state.page == Page::DeviceMode && 
                 current_state.selected_value != current_state.original_value) {
                 m_store->setUsbMode(static_cast<usb_mode_t>(current_state.selected_value));
                 m_store->scheduleReboot();

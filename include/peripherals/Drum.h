@@ -86,7 +86,6 @@ class Drum {
             Welcome,
             Instructions,
             PadNormal,
-            PadHardPrompt,
             PadHard,
             BleedDetected,
             Review,
@@ -98,7 +97,7 @@ class Drum {
 
         enum class WatchSuccessAction : uint8_t {
             None,
-            AdvanceToHardPrompt,
+            AdvanceToHard,
             FinishPad,
         };
 
@@ -179,7 +178,6 @@ class Drum {
             }
             phase_start = to_ms_since_boot(get_absolute_time());
         }
-        void startPadHardPrompt() { current_mode = Mode::PadHardPrompt; phase_start = to_ms_since_boot(get_absolute_time()); }
         void startPadHard() {
             current_mode = Mode::PadHard;
             hard_hit_done = false;
@@ -339,7 +337,7 @@ class Drum {
     void setTriggerThresholds(const Config::Thresholds &thresholds);
 
     // Guided calibration wizard public interface
-    void startGuidedCalibration();  // Entry point: begins at Welcome screen
+    void startGuidedCalibration();  // Entry point: begins at guided intro
     void updateGuidedCalibration(const Utils::InputState::Drum &drum_state, const std::array<uint16_t, 4> &raw_values);
     void advanceCalibWizard();  // A button: advance through wizard steps
     void cancelGuidedCalibration();  // B button: cancel at any point

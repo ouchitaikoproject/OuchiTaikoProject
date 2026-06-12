@@ -164,7 +164,6 @@ void core1_task() {
                     display.showGuidedCalWelcome();
                     break;
                 case Mode::PadNormal:
-                case Mode::PadHardPrompt:
                 case Mode::PadHard:
                     display.showGuidedCalPadTest();
                     break;

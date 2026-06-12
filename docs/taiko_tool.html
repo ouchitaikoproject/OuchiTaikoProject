@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OuchiTaiko Slim Calibrate</title>
+<title>OuchiTaiko Guided Calibrate</title>
 <style>
 :root{
   --bg:#f7f1e6;
@@ -267,7 +267,7 @@ body{
 <div class="wrap">
   <div class="header">
     <div>
-      <div class="title">OuchiTaiko Slim Calibrate</div>
+      <div class="title">OuchiTaiko Guided Calibrate</div>
       <div class="sub">Hit the current lane. If another lane says <b>Increase Me</b>, raise that lane and test again.</div>
     </div>
     <div class="status">
@@ -280,7 +280,7 @@ body{
 
   <div class="panel hero">
     <h2>Recommended workflow</h2>
-    <p>Set the controller to <b>Web Calibrate</b> mode. Hit the green test lane. If another lane shows <b>Increase Me</b>, raise that lane until only the target lane stays clean, then press <b>Next</b>.</p>
+    <p>Set the controller to <b>Guided Calibrate</b> mode. Hit the green test lane. If another lane shows <b>Increase Me</b>, raise that lane until only the target lane stays clean, then press <b>Next</b>.</p>
   </div>
 
   <div class="toolbar">
@@ -916,7 +916,7 @@ async function saveThresholds(){
     S.ackTimeout=setTimeout(()=>{
       if(S.pendingAck){
         S.pendingAck=false;
-        setMsg('No response. Make sure the drum is in Web Calibrate mode.','err');
+        setMsg('No response. Make sure the drum is in Guided Calibrate mode.','err');
       }
     },2000);
   }catch(e){

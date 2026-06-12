@@ -508,9 +508,6 @@ void Drum::advanceCalibWizard() {
             s.retry_count_for_pad = 0;
             s.startPadNormal();
             break;
-        case GuidedCalState::Mode::PadHardPrompt:
-            s.startPadHard();
-            break;
         case GuidedCalState::Mode::BleedDetected:
             s.retry_count_for_pad++;
             s.startPadNormal();
@@ -618,9 +615,9 @@ void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, co
 
         s.bleed_watch_active = false;
         s.bleed_watch_until = 0;
-        if (s.watch_success_action == GuidedCalState::WatchSuccessAction::AdvanceToHardPrompt) {
+        if (s.watch_success_action == GuidedCalState::WatchSuccessAction::AdvanceToHard) {
             s.watch_success_action = GuidedCalState::WatchSuccessAction::None;
-            s.startPadHardPrompt();
+            s.startPadHard();
         } else if (s.watch_success_action == GuidedCalState::WatchSuccessAction::FinishPad) {
             s.watch_success_action = GuidedCalState::WatchSuccessAction::None;
             _finishCurrentPadTest();
@@ -663,7 +660,6 @@ void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, co
         break;
 
     case GuidedCalState::Mode::PadNormal:
-    case GuidedCalState::Mode::PadHardPrompt:
     case GuidedCalState::Mode::PadHard: {
         const bool targetHit = (hitEdgeMask & (1u << padIdx)) != 0;
         const uint8_t extrasMask = static_cast<uint8_t>(crossEdgeMask | arbEdgeMask | nearBleedMask);
@@ -691,7 +687,7 @@ void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, co
                 s.normal_hits_done++;
             }
             if (s.normal_hits_done >= GuidedCalState::REQUIRED_NORMAL_HITS) {
-                s.watch_success_action = GuidedCalState::WatchSuccessAction::AdvanceToHardPrompt;
+                s.watch_success_action = GuidedCalState::WatchSuccessAction::AdvanceToHard;
             }
         } else {
             s.hard_hit_done = true;

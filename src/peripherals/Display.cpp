@@ -159,7 +159,7 @@ std::string modeToString(usb_mode_t mode) {
     case USB_MODE_MIDI:
         return "MIDI";
     case USB_MODE_DEBUG:
-        return "Web Cal";
+        return "Guided Cal";
     }
     return "?";
 }
@@ -900,7 +900,7 @@ void Display::drawGuidedCalWelcomeScreen() {
     };
 
     if (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::CancelConfirm) {
-        const char* hdr = "CANCEL GUIDED?";
+        const char* hdr = "CANCEL CAL?";
         drawCentered(0, 1, hdr);
         ssd1306_draw_line(&m_display, 0, 10, 127, 10);
         drawCentered(20, 1, "Changes will not");
@@ -914,7 +914,7 @@ void Display::drawGuidedCalWelcomeScreen() {
         drawCentered(6, 2, hdr);
         ssd1306_draw_line(&m_display, 0, 26, 127, 26);
         drawCentered(35, 1, "No thresholds saved.");
-        drawCentered(44, 1, "Returning to menu");
+        drawCentered(44, 1, "Returning to tune");
         return;
     }
 
@@ -935,7 +935,7 @@ void Display::drawGuidedCalWelcomeScreen() {
     drawCentered(20, 1, "Tests one drum pad");
     drawCentered(29, 1, "at a time.");
     drawCentered(41, 1, "Auto Adjusts Others.");
-    drawFooter("B Back", "A Start");
+        drawFooter("B Back", "A Start");
 }
 
 // Phase dots removed -- each phase now has its own clear standalone screen
@@ -943,7 +943,6 @@ void Display::drawGuidedCalWelcomeScreen() {
 void Display::drawGuidedCalPadTestScreen() {
     if (!m_drum) return;
     const auto& s = m_drum->getGuidedCalState();
-    const bool is_hard_prompt = (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::PadHardPrompt);
     const bool is_hard = (s.current_mode == Peripherals::Drum::GuidedCalState::Mode::PadHard);
     const auto drawCentered = [&](int y, int scale, const char* text) {
         const int char_w = scale == 2 ? 12 : 6;
@@ -955,14 +954,6 @@ void Display::drawGuidedCalPadTestScreen() {
     snprintf(hdr, sizeof(hdr), "%s (%u/4)", s.currentPadName(), (unsigned)(s.current_pad + 1));
     drawCentered(0, 1, hdr);
     ssd1306_draw_line(&m_display, 0, 9, 127, 9);
-
-    if (is_hard_prompt) {
-        drawCentered(16, 1, "HIT HARD ONCE");
-        drawCentered(30, 2, "NOW");
-        ssd1306_draw_line(&m_display, 0, 52, 127, 52);
-        drawCentered(55, 1, "B Cancel");
-        return;
-    }
 
     if (is_hard) {
         drawCentered(16, 1, "HIT HARD ONCE");

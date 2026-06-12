@@ -34,9 +34,6 @@ class Menu {
         DrumTriggerThresholdsAuto,
         DrumTriggerThresholdsReset,
 
-        // Guided calibration
-        GuidedCalibration,
-
         DrumTriggerThresholdKaLeft,
         DrumTriggerThresholdDonLeft,
         DrumTriggerThresholdDonRight,
@@ -85,8 +82,6 @@ class Menu {
             GotoPageDrumTriggerThresholdsAuto,
             GotoPageDrumTriggerThresholdsReset,
 
-            // Guided calibration actions
-            GotoPageGuidedCalibration,
             StartGuidedCalibration,
 
             GotoPageDrumTriggerThresholdKaLeft,

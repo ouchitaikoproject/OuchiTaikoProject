@@ -12,6 +12,42 @@ Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience 
 
 ---
 
+<a id="table-of-contents"></a>
+
+<a id="table-of-contents"></a>
+# Table of Contents
+
+- [1. Project Overview](#1-project-overview)
+- [Key Features and World Firsts Not Seen In Any Other Existing Projects](#key-features-and-world-firsts-not-seen-in-any-other-existing-projects)
+  - [1) Guided Calibrate](#1-guided-calibration)
+  - [2) Adaptive Baseline Software Intelligence (ABSI)](#2-adaptive-baseline-software-intelligence-absi)
+  - [3) Custom Arcade Sensor Suspension Modeled After Japanese Taiko Arcade Hardware](#3-custom-arcade-sensor-suspension-modeled-after-japanese-taiko-arcade-hardware)
+  - [Complete Hardware & Features](#complete-hardware--features)
+- [2. Parts List for Electronics](#2-parts-list-for-electronics)
+- [3. Parts List for Hardware](#3-parts-list-for-hardware)
+- [4. Assemble the Controller PCB](#4-assemble-the-controller-pcb)
+- [5: Build the Sensor Housings](#5-build-the-sensor-housings)
+  - [5.0: Print The Sensor Housings](#50-print-the-sensor-housings)
+  - [5.1: Assemble Sensor Electronics](#51-assemble-sensor-electronics)
+- [6: Build the Drum](#6-build-the-drum)
+  - [6.1: Prepare the Wood](#61-prepare-the-wood)
+  - [6.2: Assemble the Drum Structure](#62-assemble-the-drum-structure)
+  - [6.3: Assemble The Rubber Isolators](#63-assemble-the-rubber-isolators)
+  - [6.4: Mount the Sensor Housings to The Drum](#64-mount-the-sensor-housings-to-the-drum)
+  - [6.5: Mounting The Hardware And Faceplates](#65-mounting-the-hardware-and-faceplates)
+- [7: Control Box Connection](#7-control-box-connection)
+  - [7.1: Floor Stand Mode](#71-floor-stand-mode)
+  - [7.2: Table-Top Mode](#72-table-top-mode)
+- [8: Flash the Firmware](#8-flash-the-firmware)
+- [9: Calibration & Settings](#9-calibration--settings)
+- [10: Files & Downloads](#10-files--downloads)
+- [11: Basic Troubleshooting](#11-basic-troubleshooting)
+- [12: Menu System Reference](#12-menu-system-reference)
+- [13: About](#13-about)
+- [14: Copyright Information](#14-copyright-information)
+
+---
+
 <a id="project-overview"></a>
 # 1. Project Overview
 
@@ -46,17 +82,17 @@ Traditional Taiko controllers often require constant threshold tuning, extensive
 
 **OuchiTaiko solves these issues with three core systems:**
 
-1. Guided Calibration  
+1. Guided Calibrate  
 2. Adaptive Baseline Software Intelligence (ABSI)  
 3. Custom Sensor Suspension System
 ---
 
-<a id="guided-calibration"></a>
-## 1) Guided Calibration
-OuchiTaiko includes two guided calibration options:
+<a id="guided-calibrate"></a>
+## 1) Guided Calibrate
+OuchiTaiko includes two Guided Calibrate options:
 
-- HTML Guided Calibration for the preferred full setup workflow  
-- On-device Guided Calibration for the same method, but on the controller  
+- Guided Calibrate for the preferred full setup workflow  
+- On-device Guided Calibrate for the same method, but on the controller  
 - No recompiling required  
 - Fast threshold refinement  
 - Easier crosstalk diagnosis  
@@ -374,7 +410,7 @@ Before powering on, confirm:
 - All joints look solid  
 
 
-If you were just building the controller and sensors for an existing drum that you had, you can skip to the sFirmware flashing is covered in **Section 7**.
+If you were just building the controller and sensors for an existing drum that you already had, you can skip ahead to **Section 8: Flash the Firmware**.
 
 
 ---
@@ -458,9 +494,9 @@ Now solder the **red** wire to piezo center disc, and solder the **black** wire 
 <a id="glue-piezo-to-neoprene-mount"></a>
 ### **Glue Piezo to Neoprene Mount**
 
-Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. Be sure that the wire is laying across the strain relief channel portion on one side of the bottom housing channel.
+Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. 
 
-💡 **Note:** Pic varies slightly from your version - this was an earlier version. You will have a more pronounced strain relief channel.
+💡 **Note:** Pic varies slightly from your version - this was an earlier version.
 
 <div align="center">
 <img src="images/pictures/piezopremount.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -474,15 +510,22 @@ Add several drops of **Superglue** onto the top surface of neoprene that is alre
 <a id="enclose-housing"></a>
 ### **Enclose Housing**
 
-Add a drop of **Superglue** to the strain relief channel *below* the wire, as well as on top, and add a few drops to the upper housing around the inside rim. Now assemble the top and bottom housing pieces together, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
+Add a drop of **Superglue** around the inner rim of the housing and then press the two halvestogether, press and hold for 30 seconds. The top shell of the housing will nest into place when aligned properly.
+
+After 30 seconds, add a little bit of **Hot Glue** to the wire where it meets against the outside of the housing - this will act as additional strain relief. 
 
 
 <div align="center">
 <img src="images/pictures/sensorholding.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
-<a id="repeat-these-steps-so-that-you-end-up-with-4-complete-sensor-assemblies"></a>
-#### **Repeat these steps so that you end up with 4 complete sensor assemblies**
+> Repeat these steps until you have 4 complete sensor assemblies.
+>
+> **Using these sensors with an existing drum?**
+> You can skip the full drum build. Jump to [**Section 6.4: Mount the Sensor Housings to The Drum**](#64-mount-the-sensor-housings-to-the-drum), then continue to [**Section 8: Flash the Firmware**](#8-flash-the-firmware).
+>
+ **Building your new drum?**
+If you are building the complete OuchiTaiko drum, continue below.
 
 <a id="build-the-drum"></a>
 # **6: Build the Drum**
@@ -643,7 +686,7 @@ You may now spray several coats of Clear Lacquer Spray Paint to the front back a
 
 The following step allows the drum to be built with no visible mounting holes on the drum face. This improves aesthetics and reduces wear on sticks and the drum cover. You will drill holes into the underside of the top faceplates so the threaded inserts for the grommets can be installed from beneath and remain invisible.
 
-The hols you will be workin with are on the underside of the bottom Drum Face Plates.
+The holes you will be working with are on the underside of the bottom Drum Face Plates.
 
 Using a Drill press, insert a **9mm** diameter drill bit (or the specialized drill bit that came with your threaded wood inserts), and set it up so that when you drill press is fully lowered, the bottom of the drill bit is exactly 2mm above your drill press plate/table.  This way, you can ensure that every time you lower the drill press, you're getting the exact depth needed each time.
 
@@ -886,7 +929,7 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 
 <a id="mount-the-sensor-housings-to-the-drum"></a>
-### **Mount the Sensor Housings to The Drum**
+## **6.4: Mount the Sensor Housings to The Drum**
 
 (<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
 
@@ -912,7 +955,7 @@ Repeat this for each Don and Ka faceplate.
 
 
 <a id="mounting-the-hardware-and-faceplates"></a>
-## **6.4: Mounting The Hardware And Faceplates**
+## **6.5: Mounting The Hardware And Faceplates**
 
 <a id="mount-adjustable-speaker-plate"></a>
 ### **Mount Adjustable Speaker Plate**
@@ -956,11 +999,10 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 💾 [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) is the barrel mount STL file
 
-1. Carefully flip the partially assembled drum over so that the drum faces dont fall out.
-2. 3D Print and Attach **TRS barrel mounts** with adhesive tape as seen in picture.
-
-2. Place the four TRS couplers in the mounts. You will have one pair of Barrel Mounts on each side of the drum.
-3. Attach the sensor wires to the top of their respective Barrel Connector
+1. Carefully flip the partially assembled drum over so that the drum faces don't fall out.
+2. 3D print and attach **TRS barrel mounts** with adhesive tape as shown in the picture.
+3. Place the four TRS couplers in the mounts. You will have one pair of barrel mounts on each side of the drum.
+4. Attach the sensor wires to the top of their respective barrel connector.
 
 <div align="center">
 <img src="images/pictures/rearwithnylon.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1009,7 +1051,7 @@ Attach the drum and bracket to the speaker stand.
 <a id="mount-control-box-and-connect-signal-wires"></a>
 ### **Mount control box and connect signal wires**
 
-Mount the control box to the phone holder arm and connect the drum TRS plugs to the matching control box TRS jacks.
+Mount the control box to the phone holder arm and connect the drum TRS plugs to the matching control box TRS jacks. (this photo shows an older version of the control box, yours will be much smaller)
 
 <div align="center">
 <img src="images/pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1098,11 +1140,11 @@ Before calibration:
 3. Tap each drum lane and confirm you see hit feedback
 4. Press each navigation button and confirm the correct label appears
 
-## Guided Calibration
+## Guided Calibrate
 
-The preferred calibration method is the **HTML Guided Calibration** page.
+The preferred calibration method is **Guided Calibrate**.
 
-Use the HTML method first whenever possible.
+Use the web method first whenever possible.
 
 <a id="starting-thresholds"></a>
 ### Starting Thresholds
@@ -1114,12 +1156,11 @@ Start at:
 - Don Right: `285`
 - Ka Right: `285`
 
-<a id="html-guided-calibration"></a>
-### HTML Guided Calibration
+### Guided Calibrate
 
 1. Connect the controller over USB.
-2. Put the controller in `Web Calibrate` mode.
-3. Open the HTML Guided Calibration page.
+2. Put the controller in `Guided Calibrate` mode under `Controller Mode`.
+3. Open the Guided Calibrate web tool.
 4. Confirm the thresholds are `285 / 285 / 285 / 285`.
 5. Follow the target pad shown on screen.
 6. For each pad, do:
@@ -1132,16 +1173,16 @@ Start at:
 11. Save to the controller.
 12. Test in-game.
 
-<a id="on-device-guided-calibration"></a>
-### On-Device Guided Calibration
+<a id="on-device-guided-calibrate"></a>
+### On-Device Guided Calibrate
 
 The same method is also available on the controller.
 
 Menu path:
 
-`Drum Tuning -> Guided Calibration`
+`Drum Tuning -> Guided Calibrate`
 
-1. Start Guided Calibration.
+1. Select Guided Calibrate.
 2. Follow the target pad shown on screen.
 3. For each pad, do:
    - `5` fast normal hits
@@ -1160,7 +1201,7 @@ Menu path:
 <a id="manual-threshold-adjustment"></a>
 ## **Manual Threshold Adjustment**
 
-Use **Manual Thresholds** to fine-tune settings after testing in the HTML calibration page.
+Use **Manual Thresholds** to fine-tune settings after testing in Guided Calibrate.
 
 <a id="access"></a>
 ### **Access**
@@ -1212,7 +1253,7 @@ Available modes:
 - Analog Player 1
 - Analog Player 2
 - MIDI Controller
-- Web Calibrate
+- Guided Calibrate
 
 
 
@@ -1261,7 +1302,7 @@ Additional files can be added here later:
 
 <a id="a-lane-causes-false-hits-on-another-lane"></a>
 ## **A lane causes false hits on another lane**
-- switch to **Web Calibrate**
+- switch to **Guided Calibrate**
 - use the HTML calibration page
 - raise the threshold of the falsely triggered lane
 - retest
@@ -1306,7 +1347,7 @@ Additional files can be added here later:
 <a id="drum-tuning"></a>
 ## **Drum Tuning**
 
-- Guided Calibration
+- Guided Calibrate
 - Manual Thresholds
 - Reset Thresholds
 
@@ -1413,6 +1454,7 @@ Thank you to ravinrabbid and kasasiki3 for their open-source work.
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+
 
 
 
