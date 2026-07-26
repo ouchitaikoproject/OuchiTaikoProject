@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 <img src="images/pictures/mainlogo.jpg" width="100%" style="max-width: 1200px; display: block; margin: 0 auto;">
 </div>
 
@@ -284,7 +284,7 @@ However, since I made my project open source, you have 100% control over where t
 [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) is the PCB Gerber file package.
 
 
-One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.  T
+One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.
 
 <a id="control-pcb-overview"></a>
 ## Control PCB Overview
@@ -1049,7 +1049,7 @@ Set the final angle and height for comfort.
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
 💾 **Download the firmware files:**
-- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware.uf2)
+- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2)
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2)
 
 ## **Step 1: Enter Bootloader Mode**
@@ -1211,7 +1211,7 @@ Current download files:
 - [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) - sensor housing STL
 - [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) - TRS barrel mount STL
 - [`ouchitaiko_controller_shell.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_controller_shell.stl) - controller shell STL
-- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware.uf2) - main controller firmware
+- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2) - main controller firmware
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 Additional files can be added here later:
@@ -1313,8 +1313,8 @@ Additional thanks:
 
 - **Gadgetoid** for [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke)
 - **Allspice** for early prototype testing from a beginner-builder perspective as well as excellent guide formatting suggestions.
-- **Moshir** for helping review the guide for clarity and flow
-- **Train** for converting my hand-drawn circuit into a gorgeous Gerber File.
+- **Moshir** for helping review the guide for clarity and flow.
+- **Train** for converting my custom circuit diagram circuit into a proper Gerber File. Amazing Work!
 - **Frost** for being the first user to order a PCB and assemble the complete contoller.
 - **Ermagerd** for testing the sensors and controller and putting it to the ultimate player test - since I feel he's the best, and most engaging live streaming Taiko Player on the Internet!
 

@@ -1,7 +1,7 @@
-﻿@echo off
+@echo off
 setlocal
 set "ROOT=%~dp0.."
-set "PAGE=%ROOT%\docs\taiko_tool.html"
+set "PAGE=%ROOT%\download_files\\guided_calibrate.html"
 if not exist "%PAGE%" (
   echo Live calibrate page not found:
   echo %PAGE%
