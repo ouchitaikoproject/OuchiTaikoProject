@@ -59,7 +59,8 @@ class Drum {
         };
 
         Thresholds trigger_thresholds;
-        uint16_t debounce_delay_ms;
+        uint16_t hit_hold_ms;
+        uint16_t analog_peak_hold_ms;
         uint32_t roll_counter_timeout_ms;
         float analog_gain;  // Analog mode gain multiplier (compensates for missing OpAmp circuit)
         AdcChannels adc_channels;
@@ -80,6 +81,11 @@ class Drum {
     struct GuidedCalState {
         static constexpr uint8_t PAD_ORDER[4] = {1, 0, 2, 3};
         static constexpr const char* PAD_NAMES[4] = {"Ka Left", "Don Left", "Don Right", "Ka Right"};
+        static constexpr const char* PAD_INDEX_NAMES[4] = {"Don Left", "Ka Left", "Don Right", "Ka Right"};
+        static constexpr uint16_t START_THRESHOLD_KA_LEFT = 265;
+        static constexpr uint16_t START_THRESHOLD_DON_LEFT = 190;
+        static constexpr uint16_t START_THRESHOLD_DON_RIGHT = 190;
+        static constexpr uint16_t START_THRESHOLD_KA_RIGHT = 265;
 
         enum class Mode {
             Inactive,
@@ -241,9 +247,9 @@ class Drum {
 
         [[nodiscard]] uint8_t getChannel() const { return m_channel; }
         [[nodiscard]] bool getState() const { return m_active; }
-        void setState(bool state, uint16_t debounce_delay);
+        void setState(bool state, uint16_t hold_ms);
 
-        void addToBuffer(uint16_t value, uint16_t debounce_delay);
+        void addToBuffer(uint16_t value, uint16_t hold_ms);
         [[nodiscard]] uint16_t getMaxValueInBuffer() const;
         [[nodiscard]] uint16_t getAnalog(float gain = 1.0f) const;
         // Compute analog from an already-known raw value — avoids rescanning the buffer
@@ -301,14 +307,6 @@ class Drum {
     // Order MUST match Id enum: [0]=DON_LEFT, [1]=KA_LEFT, [2]=DON_RIGHT, [3]=KA_RIGHT
     // ============================================================================
     std::array<Pad, 4> m_pads;
-    // Event-gated digital hit state:
-    // - armed: must dip below release level before retriggering
-    // - press_until: keep hit asserted for a short fixed pulse width
-    // - rearm_until: minimum spacing between accepted hits per pad
-    std::array<bool, 4> m_hit_armed{{true, true, true, true}};
-    std::array<uint32_t, 4> m_press_until_ms{};
-    std::array<uint32_t, 4> m_rearm_until_ms{};
-    std::array<uint16_t, 4> m_last_trigger_level{};
     std::array<uint32_t, 4> m_dbg_hit_until_ms{};
     std::array<uint32_t, 4> m_dbg_cross_until_ms{};
     std::array<uint32_t, 4> m_dbg_arb_until_ms{};
@@ -333,7 +331,7 @@ class Drum {
 
     void updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode = USB_MODE_SWITCH_TATACON);
 
-    void setDebounceDelay(uint16_t delay);
+    void setHitHoldMs(uint16_t delay);
     void setTriggerThresholds(const Config::Thresholds &thresholds);
 
     // Guided calibration wizard public interface

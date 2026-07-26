@@ -51,7 +51,7 @@ SettingsStore::SettingsStore()
                      .trigger_thresholds = Config::Default::drum_config.trigger_thresholds,
                      .led_brightness = Config::Default::led_config.brightness,
                      .led_enable_player_color = Config::Default::led_config.enable_player_color,
-                     .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
+                     .hit_hold_ms = Config::Default::drum_config.hit_hold_ms,
                      .guided_cal_report_version = 0,
                      .guided_cal_session_id = 0,
                      .guided_cal_uptime_ms = 0,
@@ -86,7 +86,7 @@ SettingsStore::SettingsStore()
             m_store_cache.trigger_thresholds = legacy.trigger_thresholds;
             m_store_cache.led_brightness = legacy.led_brightness;
             m_store_cache.led_enable_player_color = legacy.led_enable_player_color;
-            m_store_cache.debounce_delay = legacy.debounce_delay;
+            m_store_cache.hit_hold_ms = legacy.debounce_delay;
             m_store_cache.guided_cal_report_version = 0;
             m_store_cache.guided_cal_session_id = 0;
             m_store_cache.guided_cal_uptime_ms = 0;
@@ -144,13 +144,13 @@ void SettingsStore::setLedEnablePlayerColor(const bool do_enable) {
 }
 bool SettingsStore::getLedEnablePlayerColor() const { return m_store_cache.led_enable_player_color; }
 
-void SettingsStore::setDebounceDelay(const uint16_t delay) {
-    if (m_store_cache.debounce_delay != delay) {
-        m_store_cache.debounce_delay = delay;
+void SettingsStore::setHitHoldMs(const uint16_t delay) {
+    if (m_store_cache.hit_hold_ms != delay) {
+        m_store_cache.hit_hold_ms = delay;
         m_dirty = true;
     }
 }
-uint16_t SettingsStore::getDebounceDelay() const { return m_store_cache.debounce_delay; }
+uint16_t SettingsStore::getHitHoldMs() const { return m_store_cache.hit_hold_ms; }
 
 void SettingsStore::setLastGuidedCalReport(uint32_t version, const char* report, usb_mode_t mode, uint32_t uptime_ms) {
     if (report == nullptr) {
@@ -282,7 +282,7 @@ void SettingsStore::reset() {
         .trigger_thresholds = Config::Default::drum_config.trigger_thresholds,
         .led_brightness = Config::Default::led_config.brightness,
         .led_enable_player_color = Config::Default::led_config.enable_player_color,
-        .debounce_delay = Config::Default::drum_config.debounce_delay_ms,
+        .hit_hold_ms = Config::Default::drum_config.hit_hold_ms,
         .guided_cal_report_version = 0,
         .guided_cal_session_id = 0,
         .guided_cal_uptime_ms = 0,

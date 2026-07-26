@@ -27,7 +27,7 @@ class SettingsStore {
         Peripherals::Drum::Config::Thresholds trigger_thresholds;
         uint8_t led_brightness;
         bool led_enable_player_color;
-        uint16_t debounce_delay;
+        uint16_t hit_hold_ms;
         uint32_t guided_cal_report_version;
         uint32_t guided_cal_session_id;
         uint32_t guided_cal_uptime_ms;
@@ -69,8 +69,8 @@ class SettingsStore {
     void setLedEnablePlayerColor(bool do_enable);
     [[nodiscard]] bool getLedEnablePlayerColor() const;
 
-    void setDebounceDelay(uint16_t delay);
-    [[nodiscard]] uint16_t getDebounceDelay() const;
+    void setHitHoldMs(uint16_t delay);
+    [[nodiscard]] uint16_t getHitHoldMs() const;
 
     void setLastGuidedCalReport(uint32_t version, const char* report, usb_mode_t mode, uint32_t uptime_ms);
     [[nodiscard]] uint32_t getLastGuidedCalReportVersion() const;

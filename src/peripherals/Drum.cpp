@@ -93,19 +93,19 @@ std::array<uint16_t, 4> Drum::ExternalAdc::read() {
 // Pad - Fixed circular buffer implementation
 // ============================================================================
 
-void Drum::Pad::setState(const bool state, const uint16_t debounce_delay) {
+void Drum::Pad::setState(const bool state, const uint16_t hold_ms) {
     if (state != m_active) {
         const uint32_t now = to_ms_since_boot(get_absolute_time());
-        if ((now - m_last_change) >= debounce_delay) {
+        if ((now - m_last_change) >= hold_ms) {
             m_active = state;
             m_last_change = now;
         }
     }
 }
 
-void Drum::Pad::addToBuffer(uint16_t value, uint16_t debounce_delay) {
+void Drum::Pad::addToBuffer(uint16_t value, uint16_t hold_ms) {
     const uint32_t now = to_ms_since_boot(get_absolute_time());
-    const uint32_t expiry = now - debounce_delay;
+    const uint32_t expiry = now - hold_ms;
 
     // Evict expired entries from the front of the circular buffer
     while (m_count > 0 && m_buffer[m_head].timestamp <= expiry) {
@@ -254,7 +254,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     std::array<bool, 4> arb_blocked{};
     std::array<bool, 4> rising_hit{};
     const uint32_t now = to_ms_since_boot(get_absolute_time());
-    const uint16_t digital_debounce_ms = m_config.debounce_delay_ms;
+    const uint16_t digital_hit_hold_ms = m_config.hit_hold_ms;
 
     const auto thresholdFor = [&](Id id) -> uint16_t {
         switch (id) {
@@ -334,7 +334,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
     apply_same_side_lock(1, idToIndex(Id::DON_RIGHT), idToIndex(Id::KA_RIGHT));
 
     for (size_t i = 0; i < m_pads.size(); ++i) {
-        m_pads[i].setState(filtered_raw_values[i] != 0, digital_debounce_ms);
+        m_pads[i].setState(filtered_raw_values[i] != 0, digital_hit_hold_ms);
     }
 
     const bool ka_active = m_pads[idToIndex(Id::KA_LEFT)].getState() || m_pads[idToIndex(Id::KA_RIGHT)].getState();
@@ -347,18 +347,18 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
                                    !(previous_state[idToIndex(Id::KA_LEFT)] || previous_state[idToIndex(Id::KA_RIGHT)]);
 
         if (ka_was_first) {
-            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
-            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_hit_hold_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_hit_hold_ms);
             arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
             arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
         } else if (don_was_first) {
-            m_pads[idToIndex(Id::KA_LEFT)].setState(false, digital_debounce_ms);
-            m_pads[idToIndex(Id::KA_RIGHT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::KA_LEFT)].setState(false, digital_hit_hold_ms);
+            m_pads[idToIndex(Id::KA_RIGHT)].setState(false, digital_hit_hold_ms);
             arb_blocked[idToIndex(Id::KA_LEFT)] = filtered_raw_values[idToIndex(Id::KA_LEFT)] != 0;
             arb_blocked[idToIndex(Id::KA_RIGHT)] = filtered_raw_values[idToIndex(Id::KA_RIGHT)] != 0;
         } else {
-            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_debounce_ms);
-            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_debounce_ms);
+            m_pads[idToIndex(Id::DON_LEFT)].setState(false, digital_hit_hold_ms);
+            m_pads[idToIndex(Id::DON_RIGHT)].setState(false, digital_hit_hold_ms);
             arb_blocked[idToIndex(Id::DON_LEFT)] = filtered_raw_values[idToIndex(Id::DON_LEFT)] != 0;
             arb_blocked[idToIndex(Id::DON_RIGHT)] = filtered_raw_values[idToIndex(Id::DON_RIGHT)] != 0;
         }
@@ -443,7 +443,7 @@ void Drum::updateDigitalInputState(Utils::InputState &input_state, const std::ar
 
 void Drum::updateAnalogInputState(Utils::InputState &input_state, const std::array<uint16_t, 4> &raw_values) {
     for (size_t i = 0; i < 4; ++i) {
-        m_pads[i].addToBuffer(raw_values[i], m_config.debounce_delay_ms);
+        m_pads[i].addToBuffer(raw_values[i], m_config.analog_peak_hold_ms);
     }
 
     // Scan each pad's circular buffer exactly once, then compute both raw and analog from that result.
@@ -481,7 +481,7 @@ void Drum::updateInputState(Utils::InputState &input_state, usb_mode_t usb_mode)
     }
 }
 
-void Drum::setDebounceDelay(uint16_t delay) { m_config.debounce_delay_ms = delay; }
+void Drum::setHitHoldMs(uint16_t delay) { m_config.hit_hold_ms = delay; }
 
 void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config.trigger_thresholds = thresholds; }
 
@@ -491,10 +491,10 @@ void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config
 
 void Drum::startGuidedCalibration() {
     m_guided_cal_state.startWelcome();
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)] = m_config.trigger_thresholds.don_left;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)] = m_config.trigger_thresholds.ka_left;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)] = m_config.trigger_thresholds.don_right;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)] = m_config.trigger_thresholds.ka_right;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)] = GuidedCalState::START_THRESHOLD_KA_LEFT;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)] = GuidedCalState::START_THRESHOLD_DON_LEFT;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)] = GuidedCalState::START_THRESHOLD_DON_RIGHT;
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)] = GuidedCalState::START_THRESHOLD_KA_RIGHT;
 }
 
 void Drum::advanceCalibWizard() {
@@ -564,6 +564,11 @@ void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, co
     };
 
     const auto raiseOffenders = [&](uint8_t offender_mask) {
+        offender_mask = static_cast<uint8_t>(offender_mask & static_cast<uint8_t>(~(1u << padIdx)));
+        if (offender_mask == 0) {
+            return;
+        }
+
         s.last_offender_mask = offender_mask;
         s.bleed_watch_active = false;
         s.bleed_watch_until = 0;
@@ -662,7 +667,8 @@ void Drum::updateGuidedCalibration(const Utils::InputState::Drum &drum_state, co
     case GuidedCalState::Mode::PadNormal:
     case GuidedCalState::Mode::PadHard: {
         const bool targetHit = (hitEdgeMask & (1u << padIdx)) != 0;
-        const uint8_t extrasMask = static_cast<uint8_t>(crossEdgeMask | arbEdgeMask | nearBleedMask);
+        const uint8_t extrasMask = static_cast<uint8_t>((crossEdgeMask | arbEdgeMask | nearBleedMask) &
+                                                        static_cast<uint8_t>(~(1u << padIdx)));
 
         if (!targetHit) {
             break;

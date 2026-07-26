@@ -27,7 +27,7 @@ class Menu {
         Reset,
         Bootsel,
 
-        DrumDebounceDelay,
+        DrumHitHoldMs,
         DrumPerformanceProfile,
         DrumTriggerThresholds,
         DrumTriggerThresholdsManual,
@@ -75,7 +75,7 @@ class Menu {
             GotoPageReset,
             GotoPageBootsel,
 
-            GotoPageDrumDebounceDelay,
+            GotoPageDrumHitHoldMs,
             GotoPageDrumPerformanceProfile,
             GotoPageDrumTriggerThresholds,
             GotoPageDrumTriggerThresholdsManual,
@@ -93,7 +93,7 @@ class Menu {
 
             SetUsbMode,
 
-            SetDrumDebounceDelay,
+            SetDrumHitHoldMs,
             SetPerformanceProfile,
 
             SetDrumTriggerThresholdKaLeft,

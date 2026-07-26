@@ -339,18 +339,18 @@ int main() {
         // Sanitize stored drum settings so stale/corrupt flash values cannot
         // silently choke hit detection after schema or firmware changes.
         auto thresholds = settings_store->getTriggerThresholds();
-        const uint16_t raw_debounce = settings_store->getDebounceDelay();
-        const uint16_t safe_debounce = clamp_u16(raw_debounce, 1, 30);
+        const uint16_t raw_hit_hold = settings_store->getHitHoldMs();
+        const uint16_t safe_hit_hold = clamp_u16(raw_hit_hold, 1, 30);
         thresholds.don_left  = clamp_u16(thresholds.don_left, 10, 1500);
         thresholds.ka_left   = clamp_u16(thresholds.ka_left, 10, 1500);
         thresholds.don_right = clamp_u16(thresholds.don_right, 10, 1500);
         thresholds.ka_right  = clamp_u16(thresholds.ka_right, 10, 1500);
 
-        if (safe_debounce != raw_debounce || thresholds.don_left != settings_store->getTriggerThresholds().don_left ||
+        if (safe_hit_hold != raw_hit_hold || thresholds.don_left != settings_store->getTriggerThresholds().don_left ||
             thresholds.ka_left != settings_store->getTriggerThresholds().ka_left ||
             thresholds.don_right != settings_store->getTriggerThresholds().don_right ||
             thresholds.ka_right != settings_store->getTriggerThresholds().ka_right) {
-            settings_store->setDebounceDelay(safe_debounce);
+            settings_store->setHitHoldMs(safe_hit_hold);
             settings_store->setTriggerThresholds(thresholds);
         }
 
@@ -360,7 +360,7 @@ int main() {
         sendCtrlMessage({.command = ControlCommand::SetLedEnablePlayerColor,
                          .data = {.led_enable_player_color = settings_store->getLedEnablePlayerColor()}});
 
-        drum.setDebounceDelay(safe_debounce);
+        drum.setHitHoldMs(safe_hit_hold);
         drum.setTriggerThresholds(thresholds);
     };
 

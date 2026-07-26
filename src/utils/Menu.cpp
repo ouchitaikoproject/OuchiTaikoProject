@@ -61,7 +61,7 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
  {Menu::Descriptor::Type::Menu,
   "Advanced",
   { {"Reset ALL\nSettings", Menu::Descriptor::Action::GotoPageReset},
-    {"Hold Time\n(Debounce)", Menu::Descriptor::Action::GotoPageDrumDebounceDelay}},
+    {"Hit Hold\n(ms)", Menu::Descriptor::Action::GotoPageDrumHitHoldMs}},
   0}},
 
     // Unified Manual Thresholds Page (all 4 thresholds with live drum animations)
@@ -82,10 +82,10 @@ const std::map<Menu::Page, const Menu::Descriptor> Menu::descriptors = {
       0}},
 
     // Value adjustments (unchanged)
-    {Menu::Page::DrumDebounceDelay,
+    {Menu::Page::DrumHitHoldMs,
      {Menu::Descriptor::Type::Value,
-      "Hold Time (ms)",
-      {{"", Menu::Descriptor::Action::SetDrumDebounceDelay}},
+      "Hit Hold (ms)",
+      {{"", Menu::Descriptor::Action::SetDrumHitHoldMs}},
       UINT8_MAX}},
 
     {Menu::Page::DrumPerformanceProfile,
@@ -268,8 +268,8 @@ uint16_t Menu::getCurrentValue(Menu::Page page) {
     switch (page) {
     case Page::DeviceMode:
         return static_cast<uint16_t>(m_store->getUsbMode());
-    case Page::DrumDebounceDelay:
-        return m_store->getDebounceDelay();
+    case Page::DrumHitHoldMs:
+        return m_store->getHitHoldMs();
     case Page::DrumPerformanceProfile:
         // Performance Profile feature removed - return 0
         return 0;
@@ -330,8 +330,8 @@ void Menu::gotoParent(bool do_restore) {
         case Page::DeviceMode:
             m_store->setUsbMode(static_cast<usb_mode_t>(current_state.original_value));
             break;
-        case Page::DrumDebounceDelay:
-            m_store->setDebounceDelay(current_state.original_value);
+        case Page::DrumHitHoldMs:
+            m_store->setHitHoldMs(current_state.original_value);
             break;
         case Page::DrumPerformanceProfile:
             // Performance Profile feature removed - do nothing
@@ -420,8 +420,8 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::GotoPageBootsel:
         gotoPage(Page::Bootsel);
         break;
-    case Descriptor::Action::GotoPageDrumDebounceDelay:
-        gotoPage(Page::DrumDebounceDelay);
+    case Descriptor::Action::GotoPageDrumHitHoldMs:
+        gotoPage(Page::DrumHitHoldMs);
         break;
     case Descriptor::Action::GotoPageDrumPerformanceProfile:
         gotoPage(Page::DrumPerformanceProfile);
@@ -447,8 +447,8 @@ void Menu::performAction(Descriptor::Action action, uint16_t value) {
     case Descriptor::Action::SetUsbMode:
         m_store->setUsbMode(static_cast<usb_mode_t>(value));
         break;
-    case Descriptor::Action::SetDrumDebounceDelay:
-        m_store->setDebounceDelay(value);
+    case Descriptor::Action::SetDrumHitHoldMs:
+        m_store->setHitHoldMs(value);
         break;
     case Descriptor::Action::SetPerformanceProfile:
         // Performance Profile feature removed - do nothing

@@ -34,13 +34,15 @@ const I2c i2c_config = {
 const Peripherals::Drum::Config drum_config = {
     .trigger_thresholds =
         {
-            // Known-good modular-board baseline confirmed by slim calibrate and gameplay.
-            .don_left = 285,
-            .ka_left = 285,
-            .don_right = 285,
-            .ka_right = 285,
+            // Canonical default threshold order:
+            // Ka Left 265, Don Left 190, Don Right 190, Ka Right 265.
+            .don_left = 190,
+            .ka_left = 265,
+            .don_right = 190,
+            .ka_right = 265,
         },
-    .debounce_delay_ms = 25,
+    .hit_hold_ms = 20,
+    .analog_peak_hold_ms = 25,
     .roll_counter_timeout_ms = 500,
 
     // ============================================================================

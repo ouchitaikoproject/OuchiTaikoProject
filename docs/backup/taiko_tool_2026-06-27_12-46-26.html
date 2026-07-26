@@ -357,16 +357,9 @@ const S={
   debugEnabled:false,
   debugLines:[],
   debugFlushTimer:null,
-  holdRepeat:{
-    timeout:null,
-    interval:null,
-    repeated:false,
-    button:null,
-  },
 };
 
 buildUI();
-attachStepButtonHoldBehavior();
 renderTarget();
 animateMeters();
 
@@ -392,12 +385,12 @@ function buildUI(){
       </div>
       <div class="controls">
         <div class="control-row">
-          <button class="step-btn" data-pad="${p}" data-delta="-1">-1</button>
-          <button class="step-btn" data-pad="${p}" data-delta="1">+1</button>
+          <button class="step-btn" onclick="adjustThr('${p}',-1)">-1</button>
+          <button class="step-btn" onclick="adjustThr('${p}',1)">+1</button>
         </div>
         <div class="control-row">
-          <button class="step-btn" data-pad="${p}" data-delta="-5">-5</button>
-          <button class="step-btn" data-pad="${p}" data-delta="5">+5</button>
+          <button class="step-btn" onclick="adjustThr('${p}',-5)">-5</button>
+          <button class="step-btn" onclick="adjustThr('${p}',5)">+5</button>
         </div>
       </div>
       <div class="meter" id="meter-${p}">
@@ -410,69 +403,6 @@ function buildUI(){
       </div>
     </section>
   `).join('');
-}
-
-function attachStepButtonHoldBehavior(){
-  const HOLD_DELAY_MS=320;
-  const REPEAT_INTERVAL_MS=90;
-
-  const clearHoldRepeat=()=>{
-    if(S.holdRepeat.timeout){
-      clearTimeout(S.holdRepeat.timeout);
-      S.holdRepeat.timeout=null;
-    }
-    if(S.holdRepeat.interval){
-      clearInterval(S.holdRepeat.interval);
-      S.holdRepeat.interval=null;
-    }
-    S.holdRepeat.button=null;
-  };
-
-  const stopHoldRepeat=()=>{
-    clearHoldRepeat();
-    setTimeout(()=>{ S.holdRepeat.repeated=false; },0);
-  };
-
-  const startHoldRepeat=(button)=>{
-    const p=button.dataset.pad;
-    const delta=Number(button.dataset.delta);
-    if(!p || Number.isNaN(delta)) return;
-
-    clearHoldRepeat();
-    S.holdRepeat.repeated=false;
-    S.holdRepeat.button=button;
-
-    S.holdRepeat.timeout=setTimeout(()=>{
-      S.holdRepeat.repeated=true;
-      adjustThr(p,delta);
-      S.holdRepeat.interval=setInterval(()=>adjustThr(p,delta),REPEAT_INTERVAL_MS);
-    },HOLD_DELAY_MS);
-  };
-
-  document.querySelectorAll('.step-btn').forEach(button=>{
-    button.addEventListener('click', (event)=>{
-      const p=button.dataset.pad;
-      const delta=Number(button.dataset.delta);
-      if(S.holdRepeat.repeated){
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-      if(!p || Number.isNaN(delta)) return;
-      adjustThr(p,delta);
-    });
-
-    button.addEventListener('pointerdown', (event)=>{
-      if(event.button !== 0) return;
-      startHoldRepeat(button);
-    });
-
-    button.addEventListener('pointerup', stopHoldRepeat);
-    button.addEventListener('pointercancel', stopHoldRepeat);
-    button.addEventListener('pointerleave', ()=>{
-      if(S.holdRepeat.button===button) stopHoldRepeat();
-    });
-  });
 }
 
 function currentTarget(){ return S.finalCheck ? FINAL_CHECKS[S.finalCheckIndex] : TARGETS[S.targetIndex]; }

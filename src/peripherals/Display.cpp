@@ -988,14 +988,14 @@ void Display::drawGuidedCalOverviewScreen() {
     ssd1306_draw_line(&m_display, 0, 9, 127, 9);
 
     // 2x2 threshold grid
-    char dl[14], dr[14], kl[14], kr[14];
+    char kl[14], dl[14], dr[14], kr[14];
+    snprintf(kl, sizeof(kl), "KaL:  %u", (unsigned)s.recommended_thresholds[1]);
     snprintf(dl, sizeof(dl), "DonL: %u", (unsigned)s.recommended_thresholds[0]);
     snprintf(dr, sizeof(dr), "DonR: %u", (unsigned)s.recommended_thresholds[2]);
-    snprintf(kl, sizeof(kl), "KaL:  %u", (unsigned)s.recommended_thresholds[1]);
     snprintf(kr, sizeof(kr), "KaR:  %u", (unsigned)s.recommended_thresholds[3]);
-    ssd1306_draw_string(&m_display, 2,  12, 1, dl);
-    ssd1306_draw_string(&m_display, 66, 12, 1, dr);
-    ssd1306_draw_string(&m_display, 2,  21, 1, kl);
+    ssd1306_draw_string(&m_display, 2,  12, 1, kl);
+    ssd1306_draw_string(&m_display, 66, 12, 1, dl);
+    ssd1306_draw_string(&m_display, 2,  21, 1, dr);
     ssd1306_draw_string(&m_display, 66, 21, 1, kr);
     ssd1306_draw_line(&m_display, 0, 31, 127, 31);
 
@@ -1057,7 +1057,7 @@ void Display::drawGuidedCalErrorScreen() {
         const char* offender = "Unknown";
         for (uint8_t i = 0; i < 4; ++i) {
             if ((s.last_offender_mask & (1u << i)) != 0) {
-                offender = Peripherals::Drum::GuidedCalState::PAD_NAMES[i];
+                offender = Peripherals::Drum::GuidedCalState::PAD_INDEX_NAMES[i];
                 break;
             }
         }
@@ -1069,9 +1069,9 @@ void Display::drawGuidedCalErrorScreen() {
         drawCentered(28, 1, "offending pads");
     }
 
-    drawCentered(43, 1, "Repeat target pad");
+    drawCentered(43, 1, "Hit same pad again");
     ssd1306_draw_line(&m_display, 0, 52, 127, 52);
-    drawCentered(55, 1, "B Cancel  A Retry");
+    drawCentered(55, 1, "B Cancel  A Continue");
 }
 
 // ==========================================================
