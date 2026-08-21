@@ -146,6 +146,7 @@ class Menu {
         void update(const InputState::Controller &state, Descriptor::Type page_type);
         void reset();  // NEW: Reset all button states
         [[nodiscard]] bool getPressed(Id id) const;
+        [[nodiscard]] uint32_t getHeldMs(Id id) const;
     };
 
     std::shared_ptr<SettingsStore> m_store;

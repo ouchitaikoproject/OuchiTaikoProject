@@ -491,10 +491,23 @@ void Drum::setTriggerThresholds(const Config::Thresholds &thresholds) { m_config
 
 void Drum::startGuidedCalibration() {
     m_guided_cal_state.startWelcome();
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)] = GuidedCalState::START_THRESHOLD_KA_LEFT;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)] = GuidedCalState::START_THRESHOLD_DON_LEFT;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)] = GuidedCalState::START_THRESHOLD_DON_RIGHT;
-    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)] = GuidedCalState::START_THRESHOLD_KA_RIGHT;
+    const auto clamp_start_threshold = [](uint16_t current_value, uint16_t fallback_value) -> uint16_t {
+        if (current_value < 10 || current_value > GuidedCalState::THRESHOLD_MAX) {
+            return fallback_value;
+        }
+        return current_value;
+    };
+
+    // Start from the user's current thresholds so guided calibration refines the
+    // real drum state instead of forcing a higher canned preset first.
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_LEFT)] =
+        clamp_start_threshold(m_config.trigger_thresholds.ka_left, GuidedCalState::START_THRESHOLD_KA_LEFT);
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_LEFT)] =
+        clamp_start_threshold(m_config.trigger_thresholds.don_left, GuidedCalState::START_THRESHOLD_DON_LEFT);
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::DON_RIGHT)] =
+        clamp_start_threshold(m_config.trigger_thresholds.don_right, GuidedCalState::START_THRESHOLD_DON_RIGHT);
+    m_guided_cal_state.recommended_thresholds[idToIndex(Id::KA_RIGHT)] =
+        clamp_start_threshold(m_config.trigger_thresholds.ka_right, GuidedCalState::START_THRESHOLD_KA_RIGHT);
 }
 
 void Drum::advanceCalibWizard() {

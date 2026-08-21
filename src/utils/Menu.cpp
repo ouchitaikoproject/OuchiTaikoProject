@@ -178,8 +178,9 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
     static constexpr uint32_t REPEAT_START_DELAY_MS = 300;
     static constexpr uint32_t REPEAT_INTERVAL_MS = 85;
 
-    const bool allow_repeat = (page_type == Descriptor::Type::Value) ||
-                              (page_type == Descriptor::Type::UnifiedThresholds);
+    const bool allow_repeat_lr = (page_type == Descriptor::Type::Value) ||
+                                 (page_type == Descriptor::Type::UnifiedThresholds);
+    const bool allow_repeat_ud = (page_type == Descriptor::Type::UnifiedThresholds);
 
     auto handle_button = [current_time](State &button_state, bool input_down, bool repeat_enabled) {
         button_state.pressed = false;
@@ -207,16 +208,25 @@ void Menu::Buttons::update(const InputState::Controller &controller_state, Descr
         button_state.raw_down = input_down;
     };
 
-    handle_button(m_states.at(Id::Up), controller_state.dpad.up, false);
-    handle_button(m_states.at(Id::Down), controller_state.dpad.down, false);
-    handle_button(m_states.at(Id::Left), controller_state.dpad.left, allow_repeat);
-    handle_button(m_states.at(Id::Right), controller_state.dpad.right, allow_repeat);
+    handle_button(m_states.at(Id::Up), controller_state.dpad.up, allow_repeat_ud);
+    handle_button(m_states.at(Id::Down), controller_state.dpad.down, allow_repeat_ud);
+    handle_button(m_states.at(Id::Left), controller_state.dpad.left, allow_repeat_lr);
+    handle_button(m_states.at(Id::Right), controller_state.dpad.right, allow_repeat_lr);
     // Confirm uses East (A) only.
     handle_button(m_states.at(Id::Confirm), controller_state.buttons.east, false);
     handle_button(m_states.at(Id::Back), controller_state.buttons.south, false);
 }
 
 bool Menu::Buttons::getPressed(Id id) const { return m_states.at(id).pressed; }
+
+uint32_t Menu::Buttons::getHeldMs(Id id) const {
+    const auto& state = m_states.at(id);
+    if (!state.raw_down || state.pressed_since == 0) {
+        return 0;
+    }
+    const uint32_t current_time = to_ms_since_boot(get_absolute_time());
+    return current_time - state.pressed_since;
+}
 
 void Menu::Buttons::reset() {
     // Reset all button states to idle
@@ -638,6 +648,8 @@ void Menu::update(const InputState::Controller &controller_state) {
             // UP = increase selected threshold
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
+            const uint32_t held_ms = m_buttons.getHeldMs(Buttons::Id::Up);
+            const uint16_t step = (held_ms >= 1800) ? 20 : ((held_ms >= 900) ? 5 : 1);
             switch (current_state.selected_value) {
                 case 0: selected_threshold = &thresholds.ka_left; break;
                 case 1: selected_threshold = &thresholds.don_left; break;
@@ -645,7 +657,8 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
             if (selected_threshold && *selected_threshold < 4095) {
-                (*selected_threshold)++;
+                const uint32_t raised = static_cast<uint32_t>(*selected_threshold) + step;
+                *selected_threshold = static_cast<uint16_t>((raised > 4095u) ? 4095u : raised);
                 m_store->setTriggerThresholds(thresholds);
             }
             break;
@@ -666,6 +679,8 @@ void Menu::update(const InputState::Controller &controller_state) {
             // DOWN = decrease selected threshold
             auto thresholds = m_store->getTriggerThresholds();
             uint16_t* selected_threshold = nullptr;
+            const uint32_t held_ms = m_buttons.getHeldMs(Buttons::Id::Down);
+            const uint16_t step = (held_ms >= 1800) ? 20 : ((held_ms >= 900) ? 5 : 1);
             switch (current_state.selected_value) {
                 case 0: selected_threshold = &thresholds.ka_left; break;
                 case 1: selected_threshold = &thresholds.don_left; break;
@@ -673,7 +688,7 @@ void Menu::update(const InputState::Controller &controller_state) {
                 case 3: selected_threshold = &thresholds.ka_right; break;
             }
             if (selected_threshold && *selected_threshold > 0) {
-                (*selected_threshold)--;
+                *selected_threshold = (*selected_threshold > step) ? static_cast<uint16_t>(*selected_threshold - step) : 0;
                 m_store->setTriggerThresholds(thresholds);
             }
             break;

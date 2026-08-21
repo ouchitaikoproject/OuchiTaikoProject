@@ -5,7 +5,7 @@
 ---
 
 <div align="center">
-<i>In Japanese, "ouchi" means "home," and "taiko" means "drum."
+<i>In Japanese, “ouchi” means “home,” and “taiko” means “drum.”
 </br>  
 Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience into your own space.</i>
 </div>
@@ -51,7 +51,7 @@ Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience 
 # 1. Project Overview
 
 ## The Finished Build
-This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor-Standing Tripod Mode** or **Table-Top Mode**.
+This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor‑Standing Tripod Mode** or **Table‑Top Mode**.
 
 <div align="center">
 <img src="images/pictures/tripodboth.jpg" style="width: 100%; max-width: 800px; height: auto;">
@@ -63,13 +63,13 @@ This guide walks you through building a full Arcade-Scale Taiko drum and control
 
 ---
 
-Hi, I'm KillerQ - creator of the **OuchiTaiko Project**, an open-source guide for building a professional, arcade-grade Taiko drum controller.
+Hi, I’m KillerQ — creator of the **OuchiTaiko Project**, an open‑source guide for building a professional, arcade‑grade Taiko drum controller.
 
-This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through-hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade-level responsiveness with approachable DIY construction.
+This project is the result of a year and a half of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through‑hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade‑level responsiveness with approachable DIY construction.
 
 All you need are very basic soldering and woodworking skills.
 
-This guide is intentionally thorough and detailed - the goal is simple: **less guessing, more building.**
+This guide is intentionally thorough and detailed — the goal is simple: **less guessing, more building.**
 
 ---
 
@@ -89,11 +89,11 @@ Traditional Taiko controllers often require constant threshold tuning, extensive
 ## 1) Guided Calibrate
 OuchiTaiko includes two Guided Calibrate options:
 
-- Guided Calibrate for the preferred full setup workflow  
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 - On-device Guided Calibrate for the same method, but on the controller  
-- No recompiling required  
-- Fast threshold refinement  
-- Easier crosstalk diagnosis  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 - Quick retesting after hardware changes  
 
 ---
@@ -102,9 +102,9 @@ OuchiTaiko includes two Guided Calibrate options:
 ## 2) Adaptive Baseline Software Intelligence (ABSI)
 ABSI was created by me just for this project, and I am very proud of it. It drastically improves stability through software rather than complex analog circuitry.
 
-- Automatic sensitivity adjustment based on environmental noise  
-- Dynamic baseline tracking  
-- Stable long-term behavior without drift  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 ---
 
@@ -114,10 +114,10 @@ A mechanically isolated sensor housing improves consistency and reduces noise.
 
 Benefits include:
 
-- More consistent hit detection  
-- Reduced mechanical crosstalk  
-- Cleaner signal processing  
-- Long-term durability  
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 ---
 
@@ -128,19 +128,19 @@ Benefits include:
 No PC required for basic verification.
 
 - OLED display with live feedback  
-- Visual confirmation of all 14 navigation buttons  
-- Live hit display and mode readout  
-- Instant sensor and button assignment wiring verification using only USB power  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 ---
 
 ### Professional Hardware
 
-- Custom PCB designed specifically for this project  
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 - 14 navigation buttons for full game control  
-- Adjustable drum mounting options  
-- Dedicated sensor inputs for all four drum lanes 
-- The entire Drum is modular so if a part ever fails, just that single part can be easily accessed and swapped out
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 
 ---
 
@@ -167,16 +167,16 @@ No PC required for basic verification.
 
 ### Zero Coding Required
 
-- Drag-and-drop firmware flashing  
-- On-device menus  
-- No recompiling for normal setup  
-- No programming knowledge needed  
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- On‑device menus  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 ---
 
 ### Demo Video
 
-- Gameplay: https://youtu.be/p4eFeo_LB5I?si=jDKb93B7uYx1qAux
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 
 ---
 
@@ -189,19 +189,18 @@ These linked parts are verified to work together as tested. Similar/comparable p
 
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
-| Waveshare RP2040-Zero | 1 | https://www.amazon.com/dp/B09SBCKYSC |
+| Waveshare RP2040‑Zero | 1 | https://www.amazon.com/dp/B09SBCKYSC |
 | 1N4148 diodes | 4 | https://www.amazon.com/dp/B0DN62QFYS |
 | 0.1uF / 100nF ceramic capacitors | 4 | https://www.amazon.com/dp/B08B3VCK42 |
-| 3.5mm female audio jack, PJ-320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
+| 3.5mm female audio jack, PJ‑320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
 | 3.5mm TRS male plugs with leads | 4 | https://www.amazon.com/dp/B0D72TV7Y5 |
 | 1K ohm resistor, 1/2W | 4 | https://www.amazon.com/dp/B0FP1YFMVM |
-| 27mm piezo sensors (for full size Drum) | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
-| 20mm piezo sensors (for smaller Drums) | 4 | https://www.amazon.com/dp/B00SWO6VJ0 |
+| 27mm piezo sensors | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
 | 128x64 mono OLED display (I2C) | 1 | https://www.amazon.com/dp/B09T6SJBV5 |
 | 6mm tactile switches with caps | 14 | https://www.amazon.com/dp/B07VQF8P2Y |
 | 6" coiled 3.5mm TRS extension cable | 4 | https://www.amazon.com/dp/B0D7CXJ5LQ |
 | 3.5mm TRS barrel coupler | 4 | https://www.amazon.com/dp/B07YSCGBL7 |
-| 6ft USB-A to USB-C cable | 1 | https://www.amazon.com/dp/B0CKXZML11 |
+| 6ft USB‑A to USB‑C cable | 1 | https://www.amazon.com/dp/B0CKXZML11 |
 
 ---
 
@@ -231,11 +230,10 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
 | 1/4" (6mm) MDF, 2ft x 4ft | 2 | https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-MDF-1508104/202089069 |
-| 1/4" x 1-1/2" OD stainless fender washers | 46 | https://www.amazon.com/dp/B0D8ZRL1CP |
+| 1/4" x 1‑1/2" OD stainless fender washers | 46 | https://www.amazon.com/dp/B0D8ZRL1CP |
 | Wood glue | 1 | https://www.amazon.com/dp/B0002YQ378 |
-| M3 x 8mm bolts (for full size sensors) | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
-| M3 x 8mm bolts (for smaller size sensors) | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
-| M3 x 5mm threaded inserts | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
+| M3 x 8mm bolts | 8 | https://www.amazon.com/dp/B07CMQ1SQH |
+| M3 x 5mm threaded inserts | 8 | https://www.amazon.com/dp/B0CLKCQ2SH |
 | M6 x 10mm wood threaded inserts | 14 | https://www.amazon.com/dp/B0CNLRFFH1 |
 | M6 x 35mm nylon bolts | 14 | https://www.amazon.com/dp/B07L9ZS21T |
 | M6 threaded 20mm x 15mm rubber isolators | 14 | https://www.amazon.com/dp/B0BKPHT6Y9 |
@@ -243,7 +241,7 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | Gel superglue | 1 | https://www.amazon.com/dp/B0006HUJCQ |
 | Medium thread adhesive / Loctite | 1 | https://www.amazon.com/dp/B000FIXQXK |
 | 2.2mm scuba knit neoprene fabric | 1 | https://www.amazon.com/dp/B0DK1B5LZ7 |
-| Finger knobs with pass-through M6 threads | 18 | https://www.amazon.com/dp/B07RW9ZH4H |
+| Finger knobs with pass‑through M6 threads | 18 | https://www.amazon.com/dp/B07RW9ZH4H |
 | Mini PA speaker tripod stand (optional) | 1 | https://www.amazon.com/dp/B094N9YG72 |
 | Desktop monitor stand (optional) | 1 | https://www.amazon.com/dp/B072QDMRS8 |
 | Adjustable angle speaker bracket | 1 | https://www.amazon.com/dp/B0DR8NCZP6 |
@@ -286,22 +284,22 @@ However, since I made my project open source, you have 100% control over where t
 [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) is the PCB Gerber file package.
 
 
-One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.  T
+One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.
 
 <a id="control-pcb-overview"></a>
 ## Control PCB Overview
 
 My custom OuchiTaiko PCB integrates controller logic, display wiring, navigation buttons, and drum input circuitry all together into a single compact board.
 
-To finish building it, you will solder the folowing ocmpnnents to the board you have made:
+To finish building it, you will solder the following components to the board you have made:
 
-- **1x Waveshare RP2040-Zero**  
-- **14x tactile buttons**  
-- **4x 1N4148 diodes**  
-- **4x 1K resistors**  
-- **4x 0.1uF capacitors**  
-- **1x I2C OLED**  
-- **4x PJ-320A TRS jacks**
+- **1× Waveshare RP2040‑Zero**  
+- **14× tactile buttons**  
+- **4× 1N4148 diodes**  
+- **4× 1K resistors**  
+- **4× 0.1uF capacitors**  
+- **1× I2C OLED**  
+- **4× PJ‑320A TRS jacks**
 
 That's it!  Everything is just attached via basic soldering.
 
@@ -351,10 +349,10 @@ The button legs will actually appear in a rectangular layout orientation - longe
 ### Step 3: Mount the OLED
 Install the OLED using the following pin order (verify that yours matches):
 
-- GND  
-- VCC  
-- SCL  
-- SDA  
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 <div align="center">
 <img src="images/pictures/pcboled.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -365,7 +363,7 @@ Install the OLED using the following pin order (verify that yours matches):
 ---
 
 ### Step 4: Install the TRS Drum Input Jacks
-Install the four PJ-320A jacks. Their pin layout only fits into one orientation.
+Install the four PJ‑320A jacks. Their pin layout only fits into one orientation.
 
 <div align="center">
 <img src="images/pictures/pcbjacks.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -375,8 +373,8 @@ Install the four PJ-320A jacks. Their pin layout only fits into one orientation.
 
 ---
 
-### Step 5: Mount the RP2040-Zero
-Install the Waveshare RP2040-Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
+### Step 5: Mount the RP2040‑Zero
+Install the Waveshare RP2040‑Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
 
 <div align="center">
 <img src="images/pictures/pcbwaveshare.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -393,12 +391,12 @@ https://youtu.be/rGvvwXrv310?t=312
 
 Before powering on, confirm:
 
-- RP2040-Zero is aligned correctly  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 - OLED pins are correct  
-- All 14 buttons are soldered  
-- All four drum lanes have resistor, capacitor, and diode installed  
-- No solder bridges  
-- All joints look solid  
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
 
 
 If you were just building the controller and sensors for an existing drum that you already had, you can skip ahead to **Section 8: Flash the Firmware**.
@@ -428,8 +426,6 @@ Use **PLA filament**.
 ## **5.1: Assemble Sensor Electronics**
 
 \*\* video \*\* [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
-
-(Note: If you choose to make the smaller version of the sensor housings because you're using them on a smaller drum, the below proceedure is the same except you'll 3D print the smaller housing and bracket, you'll cut a 8mm neoprene disc (instead of 12mm) and you'll use the 20mm Piezo (instead of the 27mm Piezo).  The installation is the same, jsut smaller parts).
 
 ### **Cut neoprene discs**
 
@@ -612,8 +608,8 @@ When complete, you will have 4 faceplates - each consisting of a top half and a 
 
 
 ### **Sand all Don, Ka, and Baseplate Edges**
-- Sand any extra glue off of the surfaces of the drum and
-- Be EXTRA sure to sand off any excess glue that has dripped out of the edges/seams.  This will ensure a clean, uniform surface to work with.
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 
 
 <div align="center">
@@ -900,9 +896,7 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 (<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
 
-(Note: The smaller version of the sensor housings use mounting brackets that install using the same threaded-insert mounting hole spacing as the full-sized ones if you choose to go that route)
-
-Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** (you'll use m3x12 screws if using the smaller version of the sensors and brackets) for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
+Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
 
 Tighten snug so that the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
@@ -913,16 +907,6 @@ Tighten snug so that the sensor housing is firmly pressed against the wood - but
 
 <div align="center">
 <img src="images/pictures/sensorinstalled.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-Here is an example of the smaller housing with brackets mounted in the same holes:
-
-<div align="center">
-<img src="images/pictures/smallhousing1.jpg" width="350px" style="display: block; margin: 0 auto;">
-</div>
-
-<div align="center">
-<img src="images/pictures/smallhousing2.jpg" width="350px" style="display: block; margin: 0 auto;">
 </div>
 
 Repeat this for each Don and Ka faceplate.
@@ -1046,10 +1030,10 @@ Install an arcade drum cover if possible. Because the drum matches arcade diamet
 
 If needed, you can experiment with other materials such as:
 
-- thin foam
-- towel
-- blanket
-- mouse pad
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 
 Thresholds can always be adjusted later to match the cover you choose.
 
@@ -1064,7 +1048,7 @@ Set the final angle and height for comfort.
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-\*\* download \*\* **Download the firmware files:**
+**Download the firmware files:**
 - [`ouchitaiko_project_firmware_v1.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2)
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2)
 
@@ -1114,23 +1098,17 @@ Note: Use the Web Browser/HTML method first whenever possible.
 
 Start at:
 
-- Ka Left: `225`
+- Ka Left: `265`
 - Don Left: `190`
 - Don Right: `190`
-- Ka Right: `225`
-
-### Build Expectations
-
-Best results come from the intended OuchiTaiko build or another custom wooden drum that uses the same general mounting approach.
-
-If you are not using the intended OuchiTaiko drum, make sure your drum build still does a good job reducing physical crosstalk. Sensor placement, mounting pressure, fit, adhesive use, and the drum's mechanical structure all matter. If the physical build is solid and crosstalk is well controlled, the sensors should still work perfectly fine. It may just take a little more calibration to get everything dialed in.
+- Ka Right: `265`
 
 ### Guided Calibrate (Web Tool)
 
 1. Connect the controller over USB.
 2. Put the controller in `Guided Calibrate` mode under `Controller Mode`.
 3. Open the Guided Calibrate web tool using EDGE or CHROME.
-4. Confirm the starting thresholds are `225 / 190 / 190 / 225`.
+4. Confirm the (default) thresholds are `265 / 190 / 190 / 265`.
 5. Follow the target pad shown on screen.
 6. For each pad, do:
    - `5` fast normal hits
@@ -1171,7 +1149,7 @@ Use **Manual Thresholds** to fine-tune settings after testing in Guided Calibrat
 
 ### **Access**
 
-1. Tap **START + SELECT** together
+1. Hold **SELECT** for 1 second
 2. Go to **Drum Tuning**
 3. Select **Manual Thresholds**
 
@@ -1241,9 +1219,7 @@ Additional files can be added here later:
 
 - neoprene template
 
-
 ---
-
 <a id="basic-troubleshooting"></a>
 # **11: Basic Troubleshooting**
 
@@ -1280,7 +1256,7 @@ Additional files can be added here later:
 
 ## **Quick Access**
 
-- Tap **START + SELECT** together to open the system menu
+- Hold **SELECT** for about 1 second to open the system menu
 
 ## **Navigation Controls**
 
@@ -1403,6 +1379,7 @@ Thank you to ravinrabbid and kasasiki3 for their open-source work.
 ---
 
 *OuchiTaiko Project | Smarter. Simpler. Better.*
+
 
 
 

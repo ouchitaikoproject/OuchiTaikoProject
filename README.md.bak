@@ -5,7 +5,7 @@
 ---
 
 <div align="center">
-<i>In Japanese, “ouchi” means “home,” and “taiko” means “drum.”
+<i>In Japanese, "ouchi" means "home," and "taiko" means "drum."
 </br>  
 Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience into your own space.</i>
 </div>
@@ -51,7 +51,7 @@ Together, OuchiTaiko represents the joy of bringing the arcade Taiko experience 
 # 1. Project Overview
 
 ## The Finished Build
-This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor‑Standing Tripod Mode** or **Table‑Top Mode**.
+This guide walks you through building a full Arcade-Scale Taiko drum and controller that can be used in either **Floor-Standing Tripod Mode** or **Table-Top Mode**.
 
 <div align="center">
 <img src="images/pictures/tripodboth.jpg" style="width: 100%; max-width: 800px; height: auto;">
@@ -63,13 +63,13 @@ This guide walks you through building a full Arcade-Scale Taiko drum and control
 
 ---
 
-Hi, I’m KillerQ — creator of the **OuchiTaiko Project**, an open‑source guide for building a professional, arcade‑grade Taiko drum controller.
+Hi, I'm KillerQ - creator of the **OuchiTaiko Project**, an open-source guide for building a professional, arcade-grade Taiko drum controller.
 
-This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through‑hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade‑level responsiveness with approachable DIY construction.
+This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through-hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade-level responsiveness with approachable DIY construction.
 
 All you need are very basic soldering and woodworking skills.
 
-This guide is intentionally thorough and detailed — the goal is simple: **less guessing, more building.**
+This guide is intentionally thorough and detailed - the goal is simple: **less guessing, more building.**
 
 ---
 
@@ -104,7 +104,7 @@ ABSI was created by me just for this project, and I am very proud of it. It dras
 
 - Automatic sensitivity adjustment based on environmental noise  
 - Dynamic baseline tracking  
-- Stable long‑term behavior without drift  
+- Stable long-term behavior without drift  
 
 ---
 
@@ -117,7 +117,7 @@ Benefits include:
 - More consistent hit detection  
 - Reduced mechanical crosstalk  
 - Cleaner signal processing  
-- Long‑term durability  
+- Long-term durability  
 
 ---
 
@@ -167,8 +167,8 @@ No PC required for basic verification.
 
 ### Zero Coding Required
 
-- Drag‑and‑drop firmware flashing  
-- On‑device menus  
+- Drag-and-drop firmware flashing  
+- On-device menus  
 - No recompiling for normal setup  
 - No programming knowledge needed  
 
@@ -189,18 +189,19 @@ These linked parts are verified to work together as tested. Similar/comparable p
 
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
-| Waveshare RP2040‑Zero | 1 | https://www.amazon.com/dp/B09SBCKYSC |
+| Waveshare RP2040-Zero | 1 | https://www.amazon.com/dp/B09SBCKYSC |
 | 1N4148 diodes | 4 | https://www.amazon.com/dp/B0DN62QFYS |
 | 0.1uF / 100nF ceramic capacitors | 4 | https://www.amazon.com/dp/B08B3VCK42 |
-| 3.5mm female audio jack, PJ‑320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
+| 3.5mm female audio jack, PJ-320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
 | 3.5mm TRS male plugs with leads | 4 | https://www.amazon.com/dp/B0D72TV7Y5 |
 | 1K ohm resistor, 1/2W | 4 | https://www.amazon.com/dp/B0FP1YFMVM |
-| 27mm piezo sensors | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
+| 27mm piezo sensors (for full size Drum) | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
+| 20mm piezo sensors (for smaller Drums) | 4 | https://www.amazon.com/dp/B00SWO6VJ0 |
 | 128x64 mono OLED display (I2C) | 1 | https://www.amazon.com/dp/B09T6SJBV5 |
 | 6mm tactile switches with caps | 14 | https://www.amazon.com/dp/B07VQF8P2Y |
 | 6" coiled 3.5mm TRS extension cable | 4 | https://www.amazon.com/dp/B0D7CXJ5LQ |
 | 3.5mm TRS barrel coupler | 4 | https://www.amazon.com/dp/B07YSCGBL7 |
-| 6ft USB‑A to USB‑C cable | 1 | https://www.amazon.com/dp/B0CKXZML11 |
+| 6ft USB-A to USB-C cable | 1 | https://www.amazon.com/dp/B0CKXZML11 |
 
 ---
 
@@ -230,10 +231,11 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
 | 1/4" (6mm) MDF, 2ft x 4ft | 2 | https://www.homedepot.com/p/1-4-in-x-2-ft-x-4-ft-MDF-1508104/202089069 |
-| 1/4" x 1‑1/2" OD stainless fender washers | 46 | https://www.amazon.com/dp/B0D8ZRL1CP |
+| 1/4" x 1-1/2" OD stainless fender washers | 46 | https://www.amazon.com/dp/B0D8ZRL1CP |
 | Wood glue | 1 | https://www.amazon.com/dp/B0002YQ378 |
-| M3 x 8mm bolts | 8 | https://www.amazon.com/dp/B07CMQ1SQH |
-| M3 x 5mm threaded inserts | 8 | https://www.amazon.com/dp/B0CLKCQ2SH |
+| M3 x 8mm bolts (for full size sensors) | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
+| M3 x 8mm bolts (for smaller size sensors) | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
+| M3 x 5mm threaded inserts | 8 | https://www.amazon.com/dp/B0FS1Q3FC2 |
 | M6 x 10mm wood threaded inserts | 14 | https://www.amazon.com/dp/B0CNLRFFH1 |
 | M6 x 35mm nylon bolts | 14 | https://www.amazon.com/dp/B07L9ZS21T |
 | M6 threaded 20mm x 15mm rubber isolators | 14 | https://www.amazon.com/dp/B0BKPHT6Y9 |
@@ -241,7 +243,7 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | Gel superglue | 1 | https://www.amazon.com/dp/B0006HUJCQ |
 | Medium thread adhesive / Loctite | 1 | https://www.amazon.com/dp/B000FIXQXK |
 | 2.2mm scuba knit neoprene fabric | 1 | https://www.amazon.com/dp/B0DK1B5LZ7 |
-| Finger knobs with pass‑through M6 threads | 18 | https://www.amazon.com/dp/B07RW9ZH4H |
+| Finger knobs with pass-through M6 threads | 18 | https://www.amazon.com/dp/B07RW9ZH4H |
 | Mini PA speaker tripod stand (optional) | 1 | https://www.amazon.com/dp/B094N9YG72 |
 | Desktop monitor stand (optional) | 1 | https://www.amazon.com/dp/B072QDMRS8 |
 | Adjustable angle speaker bracket | 1 | https://www.amazon.com/dp/B0DR8NCZP6 |
@@ -284,7 +286,7 @@ However, since I made my project open source, you have 100% control over where t
 [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) is the PCB Gerber file package.
 
 
-One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.
+One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.  T
 
 <a id="control-pcb-overview"></a>
 ## Control PCB Overview
@@ -293,13 +295,13 @@ My custom OuchiTaiko PCB integrates controller logic, display wiring, navigation
 
 To finish building it, you will solder the folowing ocmpnnents to the board you have made:
 
-- **1× Waveshare RP2040‑Zero**  
-- **14× tactile buttons**  
-- **4× 1N4148 diodes**  
-- **4× 1K resistors**  
-- **4× 0.1uF capacitors**  
-- **1× I2C OLED**  
-- **4× PJ‑320A TRS jacks**
+- **1x Waveshare RP2040-Zero**  
+- **14x tactile buttons**  
+- **4x 1N4148 diodes**  
+- **4x 1K resistors**  
+- **4x 0.1uF capacitors**  
+- **1x I2C OLED**  
+- **4x PJ-320A TRS jacks**
 
 That's it!  Everything is just attached via basic soldering.
 
@@ -363,7 +365,7 @@ Install the OLED using the following pin order (verify that yours matches):
 ---
 
 ### Step 4: Install the TRS Drum Input Jacks
-Install the four PJ‑320A jacks. Their pin layout only fits into one orientation.
+Install the four PJ-320A jacks. Their pin layout only fits into one orientation.
 
 <div align="center">
 <img src="images/pictures/pcbjacks.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -373,8 +375,8 @@ Install the four PJ‑320A jacks. Their pin layout only fits into one orientatio
 
 ---
 
-### Step 5: Mount the RP2040‑Zero
-Install the Waveshare RP2040‑Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
+### Step 5: Mount the RP2040-Zero
+Install the Waveshare RP2040-Zero. Only the 20 castellated <i>perimeter pads</i> need soldering.
 
 <div align="center">
 <img src="images/pictures/pcbwaveshare.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -391,7 +393,7 @@ https://youtu.be/rGvvwXrv310?t=312
 
 Before powering on, confirm:
 
-- RP2040‑Zero is aligned correctly  
+- RP2040-Zero is aligned correctly  
 - OLED pins are correct  
 - All 14 buttons are soldered  
 - All four drum lanes have resistor, capacitor, and diode installed  
@@ -412,7 +414,7 @@ If you were just building the controller and sensors for an existing drum that y
 <a id="print-sensor-housings"></a>
 ## **5.0: Print The Sensor Housings**
 
-💾 [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) is the sensor housing STL file
+\*\* download \*\* [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) is the sensor housing STL file
 
 Print 4 complete sets of Sensor Housings (each set has a top and bottom).
 
@@ -425,13 +427,15 @@ Use **PLA filament**.
 <a id="assemble-sensor-electronics"></a>
 ## **5.1: Assemble Sensor Electronics**
 
-🎥 [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
+\*\* video \*\* [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
+
+(Note: If you choose to make the smaller version of the sensor housings because you're using them on a smaller drum, the below proceedure is the same except you'll 3D print the smaller housing and bracket, you'll cut a 8mm neoprene disc (instead of 12mm) and you'll use the 20mm Piezo (instead of the 27mm Piezo).  The installation is the same, jsut smaller parts).
 
 ### **Cut neoprene discs**
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
-💾 [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
+\*\* download \*\* [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
 
 
 
@@ -480,7 +484,7 @@ Now solder the **red** wire to piezo center disc, and solder the **black** wire 
 
 Add several drops of **Superglue** onto the top surface of neoprene that is already glued to the bottom housing shell. Center the **piezo sensor** face up (the all-brass side faces *down*, your wires will be on the top) onto the neoprene. Press lightly for 30 seconds. 
 
-💡 **Note:** Pic varies slightly from your version - this was an earlier version.
+\*\* note \*\* Pic varies slightly from your version - this was an earlier version.
 
 <div align="center">
 <img src="images/pictures/piezopremount.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -518,7 +522,7 @@ After 30 seconds, add a little bit of **Hot Glue** to the wire where it meets ag
 
 **Important Scale Notice:** The SVG files provided in the download are the correct scale and should **NOT** be resized. The drum dimensions are precisely calculated to work with the sensor housings and other non-scalable components. If you try to make the drum smaller, other parts will not fit later in the project.
 
-💡 **Scale Verification:** Before cutting, verify the SVG files are at correct scale by checking the shapes in the SVG file against the listed dimensions noted in the KEY section of that same SVG file. 
+\*\* note \*\* Before cutting, verify the SVG files are at correct scale by checking the shapes in the SVG file against the listed dimensions noted in the KEY section of that same SVG file. 
 
 **No laser cutter or CNC access?** No worries - there are other options. Ask a friend, local shop, or check if your area has a Makerspace. Alternatively, you can print the SVG files full-size across multiple sheets of paper (ensure your printer is set to 100% scale / "Actual Size"), and then overlay the paper on your wood as a template.  You would then cut and drill by hand. Double check that your printed templates are sized properly before cutting or drilling anything.
 
@@ -529,7 +533,7 @@ After 30 seconds, add a little bit of **Hot Glue** to the wire where it meets ag
 
 ### **Cut all MDF wood pieces per SVG templates**
 
-💾 [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) and [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) are the wood template files
+\*\* download \*\* [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) and [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) are the wood template files
 
 Use your laser or CNC machine (or the method available to you) to cut out all of the wood components in the template files.
 
@@ -896,7 +900,9 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 (<a href="https://youtu.be/N6h3QC_hvl8?t=265">HERE</a> is a timelapse video demonstrating how to mount the sensor housings to the underside of the faceplates)
 
-Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
+(Note: The smaller version of the sensor housings use mounting brackets that install using the same threaded-insert mounting hole spacing as the full-sized ones if you choose to go that route)
+
+Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** (you'll use m3x12 screws if using the smaller version of the sensors and brackets) for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
 
 Tighten snug so that the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
@@ -957,7 +963,7 @@ Now assemble the rest of the drum structure by feeding the 14 **M6x18 bolts** on
 
 ### **Attach TRS barrel mounts**
 
-💾 [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) is the barrel mount STL file
+\*\* download \*\* [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) is the barrel mount STL file
 
 1. Carefully flip the partially assembled drum over so that the drum faces don't fall out.
 2. 3D print and attach **TRS barrel mounts** with adhesive tape as shown in the picture.
@@ -1048,8 +1054,8 @@ Set the final angle and height for comfort.
 
 <div align="right"><sub><a href="#table-of-contents">-Back to Top-</a></sub></div>
 
-💾 **Download the firmware files:**
-- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2)
+\*\* download \*\* **Download the firmware files:**
+- [`ouchitaiko_project_firmware_v1.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2)
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2)
 
 ## **Step 1: Enter Bootloader Mode**
@@ -1066,7 +1072,7 @@ It is good practice to flash `universal_flash_nuke.uf2` before flashing the main
 
 ## **Step 3: Flash the Firmware**
 
-Drag `ouchitaiko_project_firmware.uf2` onto the drive.
+Drag `ouchitaiko_project_firmware_v1.uf2` onto the drive.
 
 After the copy finishes, the board should automatically reboot into controller mode.
 
@@ -1103,11 +1109,11 @@ Start at:
 - Don Right: `190`
 - Ka Right: `265`
 
-### Guided Calibrate (Web/HTML )
+### Guided Calibrate (Web Tool)
 
 1. Connect the controller over USB.
 2. Put the controller in `Guided Calibrate` mode under `Controller Mode`.
-3. Open the Guided Calibrate web tool.
+3. Open the Guided Calibrate web tool using EDGE or CHROME.
 4. Confirm the (default) thresholds are `265 / 190 / 190 / 265`.
 5. Follow the target pad shown on screen.
 6. For each pad, do:
@@ -1120,7 +1126,7 @@ Start at:
 11. Save to the controller.
 12. Test in-game.
 
-### Guided Calibrate(On-Device)
+### Guided Calibrate (On-Device)
 
 The same method is also available on the controller.
 
@@ -1211,13 +1217,14 @@ Current download files:
 - [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) - sensor housing STL
 - [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) - TRS barrel mount STL
 - [`ouchitaiko_controller_shell.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_controller_shell.stl) - controller shell STL
-- [`ouchitaiko_project_firmware.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2) - main controller firmware
+- [`ouchitaiko_project_firmware_v1.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2) - main controller firmware
 - [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
 
 Additional files can be added here later:
 
 - neoprene template
-- HTML calibration page
+
 
 ---
 
@@ -1239,7 +1246,7 @@ Additional files can be added here later:
 
 ## **A lane causes false hits on another lane**
 - switch to **Guided Calibrate**
-- use the HTML calibration page
+- use the Guided Calibrate web tool
 - raise the threshold of the falsely triggered lane
 - retest
 

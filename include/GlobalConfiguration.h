@@ -35,11 +35,11 @@ const Peripherals::Drum::Config drum_config = {
     .trigger_thresholds =
         {
             // Canonical default threshold order:
-            // Ka Left 265, Don Left 190, Don Right 190, Ka Right 265.
+            // Ka Left 225, Don Left 190, Don Right 190, Ka Right 225.
             .don_left = 190,
-            .ka_left = 265,
+            .ka_left = 225,
             .don_right = 190,
-            .ka_right = 265,
+            .ka_right = 225,
         },
     .hit_hold_ms = 20,
     .analog_peak_hold_ms = 25,

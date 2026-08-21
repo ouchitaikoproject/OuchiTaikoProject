@@ -218,51 +218,68 @@ int main() {
     Utils::InputState::Controller latest_controller_state{};
     
     // NEW: Hotkey state variables are now local to main, allowing manual reset
-    uint32_t select_menu_hold_start = 0;
-    bool select_menu_was_held = false;
-    uint8_t select_menu_press_count = 0;
+    uint32_t start_menu_last_press_ms = 0;
+    uint32_t select_menu_last_press_ms = 0;
+    bool start_menu_prev_down = false;
+    bool select_menu_prev_down = false;
+    bool start_select_menu_latched = false;
 
     // NEW: Function to manually reset the hotkey state
     const auto resetHotkeyState = [&]() {
-        select_menu_hold_start = 0;
-        select_menu_was_held = false;
-        select_menu_press_count = 0;
+        start_menu_last_press_ms = 0;
+        select_menu_last_press_ms = 0;
+        start_menu_prev_down = false;
+        select_menu_prev_down = false;
+        start_select_menu_latched = false;
     };
-    
-    // Hold SELECT for menu (1 second hold) with debouncing
-    const auto checkHoldSelect = [&input_state, &select_menu_hold_start, &select_menu_was_held, &select_menu_press_count]() {
-        static const uint32_t HOLD_DURATION_MS = 1000;
-        static const uint8_t DEBOUNCE_THRESHOLD = 3;  // Must see pressed 3 frames in a row to start
 
-        bool select_pressed = input_state.controller.buttons.select;
-        uint32_t current_time = to_ms_since_boot(get_absolute_time());
+    // Quick START + SELECT combo to enter the menu without relying on a long
+    // single-button hold that can overlap with game UI shortcuts.
+    const auto checkMenuCombo =
+        [&input_state,
+         &start_menu_last_press_ms,
+         &select_menu_last_press_ms,
+         &start_menu_prev_down,
+         &select_menu_prev_down,
+         &start_select_menu_latched]() {
+            static const uint32_t COMBO_WINDOW_MS = 200;
 
-        if (select_pressed) {
-            select_menu_press_count++;
+            const bool start_down = input_state.controller.buttons.start;
+            const bool select_down = input_state.controller.buttons.select;
+            const bool dpad_active = input_state.controller.dpad.up ||
+                                     input_state.controller.dpad.down ||
+                                     input_state.controller.dpad.left ||
+                                     input_state.controller.dpad.right;
+            const uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
-            // Start timer once we've seen button pressed for multiple frames (debounced)
-            if (select_menu_press_count >= DEBOUNCE_THRESHOLD && select_menu_hold_start == 0) {
-                select_menu_hold_start = current_time;
-                select_menu_was_held = false;
+            if (start_down && !start_menu_prev_down) {
+                start_menu_last_press_ms = current_time;
+            }
+            if (select_down && !select_menu_prev_down) {
+                select_menu_last_press_ms = current_time;
             }
 
-            // Check if hold duration met
-            if (select_menu_hold_start != 0 && !select_menu_was_held &&
-                (current_time - select_menu_hold_start) >= HOLD_DURATION_MS) {
-                select_menu_was_held = true;
-                select_menu_press_count = 0;
-                select_menu_hold_start = 0;
-                return true;
+            bool combo_triggered = false;
+            if (!start_select_menu_latched && start_down && select_down && !dpad_active &&
+                start_menu_last_press_ms != 0 && select_menu_last_press_ms != 0) {
+                const uint32_t delta =
+                    (start_menu_last_press_ms > select_menu_last_press_ms)
+                        ? (start_menu_last_press_ms - select_menu_last_press_ms)
+                        : (select_menu_last_press_ms - start_menu_last_press_ms);
+                if (delta <= COMBO_WINDOW_MS) {
+                    combo_triggered = true;
+                    start_select_menu_latched = true;
+                }
             }
-        } else {
-            // Button released - reset everything
-            select_menu_press_count = 0;
-            select_menu_hold_start = 0;
-            select_menu_was_held = false;
-        }
 
-        return false;
-    };
+            if (!start_down && !select_down) {
+                start_select_menu_latched = false;
+            }
+
+            start_menu_prev_down = start_down;
+            select_menu_prev_down = select_down;
+            return combo_triggered;
+        };
 
     // Hold HOME for 5 seconds to reboot into bootloader (BOOTSEL) mode.
     // Saves wear on physical BOOTSEL button -- no need to hold while plugging in.
@@ -602,9 +619,9 @@ int main() {
                 queue_add_blocking(&control_queue, &ctrl_message);
             }
 
-            // HOLD SELECT to ENTER menu (not exit - use B button to exit)
-            // Check BEFORE menu processing so we can detect the hold
-            if (!menu.active() && checkHoldSelect()) {
+            // TAP START + SELECT together to ENTER menu (not exit - use B button to exit)
+            // Check BEFORE menu processing so we can detect the combo
+            if (!menu.active() && checkMenuCombo()) {
                 // Menu is closed - open it
                 menu.activate();
                 

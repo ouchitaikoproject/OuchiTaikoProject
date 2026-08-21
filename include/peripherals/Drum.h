@@ -82,10 +82,10 @@ class Drum {
         static constexpr uint8_t PAD_ORDER[4] = {1, 0, 2, 3};
         static constexpr const char* PAD_NAMES[4] = {"Ka Left", "Don Left", "Don Right", "Ka Right"};
         static constexpr const char* PAD_INDEX_NAMES[4] = {"Don Left", "Ka Left", "Don Right", "Ka Right"};
-        static constexpr uint16_t START_THRESHOLD_KA_LEFT = 265;
+        static constexpr uint16_t START_THRESHOLD_KA_LEFT = 225;
         static constexpr uint16_t START_THRESHOLD_DON_LEFT = 190;
         static constexpr uint16_t START_THRESHOLD_DON_RIGHT = 190;
-        static constexpr uint16_t START_THRESHOLD_KA_RIGHT = 265;
+        static constexpr uint16_t START_THRESHOLD_KA_RIGHT = 225;
 
         enum class Mode {
             Inactive,
