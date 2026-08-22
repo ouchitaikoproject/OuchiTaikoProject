@@ -275,25 +275,25 @@ My project is set up to where you will order the through-hole circuit board and 
 
 I <i>highly</i> recommend purchasing the raw Controller PCB from OSHPARK PCB Fabrications. They are in the US, and all manufacturing is done in the US. They are very reasonably priced, and you can even pay for expedited production/shipping. They sell in sets of 3 only, but that price is still reasonable, and that way you have a spare in case you damage one, or you can split the order with a friend.  You may notice that this company charges more than others that manufacture outside of the US, but if you read around their site, you'll see that they quality is above-and-beyond and the boards have an amazing look and feel to them.
 
-If you decide use OSHPARK Here is a link to the Board that's already uploaded and verified on their site, and you can hit purchase right away. I do not make any money off of this link or benefit in any way - they just offer the convenient service of allowing me to upload the board so that people can simply add it to their cart and check out without the hassle of uploading the raw files and hoping everything is correct and verified after the upload, etc.
+If you decide use OSHPARK here is a link to the Board that's already uploaded and verified on their site, and you can hit purchase right away. I do not make any money off of this link or benefit in any way - they just offer the convenient service of allowing me to upload the board so that people can simply add it to their cart and check out without the hassle of uploading the raw files and hoping everything is correct and verified after the upload, etc.
 
 
 <a href="https://oshpark.com/shared_projects/mY0Hmilt">HERE is the link to the OSHPARK OuchiTaiko Controller Board Page</a>
 
 
-However, since I made my project open source, you have 100% control over where to have the board manufactured.  If you have a company that you trust that you would like use instead, here is the Gerber .zip file that contains all of the universal project files that the company will need to produce my OuchiTaiko PCB.  
+However, since I made my project open source, you have 100% control over where to have the board manufactured.  If you have a company that you trust that you would like to use instead, here is the Gerber .zip file that contains all of the universal project files that the company will need to produce my OuchiTaiko PCB.  
 
 [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) is the PCB Gerber file package.
 
 
-One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.  T
+One person used https://jlcpcb.com/ and ordered my board (by uploading the above Gerber file) and had 5 boards made for about $6 total including shipping and it took around 2 weeks.
 
 <a id="control-pcb-overview"></a>
 ## Control PCB Overview
 
 My custom OuchiTaiko PCB integrates controller logic, display wiring, navigation buttons, and drum input circuitry all together into a single compact board.
 
-To finish building it, you will solder the folowing ocmpnnents to the board you have made:
+To finish building it, you will solder the following components to the board you have made:
 
 - **1x Waveshare RP2040-Zero**  
 - **14x tactile buttons**  
@@ -1023,7 +1023,7 @@ Attach the drum and bracket to the speaker stand.
 
 ### **Mount control box and connect signal wires**
 
-Mount the control box to the phone holder arm and connect the drum TRS plugs to the matching control box TRS jacks. (this photo shows an older version of the control box, yours will be much smaller)
+Mount the control box to the phone holder arm and connect the drum TRS plugs to the matching control box TRS jacks. (This photo shows an older version of the control box, yours will be much smaller)
 
 <div align="center">
 <img src="images/Pictures/controllermounted.jpg" width="350px" style="display: block; margin: 0 auto;">
@@ -1333,15 +1333,15 @@ Additional thanks:
 - **Gadgetoid** for [pico-universal-flash-nuke](https://github.com/Gadgetoid/pico-universal-flash-nuke)
 - **Allspice** for early prototype testing from a beginner-builder perspective as well as excellent guide formatting suggestions.
 - **Moshir** for helping review the guide for clarity and flow.
-- **Train** for converting my custom circuit diagram circuit into a proper Gerber File. Amazing Work!
-- **Frost** for being the first user to order a PCB and assemble the complete contoller.
+- **Train** for converting my custom circuit diagram circuit into a proper Gerber file. Amazing Work!
+- **Frost** for being the first user to order a PCB and assemble the complete controller.
 - **Ermagerd** for testing the sensors and controller and putting it to the ultimate player test - since I feel he's the best, and most engaging live streaming Taiko Player on the Internet!
 
 Useful community resources:
 
 - [Taiko no Tatsujin Modding Discord](https://discord.com/invite/HFm37aA5zr)
 - [Cons&Stuff :) Discord](https://discord.gg/qEpzyvf8DY)
-- [OpenStick Community / GP2040-ce Discord](https://discord.com/invite/openstickcommunity-1049366310389289001)
+- [OpenStick Community / GP2040-CE Discord](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
 ## **Closing Thoughts**
 
