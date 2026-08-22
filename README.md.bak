@@ -435,7 +435,7 @@ Use **PLA filament**.
 
 Cut four **12mm neoprene discs** by using the SVG template.
 
-\*\* download \*\* [Neoprene Disc Template Files are in the file packet here](#files-downloads)
+\*\* download \*\* [Neoprene Disc Template Files are in the file packet here](#9-files--downloads)
 
 
 
@@ -1231,7 +1231,7 @@ Current download files:
 - [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) - Wood cutting templates in SVG Format
 - [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) - LightBurn laser cutting project file
 - [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) - Standard size sensor housing STL
-- [`ouchitaiko_sensor_housing_small.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing_small.stl) - Smaller size sensor housing STL
+- [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing_small.stl) - Smaller size sensor housing STL
 - [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) - TRS barrel mount STL
 - [`ouchitaiko_controller_shell.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_controller_shell.stl) - controller shell STL
 - [`ouchitaiko_project_firmware_v1.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2) - main controller firmware
