@@ -4,261 +4,213 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OuchiTaiko Project</title>
-    
     <style>
+        :root {
+            --bg: #080808;
+            --panel: rgba(18, 18, 18, 0.88);
+            --panel-border: rgba(255, 244, 229, 0.16);
+            --text: #f7f2ea;
+            --muted: #d8cdbf;
+            --accent: #d97a2b;
+            --accent-soft: rgba(217, 122, 43, 0.2);
+            --button: #f2eadf;
+            --button-text: #241a14;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #000;
-            color: #fff;
-        }
-        
-        /* Hero Poster Banner */
-        .hero-banner {
-            position: relative;
-            height: 70vh;
-            min-height: 500px;
-            background-color: #1a1a1a;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/Pictures/finishedfront.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--text);
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.88)),
+                radial-gradient(circle at top, rgba(217, 122, 43, 0.14), transparent 38%),
+                url('images/Pictures/finishedfront.jpg') center/cover fixed no-repeat,
+                var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 32px 20px;
+        }
+
+        .shell {
+            width: min(980px, 100%);
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 28px;
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero {
+            padding: 56px 48px 40px;
             text-align: center;
+            border-bottom: 1px solid rgba(255, 244, 229, 0.1);
         }
-        
-        .hero-content {
-            max-width: 800px;
-            padding: 40px 20px;
-        }
-        
-        .hero-title {
-            font-size: 5.5em;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
-            line-height: 1.1;
-        }
-        
-        .hero-tagline {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.2em;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            color: #3498db;
-            font-weight: 600;
-        }
-        
-        .hero-button {
-            display: inline-block;
-            padding: 18px 50px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            font-size: 1.3em;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: all 0.3s;
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+
+        .eyebrow,
+        .project-label {
+            font-family: "Trebuchet MS", Arial, sans-serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.28em;
+            color: var(--accent);
         }
-        
-        .hero-button:hover {
-            background: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+
+        .eyebrow {
+            font-size: 1rem;
+            margin-bottom: 12px;
         }
-        
-        /* Content Section */
-        .content-section {
-            background: #0a0a0a;
-            padding: 200px 20px 60px 20px;
+
+        .title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(3.6rem, 9vw, 6.2rem);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            margin-bottom: 10px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
         }
-        
-        .container {
-            max-width: 1000px;
+
+        .project-label {
+            font-size: 0.95rem;
+            margin-bottom: 22px;
+        }
+
+        .tagline {
+            font-size: clamp(1.25rem, 2.5vw, 2rem);
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            margin: 0 auto 26px;
+        }
+
+        .summary {
+            max-width: 700px;
             margin: 0 auto;
+            font-size: 1.35rem;
+            line-height: 1.65;
+            color: #f3ede4;
         }
-        
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-        
-        .link-box {
-            background: #1a1a1a;
-            border: 2px solid #3498db;
-            border-radius: 10px;
-            padding: 30px;
+
+        .body {
+            padding: 42px 48px 52px;
             text-align: center;
-            transition: all 0.3s;
         }
-        
-        .link-box:hover {
-            background: #2a2a2a;
-            border-color: #2980b9;
-            transform: translateY(-5px);
+
+        .preview {
+            width: min(560px, 100%);
+            border-radius: 22px;
+            border: 1px solid rgba(255, 244, 229, 0.12);
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+            margin-bottom: 30px;
         }
-        
-        .link-box h3 {
-            color: #3498db;
-            font-size: 1.3em;
-            margin-bottom: 15px;
+
+        .note {
+            max-width: 760px;
+            margin: 0 auto 34px;
+            font-size: 1.18rem;
+            line-height: 1.7;
+            color: var(--muted);
         }
-        
-        .link-box p {
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.6;
+
+        .button-wrap {
+            margin-bottom: 26px;
         }
-        
-        .link-box a {
+
+        .enter-button {
             display: inline-block;
-            padding: 12px 30px;
-            background: #3498db;
-            color: white;
+            padding: 18px 40px;
+            border-radius: 14px;
+            background: var(--button);
+            color: var(--button-text);
             text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        
-        .link-box a:hover {
-            background: #2980b9;
+
+        .enter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.34);
+            background: #fff7ed;
         }
-        
-        /* About Section */
-        .about-section {
-            text-align: center;
-            padding: 40px 20px;
+
+        .footer {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            color: #cbbba8;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
-        
-        .about-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #3498db;
-        }
-        
-        .about-section p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #ccc;
-            margin-bottom: 15px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Footer */
-        footer {
-            background: #000;
-            text-align: center;
-            padding: 30px 20px;
-            border-top: 2px solid #3498db;
-        }
-        
-        footer p {
-            color: #ccc;
-            margin: 5px 0;
-        }
-        
-        footer a {
-            color: #3498db;
+
+        .footer a {
+            color: #f1d6b8;
             text-decoration: none;
         }
-        
-        footer a:hover {
+
+        .footer a:hover {
             text-decoration: underline;
         }
-        
-        /* Mobile */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5em;
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
             }
-            
-            .hero-tagline {
-                font-size: 1.1em;
+
+            .hero {
+                padding: 38px 24px 28px;
             }
-            
-            .hero-subtitle {
-                font-size: 1em;
+
+            .body {
+                padding: 30px 24px 36px;
             }
-            
-            .hero-button {
-                font-size: 1.1em;
-                padding: 15px 40px;
+
+            .summary,
+            .note {
+                font-size: 1.02rem;
             }
-            
-            .quick-links {
-                grid-template-columns: 1fr;
+
+            .enter-button {
+                width: 100%;
+                max-width: 340px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Content Section -->
-    <section class="content-section">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 60px;">
-                <p style="font-size: 1.2em; font-weight: 300; letter-spacing: 3px; margin-bottom: 10px; color: #ccc;">KillerQ's</p>
-                <h1 class="hero-title" style="margin: 0;">OUCHITAIKO</h1>
-                <p style="font-size: 1.2em; font-weight: 300; letter-spacing: 3px; margin-top: 10px; margin-bottom: 15px; color: #ccc;">Project</p>
-                <p class="hero-tagline">Smarter. Simpler. Better.</p>
-                <img src="images/Pictures/dualdrumindex.jpg" alt="OuchiTaiko" style="max-width: 400px; width: 100%; margin-top: 30px;">
-            </div>
-            
-            <div class="about-section">
-                <p><em>In Japanese, 'ouchi' (おうち) means 'home' and 'taiko' (太鼓) means 'drum.' Together, 'OuchiTaiko' represents bringing the authentic Taiko experience from the Arcade into your own space.</em></p>
-                
-                <br>
-                
-                <h2>About the Project</h2>
-                                
-                <p>The OuchiTaiko Project is an open-source build guide for a professional arcade-grade Taiko drum controller. This guide represents 8 months of research and development, achieving arcade-level performance through intelligent Adaptive Baseline Software Intelligence (ABSI) and <strong>Guided Calibrate</strong>.</p>
-                
-                <br>
-                
-                <p><strong>Key Features:</strong></p>
-                <div style="max-width: 600px; margin: 20px auto; text-align: center; line-height: 2;">
-                    <p style="margin-bottom: 10px;">• Guided Calibration • Built-In Controller</p>
-                    <p style="margin-bottom: 10px;">• OLED Display • 14 Input Modes</p>
-                    <p style="margin-bottom: 10px;">• Zero Coding Required</p>
-                </div>
-                
-                <br>
-                
-                <div style="margin-top: 40px;">
-                    <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject" class="hero-button">Enter Project</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main class="shell">
+        <section class="hero">
+            <p class="eyebrow">KillerQ's</p>
+            <h1 class="title">OuchiTaiko</h1>
+            <p class="project-label">Project</p>
+            <p class="tagline">Smarter. Simpler. Better.</p>
+            <div class="divider"></div>
+            <p class="summary">An open-source Arcade-Scale home Taiko drum project with step-by-step build guide, project files, firmware, and fool-proof guided calibration.</p>
+        </section>
 
-    <!-- Footer -->
-    <footer>
-        <p><strong>OuchiTaiko Project</strong> by KillerQ</p>
-        <p><strong>Open Source • DIY • Arcade Quality</strong></p>
-        <p><a href="https://www.ouchitaiko.com">www.ouchitaiko.com</a> | <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject">GitHub</a></p>
-        <p>Community Driven • Built with Passion</p>
-    </footer>
+        <section class="body">
+            <p class="note"><em>In Japanese, "ouchi" means "home," and "taiko" means "drum." Together, OuchiTaiko brings the arcade Taiko experience into your own space.</em></p>
+            <div class="button-wrap">
+                <a class="enter-button" href="https://github.com/ouchitaikoproject/OuchiTaikoProject">Enter Project</a>
+            </div>
+            <div class="footer">
+
+                <p><a href="https://www.ouchitaiko.com">www.ouchitaiko.com</a> | <a href="https://github.com/ouchitaikoproject/OuchiTaikoProject">GitHub</a></p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
