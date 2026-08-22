@@ -1340,7 +1340,7 @@ Additional thanks:
 Useful community resources:
 
 - [Taiko no Tatsujin Modding Discord](https://discord.com/invite/HFm37aA5zr)
-- [Cons&Stuff :) Discord](https://discord.gg/qEpzyvf8DY)
+- [Cons&Stuff :) Discord](https://discord.gg/kMBTYTmw7)
 - [OpenStick Community / GP2040-CE Discord](https://discord.com/invite/openstickcommunity-1049366310389289001)
 
 ## **Closing Thoughts**
