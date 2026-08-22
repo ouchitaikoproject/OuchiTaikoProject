@@ -195,8 +195,8 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | 3.5mm female audio jack, PJ-320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
 | 3.5mm TRS male plugs with leads | 4 | https://www.amazon.com/dp/B0D72TV7Y5 |
 | 1K ohm resistor, 1/2W | 4 | https://www.amazon.com/dp/B0FP1YFMVM |
-| 27mm piezo sensors (for full size Drum) | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
-| 20mm piezo sensors (for smaller Drums) | 4 | https://www.amazon.com/dp/B00SWO6VJ0 |
+| 27mm piezo sensors (for full size Drum Sensors) | 4 | https://www.amazon.com/dp/B07RK2TQ8D |
+| 20mm piezo sensors (for smaller sensor option) | 4 | https://www.amazon.com/dp/B00SWO6VJ0 |
 | 128x64 mono OLED display (I2C) | 1 | https://www.amazon.com/dp/B09T6SJBV5 |
 | 6mm tactile switches with caps | 14 | https://www.amazon.com/dp/B07VQF8P2Y |
 | 6" coiled 3.5mm TRS extension cable | 4 | https://www.amazon.com/dp/B0D7CXJ5LQ |
@@ -429,7 +429,7 @@ Use **PLA filament**.
 
 \*\* video \*\* [Video overview of sensor housing assembly](https://youtu.be/tQe-xDEqEdY)
 
-(Note: If you choose to make the smaller version of the sensor housings because you're using them on a smaller drum, the below proceedure is the same except you'll 3D print the smaller housing and bracket, you'll cut a 8mm neoprene disc (instead of 12mm) and you'll use the 20mm Piezo (instead of the 27mm Piezo).  The installation is the same, jsut smaller parts).
+(Note: If you choose to make the smaller version of the sensor housings because you're using them on a smaller drum, the below procedure is the same except you'll 3D print the smaller housing and bracket, you'll cut a 8mm neoprene disc (instead of 12mm) and you'll use the 20mm Piezo (instead of the 27mm Piezo).  The installation is the same, just smaller parts).
 
 ### **Cut neoprene discs**
 
@@ -902,7 +902,7 @@ Add one drop or less of **Loctite** to inside threads of the M6 threaded inserts
 
 (Note: The smaller version of the sensor housings use mounting brackets that install using the same threaded-insert mounting hole spacing as the full-sized ones if you choose to go that route)
 
-Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** (you'll use m3x12 screws if using the smaller version of the sensors and brackets) for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
+Mount your 4 completed housings to the underside of drum faces using **two M3x8mm screws** (you'll use M3x12 screws if using the smaller version of the sensors and brackets) for each housing and screwing them into the threaded inserts. Be sure that the bottom of the housing (the side with the neoprene disc glued to it) is flat against the wood.
 
 Tighten snug so that the sensor housing is firmly pressed against the wood - but don't over-tighten.
 
@@ -1227,20 +1227,16 @@ Available modes:
 
 Current download files:
 
-- [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) - PCB Gerber files
-- [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) - wood cutting templates
-- [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) - LightBurn project
-- [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) - sensor housing STL
+- [`ouchitaiko_pcb_gerber_v1_final.zip`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_pcb_gerber_v1_final.zip) - PCB (circuit board) Gerber files
+- [`ouchitaiko_laser_files.svg`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.svg) - Wood cutting templates in SVG Format
+- [`ouchitaiko_laser_files.lbrn2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_laser_files.lbrn2) - LightBurn laser cutting project file
+- [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing.stl) - Standard size sensor housing STL
+- [`ouchitaiko_sensor_housing.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_sensor_housing_small.stl) - Smaller size sensor housing STL
 - [`ouchitaiko_barrel_connector_mount.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_barrel_connector_mount.stl) - TRS barrel mount STL
 - [`ouchitaiko_controller_shell.stl`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_controller_shell.stl) - controller shell STL
 - [`ouchitaiko_project_firmware_v1.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/ouchitaiko_project_firmware_v1.uf2) - main controller firmware
-- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash reset utility
+- [`universal_flash_nuke.uf2`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/universal_flash_nuke.uf2) - flash wipe/reset utility
 - [`guided_calibrate.html`](https://raw.githubusercontent.com/ouchitaikoproject/OuchiTaikoProject/main/download_files/guided_calibrate.html) - web-based guided calibration tool
-
-Additional files can be added here later:
-
-- neoprene template
-
 
 ---
 

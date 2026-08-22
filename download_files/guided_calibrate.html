@@ -67,11 +67,41 @@ body{
 }
 .toolbar-main{display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center}
 .step-kicker{
-  font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  font-size:13px;color:#7b562f;font-weight:900;text-transform:uppercase;letter-spacing:.14em;
+  background:#f4e3c9;border:1px solid #ddc5a1;border-radius:999px;padding:8px 16px;
 }
-.toolbar-target{font-size:28px;font-weight:900;line-height:1}
-.toolbar-sub{font-size:14px;color:var(--muted)}
+.toolbar-target{font-size:40px;font-weight:900;line-height:1}
+.toolbar-sub{font-size:16px;color:var(--muted)}
 .toolbar-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toolbar-nav{
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;
+}
+.nav-btn{
+  min-width:180px;
+  font-size:18px;
+  padding:14px 18px;
+}
+.toolbar-tools{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;
+}
+.target-callout{
+  width:100%;
+  max-width:720px;
+  border:2px solid rgba(46,159,81,.42);
+  background:linear-gradient(180deg,#eefaf1 0%, #e2f5e7 100%);
+  border-radius:18px;
+  padding:12px 16px;
+  text-align:center;
+  box-shadow:0 0 0 4px rgba(46,159,81,.10);
+}
+.target-callout-label{
+  font-size:11px;color:#2b7a48;font-weight:900;text-transform:uppercase;letter-spacing:.14em;
+}
+.target-callout-value{
+  margin-top:5px;
+  font-size:20px;
+  font-weight:900;
+}
 .lanes{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:center;
 }
@@ -240,6 +270,36 @@ body{
 .msg{font-size:14px;color:var(--muted)}
 .msg.ok{color:var(--good)}
 .msg.err{color:var(--bad)}
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(39,27,16,.48);
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;z-index:50;
+}
+.modal{
+  width:min(620px,100%);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:24px;
+  box-shadow:0 24px 60px rgba(31,20,11,.24);
+  padding:22px 22px 18px;
+}
+.modal-title{
+  font-size:28px;
+  font-weight:900;
+  margin:0 0 10px;
+}
+.modal-body{
+  font-size:16px;
+  line-height:1.55;
+  color:var(--accent);
+  margin:0;
+}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:18px;
+}
 .debug-panel{
   margin-top:14px;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:14px 16px;
 }
@@ -289,9 +349,15 @@ body{
       <div class="toolbar-target" id="target-name">Ka Left</div>
       <div class="toolbar-sub" id="guide-text">Current target is Ka Left.</div>
     </div>
-    <div class="toolbar-actions">
-      <button class="btn secondary" onclick="prevTarget()">Previous</button>
-      <button class="btn secondary" onclick="nextTarget()">Next</button>
+    <div class="target-callout" id="target-callout">
+      <div class="target-callout-label">Current Test Lane</div>
+      <div class="target-callout-value" id="target-callout-value">Hit Ka Left only</div>
+    </div>
+    <div class="toolbar-nav">
+      <button class="btn secondary nav-btn" onclick="prevTarget()">&#8592; Previous Step</button>
+      <button class="btn secondary nav-btn" onclick="nextTarget()">Next Step &#8594;</button>
+    </div>
+    <div class="toolbar-tools">
       <button class="btn secondary" onclick="resetStep()">Reset Step</button>
       <button class="btn secondary" onclick="reloadThresholds()">Reload Thresholds</button>
     </div>
@@ -312,6 +378,16 @@ body{
       </div>
     </div>
     <textarea class="debug-log" id="debug-log" readonly></textarea>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 class="modal-title" id="modal-title">Guided Calibrate</h2>
+    <p class="modal-body" id="modal-body"></p>
+    <div class="modal-actions">
+      <button class="btn" id="modal-primary-btn" onclick="closeModal()">OK</button>
+    </div>
   </div>
 </div>
 
@@ -363,12 +439,14 @@ const S={
     repeated:false,
     button:null,
   },
+  modalOpen:false,
 };
 
 buildUI();
 attachStepButtonHoldBehavior();
 renderTarget();
 animateMeters();
+showStartupModal();
 
 function buildUI(){
   const host=document.getElementById('lanes');
@@ -482,6 +560,27 @@ function setMsg(text, cls=''){
   const el=document.getElementById('msg');
   el.textContent=text;
   el.className='msg '+cls;
+}
+
+function showModal(title, body, buttonText='OK'){
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').textContent=body;
+  document.getElementById('modal-primary-btn').textContent=buttonText;
+  document.getElementById('modal-backdrop').classList.remove('hidden');
+  S.modalOpen=true;
+}
+
+function closeModal(){
+  document.getElementById('modal-backdrop').classList.add('hidden');
+  S.modalOpen=false;
+}
+
+function showStartupModal(){
+  showModal(
+    'Guided Calibrate',
+    'Hit only the green target lane. For each lane, do 5 fast normal hits and 1 hard hit. If another lane shows Increase Me, raise only that lane and test again until the target lane stays clean. Press Next to move through all four lanes, then save to drum.',
+    'Start'
+  );
 }
 
 function debugSnapshotThresholds(){
@@ -602,6 +701,9 @@ function renderTarget(){
     : `Step ${S.targetIndex+1} of ${TARGETS.length}`;
   document.getElementById('step-kicker').textContent=stepLabel;
   document.getElementById('target-name').textContent=m.title;
+  document.getElementById('target-callout-value').textContent = S.finalCheck
+    ? `Final check: ${m.title}`
+    : `Hit ${m.title} only`;
   document.getElementById('guide-text').textContent = S.finalCheck
     ? `Hit ${m.title} 5 times at normal gameplay strength, then 1 time hard.`
     : `Current test lane is ${m.title}.`;
@@ -794,6 +896,7 @@ function parseLine(line){
       S.pendingAck=false;
       clearTimeout(S.ackTimeout);
       setMsg('Thresholds saved to drum.','ok');
+      showModal('Saved to Drum','Thresholds were written to the controller successfully.','OK');
     }
     return;
   }
