@@ -65,7 +65,7 @@ This guide walks you through building a full Arcade-Scale Taiko drum and control
 
 Hi, I'm KillerQ - creator of the **OuchiTaiko Project**, an open-source guide for building a professional, arcade-grade Taiko drum controller.
 
-This project is the result of over a year of R&D focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through-hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade-level responsiveness with approachable DIY construction.
+This project is the result of over a year and a half of Research & Development focused on solving the high cost, limited availability, and inconsistent performance of commercial Taiko controllers. By combining a completely new software performance engine, a custom through-hole PCB, and a mechanically isolated sensor system, OuchiTaiko delivers arcade-level responsiveness with approachable DIY construction.
 
 All you need are very basic soldering and woodworking skills.
 
