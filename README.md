@@ -200,7 +200,7 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | 128x64 mono OLED display (I2C) | 1 | https://www.amazon.com/dp/B09T6SJBV5 |
 | 6mm tactile switches with caps | 14 | https://www.amazon.com/dp/B07VQF8P2Y |
 | 6" coiled 3.5mm TRS extension cable | 4 | https://www.amazon.com/dp/B0D7CXJ5LQ |
-| 3.5mm TRS barrel coupler | 4 | https://www.amazon.com/dp/B07YSCGBL7 |
+| 3.5mm TRS barrel coupler | 4 | https://www.amazon.com/dp/B072J3LGSQ |
 | 6ft USB-A to USB-C cable | 1 | https://www.amazon.com/dp/B0CKXZML11 |
 
 ---
