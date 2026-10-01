@@ -451,7 +451,7 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 
 ### **Prepare end of TRS Sensor Wires**
 
-)**IMPORTANT** 
+(**IMPORTANT** 
 This guide assumes that your 3.5mm cable has the RED wire connected to the TIP of the TRS jack 
 and that the BLACK wire is connected to the SLEEVE of the TRS jack. 
 
