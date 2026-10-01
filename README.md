@@ -451,6 +451,13 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 
 ### **Prepare end of TRS Sensor Wires**
 
+**IMPORTANT** 
+This guide assumes that your 3.5mm cable has the RED wire connected to the TIP of the TRS jack 
+and that the BLACK wire is connected to the SLEEVE of the TRS jack. 
+
+The result of the sensor wiring needs to be that the center of the disc is connected to the TIP
+and that thw brass part of the ring is connected to the SLEEVE of the TRS jack.  
+
 Since you are starting with long lengths of wire, you have two choices to proceed.
 
 1. If you plan on building the drum in my guide, then you can cut the length of wire down to approximately 12" so that it will route cleanly through the drum and end up at the connectors at the base of the drum.
