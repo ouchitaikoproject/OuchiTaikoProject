@@ -451,12 +451,12 @@ Place several drops of **Superglue** into the raised center ring in the bottom s
 
 ### **Prepare end of TRS Sensor Wires**
 
-**IMPORTANT** 
+)**IMPORTANT** 
 This guide assumes that your 3.5mm cable has the RED wire connected to the TIP of the TRS jack 
 and that the BLACK wire is connected to the SLEEVE of the TRS jack. 
 
 The result of the sensor wiring needs to be that the center of the disc is connected to the TIP
-and that thw brass part of the ring is connected to the SLEEVE of the TRS jack.  
+and that the brass part of the ring is connected to the SLEEVE of the TRS jack.)  
 
 Since you are starting with long lengths of wire, you have two choices to proceed.
 
