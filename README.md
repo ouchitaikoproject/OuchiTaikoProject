@@ -190,7 +190,7 @@ These linked parts are verified to work together as tested. Similar/comparable p
 | Item | Pieces Needed | Product Link |
 | --- | --- | --- |
 | Waveshare RP2040-Zero | 1 | https://www.amazon.com/dp/B09SBCKYSC |
-| 1N4148 diodes | 4 | https://www.amazon.com/dp/B0DN62QFYS |
+| 1N4148 diodes | 4 | https://www.amazon.com/dp/B079KJ91JZ |
 | 0.1uF / 100nF ceramic capacitors | 4 | https://www.amazon.com/dp/B08B3VCK42 |
 | 3.5mm female audio jack, PJ-320A | 4 | https://www.amazon.com/dp/B07KY862P6 |
 | 3.5mm TRS male plugs with leads | 4 | https://www.amazon.com/dp/B0D72TV7Y5 |
